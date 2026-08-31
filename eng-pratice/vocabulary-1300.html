@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1300 Từ Vựng Nền Tảng — Vòng 1 / Vòng 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C2321; --paper:#E9E5D6; --paper-2:#F4F1E6; --line:#C9C2AA;
+    --red:#A63D40; --red-dim:#8a3235; --ochre:#C98A2C; --teal:#3E6259;
+    --ok:#3E6259; --ok-bg:#DCE7DE; --bad:#A63D40; --bad-bg:#F1DDD8; --muted:#6b675a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--ink);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;}
+  body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 1px);background-size:22px 22px;pointer-events:none;}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 16px 80px;position:relative;}
+  header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px;border-bottom:2px solid #3a4440;padding-bottom:14px;}
+  header.top .mark{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ochre);text-transform:uppercase;}
+  header.top h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(24px,6vw,34px);color:var(--paper-2);margin:2px 0 4px;letter-spacing:-.01em;}
+  header.top p{margin:0;color:#9aa39b;font-size:13px;}
+  header.top .catno{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7c8580;text-align:right;line-height:1.5;white-space:nowrap;}
+
+  nav.tabs{display:flex;gap:8px;margin-bottom:18px;}
+  nav.tabs button{flex:1;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;padding:11px 10px;background:transparent;color:#9aa39b;border:1px solid #3a4440;border-radius:3px;cursor:pointer;transition:all .15s ease;}
+  nav.tabs button.active{background:var(--paper-2);color:var(--ink);border-color:var(--paper-2);font-weight:600;}
+  nav.tabs button:hover:not(.active){border-color:#5a6560;color:#c8cec8;}
+  .panel{display:none;} .panel.active{display:block;animation:fadein .25s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  .lib-intro{color:#aab1a9;font-size:13px;margin:0 0 16px;line-height:1.6;}
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+  .filter-choice{padding:9px 13px;border:1.5px solid var(--line);border-radius:20px;background:var(--paper);text-align:center;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .12s ease;color:var(--muted);}
+  .filter-choice.v1.sel{border-color:var(--red);background:var(--red);color:#fff;}
+  .filter-choice.v2.sel{border-color:var(--teal);background:var(--teal);color:#fff;}
+  .filter-choice.all.sel{border-color:var(--ochre);background:var(--ochre);color:#241a08;}
+  .searchbox{width:100%;padding:11px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;border:1.5px solid var(--line);border-radius:3px;background:var(--paper-2);color:var(--ink);margin-bottom:14px;}
+  .searchbox:focus{outline:none;border-color:var(--red);}
+
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px;}
+  .cat-choice{padding:9px 10px;border:1.5px solid var(--line);border-radius:3px;background:var(--paper);text-align:left;font-size:11.5px;font-weight:500;cursor:pointer;transition:all .12s ease;line-height:1.35;color:var(--muted);}
+  .cat-choice small{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;margin-top:2px;opacity:.8;}
+  .cat-choice.sel{border-color:var(--ochre);background:var(--ochre);color:#241a08;}
+  .cat-choice.sel small{color:#241a08;}
+  @media (max-width:480px){.cat-grid{grid-template-columns:1fr;}}
+
+  .card{background:var(--paper-2);border-radius:4px;position:relative;margin-bottom:14px;box-shadow:0 1px 0 rgba(0,0,0,.25),0 8px 18px -10px rgba(0,0,0,.5);overflow:hidden;}
+  .card::before{content:"";position:absolute;top:14px;left:14px;width:10px;height:10px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px var(--paper-2),0 0 0 4px #cfc9b4;}
+  .card-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:14px 18px 12px 40px;border-bottom:1.5px dashed var(--line);}
+  .card-head h3{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:16px;color:var(--ink);margin:0;}
+  .card-head .cnt{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--red);white-space:nowrap;}
+  .ledger{padding:6px 18px 12px 40px;}
+  .ledger-row{padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px;}
+  .ledger-row:last-child{border-bottom:none;}
+  .ledger-row .lw-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .ledger-row .tier-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-right:2px;}
+  .ledger-row .tier-dot.v1{background:var(--red);}
+  .ledger-row .tier-dot.v2{background:var(--teal);}
+  .ledger-row .lw{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--red-dim);}
+  .ledger-row .lipa{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ochre);}
+  .ledger-row .lpos{font-style:italic;color:var(--muted);font-size:11.5px;}
+  .ledger-row .lv{color:#4a4a3e;margin-top:2px;}
+
+  .setup{background:var(--paper-2);border-radius:4px;padding:20px;box-shadow:0 8px 18px -10px rgba(0,0,0,.5);}
+  .setup h2{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;}
+  .setup .sub{font-size:12.5px;color:var(--muted);margin-bottom:18px;}
+  .field-group{margin-bottom:16px;}
+  .field-group label.flabel{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;}
+  .choice-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .choice{flex:1;min-width:110px;padding:10px 12px;border:1.5px solid var(--line);border-radius:3px;background:var(--paper);text-align:center;font-size:13px;font-weight:500;cursor:pointer;transition:all .12s ease;}
+  .choice.sel{border-color:var(--red);background:var(--red);color:var(--paper-2);}
+  .btn{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:14px;padding:12px 20px;border-radius:3px;border:none;cursor:pointer;transition:transform .08s ease,background .15s ease;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--red);color:#fff;} .btn-primary:hover{background:var(--red-dim);}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);}
+  .btn-full{width:100%;}
+
+  .quiz-card{background:var(--paper-2);border-radius:4px;padding:22px;box-shadow:0 8px 18px -10px rgba(0,0,0,.5);}
+  .progress-row{display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:8px;}
+  .progress-bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:20px;}
+  .progress-fill{height:100%;background:var(--red);transition:width .25s ease;}
+  .prompt-label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ochre);margin-bottom:8px;}
+  .prompt-main{font-family:'Fraunces',serif;font-size:clamp(20px,5vw,26px);font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.3;word-break:break-word;}
+  .prompt-sub{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted);margin-bottom:14px;}
+  .listen-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid var(--line);border-radius:20px;padding:6px 14px 6px 12px;font-size:12px;color:var(--ink);cursor:pointer;margin-bottom:16px;}
+  .listen-btn:hover{border-color:var(--red);color:var(--red);}
+  input.answer{width:100%;font-family:'IBM Plex Sans',sans-serif;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink);margin-bottom:14px;}
+  input.answer:focus{outline:none;border-color:var(--red);}
+  .actions-row{display:flex;gap:10px;}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:3px;font-size:13.5px;line-height:1.6;display:none;}
+  .feedback.show{display:block;animation:fadein .2s ease;}
+  .feedback.ok{background:var(--ok-bg);color:#264b40;border-left:3px solid var(--ok);}
+  .feedback.bad{background:var(--bad-bg);color:#6e2224;border-left:3px solid var(--bad);}
+  .feedback .correct-ans{font-weight:600;}
+  .feedback .ipa-line{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#5a5748;margin-top:4px;}
+
+  .end-card{text-align:center;padding:10px 0;}
+  .end-card .score{font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:var(--ink);margin:6px 0;}
+  .end-card .score-sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .missed-list{text-align:left;margin:18px 0;max-height:340px;overflow-y:auto;}
+  .missed-list .mi{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px;}
+  .missed-list .mi .mw{font-family:'IBM Plex Mono',monospace;color:var(--red-dim);font-weight:600;white-space:nowrap;}
+  .missed-list .mi .mv{color:var(--muted);text-align:right;}
+  .end-actions{display:flex;gap:10px;margin-top:10px;}
+
+  footer.foot{text-align:center;color:#5a655f;font-size:11px;margin-top:34px;font-family:'IBM Plex Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="mark">Từ vựng nền tảng</div>
+      <h1>1300 Từ Vựng</h1>
+      <p>Vòng 1 (cốt lõi) · Vòng 2 (mở rộng) — 24 chủ đề</p>
+    </div>
+    <div class="catno" id="catCounter"></div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="lib">Thư viện</button>
+    <button class="tab-btn" data-tab="quiz">Chính tả</button>
+  </nav>
+
+  <!-- ===================== LIBRARY ===================== -->
+  <section class="panel active" id="panel-lib">
+    <p class="lib-intro">1300 từ, chia theo 24 chủ đề. <b style="color:var(--red)">● Vòng 1</b> = cốt lõi nên học trước, <b style="color:var(--teal)">● Vòng 2</b> = mở rộng học sau. Mỗi từ kèm IPA, từ loại và nghĩa tiếng Việt.</p>
+    <div class="filter-row" id="tierRow">
+      <div class="filter-choice all sel" data-tier="all">Tất cả</div>
+      <div class="filter-choice v1" data-tier="V1">● Vòng 1</div>
+      <div class="filter-choice v2" data-tier="V2">● Vòng 2</div>
+    </div>
+    <input type="text" class="searchbox" id="searchBox" placeholder="Tìm từ (tiếng Anh hoặc nghĩa tiếng Việt)…">
+    <div class="cat-grid" id="catGrid"></div>
+    <div id="libList"></div>
+  </section>
+
+  <!-- ===================== QUIZ SETUP ===================== -->
+  <section class="panel" id="panel-quiz">
+    <div id="setupBox" class="setup">
+      <h2>Bắt đầu bài chính tả</h2>
+      <div class="sub">Chọn phạm vi (chủ đề + vòng), chiều dịch và số lượng câu hỏi.</div>
+
+      <div class="field-group">
+        <label class="flabel">Vòng</label>
+        <div class="choice-row" id="quizTierRow">
+          <div class="choice sel" data-tier="all">Tất cả</div>
+          <div class="choice" data-tier="V1">● Vòng 1</div>
+          <div class="choice" data-tier="V2">● Vòng 2</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="flabel">Chủ đề</label>
+        <div class="cat-grid" id="quizCatGrid"></div>
+      </div>
+
+      <div class="field-group">
+        <label class="flabel">Chiều chính tả</label>
+        <div class="choice-row" id="dirRow">
+          <div class="choice sel" data-dir="en-vi">Anh → Việt</div>
+          <div class="choice" data-dir="vi-en">Việt → Anh</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="flabel">Số câu hỏi</label>
+        <div class="choice-row" id="countRow">
+          <div class="choice sel" data-count="15">15 câu</div>
+          <div class="choice" data-count="30">30 câu</div>
+          <div class="choice" data-count="all">Tất cả</div>
+        </div>
+      </div>
+
+      <div class="sub" id="poolInfo" style="margin-bottom:14px;"></div>
+      <button class="btn btn-primary btn-full" id="startBtn">Bắt đầu</button>
+    </div>
+
+    <div id="quizBox" style="display:none;">
+      <div class="quiz-card">
+        <div class="progress-row">
+          <span id="progressText">Câu 1/15</span>
+          <span id="scoreText">Đúng: 0</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="prompt-label" id="promptLabel">ANH → VIỆT</div>
+        <div class="prompt-main" id="promptMain">word</div>
+        <div class="prompt-sub" id="promptSub"></div>
+        <button class="listen-btn" id="listenBtn">🔊 Nghe cách đọc</button>
+        <input type="text" class="answer" id="answerInput" placeholder="Nhập câu trả lời rồi nhấn Enter…" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <div class="actions-row">
+          <button class="btn btn-primary" id="submitBtn" style="flex:2;">Kiểm tra</button>
+          <button class="btn btn-ghost" id="skipBtn" style="flex:1;">Bỏ qua</button>
+        </div>
+        <div class="feedback" id="feedbackBox"></div>
+      </div>
+    </div>
+
+    <div id="endBox" style="display:none;">
+      <div class="quiz-card end-card">
+        <div class="prompt-label">Kết quả</div>
+        <div class="score" id="finalScore">0/0</div>
+        <div class="score-sub" id="finalSub">Đúng 0%</div>
+        <div class="missed-list" id="missedList"></div>
+        <div class="end-actions">
+          <button class="btn btn-ghost" style="flex:1;" id="retryMissedBtn">Ôn lại từ sai</button>
+          <button class="btn btn-primary" style="flex:1;" id="restartBtn">Làm lại</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">1300 TỪ VỰNG NỀN TẢNG — biên soạn cho việc tự học IELTS</footer>
+</div>
+
+<script>
+/* ========================================================================
+   DATA  (each item: [tier, word, ipa, pos, meaning])
+   ======================================================================== */
+const CATEGORIES = [
+  { title:"01. People, Family & Relationships", items:[
+    ["V1","adult","əˈdʌlt","n","người trưởng thành"],["V1","boy","bɔɪ","n","cậu bé, con trai"],["V1","brother","ˈbrʌðər","n","anh/em trai"],
+    ["V1","child","tʃaɪld","n","đứa trẻ"],["V1","daughter","ˈdɔːtər","n","con gái"],["V1","family","ˈfæməli","n","gia đình"],
+    ["V1","father","ˈfɑːðər","n","bố, cha"],["V1","friend","frend","n","bạn bè"],["V1","friendly","ˈfrendli","adj","thân thiện"],
+    ["V1","friendship","ˈfrendʃɪp","n","tình bạn"],["V1","girl","ɡɜːrl","n","cô bé, con gái"],["V2","aunt","ænt","n","dì, cô, bác gái"],
+    ["V2","baby","ˈbeɪbi","n","em bé"],["V2","cousin","ˈkʌzn","n","anh chị em họ"],["V2","grandparent","ˈɡrænperənt","n","ông/bà"],
+    ["V2","neighbour","ˈneɪbər","n","hàng xóm"],["V2","parent","ˈperənt","n","phụ huynh, bố/mẹ"],["V2","partner","ˈpɑːrtnər","n","đối tác, bạn đời"],
+    ["V2","people","ˈpiːpl","n","con người, mọi người"],["V2","person","ˈpɜːrsn","n","cá nhân, một người"],["V2","sister","ˈsɪstər","n","chị/em gái"],
+    ["V2","neighbourhood","ˈneɪbərhʊd","n","khu hàng xóm, xóm giềng"],["V2","partnership","ˈpɑːrtnərʃɪp","n","quan hệ đối tác"],["V2","personal","ˈpɜːrsənl","adj","cá nhân, riêng tư"],
+    ["V2","personality","ˌpɜːrsəˈnæləti","n","tính cách, nhân cách"],["V2","personally","ˈpɜːrsənəli","adv","cá nhân tôi, về phần mình"],["V2","neighbouring","ˈneɪbərɪŋ","adj","láng giềng, bên cạnh"],
+    ["V2","parental","pəˈrentl","adj","thuộc về cha mẹ"],["V2","personnel","ˌpɜːrsəˈnel","n","nhân sự, nhân viên"],["V2","apparent","əˈpærənt","adj","rõ ràng, thấy rõ"],
+    ["V2","apparently","əˈpærəntli","adv","hình như, dường như"],["V2","boyfriend","ˈbɔɪfrend","n","bạn trai"],["V2","girlfriend","ˈɡɜːrlfrend","n","bạn gái"],
+    ["V2","grandchild","ˈɡræntʃaɪld","n","cháu (nội/ngoại)"],["V2","granddaughter","ˈɡrændɔːtər","n","cháu gái (nội/ngoại)"],["V2","transparent","trænsˈpærənt","adj","trong suốt, minh bạch"],
+    ["V2","unfriendly","ʌnˈfrendli","adj","không thân thiện"],["V2","spokesperson","ˈspoʊkspɜːrsn","n","người phát ngôn"],
+  ]},
+  { title:"02. Home, Rooms & Household", items:[
+    ["V1","bathroom","ˈbæθruːm","n","phòng tắm"],["V1","bed","bed","n","cái giường"],["V1","bedroom","ˈbedruːm","n","phòng ngủ"],
+    ["V1","carpet","ˈkɑːrpɪt","n","thảm trải sàn"],["V1","chair","tʃer","n","cái ghế"],["V1","comfortable","ˈkʌmftəbl","adj","thoải mái, dễ chịu"],
+    ["V1","door","dɔːr","n","cánh cửa"],["V1","floor","flɔːr","n","sàn nhà, tầng nhà"],["V1","garage","ɡəˈrɑːʒ","n","nhà để xe, gara"],
+    ["V1","home","hoʊm","n/adv","nhà, về nhà"],["V1","house","haʊs","n","ngôi nhà"],["V2","apartment","əˈpɑːrtmənt","n","căn hộ"],
+    ["V2","ceiling","ˈsiːlɪŋ","n","trần nhà"],["V2","furniture","ˈfɜːrnɪtʃər","n","đồ nội thất"],["V2","kitchen","ˈkɪtʃɪn","n","nhà bếp"],
+    ["V2","room","ruːm","n","căn phòng"],["V2","window","ˈwɪndoʊ","n","cửa sổ"],["V2","household","ˈhaʊshoʊld","n/adj","hộ gia đình, thuộc gia đình"],
+    ["V2","greenhouse","ˈɡriːnhaʊs","n","nhà kính"],["V2","warehouse","ˈwerhaʊs","n","kho hàng"],["V2","vegetable","ˈvedʒtəbl","n","rau củ"],
+    ["V2","acceptable","əkˈseptəbl","adj","có thể chấp nhận được"],
+  ]},
+  { title:"03. Food, Cooking & Eating", items:[
+    ["V1","bake","beɪk","v","nướng (bánh)"],["V1","bottle","ˈbɑːtl","n","cái chai"],["V1","bread","bred","n","bánh mì"],
+    ["V1","breakfast","ˈbrekfəst","n","bữa sáng"],["V1","cake","keɪk","n","bánh ngọt"],["V1","cheese","tʃiːz","n","phô mai"],
+    ["V1","chocolate","ˈtʃɑːklət","n","sô-cô-la"],["V1","coffee","ˈkɑːfi","n","cà phê"],["V1","cook","kʊk","v/n","nấu ăn, đầu bếp"],
+    ["V1","cooking","ˈkʊkɪŋ","n","việc nấu nướng"],["V1","cup","kʌp","n","tách, cốc"],["V1","drink","drɪŋk","v/n","uống, đồ uống"],
+    ["V1","fish","fɪʃ","n/v","cá, đánh cá"],["V1","food","fuːd","n","thức ăn, thực phẩm"],["V1","fork","fɔːrk","n","cái nĩa, dĩa"],
+    ["V1","fruit","fruːt","n","trái cây, hoa quả"],["V2","beef","biːf","n","thịt bò"],["V2","boil","bɔɪl","v","đun sôi, luộc"],
+    ["V2","butter","ˈbʌtər","n","bơ"],["V2","chicken","ˈtʃɪkɪn","n","gà, thịt gà"],["V2","cream","kriːm","n","kem, kem sữa"],
+    ["V2","dish","dɪʃ","n","món ăn, cái đĩa"],["V2","lunch","lʌntʃ","n","bữa trưa"],["V2","meal","miːl","n","bữa ăn"],
+    ["V2","ice cream","ˈaɪs kriːm","n","kem lạnh"],["V2","scream","skriːm","v/n","hét lên, tiếng la hét"],["V2","carrot","ˈkærət","n","củ cà rốt"],
+    ["V2","apple","ˈæpl","n","quả táo"],["V2","bowl","boʊl","n","cái bát, tô"],
+  ]},
+  { title:"04. Body, Health & Medicine", items:[
+    ["V1","beard","bɪrd","n","râu"],["V1","body","ˈbɑːdi","n","cơ thể"],["V1","brain","breɪn","n","bộ não"],
+    ["V1","breathe","briːð","v","hít thở"],["V1","cough","kɔːf","v/n","ho, tiếng ho"],["V1","cure","kjʊr","v/n","chữa trị, phương thuốc"],
+    ["V1","dentist","ˈdentɪst","n","nha sĩ"],["V1","diet","ˈdaɪət","n","chế độ ăn uống"],["V1","disease","dɪˈziːz","n","bệnh tật"],
+    ["V1","doctor","ˈdɑːktər","n","bác sĩ"],["V1","foot","fʊt","n","bàn chân"],["V1","hand","hænd","n","bàn tay"],
+    ["V1","head","hed","n","cái đầu"],["V1","health","helθ","n","sức khỏe"],["V1","heart","hɑːrt","n","trái tim"],
+    ["V1","hospital","ˈhɑːspɪtl","n","bệnh viện"],["V2","arm","ɑːrm","n","cánh tay"],["V2","blood","blʌd","n","máu"],
+    ["V2","medicine","ˈmedsn","n","thuốc, y học"],["V2","mouth","maʊθ","n","cái miệng"],["V2","pain","peɪn","n","cơn đau"],
+    ["V2","sick","sɪk","adj","ốm, bệnh"],["V2","tooth","tuːθ","n","chiếc răng"],["V2","hand back","hænd bæk","phr v","trả lại"],
+    ["V2","hand down","hænd daʊn","phr v","truyền lại (cho thế hệ sau)"],["V2","hand in","hænd ɪn","phr v","nộp (bài, đơn)"],["V2","hand out","hænd aʊt","phr v","phát, phân phối"],
+    ["V2","hand over","hænd ˈoʊvər","phr v","bàn giao, trao nộp"],["V2","hand round","hænd raʊnd","phr v","chuyền tay nhau"],["V2","healthy","ˈhelθi","adj","khỏe mạnh, lành mạnh"],
+    ["V2","healthcare","ˈhelθker","n","dịch vụ y tế, chăm sóc sức khỏe"],["V2","ankle","ˈæŋkl","n","mắt cá chân"],["V2","bone","boʊn","n","xương"],
+    ["V2","breast","brest","n","ngực, vú"],["V2","breath","breθ","n","hơi thở"],["V2","breathe in","briːð ɪn","phr v","hít vào"],
+    ["V2","breathe out","briːð aʊt","phr v","thở ra"],["V2","breathing","ˈbriːðɪŋ","n","sự hô hấp, sự thở"],["V2","cancer","ˈkænsər","n","bệnh ung thư"],
+  ]},
+  { title:"05. Feelings, Personality & Behaviour", items:[
+    ["V1","afraid","əˈfreɪd","adj","sợ hãi, e ngại"],["V1","amuse","əˈmjuːz","v","làm cho buồn cười, giải trí"],["V1","anxiety","æŋˈzaɪəti","n","sự lo âu, mối băn khoăn"],
+    ["V1","anxious","ˈæŋkʃəs","adj","lo lắng, bồn chồn"],["V1","attitude","ˈætɪtuːd","n","thái độ"],["V1","bored","bɔːrd","adj","cảm thấy chán nản"],
+    ["V1","boring","ˈbɔːrɪŋ","adj","tẻ nhạt, gây chán"],["V1","bother","ˈbɑːðər","v","làm phiền, bận tâm"],["V1","brave","breɪv","adj","dũng cảm"],
+    ["V1","calm","kɑːm","adj/v","bình tĩnh, làm dịu đi"],["V1","cheerful","ˈtʃɪrfl","adj","vui vẻ, hớn hở"],["V1","confidence","ˈkɑːnfɪdəns","n","sự tự tin, niềm tin"],
+    ["V1","confident","ˈkɑːnfɪdənt","adj","tự tin"],["V1","cruel","ˈkruːəl","adj","độc ác, tàn nhẫn"],["V1","curious","ˈkjʊriəs","adj","tò mò, hiếu kỳ"],
+    ["V1","emotion","ɪˈmoʊʃn","n","cảm xúc"],["V1","emotional","ɪˈmoʊʃənl","adj","thuộc cảm xúc, cảm động"],["V1","fear","fɪr","n/v","nỗi sợ, sợ hãi"],
+    ["V1","feeling","ˈfiːlɪŋ","n","cảm giác, cảm xúc"],["V1","fun","fʌn","n/adj","niềm vui, thú vị"],["V1","happy","ˈhæpi","adj","hạnh phúc, vui vẻ"],
+    ["V1","hate","heɪt","v/n","ghét, căm ghét"],["V1","hope","hoʊp","v/n","hy vọng"],["V2","anger","ˈæŋɡər","n","sự giận dữ"],
+    ["V2","angry","ˈæŋɡri","adj","tức giận"],["V2","annoy","əˈnɔɪ","v","làm phiền, quấy rầy"],["V2","delight","dɪˈlaɪt","n/v","niềm hân hoan, làm vui mừng"],
+    ["V2","love","lʌv","v/n","yêu, tình yêu"],["V2","nervous","ˈnɜːrvəs","adj","lo lắng, hồi hộp"],["V2","proud","praʊd","adj","tự hào, hãnh diện"],
+    ["V2","sad","sæd","adj","buồn bã"],["V2","shame","ʃeɪm","n","sự xấu hổ, ngượng ngùng"],["V2","amused","əˈmjuːzd","adj","cảm thấy thích thú, buồn cười"],
+    ["V2","annoyed","əˈnɔɪd","adj","cảm thấy bực mình"],["V2","annoying","əˈnɔɪɪŋ","adj","gây phiền phức, khó chịu"],["V2","anxiously","ˈæŋkʃəsli","adv","một cách lo âu"],
+    ["V2","confidently","ˈkɑːnfɪdəntli","adv","một cách tự tin"],["V2","curiously","ˈkjʊriəsli","adv","một cách tò mò"],["V2","delighted","dɪˈlaɪtɪd","adj","rất vui mừng, hài lòng"],
+    ["V2","emotionally","ɪˈmoʊʃənəli","adv","xúc động, về mặt cảm xúc"],["V2","nervously","ˈnɜːrvəsli","adv","một cách hồi hộp"],["V2","proudly","ˈpraʊdli","adv","một cách tự hào"],
+    ["V2","ashamed","əˈʃeɪmd","adj","xấu hổ, ngượng ngùng"],["V2","stranger","ˈstreɪndʒər","n","người lạ"],["V2","unhappy","ʌnˈhæpi","adj","bất hạnh, không vui"],
+  ]},
+  { title:"06. Appearance, Clothes & Personal Items", items:[
+    ["V1","address","əˈdres","n","địa chỉ"],["V1","appearance","əˈpɪrəns","n","diện mạo, sự xuất hiện"],["V1","attractive","əˈtræktɪv","adj","cuốn hút, hấp dẫn"],
+    ["V1","beautiful","ˈbjuːtɪfl","adj","xinh đẹp, đẹp"],["V1","beauty","ˈbjuːti","n","vẻ đẹp, sắc đẹp"],["V1","black","blæk","adj/n","màu đen"],
+    ["V1","blue","bluː","adj/n","màu xanh dương"],["V1","boot","buːt","n","giày ủng, bốt"],["V1","clothes","kloʊðz","n","quần áo"],
+    ["V1","clothing","ˈkloʊðɪŋ","n","trang phục nói chung"],["V1","coat","koʊt","n","áo khoác ngoài"],["V1","colour","ˈkʌlər","n","màu sắc"],
+    ["V1","dress","dres","n/v","đầm, váy liền; ăn mặc"],["V2","fashion","ˈfæʃn","n","thời trang"],["V2","hair","her","n","mái tóc, lông"],
+    ["V2","hat","hæt","n","cái mũ, nón"],["V2","shirt","ʃɜːrt","n","áo sơ mi"],["V2","shoe","ʃuː","n","chiếc giày"],
+    ["V2","skirt","skɜːrt","n","chân váy"],["V2","wear","wer","v","mặc, đeo, mang"],["V2","dress up","dres ʌp","phr v","ăn mặc diện, hóa trang"],
+    ["V2","wear away","wer əˈweɪ","phr v","mòn đi, làm mòn"],["V2","wear off","wer ɔːf","phr v","biến mất dần, mất tác dụng"],["V2","wear out","wer aʊt","phr v","sờn rách, làm kiệt sức"],
+    ["V2","beautifully","ˈbjuːtɪfli","adv","một cách xinh đẹp"],["V2","coloured","ˈkʌlərd","adj","có màu sắc"],["V2","dressed","drest","adj","ăn mặc (theo phong cách nào đó)"],
+    ["V2","fashionable","ˈfæʃnəbl","adj","hợp thời trang, sành điệu"],["V2","hairdresser","ˈherdresər","n","thợ làm tóc"],["V2","colourful","ˈkʌlərfl","adj","rực rỡ, nhiều màu sắc"],
+    ["V2","old-fashioned","ˌoʊld ˈfæʃnd","adj","lỗi thời, cổ điển"],["V2","belt","belt","n","thắt lưng, dây nịt"],["V2","blonde","blɑːnd","adj/n","vàng hoe (tóc)"],
+    ["V2","brown","braʊn","adj/n","màu nâu"],["V2","cap","kæp","n","mũ lưỡi trai"],
+  ]},
+  { title:"07. Daily Routines & Everyday Actions", items:[
+    ["V1","asleep","əˈsliːp","adj","ngủ, đang ngủ"],["V1","bath","bæθ","n","sự tắm rửa, bồn tắm"],["V1","clean","kliːn","adj/v","sạch sẽ; lau chùi"],
+    ["V1","day","deɪ","n","ngày, ban ngày"],["V1","eat","iːt","v","ăn"],["V1","get","ɡet","v","nhận được, trở nên, đi tới"],
+    ["V1","go","ɡoʊ","v","đi"],["V1","have","hæv","v","có, ăn/uống"],["V2","cleaning","ˈkliːnɪŋ","n","việc dọn dẹp, vệ sinh"],
+    ["V2","dinner","ˈdɪnər","n","bữa tối"],["V2","read","riːd","v","đọc"],["V2","read out","riːd aʊt","phr v","đọc to ra thành tiếng"],
+    ["V2","read over","riːd ˈoʊvər","phr v","đọc lướt qua, kiểm tra lại"],["V2","awake","əˈweɪk","adj","thức giấc, tỉnh táo"],
+  ]},
+  { title:"08. Shopping, Money & Consumer Life", items:[
+    ["V1","bank","bæŋk","n","ngân hàng, bờ sông"],["V1","bargain","ˈbɑːrɡən","n/v","món hời; mặc cả"],["V1","bill","bɪl","n","hóa đơn"],
+    ["V1","buy","baɪ","v","mua"],["V1","buyer","ˈbaɪər","n","người mua"],["V1","cash","kæʃ","n","tiền mặt"],
+    ["V1","cheap","tʃiːp","adj","rẻ, giá thấp"],["V1","customer","ˈkʌstəmər","n","khách hàng"],["V1","dollar","ˈdɑːlər","n","đồng đô-la"],
+    ["V2","discount","ˈdɪskaʊnt","n/v","sự giảm giá; chiết khấu"],["V2","payment","ˈpeɪmənt","n","sự thanh toán"],["V2","sell","sel","v","bán"],
+    ["V2","shop","ʃɑːp","n/v","cửa hàng; đi mua sắm"],["V2","shopping","ˈʃɑːpɪŋ","n","việc đi chợ, sắm sửa"],["V2","sell off","sel ɔːf","phr v","bán thanh lý, bán rẻ"],
+    ["V2","sell out","sel aʊt","phr v","bán hết sạch hàng"],["V2","cheaply","ˈtʃiːpli","adv","một cách rẻ tiền"],
+  ]},
+  { title:"09. Travel, Transport & Accommodation", items:[
+    ["V1","accommodation","əˌkɑːməˈdeɪʃn","n","chỗ ở, nơi trú trọ"],["V1","airport","ˈerpɔːrt","n","sân bay"],["V1","arrive","əˈraɪv","v","đến nơi"],
+    ["V1","baggage","ˈbæɡɪdʒ","n","hành lý"],["V1","bicycle","ˈbaɪsɪkl","n","xe đạp"],["V1","bike","baɪk","n","xe đạp, xe máy"],
+    ["V1","boat","boʊt","n","thuyền, tàu nhỏ"],["V1","bus","bʌs","n","xe buýt"],["V1","car","kɑːr","n","xe hơi, ô tô"],
+    ["V1","departure","dɪˈpɑːrtʃər","n","sự khởi hành"],["V1","drive","draɪv","v/n","lái xe, chuyến đi"],["V1","driver","ˈdraɪvər","n","tài xế, người lái xe"],
+    ["V1","hotel","hoʊˈtel","n","khách sạn"],["V2","taxi","ˈtæksi","n","xe taxi"],["V2","aircraft","ˈerkræft","n","máy bay, khí cầu"],
+    ["V2","arrival","əˈraɪvl","n","sự đến nơi"],["V2","flight","flaɪt","n","chuyến bay"],["V2","journey","ˈdʒɜːrni","n","hành trình, chuyến đi"],
+    ["V2","passport","ˈpæspɔːrt","n","hộ chiếu"],["V2","road","roʊd","n","con đường"],["V2","ship","ʃɪp","n","tàu thủy"],
+    ["V2","station","ˈsteɪʃn","n","nhà ga, trạm"],["V2","ticket","ˈtɪkɪt","n","vé"],["V2","tour","tʊr","n/v","chuyến du lịch, đi tham quan"],
+    ["V2","tourist","ˈtʊrɪst","n","khách du lịch"],["V2","train","treɪn","n/v","tàu hỏa; rèn luyện"],["V2","transport","ˈtrænspɔːrt","n","giao thông, vận tải"],
+    ["V2","travel","ˈtrævl","v/n","đi du lịch, đi lại"],["V2","trip","trɪp","n","chuyến đi ngắn"],["V2","training","ˈtreɪnɪŋ","n","sự đào tạo, sự huấn luyện"],
+    ["V2","transportation","ˌtrænspərˈteɪʃn","n","phương tiện vận chuyển"],["V2","traveller","ˈtrævlər","n","khách du lịch, người hành hương"],["V2","strain","streɪn","n/v","áp lực, sự căng thẳng"],
+    ["V2","constraint","kənˈstreɪnt","n","sự hạn chế, sự ràng buộc"],["V2","restraint","rɪˈstreɪnt","n","sự kềm chế, sự kiềm chế"],["V2","abroad","əˈbrɔːd","adv","ở nước ngoài"],
+    ["V2","arrive at","əˈraɪv æt","phr v","đến (địa điểm nhỏ như sân bay, nhà ga)"],
+  ]},
+  { title:"10. Places, Buildings & Directions", items:[
+    ["V1","right","raɪt","adj/adv/n","bên phải; đúng; quyền lợi"],["V1","area","ˈeriə","n","khu vực, diện tích"],["V1","back","bæk","n/adv","phía sau, quay lại"],
+    ["V1","building","ˈbɪldɪŋ","n","tòa nhà, công trình"],["V1","countryside","ˈkʌntrisaɪd","n","vùng nông thôn"],["V1","direction","daɪˈrekʃn","n","hướng đi, sự chỉ dẫn"],
+    ["V1","field","fiːld","n","cánh đồng, lĩnh vực"],["V1","foreign","ˈfɔːrən","adj","nước ngoài, lạ"],["V2","beside","bɪˈsaɪd","prep","bên cạnh"],
+    ["V2","border","ˈbɔːrdər","n","biên giới, ranh giới"],["V2","bridge","brɪdʒ","n","cây cầu"],["V2","centre","ˈsentər","n","trung tâm"],
+    ["V2","city","ˈsɪti","n","thành phố"],["V2","corner","ˈkɔːrnər","n","góc (tường, đường)"],["V2","east","iːst","n/adj/adv","phía đông"],
+    ["V2","exit","ˈeɡzɪt","n/v","lối ra, thoát ra"],["V2","north","nɔːrθ","n/adj/adv","phía bắc"],["V2","place","pleɪs","n/v","địa điểm, đặt để"],
+    ["V2","south","saʊθ","n/adj/adv","phía nam"],["V2","street","striːt","n","đường phố"],["V2","town","taʊn","n","thị trấn"],
+    ["V2","village","ˈvɪlɪdʒ","n","ngôi làng"],["V2","west","west","n/adj/adv","phía tây"],["V2","entrance","ˈentrəns","n","lối vào, cổng vào"],
+    ["V2","northern","ˈnɔːrðərn","adj","thuộc phương bắc"],["V2","southern","ˈsʌðərn","adj","thuộc phương nam"],["V2","besides","bɪˈsaɪdz","prep/adv","ngoài ra, bên cạnh đó"],
+    ["V2","placement","ˈpleɪsmənt","n","sự sắp đặt, việc làm tạm thời"],["V2","villager","ˈvɪlɪdʒər","n","dân làng"],["V2","replace","rɪˈpleɪs","v","thay thế"],
+    ["V2","displace","dɪsˈpleɪs","v","di dời, chiếm chỗ"],["V2","replacement","rɪˈpleɪsmənt","n","sự thay thế, người thay thế"],["V2","workplace","ˈwɜːrkpleɪs","n","nơi làm việc"],
+    ["V2","beneath","bɪˈniːθ","prep/adv","ở dưới, bên dưới"],["V2","bottom","ˈbɑːtəm","n","đáy, phần dưới cùng"],["V2","bright","braɪt","adj","sáng chói, thông minh"],
+    ["V2","brightly","ˈbraɪtli","adv","một cách xán lạn, sáng rỡ"],
+  ]},
+  { title:"11. Nature, Animals, Weather & Environment", items:[
+    ["V1","air","er","n","không khí"],["V1","beach","biːtʃ","n","bãi biển"],["V1","bird","bɜːrd","n","loài chim"],
+    ["V1","climate","ˈklaɪmət","n","khí hậu"],["V1","cloud","klaʊd","n","đám mây"],["V1","coast","koʊst","n","bờ biển"],
+    ["V1","country","ˈkʌntri","n","quốc gia, đất nước"],["V1","earth","ɜːrθ","n","trái đất, mặt đất"],["V1","environment","ɪnˈvaɪrənmənt","n","môi trường"],
+    ["V1","environmental","ɪnˌvaɪrənˈmentl","adj","thuộc về môi trường"],["V1","fire","ˈfaɪər","n/v","ngọn lửa; đốt, sa thải"],["V1","forest","ˈfɔːrɪst","n","khu rừng"],
+    ["V1","garden","ˈɡɑːrdn","n","khu vườn"],["V1","gas","ɡæs","n","khí gas, xăng"],["V2","coastal","ˈkoʊstl","adj","thuộc vùng duyên hải, ven biển"],
+    ["V2","animal","ˈænɪml","n","động vật"],["V2","nature","ˈneɪtʃər","n","tự nhiên, thiên nhiên"],["V2","ocean","ˈoʊʃn","n","đại dương"],
+    ["V2","plant","plænt","n/v","cây trồng; gieo trồng"],["V2","rain","reɪn","n/v","mưa, cơn mưa"],["V2","river","ˈrɪvər","n","dòng sông"],
+    ["V2","sea","siː","n","biển"],["V2","snow","snoʊ","n/v","tuyết; tuyết rơi"],["V2","tree","triː","n","cây thân gỗ"],
+    ["V2","water","ˈwɔːtər","n/v","nước; tưới nước"],["V2","weather","ˈweðər","n","thời tiết"],["V2","signature","ˈsɪɡnətʃər","n","chữ ký"],
+    ["V2","atmosphere","ˈætməsfɪr","n","bầu khí quyển, bầu không khí"],["V2","autumn","ˈɔːtəm","n","mùa thu"],
+  ]},
+  { title:"12. School, Education & Learning", items:[
+    ["V1","book","bʊk","n/v","cuốn sách; đặt chỗ"],["V1","college","ˈkɑːlɪdʒ","n","trường cao đẳng, đại học thành viên"],["V1","course","kɔːrs","n","khóa học, tiến trình"],
+    ["V1","education","ˌedʒuˈkeɪʃn","n","nền giáo dục"],["V1","essay","ˈeseɪ","n","bài văn tiểu luận"],["V1","exercise","ˈeksərsaɪz","n/v","bài tập, tập thể dục"],
+    ["V2","class","klæs","n","lớp học, tầng lớp"],["V2","classroom","ˈklæsruːm","n","phòng học"],["V2","degree","dɪˈɡriː","n","bằng cấp, độ (nhiệt độ/góc)"],
+    ["V2","exam","ɪɡˈzæm","n","kỳ thi"],["V2","lesson","ˈlesn","n","bài học"],["V2","research","rɪˈsɜːrtʃ","n/v","nghiên cứu"],
+    ["V2","school","skuːl","n","trường học"],["V2","student","ˈstuːdnt","n","học sinh, sinh viên"],["V2","study","ˈstʌdi","v/n","học tập, sự nghiên cứu"],
+    ["V2","teacher","ˈtiːtʃər","n","giáo viên"],["V2","university","ˌjuːnɪˈvɜːrsəti","n","trường đại học"],["V2","classic","ˈklæsɪk","adj/n","kinh điển, tác phẩm kinh điển"],
+    ["V2","classify","ˈklæsɪfaɪ","v","phân loại"],["V2","classification","ˌklæsɪfɪˈkeɪʃn","n","sự phân loại, danh mục"],["V2","discourse","ˈdɪskɔːrs","n","bài diễn thuyết, luận thuyết"],
+    ["V2","academic","ˌækəˈdemɪk","adj","thuộc học thuật, viện hàn lâm"],
+  ]},
+  { title:"13. Work, Office & Career", items:[
+    ["V1","boss","bɔːs","n","sếp, ông chủ"],["V1","career","kəˈrɪr","n","sự nghiệp"],["V1","client","ˈklaɪənt","n","khách hàng (dịch vụ)"],
+    ["V1","colleague","ˈkɑːliːɡ","n","đồng nghiệp"],["V1","department","dɪˈpɑːrtmənt","n","phòng ban, bộ phận"],["V1","employee","ɪmˈplɔɪiː","n","nhân viên làm thuê"],
+    ["V1","employer","ɪmˈplɔɪər","n","người tuyển dụng, chủ"],["V1","employment","ɪmˈplɔɪmənt","n","việc làm, sự thuê mướn"],["V1","engineer","ˌendʒɪˈnɪr","n","kỹ sư"],
+    ["V1","firm","fɜːrm","n/adj","công ty, hãng; chắc chắn"],["V2","job","dʒɑːb","n","công việc"],["V2","manager","ˈmænɪdʒər","n","người quản lý, giám đốc"],
+    ["V2","office","ˈɔːfɪs","n","văn phòng"],["V2","work","wɜːrk","v/n","làm việc, công việc"],["V2","work out","wɜːrk aʊt","phr v","tập thể dục, tìm ra giải pháp"],
+    ["V2","officer","ˈɔːfɪsər","n","sĩ quan, cán bộ"],["V2","worker","ˈwɜːrkər","n","công nhân, người lao động"],["V2","post office","ˈpoʊst ɔːfɪs","n","bưu điện"],
+    ["V2","organization","ˌɔːrɡənəˈzeɪʃn","n","tổ chức, cơ quan"],["V2","organizational","ˌɔːrɡənəˈzeɪʃənl","adj","thuộc về tổ chức"],
+  ]},
+  { title:"14. Communication & Conversation", items:[
+    ["V1","answer","ˈænsər","v/n","câu trả lời, trả lời"],["V1","ask","æsk","v","hỏi, yêu cầu"],["V1","call","kɔːl","v/n","gọi điện, cuộc gọi"],
+    ["V1","chat","tʃæt","v/n","tán chuyện, trò chuyện"],["V1","comment","ˈkɑːment","n/v","lời bình luận, nhận xét"],["V1","communicate","kəˈmjuːnɪkeɪt","v","giao tiếp, truyền đạt"],
+    ["V1","communication","kəˌmjuːnɪˈkeɪʃn","n","sự giao tiếp, truyền thông"],["V1","contact","ˈkɑːntækt","n/v","liên lạc, sự tiếp xúc"],["V1","conversation","ˌkɑːnvərˈseɪʃn","n","cuộc trò chuyện"],
+    ["V1","email","ˈiːmeɪl","n/v","thư điện tử, gửi email"],["V1","explain","ɪkˈspleɪn","v","giải thích"],["V1","express","ɪkˈspres","v/adj","bày tỏ, tốc hành"],
+    ["V2","announce","əˈnaʊns","v","thông báo, công bố"],["V2","discuss","dɪˈskʌs","v","thảo luận, tranh luận"],["V2","letter","ˈletər","n","lá thư, chữ cái"],
+    ["V2","message","ˈmesɪdʒ","n","tin nhắn, thông điệp"],["V2","question","ˈkwestʃən","n/v","câu hỏi, nghi vấn"],["V2","reply","rɪˈplaɪ","v/n","phản hồi, câu trả lời"],
+    ["V2","report","rɪˈpɔːrt","v/n","báo cáo, bản báo cáo"],["V2","speak","spiːk","v","nói (ngôn ngữ)"],["V2","speech","spiːtʃ","n","bài phát biểu, lời nói"],
+    ["V2","talk","tɔːk","v/n","nói chuyện, cuộc nói chuyện"],["V2","write","raɪt","v","viết"],["V2","speak out","spiːk aʊt","phr v","công khai lên tiếng"],
+    ["V2","speak up","spiːk ʌp","phr v","nói to lên, mạnh dạn phát biểu"],["V2","write back","raɪt bæk","phr v","viết thư trả lời"],["V2","write down","raɪt daʊn","phr v","ghi chép lại"],
+    ["V2","expression","ɪkˈspreʃn","n","sự biểu lộ, biểu cảm"],["V2","speaker","ˈspiːkər","n","diễn giả, cái loa"],["V2","writer","ˈraɪtər","n","nhà văn, người viết"],
+    ["V2","commentary","ˈkɑːmənteri","n","bài bình luận, tường thuật"],["V2","commentator","ˈkɑːmənteɪtər","n","bình luận viên"],["V2","questionnaire","ˌkwestʃəˈner","n","bảng câu hỏi khảo sát"],
+    ["V2","reportedly","rɪˈpɔːrtɪdli","adv","theo như báo cáo/đưa tin"],["V2","reporting","rɪˈpɔːrtɪŋ","n","hoạt động đưa tin, báo cáo"],["V2","newsletter","ˈnuːzletər","n","bản tin nội bộ"],
+    ["V2","call for","kɔːl fɔːr","phr v","kêu gọi, đòi hỏi"],
+  ]},
+  { title:"15. Thinking, Knowledge & Ideas", items:[
+    ["V1","ability","əˈbɪləti","n","khả năng, năng lực"],["V1","assume","əˈsuːm","v","giả định, cho rằng"],["V1","believe","bɪˈliːv","v","tin tưởng"],
+    ["V1","concept","ˈkɑːnsept","n","khái niệm, ý tưởng"],["V1","idea","aɪˈdiːə","n","ý tưởng, ý kiến"],["V2","opinion","əˈpɪnjən","n","quan điểm, ý kiến"],
+    ["V2","reason","ˈriːzn","n/v","lý do; suy luận"],["V2","reasonable","ˈriːznəbl","adj","hợp lý, có lý"],["V2","reasonably","ˈriːznəbli","adv","một cách hợp lý"],
+    ["V2","conception","kənˈsepʃn","n","nhận thức, sự thụ thai"],["V2","reasoning","ˈriːznɪŋ","n","lập luận, sự suy luận"],["V2","inability","ˌɪnəˈbɪləti","n","sự bất lực, không có khả năng"],
+    ["V2","unreasonable","ʌnˈriːznəbl","adj","vô lý, không hợp lý"],["V2","accountability","əˌkaʊntəˈbɪləti","n","trách nhiệm giải trình"],["V2","availability","əˌveɪləˈbɪləti","n","sự có sẵn, tình trạng sẵn có"],
+    ["V2","capability","ˌkeɪpəˈbɪləti","n","khả năng, năng lực thực hiện"],["V2","disability","ˌdɪsəˈbɪləti","n","sự khuyết tật, tàn tật"],["V2","probability","ˌprɑːbəˈbɪləti","n","xác suất, khả năng xảy ra"],
+    ["V2","reliability","rɪˌlaɪəˈbɪləti","n","sự tin cậy, độ tin cậy"],["V2","stability","stəˈbɪləti","n","sự ổn định"],["V2","acknowledge","əkˈnɑːlɪdʒ","v","công nhận, thừa nhận"],
+    ["V2","believe in","bɪˈliːv ɪn","phr v","tin vào (sự tồn tại, giá trị của cái gì)"],
+  ]},
+  { title:"16. Opinions, Arguments & Decisions", items:[
+    ["V1","agree","əˈɡriː","v","đồng ý"],["V1","agreement","əˈɡriːmənt","n","sự thỏa thuận, hợp đồng"],["V1","appointment","əˈpɔɪntmənt","n","cuộc hẹn, sự bổ nhiệm"],
+    ["V1","argue","ˈɑːrɡjuː","v","tranh luận, cãi nhau"],["V1","argument","ˈɑːrɡjumənt","n","cuộc tranh luận, sự cãi lộn"],["V1","choice","tʃɔɪs","n","sự lựa chọn"],
+    ["V1","choose","tʃuːz","v","lựa chọn"],["V1","compare","kəmˈper","v","so sánh"],["V1","comparison","kəmˈpærɪsn","n","sự so sánh"],
+    ["V1","consider","kənˈsɪdər","v","xem xét, cân nhắc"],["V1","contrast","ˈkɑːntræst","n/v","sự tương phản, đối lập"],["V1","debate","dɪˈbeɪt","n/v","cuộc tranh luận, tranh luận"],
+    ["V1","decide","dɪˈsaɪd","v","quyết định"],["V1","decision","dɪˈsɪʒn","n","sự quyết định"],["V1","discussion","dɪˈskʌʃn","n","cuộc thảo luận"],
+    ["V1","evidence","ˈevɪdəns","n","bằng chứng, chứng cứ"],["V2","support","səˈpɔːrt","v/n","ủng hộ, hỗ trợ"],["V2","supporter","səˈpɔːrtər","n","người ủng hộ"],
+    ["V2","supportive","səˈpɔːrtɪv","adj","đem lại sự hỗ trợ, cảm thông"],["V2","decision-making","dɪˈsɪʒn meɪkɪŋ","n","việc đưa ra quyết định"],["V2","appoint","əˈpɔɪnt","v","bổ nhiệm, chỉ định"],
+  ]},
+  { title:"17. Problems, Change & Solutions", items:[
+    ["V1","accident","ˈæksɪdənt","n","tai nạn, sự cố"],["V1","avoid","əˈvɔɪd","v","né tránh, tránh xa"],["V1","challenge","ˈtʃælɪndʒ","n/v","thử thách, thách thức"],
+    ["V1","change","tʃeɪndʒ","v/n","thay đổi, sự thay đổi"],["V1","conflict","ˈkɑːnflɪkt","n/v","xung đột, tranh chấp"],["V1","crisis","ˈkraɪsɪs","n","khủng hoảng"],
+    ["V1","damage","ˈdæmɪdʒ","n/v","thiệt hại, làm hư hại"],["V1","danger","ˈdeɪndʒər","n","sự nguy hiểm"],["V1","dangerous","ˈdeɪndʒərəs","adj","nguy hiểm"],
+    ["V1","decrease","dɪˈkriːs","v/n","giảm sút, sự sụt giảm"],["V1","destroy","dɪˈstrɔɪ","v","phá hủy, tiêu diệt"],["V1","develop","dɪˈveləp","v","phát triển"],
+    ["V1","development","dɪˈveləpmənt","n","sự phát triển"],["V1","difficult","ˈdɪfɪkəlt","adj","khó khăn"],["V1","difficulty","ˈdɪfɪkəlti","n","sự khó khăn, trở ngại"],
+    ["V1","disappear","ˌdɪsəˈpɪr","v","biến mất"],["V1","disappoint","ˌdɪsəˈpɔɪnt","v","làm thất vọng"],["V1","escape","ɪˈskeɪp","v/n","trốn thoát, sự thoát khỏi"],
+    ["V1","fix","fɪks","v","sửa chữa, cố định"],["V2","repair","rɪˈper","v/n","sửa chữa, sự sửa chữa"],["V2","disappointed","ˌdɪsəˈpɔɪntɪd","adj","cảm thấy thất vọng"],
+    ["V2","disappointing","ˌdɪsəˈpɔɪntɪŋ","adj","gây thất vọng"],["V2","disappointment","ˌdɪsəˈpɔɪntmənt","n","sự thất vọng"],["V2","failure","ˈfeɪljər","n","sự thất bại"],
+    ["V2","improve","ɪmˈpruːv","v","cải thiện, trau dồi"],["V2","increase","ɪnˈkriːs","v/n","gia tăng, sự tăng lên"],["V2","prevent","prɪˈvent","v","ngăn chặn, phòng ngừa"],
+    ["V2","problem","ˈprɑːbləm","n","vấn đề, khó khăn"],["V2","protect","prəˈtekt","v","bảo vệ"],["V2","reduce","rɪˈduːs","v","giảm bớt, cắt giảm"],
+    ["V2","risk","rɪsk","n/v","rủi ro, liều lĩnh"],["V2","solution","səˈluːʃn","n","giải pháp, lời giải"],["V2","solve","sɑːlv","v","giải quyết, tháo gỡ"],
+    ["V2","success","səkˈses","n","sự thành công"],["V2","change round","tʃeɪndʒ raʊnd","phr v","đổi vị trí, đảo ngược"],["V2","improvement","ɪmˈpruːvmənt","n","sự cải thiện, tiến bộ"],
+    ["V2","protection","prəˈtekʃn","n","sự bảo vệ"],["V2","successful","səkˈsesfl","adj","thành công"],["V2","successfully","səkˈsesfəli","adv","một cách thành công"],
+    ["V2","prevention","prɪˈvenʃn","n","sự phòng ngừa, ngăn chặn"],["V2","problematic","ˌprɑːbləˈmætɪk","adj","đầy rắc rối, có vấn đề"],["V2","protective","prəˈtektɪv","adj","có tính bảo vệ, che chở"],
+    ["V2","succession","səkˈseʃn","n","sự liên tiếp, sự kế thừa"],["V2","successive","səkˈsesɪv","adj","liên tiếp, kế tiếp"],["V2","successor","səkˈsesər","n","người kế nhiệm"],
+    ["V2","dissolve","dɪˈzɑːlv","v","hòa tan, giải tán"],["V2","exchange","ɪksˈtʃeɪndʒ","v/n","trao đổi, sự đổi chác"],["V2","resolve","rɪˈzɑːlv","v","giải quyết, quyết tâm"],
+    ["V2","unsuccessful","ˌʌnsəkˈsesfl","adj","thất bại, không thành công"],["V2","resolution","ˌrezəˈluːʃn","n","độ phân giải, nghị quyết, sự giải quyết"],["V2","accidental","ˌæksɪˈdentl","adj","tình cờ, ngẫu nhiên"],
+    ["V2","accidentally","ˌæksɪˈdentəli","adv","một cách tình cờ, vô ý"],
+  ]},
+  { title:"18. Society, Culture, Politics & Public Life", items:[
+    ["V1","authority","əˈθɔːrəti","n","thẩm quyền, chính quyền"],["V1","community","kəˈmjuːnəti","n","cộng đồng"],["V1","culture","ˈkʌltʃər","n","văn hóa"],
+    ["V1","election","ɪˈlekʃn","n","cuộc bầu cử"],["V2","army","ˈɑːrmi","n","quân đội"],["V2","citizen","ˈsɪtɪzn","n","công dân"],
+    ["V2","cultural","ˈkʌltʃərəl","adj","thuộc về văn hóa"],["V2","government","ˈɡʌvərnmənt","n","chính phủ"],["V2","law","lɔː","n","pháp luật, luật lệ"],
+    ["V2","official","əˈfɪʃl","adj/n","chính thức; quan chức"],["V2","police","pəˈliːs","n","cảnh sát, công an"],["V2","policy","ˈpɑːləsi","n","chính sách"],
+    ["V2","political","pəˈlɪtɪkl","adj","thuộc chính trị"],["V2","politics","ˈpɑːlətɪks","n","ngành chính trị, chính trị"],["V2","public","ˈpʌblɪk","adj/n","công cộng; công chúng"],
+    ["V2","society","səˈsaɪəti","n","xã hội"],["V2","state","steɪt","n/v","bang, nhà nước; phát biểu"],["V2","vote","voʊt","v/n","bỏ phiếu, sự bình chọn"],
+    ["V2","officially","əˈfɪʃəli","adv","một cách chính thức"],["V2","politically","pəˈlɪtɪkli","adv","về mặt chính trị"],["V2","publication","ˌpʌblɪˈkeɪʃn","n","sự xuất bản, ấn phẩm"],
+    ["V2","publicity","pʌbˈlɪsəti","n","sự công khai, sự truyền thông"],["V2","publicly","ˈpʌblɪkli","adv","công khai, trước công chúng"],["V2","statement","ˈsteɪtmənt","n","tuyên bố, phát biểu"],
+    ["V2","citizenship","ˈsɪtɪzənʃɪp","n","quyền công dân, quốc tịch"],["V2","estate","ɪˈsteɪt","n","bất động sản, di sản"],["V2","selection","sɪˈlekʃn","n","sự lựa chọn, tuyển chọn"],
+    ["V2","agricultural","ˌæɡrɪˈkʌltʃərəl","adj","thuộc nông nghiệp"],["V2","agriculture","ˈæɡrɪkʌltʃər","n","ngành nông nghiệp"],["V2","devastate","ˈdevəsteɪt","v","tàn phá, hủy hoại"],
+    ["V2","republic","rɪˈpʌblɪk","n","nước cộng hòa"],["V2","campaign","kæmˈpeɪn","n/v","chiến dịch, vận động"],["V2","candidate","ˈkændɪdət","n","ứng cử viên, thí sinh"],
+  ]},
+  { title:"19. Business, Economy & Finance", items:[
+    ["V1","accompany","əˈkʌmpəni","v","đi cùng, đồng hành"],["V1","budget","ˈbʌdʒɪt","n/v","ngân sách, lập ngân sách"],["V1","business","ˈbɪznəs","n","kinh doanh, doanh nghiệp"],
+    ["V1","commercial","kəˈmɜːrʃl","adj/n","thương mại; quảng cáo"],["V1","company","ˈkʌmpəni","n","công ty, sự đồng hành"],["V1","cost","kɔːst","n/v","chi phí, có giá là"],
+    ["V1","credit","ˈkredɪt","n/v","tín dụng, tín nhiệm"],["V1","debt","det","n","khoản nợ"],["V1","economy","ɪˈkɑːnəmi","n","nền kinh tế"],
+    ["V2","income","ˈɪnkʌm","n","thu nhập"],["V2","market","ˈmɑːrkɪt","n/v","thị trường, chợ"],["V2","money","ˈmʌni","n","tiền bạc"],
+    ["V2","price","praɪs","n/v","giá cả, định giá"],["V2","credit card","ˈkredɪt kɑːrd","n","thẻ tín dụng"],["V2","businessman","ˈbɪznəsmæn","n","doanh nhân"],
+    ["V2","marketing","ˈmɑːrkɪtɪŋ","n","tiếp thị, marketing"],["V2","marketplace","ˈmɑːrkɪtpleɪs","n","thương trường, thị trường"],["V2","supermarket","ˈsuːpərmɑːrkɪt","n","siêu thị"],
+    ["V2","capital","ˈkæpɪtl","n/adj","vốn, thủ đô; chính, hoa (chữ)"],
+  ]},
+  { title:"20. Science, Technology & Modern Life", items:[
+    ["V1","computer","kəmˈpjuːtər","n","máy tính"],["V1","data","ˈdeɪtə","n","dữ liệu"],["V1","device","dɪˈvaɪs","n","thiết bị"],
+    ["V1","electricity","ɪˌlekˈtrɪsəti","n","điện, điện năng"],["V1","electronic","ɪˌlekˈtrɑːnɪk","adj","thuộc điện tử"],["V1","engine","ˈendʒɪn","n","động cơ"],
+    ["V1","experiment","ɪkˈsperɪmənt","n/v","thí nghiệm"],["V1","file","faɪl","n/v","tập tin, tài liệu"],["V2","system","ˈsɪstəm","n","hệ thống"],
+    ["V2","systematic","ˌsɪstəˈmætɪk","adj","có hệ thống, bài bản"],["V2","atom","ˈætəm","n","nguyên tử"],["V2","bacteria","bækˈtɪriə","n","vi khuẩn"],
+    ["V2","biology","baɪˈɑːlədʒi","n","sinh học"],["V2","camera","ˈkæmrə","n","máy ảnh, máy quay"],
+  ]},
+  { title:"21. General Description, Quality & Degree", items:[
+    ["V1","adequate","ˈædɪkwət","adj","đầy đủ, thỏa đáng"],["V1","appropriate","əˈproʊpriət","adj","thích hợp, phù hợp"],["V1","available","əˈveɪləbl","adj","sẵn có, rảnh rỗi"],
+    ["V1","basic","ˈbeɪsɪk","adj","cơ bản"],["V1","clear","klɪr","adj/v","rõ ràng; dọn dẹp"],["V1","common","ˈkɑːmən","adj","phổ biến, thông thường"],
+    ["V1","complete","kəmˈpliːt","adj/v","hoàn thành, trọn vẹn"],["V1","considerable","kənˈsɪdərəbl","adj","đáng kể, to lớn"],["V1","convenient","kənˈviːniənt","adj","tiện lợi, thuận tiện"],
+    ["V1","correct","kəˈrekt","adj/v","chính xác; sửa chữa"],["V1","cruel","ˈkruːəl","adj","độc ác, tàn nhẫn"],["V1","deep","diːp","adj/adv","sâu, sâu sắc"],
+    ["V1","definite","ˈdefɪnət","adj","xác định, rõ ràng"],["V1","different","ˈdɪfrənt","adj","khác biệt"],["V1","direct","dəˈrekt","adj/v","trực tiếp; chỉ đường"],
+    ["V1","effective","ɪˈfektɪv","adj","hiệu quả"],["V1","efficient","ɪˈfɪʃnt","adj","năng suất, hiệu quả"],["V1","equal","ˈiːkwəl","adj/v","bình đẳng, bằng nhau"],
+    ["V1","excellent","ˈeksələnt","adj","xuất sắc, tuyệt vời"],["V1","famous","ˈfeɪməs","adj","nổi tiếng"],["V1","important","ɪmˈpɔːrtnt","adj","quan trọng"],
+    ["V2","effectively","ɪˈfektɪvli","adv","một cách hiệu quả"],["V2","effectiveness","ɪˈfektɪvnəs","n","tính hiệu quả"],["V2","possible","ˈpɑːsəbl","adj","có thể, khả thi"],
+    ["V2","significant","sɪɡˈnɪfɪkənt","adj","quan trọng, đáng kể"],["V2","similar","ˈsɪmələr","adj","tương tự, giống nhau"],["V2","efficiently","ɪˈfɪʃntli","adv","một cách hiệu quả"],
+    ["V2","significantly","sɪɡˈnɪfɪkəntli","adv","một cách đáng kể"],["V2","similarly","ˈsɪmələrli","adv","tương tự như vậy"],["V2","appropriately","əˈproʊpriətli","adv","một cách thích hợp"],
+    ["V2","impossible","ɪmˈpɑːsəbl","adj","không thể, bất khả thi"],["V2","inappropriate","ˌɪnəˈproʊpriət","adj","không thích hợp"],["V2","accurate","ˈækjərət","adj","chính xác, đúng đắn"],
+    ["V2","accurately","ˈækjərətli","adv","một cách chính xác"],["V2","adequately","ˈædɪkwətli","adv","một cách thỏa đáng"],["V2","basically","ˈbeɪsɪkli","adv","về cơ bản"],
+    ["V2","brief","briːf","adj","ngắn gọn, tóm tắt"],["V2","briefly","ˈbriːfli","adv","một cách ngắn gọn"],["V2","broad","brɔːd","adj","rộng lớn, bao la"],
+    ["V2","broadcast","ˈbrɔːdkæst","v/n","phát sóng, chương trình phát sóng"],["V2","broadly","ˈbrɔːdli","adv","một cách rộng rãi, nhìn chung"],["V1","able","ˈeɪbl","adj","có khả năng, đủ năng lực"],
+    ["V1","accept","əkˈsept","v","chấp nhận"],["V1","access","ˈækses","n/v","truy cập, tiếp cận"],["V1","account","əˈkaʊnt","n/v","tài khoản; giải thích"],
+    ["V1","achieve","əˈtʃiːv","v","đạt được"],["V1","achievement","əˈtʃiːvmənt","n","thành tựu"],["V1","act","ækt","v/n","hành động, diễn xuất"],
+    ["V1","action","ˈækʃn","n","hành động"],["V1","active","ˈæktɪv","adj","năng động, chủ động"],["V1","activity","ækˈtɪvəti","n","hoạt động"],
+    ["V1","actor","ˈæktər","n","nam diễn viên"],["V1","actual","ˈæktʃuəl","adj","thực tế, thực sự"],["V1","add","æd","v","thêm vào"],
+    ["V1","adjust","əˈdʒʌst","v","điều chỉnh"],["V1","admire","ədˈmaɪər","v","ngưỡng mộ"],["V1","admit","ədˈmɪt","v","thừa nhận"],
+    ["V1","advice","ədˈvaɪs","n","lời khuyên"],["V1","advise","ədˈvaɪz","v","khuyên bảo"],["V1","affect","əˈfekt","v","ảnh hưởng đến"],
+    ["V1","aim","eɪm","n/v","mục tiêu; nhắm vào"],["V1","alarm","əˈlɑːrm","n/v","sự báo động, đồng hồ báo thức"],["V1","alive","əˈlaɪv","adj","còn sống, sống động"],
+    ["V1","allow","əˈlaʊ","v","cho phép"],["V1","almost","ˈɔːlmoʊst","adv","hầu như, gần như"],["V1","alone","əˈloʊn","adj/adv","cô đơn, một mình"],
+    ["V1","also","ˈɔːlsoʊ","adv","cũng, ngoài ra"],["V1","alter","ˈɔːltər","v","thay đổi, sửa đổi"],["V1","alternative","ɔːlˈtɜːrnətɪv","adj/n","thay thế, phương án thay thế"],
+    ["V1","amaze","əˈmeɪz","v","làm kinh ngạc"],["V1","amazing","əˈmeɪzɪŋ","adj","kinh ngạc, tuyệt vời"],["V1","ambition","æmˈbɪʃn","n","tham vọng, hoài bảo"],
+    ["V1","amount","əˈmaʊnt","n/v","số lượng, lên tới"],["V1","analyse","ˈænəlaɪz","v","phân tích"],["V1","apologize","əˈpɑːlədʒaɪz","v","xin lỗi"],
+    ["V1","appear","əˈpɪr","v","xuất hiện, dường như"],["V1","apply","əˈplaɪ","v","nộp đơn, áp dụng"],["V1","appreciate","əˈpriːʃieɪt","v","trân trọng, đánh giá cao"],
+    ["V1","approach","əˈproʊtʃ","v/n","tiếp cận; phương pháp"],["V1","approve","əˈpruːv","v","tán thành, phê duyệt"],["V1","assist","əˈsɪst","v","hỗ trợ, giúp đỡ"],
+    ["V1","assistance","əˈsɪstəns","n","sự hỗ trợ"],["V1","assistant","əˈsɪstənt","n","trợ lý, người giúp việc"],["V1","assure","əˈʃʊr","v","cam đoan, đảm bảo"],
+    ["V1","attach","əˈtætʃ","v","đính kèm, gắn vào"],["V1","attack","əˈtæk","v/n","tấn công, cuộc tấn công"],["V1","attempt","əˈtempt","n/v","nỗ lực, cố gắng"],
+    ["V1","attend","əˈtend","v","tham dự, chú ý"],["V1","attention","əˈtenʃn","n","sự chú ý"],["V1","attract","əˈtrækt","v","thu hút"],
+    ["V1","audience","ˈɔːdiəns","n","khán giả, thính giả"],["V1","author","ˈɔːθər","n","tác giả"],["V1","aware","əˈwer","adj","nhận thức, biết"],
+    ["V1","award","əˈwɔːrd","n/v","giải thưởng, trao thưởng"],["V1","background","ˈbækɡraʊnd","n","nền tảng, lai lịch"],["V1","bag","bæɡ","n","túi, cặp"],
+    ["V1","balance","ˈbæləns","n/v","sự cân bằng, cân bằng"],["V1","base","beɪs","n/v","căn cứ, dựa trên"],["V1","basis","ˈbeɪsɪs","n","nền tảng, cơ sở"],
+    ["V1","battery","ˈbætəri","n","pin, ắc quy"],["V1","bear","ber","v/n","chịu đựng; con gấu"],["V1","beat","biːt","v/n","đánh, đập, nhịp"],
+    ["V1","become","bɪˈkʌm","v","trở thành, trở nên"],["V1","behave","bɪˈheɪv","v","cư xử"],["V1","behaviour","bɪˈheɪvjər","n","hành vi, ứng xử"],
+    ["V1","belief","bɪˈliːf","n","niềm tin, đức tin"],["V1","belong","bɪˈlɔːŋ","v","thuộc về"],["V1","benefit","ˈbenɪfɪt","n/v","lợi ích, hưởng lợi"],
+    ["V1","birth","bɜːrθ","n","sự sinh ra, sự ra đời"],["V1","birthday","ˈbɜːrθdeɪ","n","ngày sinh nhật"],["V1","bite","baɪt","v/n","cắn, vết cắn"],
+    ["V1","blank","blæŋk","adj/n","trống trơn, chỗ trống"],["V1","blind","blaɪnd","adj","mù, không thấy đường"],["V1","bore","bɔːr","v","gây chán nản"],
+    ["V1","borrow","ˈbɑːroʊ","v","vay, mượn"],["V1","break","breɪk","v/n","làm vỡ, giờ nghỉ"],["V1","brush","brʌʃ","n/v","bàn chải; chải"],
+    ["V1","build","bɪld","v","xây dựng"],["V1","burn","bɜːrn","v","đốt cháy, thắp sáng"],["V1","busy","ˈbɪzi","adj","bận rộn"],
+    ["V1","calculate","ˈkælkjuleɪt","v","tính toán"],["V1","cancel","ˈkænsl","v","hủy bỏ"],["V1","capable","ˈkeɪpəbl","adj","có năng lực, có khả năng"],
+    ["V1","capacity","kəˈpæsəti","n","sức chứa, dung tích"],["V1","card","kɑːrd","n","thẻ, thiệp"],["V1","care","ker","n/v","sự chăm sóc; quan tâm"],
+    ["V1","careful","ˈkerfl","adj","cẩn thận"],["V1","careless","ˈkerləs","adj","bất cẩn, cẩu thả"],["V1","carry","ˈkæri","v","mang, vác, chở"],
+    ["V1","case","keɪs","n","trường hợp, chiếc hộp"],["V1","catch","kætʃ","v","bắt lấy, bắt kịp"],["V1","category","ˈkætəɡɔːri","n","hạng, loại, danh mục"],
+    ["V1","cause","kɔːz","n/v","nguyên nhân; gây ra"],["V1","celebrate","ˈselɪbreɪt","v","ăn mừng, kỷ niệm"],["V1","celebration","ˌselɪˈbreɪʃn","n","lễ kỷ niệm, sự ăn mừng"],
+    ["V1","chance","tʃæns","n","cơ hội, khả năng"],["V1","check","tʃek","v/n","kiểm tra, hóa đơn"],["V1","clever","ˈklevər","adj","thông minh, khéo léo"],
+    ["V1","climb","klaɪm","v","leo trèo"],["V1","clock","klɑːk","n","đồng hồ treo tường"],["V1","closed","kloʊzd","adj","đóng cửa, bị khóa"],
+    ["V1","coach","koʊtʃ","n/v","huấn luyện viên, xe khách"],["V1","cold","koʊld","adj/n","lạnh, sự cảm lạnh"],["V1","collect","kəˈlekt","v","thu thập, sưu tầm"],
+    ["V1","collection","kəˈlekʃn","n","bộ sưu tập"],["V1","combine","kəmˈbaɪn","v","kết hợp"],["V1","come","kʌm","v","đến, tới"],
+    ["V1","comfort","ˈkʌmfərt","n/v","sự an ủi, an ủi"],["V1","command","kəˈmænd","v/n","ra lệnh, mệnh lệnh"],["V1","compete","kəmˈpiːt","v","cạnh tranh, thi đấu"],
+    ["V1","competition","ˌkɑːmpəˈtɪʃn","n","cuộc thi, sự cạnh tranh"],["V1","competitive","kəmˈpetətɪv","adj","mang tính cạnh tranh"],["V1","complain","kəmˈpleɪn","v","phàn nàn, khiếu nại"],
+    ["V1","complaint","kəmˈpleɪnt","n","đơn khiếu nại, lời phàn nàn"],["V1","concentrate","ˈkɑːnsntreɪt","v","tập trung"],["V1","concentration","ˌkɑːnsnˈtreɪʃn","n","sự tập trung"],
+    ["V1","concern","kənˈsɜːrn","n/v","mối bận tâm; lo lắng"],["V1","concerned","kənˈsɜːrnd","adj","lo lắng, có liên quan"],["V1","conference","ˈkɑːnfərəns","n","hội nghị"],
+    ["V1","confirm","kənˈfɜːrm","v","xác nhận"],["V1","connect","kəˈnekt","v","kết nối"],["V1","connection","kəˈnekʃn","n","sự kết nối, mối quan hệ"],
+    ["V1","conscious","ˈkɑːnʃəs","adj","tỉnh táo, có ý thức"],["V1","consequence","ˈkɑːnsɪkwens","n","hậu quả, kết quả"],["V1","consist","kənˈsɪst","v","bao gồm, gồm có"],
+    ["V1","contain","kənˈteɪn","v","chứa đựng, bao hàm"],["V1","continue","kənˈtɪnjuː","v","tiếp tục"],["V1","contract","ˈkɑːntrækt","n/v","hợp đồng; thu nhỏ"],
+    ["V1","contribute","kənˈtrɪbjuːt","v","đóng góp, cống hiến"],["V1","contribution","ˌkɑːntrɪˈbjuːʃn","n","sự đóng góp"],["V1","control","kənˈtroʊl","v/n","kiểm soát, điều khiển"],
+    ["V1","convince","kənˈvɪns","v","thuyết phục"],["V1","cool","kuːl","adj","mát mẻ, ngầu"],["V1","cope","koʊp","v","đương đầu, đối phó"],
+    ["V1","copy","ˈkɑːpi","v/n","sao chép, bản sao"],["V1","courage","ˈkɜːrɪdʒ","n","lòng dũng cảm"],["V1","cover","ˈkʌvər","v/n","che phủ, vỏ bọc"],
+    ["V1","create","kriˈeɪt","v","tạo ra, sáng tạo"],["V1","crime","kraɪm","n","tội phạm, tội ác"],["V1","criminal","ˈkrɪmɪnl","n/adj","kẻ phạm tội; mang tính phạm tội"],
+    ["V1","critical","ˈkrɪtɪkl","adj","chỉ trích, phê bình, quan trọng"],["V1","criticism","ˈkrɪtɪsɪzəm","n","sự chỉ trích, lời phê bình"],["V1","criticize","ˈkrɪtɪsaɪz","v","chỉ trích, phê bình"],
+    ["V1","crowd","kraʊd","n","đám đông"],["V1","crowded","ˈkraʊdɪd","adj","đông đúc"],["V1","cry","kraɪ","v/n","khóc, tiếng khóc"],
+    ["V1","customs","ˈkʌstəmz","n","hải quan, thuế nhập khẩu"],["V1","cut","kʌt","v/n","cắt, vết cắt"],["V1","cycle","ˈsaɪkl","n/v","chu kỳ, đi xe đạp"],
+    ["V1","cycling","ˈsaɪklɪŋ","n","môn đi xe đạp"],["V1","dare","der","v","dám, thách thức"],["V1","dark","dɑːrk","adj/n","tối bóng, bóng tối"],
+    ["V1","dead","ded","adj","đã chết"],["V1","deal","diːl","v/n","giao dịch, thỏa thuận"],["V1","decline","dɪˈklaɪn","v/n","suy giảm, từ chối"],
+    ["V1","defeat","dɪˈfiːt","v/n","đánh bại, sự thất bại"],["V1","defence","dɪˈfens","n","sự phòng thủ, bảo vệ"],["V1","defend","dɪˈfend","v","bảo vệ, phòng thủ"],
+    ["V1","define","dɪˈfaɪn","v","định nghĩa, xác định"],["V1","delay","dɪˈleɪ","v/n","trì hoãn, sự chậm trễ"],["V1","deliver","dɪˈlɪvər","v","giao hàng, phát biểu"],
+    ["V1","delivery","dɪˈlɪvəri","n","sự giao hàng"],["V1","demand","dɪˈmænd","n/v","yêu cầu, nhu cầu"],["V1","deny","dɪˈnaɪ","v","phủ nhận, từ chối"],
+    ["V1","depend","dɪˈpend","v","phụ thuộc vào"],["V1","desire","dɪˈzaɪər","n/v","khao khát, mong muốn"],["V1","detail","ˈdiːteɪl","n/v","chi tiết"],
+    ["V1","determine","dɪˈtɜːrmɪn","v","quyết định, xác định"],["V1","diary","ˈdaɪəri","n","nhật ký"],["V1","difference","ˈdɪfrəns","n","sự khác biệt"],
+    ["V1","dislike","dɪsˈlaɪk","v/n","không thích"],["V1","document","ˈdɑːkjumənt","n/v","tài liệu; ghi lại bằng văn bản"],["V1","dog","dɔːɡ","n","con chó"],
+    ["V1","dream","driːm","n/v","giấc mơ, mơ ước"],["V1","drop","drɑːp","v/n","rơi, giọt nước"],["V1","drug","drʌɡ","n","thuốc, ma túy"],
+    ["V1","dry","draɪ","adj/v","khô ráo, làm khô"],["V1","duty","ˈduːti","n","nhiệm vụ, trách nhiệm, thuế"],["V1","earn","ɜːrn","v","kiếm được (tiền, sự tôn trọng)"],
+    ["V1","easy","ˈiːzi","adj","dễ dàng"],["V1","effect","ɪˈfekt","n/v","tác động, hiệu ứng"],["V1","effort","ˈefərt","n","sự nỗ lực, cố gắng"],
+    ["V1","elderly","ˈeldərli","adj","cao tuổi, lớn tuổi"],["V1","elect","ɪˈlekt","v","bầu chọn"],["V1","employ","ɪmˈplɔɪ","v","thuê làm việc"],
+    ["V1","empty","ˈempti","adj/v","trống rỗng, làm rỗng"],["V1","encourage","ɪnˈkɜːrɪdʒ","v","khuyến khích, động viên"],["V1","energy","ˈenərdʒi","n","năng lượng"],
+    ["V1","enjoy","ɪnˈdʒɔɪ","v","thưởng thức, thích thú"],["V1","entertainment","ˌentərˈteɪnmənt","n","sự giải trí"],["V1","enough","ɪˈnʌf","adj/adv","đầy đủ"],
+    ["V1","enter","ˈentər","v","đi vào, gia nhập"],["V1","error","ˈerər","n","sai sót, lỗi"],["V1","example","ɪɡˈzæmpl","n","ví dụ, tấm gương"],
+    ["V1","experience","ɪkˈspɪriəns","n/v","kinh nghiệm, trải nghiệm"],["V1","expert","ˈekspɜːrt","n/adj","chuyên gia; thành thạo"],["V1","explore","ɪkˈsplɔːr","v","khám phá, thăm dò"],
+    ["V1","favourite","ˈfeɪvərɪt","adj/n","được yêu thích nhất"],["V1","feel","fiːl","v","cảm thấy"],["V1","fight","faɪt","v/n","chiến đấu, cuộc đánh nhau"],
+    ["V1","figure","ˈfɪɡjər","n/v","con số, nhân vật; hình dung"],["V1","fill","fɪl","v","lấp đầy"],["V1","find","faɪnd","v","tìm thấy"],
+    ["V1","finish","ˈfɪnɪʃ","v/n","kết thúc, hoàn thành"],["V1","first","fɜːrst","adj/adv","đầu tiên, trước nhất"],["V1","fit","fɪt","adj/v","vặn vẹo, vừa vặn, khỏe mạnh"],
+    ["V1","fly","flaɪ","v/n","bay; con ruồi"],["V1","follow","ˈfɑːloʊ","v","đi theo, theo dõi"],["V1","football","ˈfʊtbɔːl","n","môn bóng đá"],
+    ["V1","force","fɔːrs","n/v","lực lượng, bắt buộc"],["V1","forget","fərˈɡet","v","quên"],["V1","forgive","fərˈɡɪv","v","tha thứ"],
+    ["V1","form","fɔːrm","n/v","hình dạng, mẫu đơn; tạo thành"],["V1","free","friː","adj/v","tự do, miễn phí; giải phóng"],["V1","game","ɡeɪm","n","trò chơi, trận đấu"],
+    ["V1","gate","ɡeɪt","n","cổng"],["V1","gather","ˈɡæðər","v","thu thập, tập hợp"],["V1","gift","ɡɪft","n","quà tặng, năng khiếu"],
+    ["V1","give","ɡɪv","v","cho, tặng"],["V1","glad","ɡlæd","adj","vui mừng, hân hoan"],["V1","glass","ɡlæs","n","thủy tinh, cái ly"],
+    ["V1","global","ˈɡloʊbl","adj","toàn cầu"],["V1","goal","ɡoʊl","n","mục tiêu, bàn thắng"],["V1","good","ɡʊd","adj","tốt, giỏi"],
+    ["V1","grocery","ˈɡroʊsəri","n","cửa hàng tạp hóa"],["V1","grow","ɡroʊ","v","phát triển, trồng cây"],["V1","growth","ɡroʊθ","n","sự tăng trưởng"],
+    ["V1","habit","ˈhæbɪt","n","thói quen"],["V1","happen","ˈhæpən","v","xảy ra"],["V1","hard","hɑːrd","adj/adv","cứng, vất vả, chăm chỉ"],
+    ["V1","hear","hɪr","v","nghe thấy"],["V1","help","help","v/n","giúp đỡ, sự trợ giúp"],["V1","history","ˈhɪstri","n","lịch sử"],
+    ["V1","horse","hɔːrs","n","con ngựa"],["V1","human","ˈhjuːmən","adj/n","thuộc con người; con người"],["V1","hurry","ˈhɜːri","v/n","vội vàng, sự gấp giáp"],
+    ["V1","identify","aɪˈdentɪfaɪ","v","nhận dạng, xác định"],["V2","husband","ˈhʌzbənd","n","người chồng"],["V2","marriage","ˈmærɪdʒ","n","hôn nhân, lễ cưới"],
+    ["V2","relationship","rɪˈleɪʃnʃɪp","n","mối quan hệ"],["V2","son","sʌn","n","con trai"],["V2","uncle","ˈʌŋkl","n","chú, bác, cậu"],
+    ["V2","wife","waɪf","n","người vợ"],["V2","song","sɔːŋ","n","bài hát"],["V2","decorate","ˈdekəreɪt","v","trang trí"],
+    ["V2","equipment","ɪˈkwɪpmənt","n","trang thiết bị"],["V2","routine","ruːˈtiːn","n/adj","thói quen hằng ngày, thường lệ"],["V2","wall","wɔːl","n","bức tường"],
+    ["V2","homework","ˈhoʊmwɜːrk","n","bài tập về nhà"],["V2","wallet","ˈwɑːlɪt","n","ví tiền"],["V2","homeland","ˈhoʊmlænd","n","quê hương, tổ quốc"],
+    ["V2","homeless","ˈhoʊmləs","adj","vô gia cư"],["V2","flavour","ˈfleɪvər","n","hương vị"],["V2","fry","fraɪ","v","rán, chiên"],
+    ["V2","rice","raɪs","n","cơm, gạo"],["V2","soup","suːp","n","món súp, canh"],["V2","spice","spaɪs","n","gia vị"],
+    ["V2","taste","teɪst","n/v","vị giác, nếm"],["V2","cooker","ˈkʊkər","n","bếp nấu"],["V2","cookie","ˈkʊki","n","bánh quy"],
+    ["V2","dishonest","dɪsˈɑːnɪst","adj","không trung thực"],["V2","dishonestly","dɪsˈɑːnɪstli","adv","một cách gian dối"],["V2","fishing","ˈfɪʃɪŋ","n","việc câu cá"],
+    ["V2","ear","ɪr","n","cái tai"],["V2","eye","aɪ","n","con mắt"],["V2","ill","ɪl","adj","ốm, bệnh"],
+    ["V2","injury","ˈɪndʒəri","n","chấn thương, tổn thương"],["V2","leg","leɡ","n","cái chân"],["V2","skin","skɪn","n","làn da"],
+    ["V2","treatment","ˈtriːtmənt","n","sự điều trị, sự đối xử"],["V2","armed","ɑːrmd","adj","trang bị vũ khí"],["V2","arms","ɑːrmz","n","vũ khí, quân giới"],
+    ["V2","handle","ˈhændl","v/n","xử lý; tay cầm"],["V2","headache","ˈhedeɪk","n","cơn đau đầu"],["V2","illegal","ɪˈliːɡl","adj","bất hợp pháp"],
+    ["V2","illegally","ɪˈliːɡəli","adv","một cách trái phép"],["V2","illness","ˈɪlnəs","n","căn bệnh, sự ốm đau"],["V2","illustrate","ˈɪləstreɪt","v","minh họa"],
+    ["V2","legal","ˈliːɡl","adj","hợp pháp"],["V2","legally","ˈliːɡəli","adv","về mặt pháp lý"],["V2","painful","ˈpeɪnfl","adj","đau đớn"],
+    ["V2","paint","peɪnt","v/n","sơn, vẽ; sơn"],["V2","painter","ˈpeɪntər","n","họa sĩ, thợ sơn"],["V2","painting","ˈpeɪntɪŋ","n","bức tranh vẽ"],
+    ["V2","earnings","ˈɜːrnɪŋz","n","thu nhập, tiền lương"],["V2","footage","ˈfʊtɪdʒ","n","đoạn phim, cảnh quay"],["V2","handful","ˈhændfʊl","n","một nắm, một ít"],
+    ["V2","handling","ˈhændlɪŋ","n","sự xử lý, điều khiển"],["V2","handy","ˈhændi","adj","tiện lợi, khéo tay"],["V2","illusion","ɪˈluːʒn","n","ảo tưởng, ảo giác"],
+    ["V2","legacy","ˈleɡəsi","n","di sản, tài sản thừa kế"],["V2","legend","ˈledʒənd","n","huyền thoại, truyền thuyết"],["V2","legendary","ˈledʒənderi","adj","mang tính huyền thoại"],
+    ["V2","legitimate","lɪˈdʒɪtɪmət","adj","hợp pháp, chính đáng"],["V2","embarrass","ɪmˈbærəs","v","làm xấu hổ, lúng túng"],["V2","excite","ɪkˈsaɪt","v","gây kích động, hào hứng"],
+    ["V2","honest","ˈɑːnɪst","adj","thành thật, trung thực"],["V2","kind","kaɪnd","adj/n","tốt bụng; loại, kiểu"],["V2","guilt","ɡɪlt","n","tội lỗi, sự tội lỗi"],
+    ["V2","calmly","ˈkɑːmli","adv","một cách bình tĩnh"],["V2","embarrassed","ɪmˈbærəst","adj","xấu hổ, ngượng ngùng"],["V2","embarrassing","ɪmˈbærəsɪŋ","adj","gây ngượng ngùng"],
+    ["V2","embarrassment","ɪmˈbærəsmənt","n","sự lúng túng, xấu hổ"],["V2","excited","ɪkˈsaɪtɪd","adj","hào hứng, phấn khích"],["V2","excitement","ɪkˈsaɪtmənt","n","sự hào hứng"],
+    ["V2","guilty","ˈɡɪlti","adj","có lỗi, có tội"],["V2","honestly","ˈɑːnɪstli","adv","một cách thành thật"],["V2","kindly","ˈkaɪndli","adv","tử tế, vui lòng"],
+    ["V2","kindness","ˈkaɪndnəs","n","lòng tốt, sự tử tế"],["V2","lovely","ˈlʌvli","adj","đáng yêu, đẹp đẽ"],["V2","lover","ˈlʌvər","n","người yêu"],
+    ["V2","sadly","ˈsædli","adv","một cách buồn bã"],["V2","sadness","ˈsædnəs","n","nỗi buồn"],["V2","honesty","ˈɑːnəsti","n","tính trung thực"],
+    ["V2","hopeful","ˈhoʊpfl","adj","đầy hy vọng"],["V2","hopefully","ˈhoʊpfəli","adv","hy vọng rằng"],["V2","pants","pænts","n","quần dài"],
+    ["V2","shape","ʃeɪp","n/v","hình dạng; tạo hình"],["V2","size","saɪz","n","kích cỡ"],["V2","style","staɪl","n","phong cách"],
+    ["V2","trousers","ˈtraʊzərz","n","quần tây, quần dài"],["V2","hatred","ˈheɪtrɪd","n","sự căm hờn, lòng thù hận"],["V2","shaped","ʃeɪpt","adj","có hình dáng"],
+    ["V2","expensive","ɪkˈspensɪv","adj","đắt đỏ"],["V2","tax","tæks","n/v","thuế; đánh thuế"],["V2","wage","weɪdʒ","n","tiền lương (theo giờ/tuần)"],
+    ["V2","billion","ˈbɪljən","n","tỷ (1.000.000.000)"],["V2","cardboard","ˈkɑːrdbɔːrd","n","bìa cứng, các-tông"],["V2","costly","ˈkɔːstli","adj","tốn kém, đắt đỏ"],
+    ["V2","taxpayer","ˈtækspeɪər","n","người nộp thuế"],["V2","luggage","ˈlʌɡɪdʒ","n","hành lý"],["V2","map","mæp","n","bản đồ"],
+    ["V2","route","ruːt","n","tuyến đường, lộ trình"],["V2","traffic","ˈtræfɪk","n","giao thông, xe cộ"],["V2","bush","bʊʃ","n","bụi cây"],
+    ["V2","care for","ker fɔːr","phr v","chăm sóc, thích"],["V2","carefully","ˈkerfəli","adv","một cách cẩn thận"],["V2","carelessly","ˈkerləsli","adv","một cách bất cẩn"],
+    ["V2","carbon","ˈkɑːrbən","n","các-bon"],["V2","cargo","ˈkɑːrɡoʊ","n","hàng hóa (vận chuyển)"],["V2","carriage","ˈkærɪdʒ","n","toa hành khách, xe ngựa"],
+    ["V2","carve","kɑːrv","v","chạm khắc, thái thịt"],["V2","shipping","ˈʃɪpɪŋ","n","việc vận chuyển hàng"],["V2","tournament","ˈtʊrnəmənt","n","giải đấu, vòng thi đấu"],
+    ["V2","edge","edʒ","n","cạnh, mép"],["V2","nearby","ˌnɪrˈbaɪ","adj/adv","gần đây, bên cạnh"],["V2","eastern","ˈiːstərn","adj","thuộc phía đông"],
+    ["V2","western","ˈwestərn","adj","thuộc phía tây"],["V2","mountain","ˈmaʊntn","n","ngọn núi"],["V2","soil","sɔɪl","n","đất trồng"],
+    ["V2","storm","stɔːrm","n","cơn bão"],["V2","wind 1","wɪnd","n","gió"],["V2","wind 2","waɪnd","v","cuộn, xoắn, uốn lượn"],
+    ["V2","seal","siːl","n/v","hải cẩu; niêm phong"],["V2","seal off","siːl ɔːf","phr v","phong tỏa, cách ly"],["V2","search","sɜːrtʃ","v/n","tìm kiếm"],
+    ["V2","season","ˈsiːzn","n","mùa trong năm"],["V2","seat","siːt","n","chỗ ngồi"],["V2","certificate","sərˈtɪfɪkət","n","chứng chỉ, giấy chứng nhận"],
+    ["V2","skill","skɪl","n","kỹ năng"],["V2","staff","stæf","n","nhân viên, đội ngũ"],["V2","examination","ɪɡˌzæmɪˈneɪʃn","n","kỳ thi, sự kiểm tra"],
+    ["V2","examine","ɪɡˈzæmɪn","v","khám xét, kiểm tra"],["V2","skilled","skɪld","adj","có tay nghề, lành nghề"],["V2","working","ˈwɜːrkɪŋ","adj/n","làm việc; sự lao động"],
+    ["V2","workforce","ˈwɜːrkfɔːrs","n","lực lượng lao động"],["V2","workout","ˈwɜːrkaʊt","n","buổi tập thể dục"],["V2","workshop","ˈwɜːrkʃɑːp","n","xưởng làm việc, hội thảo"],
+    ["V2","describe","dɪˈskraɪb","v","miêu tả"],["V2","description","dɪˈskrɪpʃn","n","sự miêu tả, sự mô tả"],["V2","explanation","ˌekspləˈneɪʃn","n","sự giải thích"],
+    ["V2","reader","ˈriːdər","n","độc giả, người đọc"],["V2","reading","ˈriːdɪŋ","n","sự đọc, bài đọc"],["V2","ready","ˈredi","adj","sẵn sàng"],
+    ["V2","readily","ˈredɪli","adv","một cách dễ dàng, sẵn lòng"],["V2","institution","ˌɪnstɪˈtuːʃn","n","tổ chức, thể chế"],["V2","nation","ˈneɪʃn","n","quốc gia, dân tộc"],
+    ["V2","national","ˈnæʃnəl","adj","thuộc quốc gia"],["V2","population","ˌpɑːpjuˈleɪʃn","n","dân số"],["V2","social","ˈsoʊʃl","adj","thuộc xã hội"],
+    ["V2","lawyer","ˈlɔːjər","n","luật sư"],["V2","socially","ˈsoʊʃəli","adv","về mặt xã hội"],["V2","institutional","ˌɪnstɪˈtuːʃənl","adj","thuộc cơ quan, thể chế"],
+    ["V2","lawn","lɔːn","n","bãi cỏ"],["V2","lawsuit","ˈlɔːsuːt","n","vụ kiện tụng"],["V2","nationwide","ˌneɪʃnˈwaɪd","adj/adv","toàn quốc"],
+    ["V2","socialist","ˈsoʊʃəlɪst","adj/n","thuộc xã hội chủ nghĩa"],["V2","combination","ˌkɑːmbɪˈneɪʃn","n","sự kết hợp"],["V2","determination","dɪˌtɜːrmɪˈneɪʃn","n","sự quyết tâm"],
+    ["V2","imagination","ɪˌmædʒɪˈneɪʃn","n","trí tưởng tượng"],["V2","international","ˌɪntərˈnæʃnəl","adj","quốc tế"],["V2","assassination","əˌsæsɪˈneɪʃn","n","vụ ám sát"],
+    ["V2","coordination","koʊˌɔːrdɪˈneɪʃn","n","sự phối hợp"],["V2","discrimination","dɪˌskrɪmɪˈneɪʃn","n","sự phân biệt đối xử"],["V2","donation","doʊˈneɪʃn","n","sự quyên góp, sự hiến tặng"],
+    ["V2","nomination","ˌnɑːmɪˈneɪʃn","n","sự đề cử"],["V2","resignation","ˌrezɪɡˈneɪʃn","n","sự từ chức"],["V2","result","rɪˈzʌlt","n/v","kết quả; dẫn đến"],
+    ["V2","result in","rɪˈzʌlt ɪn","phr v","dẫn đến kết quả là"],["V2","controlled","kənˈtroʊld","adj","được kiểm soát"],["V2","risky","ˈrɪski","adj","đầy rủi ro, mạo hiểm"],
+    ["V2","uncontrolled","ˌʌnkənˈtroʊld","adj","không kiểm soát được"],["V2","advantage","ədˈvæntɪdʒ","n","lợi thế, ưu điểm"],["V2","analysis","əˈnæləsɪs","n","sự phân tích"],
+    ["V2","aspect","ˈæspekt","n","khía cạnh"],["V2","characteristic","ˌkærəktəˈrɪstɪk","n/adj","đặc điểm; đặc trưng"],["V2","circumstance","ˈsɜːrkəmstæns","n","hoàn cảnh, trường hợp"],
+    ["V2","condition","kənˈdɪʃn","n","điều kiện, tình trạng"],["V2","context","ˈkɑːntekst","n","ngữ cảnh, bối cảnh"],["V2","definition","ˌdefɪˈnɪʃn","n","định nghĩa"],
+    ["V2","essential","ɪˈsenʃl","adj","thiết yếu, cốt yếu"],["V2","factor","ˈfæktər","n","yếu tố"],["V2","feature","ˈfiːtʃər","n/v","tính năng, đặc điểm"],
+    ["V2","function","ˈfʌŋkʃn","n/v","chức năng; hoạt động"],["V2","method","ˈmeθəd","n","phương pháp"],["V2","potential","pəˈtenʃl","adj/n","tiềm năng"],
+    ["V2","principle","ˈprɪnsəpl","n","nguyên tắc"],["V2","purpose","ˈpɜːrpəs","n","mục đích"],["V2","structure","ˈstrʌktʃər","n/v","cấu trúc; xây dựng"],
+    ["V2","theory","ˈθiːəri","n","lý thuyết"],["V2","function as","ˈfʌŋkʃn æz","phr v","đóng vai trò như"],["V2","process 1","ˈprɑːses","n/v","quy trình; xử lý"],
+    ["V2","essentially","ɪˈsenʃəli","adv","về bản chất, cơ bản"],["V2","factory","ˈfæktri","n","nhà máy, xưởng"],["V2","potentially","pəˈtenʃəli","adv","có tiềm năng, có thể"],
+    ["V2","functional","ˈfʌŋkʃənl","adj","thuộc chức năng, hữu dụng"],["V2","methodology","ˌmeθəˈdɑːlədʒi","n","phương pháp luận"],["V2","processing","ˈprɑːsesɪŋ","n","sự xử lý"],
+    ["V2","processor","ˈprɑːsesər","n","bộ xử lý"],["V2","disadvantage","ˌdɪsədˈvæntɪdʒ","n","nhược điểm, bất lợi"],["V2","infrastructure","ˈɪnfrəstrʌktʃər","n","hạ tầng cơ sở"],
+    ["V2","abandon","əˈbændən","v","từ bỏ, ruồng bỏ"],["V2","abandoned","əˈbændənd","adj","bị bỏ rơi, hoang vắng"],["V2","absence","ˈæbsəns","n","sự vắng mặt"],
+    ["V2","absent","ˈæbsənt","adj","vắng mặt"],["V2","absolute","ˈæbsəluːt","adj","tuyệt đối, hoàn toàn"],["V2","absolutely","ˈæbsəluːtli","adv","một cách tuyệt đối"],
+    ["V2","absorb","əbˈzɔːrb","v","hấp thụ, tiếp thu"],["V2","abuse","əˈbjuːs","n/v","sự lạm dụng, hành hạ"],["V2","accent","ˈæksent","n","giọng điệu, dấu nhấn"],
+    ["V2","according to","əˈkɔːrdɪŋ tuː","prep","theo như"],["V2","account for","əˈkaʊnt fɔːr","phr v","giải thích cho, chiếm tỷ lệ"],["V2","accuse","əˈkjuːz","v","cáo buộc, buộc tội"],
+    ["V2","acid","ˈæsɪd","n/adj","axít; có tính axít"],["V2","a couple","ə ˈkʌpl","n phr","một vài, một cặp"],["V2","acquire","əˈkwaɪər","v","đạt được, thu được"],
+    ["V2","actively","ˈæktɪvli","adv","một cách tích cực"],["V2","actress","ˈæktrəs","n","nữ diễn viên"],["V2","actually","ˈætʃuəli","adv","thực sự, trên thực tế"],
+    ["V2","ad","æd","n","quảng cáo (viết tắt của advertisement)"],["V2","adapt","əˈdæpt","v","thích nghi, sửa đổi"],["V2","addition","əˈdɪʃn","n","sự thêm vào, phép cộng"],
+    ["V2","additional","əˈdɪʃənl","adj","bổ sung, thêm vào"],["V2","add on","æd ɑːn","phr v","cộng thêm vào"],["V2","admiration","ˌædməˈreɪʃn","n","sự ngưỡng mộ"],
+    ["V2","adopt","əˈdɑːpt","v","nhận nuôi, thông qua"],["V2","advance","ədˈvæns","v/n","tiến bộ; sự tiến lên"],["V2","advanced","ədˈvænst","adj","tiên tiến, nâng cao"],
+    ["V2","adventure","ədˈventʃər","n","cuộc phiêu lưu"],["V2","advert","ˈædvɜːrt","n","quảng cáo"],["V2","advertise","ˈædvərtaɪz","v","quảng cáo"],
+    ["V2","advertisement","ˌædvərˈtaɪzmənt","n","bài quảng cáo"],["V2","advertising","ˈædvərtaɪzɪŋ","n","ngành quảng cáo"],["V2","affair","əˈfer","n","việc, vụ bê bối, việc tình cảm"],
+    ["V2","affection","əˈfekʃn","n","tình cảm, sự yêu thương"],["V2","afford","əˈfɔːrd","v","đủ khả năng tài chính"],["V2","age","eɪdʒ","n/v","tuổi tác; già đi"],
+    ["V2","aged","eɪdʒd","adj","ở độ tuổi"],["V2","agency","ˈeɪdʒənsi","n","đại lý, cơ quan"],["V2","agent","ˈeɪdʒənt","n","tác viên, đại lý"],
+    ["V2","aggressive","əˈɡresɪv","adj","hung hăng, hiếu chiến"],["V2","ahead","əˈhed","adv","phía trước, trước tiên"],["V2","aid","eɪd","n/v","sự viện trợ, giúp đỡ"],
+    ["V2","alarmed","əˈlɑːrmd","adj","hoảng sợ, lo âu"],["V2","alarming","əˈlɑːrmɪŋ","adj","đáng báo động, đáng lo"],["V2","alcohol","ˈælkəhɔːl","n","đồ uống có cồn, rượu"],
+    ["V2","alcoholic","ˌælkəˈhɑːlɪk","adj/n","có cồn; người nghiện rượu"],["V2","allied","ˈælaɪd","adj","liên minh, đồng minh"],["V2","allow for","əˈlaʊ fɔːr","phr v","tính đến, chiếu cố đến"],
+    ["V2","ally","ˈælaɪ","n/v","đồng minh; liên kết"],["V2","aloud","əˈlaʊd","adv","to thành tiếng"],["V2","alphabet","ˈælfəbet","n","bảng chữ cái"],
+    ["V2","alphabetical","ˌælfəˈbetɪkl","adj","theo thứ tự bảng chữ cái"],["V2","alphabetically","ˌælfəˈbetɪkli","adv","theo bảng chữ cái"],["V2","alternatively","ɔːlˈtɜːrnətɪvli","adv","hoặc là, phương án khác"],
+    ["V2","altogether","ˌɔːltəˈɡeðər","adv","nhìn chung, tổng cộng"],["V2","amazed","əˈmeɪzd","adj","cảm thấy kinh ngạc"],["V2","ambulance","ˈæmbjələns","n","xe cấp cứu"],
+    ["V2","amount to","əˈmaʊnt tuː","phr v","lên tới tổng số"],["V2","amusing","əˈmjuːzɪŋ","adj","làm buồn cười, giải trí"],["V2","ancient","ˈeɪnʃənt","adj","cổ xưa, cổ đại"],
+    ["V2","angle","ˈæŋɡl","n","góc độ, góc nhìn"],["V2","angrily","ˈæŋɡrəli","adv","một cách tức giận"],["V2","anniversary","ˌænɪˈvɜːrsəri","n","lễ kỷ niệm"],
+    ["V2","anti-","ˈænti","prefix","chống lại, kháng"],["V2","anticipate","ænˈtɪsɪpeɪt","v","dự đoán, lường trước"],["V2","anyway","ˈeniweɪ","adv","dù sao đi nữa"],
+    ["V2","anywhere","ˈeniwer","adv","bất kỳ đâu"],["V2","appeal","əˈpiːl","v/n","kêu gọi, sức hấp dẫn"],["V2","application","ˌæplɪˈkeɪʃn","n","ứng dụng, đơn xin"],
+    ["V2","approval","əˈpruːvl","n","sự phê chuẩn, đồng ý"],["V2","approving","əˈpruːvɪŋ","adj","tán thành, chấp thuận"],["V2","approximate","əˈprɑːksɪmət","adj","xấp xỉ, ước chừng"],
+    ["V2","approximately","əˈprɑːksɪmətli","adv","khoảng, khoảng chừng"],["V2","April","ˈeɪprəl","n","tháng Tư"],["V2","arise","əˈraɪz","v","phát sinh, nảy sinh"],
+    ["V2","arrange","əˈreɪndʒ","v","sắp xếp, thu xếp"],["V2","arrangement","əˈreɪndʒmənt","n","sự sắp xếp, thỏa thuận"],["V2","arrest","əˈrest","v/n","bắt giữ, sự bắt giữ"],
+    ["V2","arrow","ˈæroʊ","n","mũi tên"],["V2","art","ɑːrt","n","nghệ thuật, mỹ thuật"],["V2","article","ˈɑːrtɪkl","n","bài báo, điều khoản"],
+    ["V2","artificial","ˌɑːrtɪˈfɪʃl","adj","nhân tạo"],["V2","artificially","ˌɑːrtɪˈfɪʃəli","adv","một cách nhân tạo"],["V2","artist","ˈɑːrtɪst","n","nghệ sĩ, họa sĩ"],
+    ["V2","artistic","ɑːrˈtɪstɪk","adj","thuộc nghệ thuật, có tính thẩm mỹ"],["V2","artistically","ɑːrˈtɪstɪkli","adv","về mặt nghệ thuật"],["V2","aside","əˈsaɪd","adv","sang một bên"],
+    ["V2","aside from","əˈsaɪd frʌm","prep","ngoại trừ, bên cạnh"],["V2","associate","əˈsoʊʃieɪt","v/n","liên tưởng, đối tác"],["V2","associated","əˈsoʊʃieɪtɪd","adj","có liên quan"],
+    ["V2","association","əˌsoʊʃiˈeɪʃn","n","hiệp hội, sự liên kết"],["V2","attached","əˈtætʃt","adj","đính kèm, gắn bó"],["V2","attempted","əˈtemptɪd","adj","mang tính mưu đồ, không thành"],
+    ["V2","attend to","əˈtend tuː","phr v","chú tâm, giải quyết"],["V2","attorney","əˈtɜːrni","n","luật sư ủy quyền"],["V2","attraction","əˈtrækʃn","n","điểm hấp dẫn, sức hút"],
+    ["V2","August","ˈɔːɡəst","n","tháng Tám"],["V2","automatic","ˌɔːtəˈmætɪk","adj","tự động"],["V2","automatically","ˌɔːtəˈmætɪkli","adv","một cách tự động"],
+    ["V2","average","ˈævərɪdʒ","adj/n","trung bình"],["V2","away","əˈweɪ","adv","xa ra, đi xa"],["V2","awful","ˈɔːfl","adj","tồi tệ, khủng kíp"],
+    ["V2","awfully","ˈɔːfli","adv","vô cùng, cực kỳ"],["V2","awkward","ˈɔːkwərd","adj","vụng về, ngượng ngùng"],["V2","awkwardly","ˈɔːkwərdli","adv","một cách vụng về"],
+    ["V2","backward","ˈbækwərd","adj","lùi lại, lạc hậu"],["V2","backwards","ˈbækwərdz","adv","về phía sau"],["V2","bad","bæd","adj","dở, xấu, tồi"],
+    ["V2","badly","ˈbædli","adv","một cách tồi tệ, nghiêm trọng"],["V2","bad-tempered","ˌbæd ˈtempərd","adj","nóng tính, hay càu nhàu"],["V2","ball","bɔːl","n","quả bóng, quả cầu"],
+    ["V2","ban","bæn","v/n","cấm, lệnh cấm"],["V2","band","bænd","n","ban nhạc, dải băng"],["V2","bandage","ˈbændɪdʒ","n/v","băng gạc; băng bó"],
+    ["V2","bar","bɑːr","n","quán bar, thanh, thỏi"],["V2","barrier","ˈbæriər","n","rào cản, chướng ngại vật"],["V2","based","beɪst","adj","dựa trên, căn cứ vào"],
+    ["V2","base on","beɪs ɑːn","phr v","dựa trên cơ sở"],["V2","battle","ˈbætl","n/v","trận chiến, chiến đấu"],["V2","bay","beɪ","n","vịnh biển"],
+    ["V2","beak","biːk","n","mỏ chim"],["V2","beat up","biːt ʌp","phr v","đánh đập tàn nhẫn"],["V2","beer","bɪr","n","bia"],
+    ["V2","behalf","bɪˈhæf","n","thay mặt, đại diện"],["V2","be left over","biː left ˈoʊvər","phr v","còn thừa lại"],["V2","bell","bel","n","cái chuông"],
+    ["V2","belong to","bɪˈlɔːŋ tuː","phr v","thuộc sở hữu của"],["V2","bend","bend","v/n","uốn cong, chỗ ngoặt"],["V2","bent","bent","adj","bị cong, gập"],
+    ["V2","best","best","adj/adv","tốt nhất"],["V2","bet","bet","v/n","cá cược, sự đánh cược"],["V2","better","ˈbetər","adj/adv","tốt hơn"],
+    ["V2","betting","ˈbetɪŋ","n","sự cá cược"],["V2","big","bɪɡ","adj","to lớn"],["V2","bin","bɪn","n","thùng rác"],
+    ["V2","biscuit","ˈbɪskɪt","n","bánh quy"],["V2","bit","bɪt","n","một chút, mảnh nhỏ"],["V2","bitter","ˈbɪtər","adj","đắng, cay đắng"],
+    ["V2","bitterly","ˈbɪtərli","adv","một cách cay đắng, rét buốt"],["V2","blade","bleɪd","n","lưỡi dao, lưỡi kiếm"],["V2","blame","bleɪm","v/n","đổ lỗi, sự trách mắng"],
+    ["V2","block","blɑːk","n/v","khối, tòa nhà; chặn lại"],["V2","blow","bloʊ","v/n","thổi; cú đánh"],["V2","blow out","bloʊ aʊt","phr v","thổi tắt"],
+    ["V2","blow up","bloʊ ʌp","phr v","phát nổ, nổ tung"],["V2","board","bɔːrd","n/v","bảng, lên tàu/xe"],["V2","bomb","bɑːm","n/v","quả bom; thả bom"],
+    ["V2","born","bɔːrn","adj","sinh ra"],["V2","bound","baʊnd","adj","chắc chắn, bị ràng buộc"],["V2","box","bɑːks","n","chiếc hộp, thùng"],
+    ["V2","branch","bræntʃ","n","nhánh cây, chi nhánh"],["V2","brand","brænd","n","thương hiệu"],["V2","breed","briːd","v/n","sinh sản, giống loài"],
+    ["V2","brick","brɪk","n","viên gạch"],["V2","brilliant","ˈbrɪliənt","adj","xuất sắc, rực rỡ"],["V2","bring","brɪŋ","v","mang theo, đem lại"],
+    ["V2","broken","ˈbroʊkən","adj","bị vỡ, hư hỏng"],["V2","bubble","ˈbʌbl","n","bong bóng"],["V2","build up","bɪld ʌp","phr v","tích lũy, xây dựng dần"],
+    ["V2","bullet","ˈbʊlɪt","n","viên đạn"],["V2","bunch","bʌntʃ","n","nải, chùm, bó"],["V2","burn down","bɜːrn daʊn","phr v","thiêu rụi"],
+    ["V2","burnt","bɜːrnt","adj","bị cháy, bị bỏng"],["V2","burst","bɜːrst","v/n","vỡ tung, sự bùng nổ"],["V2","burst into","bɜːrst ˈɪntuː","phr v","bùng lên (cười/khóc/lửa)"],
+    ["V2","burst out","bɜːrst aʊt","phr v","thốt lên, òa lên"],["V2","bury","ˈberi","v","chôn cất, mai táng"],["V2","button","ˈbʌtn","n/v","cái cúc; bấm nút"],
+    ["V2","bye","baɪ","excl","tạm biệt"],["V2","cabinet","ˈkæbɪnət","n","tủ có ngăn, nội các"],["V2","cable","ˈkeɪbl","n","dây cáp"],
+    ["V2","calculation","ˌkælkjuˈleɪʃn","n","phép tính, sự tính toán"],["V2","called","kɔːld","adj","được gọi là"],["V2","camp","kæmp","n/v","trại; cắm trại"],
+    ["V2","camping","ˈkæmpɪŋ","n","việc cắm trại"],["V2","candy","ˈkændi","n","kẹo"],["V2","captain","ˈkæptɪn","n","đội trưởng, thuyền trưởng"],
+    ["V2","capture","ˈkæptʃər","v/n","bắt giữ, thu phục"],["V2","cast","kæst","v/n","quăng, phân vai; dàn diễn viên"],["V2","castle","ˈkæsl","n","lâu đài"],
+  ]},
+  { title:"22. Time, Frequency & Sequence", items:[
+    ["V1","already","ɔːlˈredi","adv","đã... rồi"],["V1","always","ˈɔːlweɪz","adv","luôn luôn"],["V1","begin","bɪˈɡɪn","v","bắt đầu"],
+    ["V1","beginning","bɪˈɡɪnɪŋ","n","sự bắt đầu"],["V1","current","ˈkɜːrənt","adj/n","hiện tại; dòng chảy"],["V1","daily","ˈdeɪli","adj/adv","hằng ngày"],
+    ["V1","date","deɪt","n/v","ngày tháng; hẹn hò"],["V1","early","ˈɜːrli","adj/adv","sớm"],["V1","end","end","n/v","kết thúc, phần cuối"],
+    ["V1","future","ˈfjuːtʃər","n/adj","tương lai"],["V2","nearly","ˈnɪrli","adv","gần như, suýt"],["V2","after","ˈæftər","prep/conj","sau khi"],
+    ["V2","afternoon","ˌæftərˈnuːn","n","buổi chiều"],["V2","afterwards","ˈæftərwərdz","adv","sau đó"],["V2","again","əˈɡen","adv","lại, một lần nữa"],
+    ["V2","ago","əˈɡoʊ","adv","trước đây"],["V2","annual","ˈænjuəl","adj","hằng năm"],["V2","annually","ˈænjuəli","adv","một cách hằng năm"],
+  ]},
+  { title:"23. Connectors, Prepositions & Grammar Words", items:[
+    ["V1","all","ɔːl","det/pron","tất cả"],["V1","before","bɪˈfɔːr","prep/conj","trước khi"],["V2","above","əˈbʌv","prep/adv","ở trên"],
+    ["V2","behind","bɪˈhaɪnd","prep/adv","ở phía sau"],["V2","below","bɪˈloʊ","prep/adv","ở phía dưới"],["V2","near","nɪr","prep/adj","gần"],
+    ["V2","underneath","ˌʌndərˈniːθ","prep/adv","ở dưới đáy"],["V2","underwater","ˌʌndərˈwɔːtər","adj/adv","dưới nước"],["V2","because of","bɪˈkəz əv","prep","bởi vì"],
+    ["V2","about","əˈbaʊt","prep/adv","về; khoảng"],["V2","across","əˈkrɔːs","prep/adv","băng qua"],["V2","against","əˈɡenst","prep","chống lại, dựa vào"],
+    ["V2","all right","ˌɔːl ˈraɪt","adj/adv","ổn, tốt"],["V2","along","əˈlɔːŋ","prep/adv","dọc theo"],["V2","alongside","əˌlɔːŋˈsaɪd","prep/adv","bên cạnh, song song"],
+    ["V2","although","ɔːlˈðoʊ","conj","mặc dù"],["V2","among","əˈmʌŋ","prep","giữa (nhiều thứ/người)"],["V2","another","əˈnʌðər","det/pron","một cái khác"],
+    ["V2","any","ˈeni","det/pron","bất kỳ"],["V2","anybody","ˈenibɑːdi","pron","bất kỳ ai"],["V2","anyone","ˈeniwʌn","pron","bất kỳ ai"],
+    ["V2","anything","ˈeniθɪŋ","pron","bất kỳ cái gì"],["V2","apart","əˈpɑːrt","adv","tách rời"],["V2","apart from","əˈpɑːrt frʌm","prep","ngoại trừ"],
+    ["V2","around","əˈraʊnd","prep/adv","xung quanh"],["V2","between","bɪˈtwiːn","prep","ở giữa (hai đối tượng)"],["V2","beyond","bɪˈjɑːnd","prep/adv","vượt ra ngoài"],
+    ["V2","both","boʊθ","det/pron","cả hai"],
+  ]},
+  { title:"24. General Actions & Practical Phrasal Verbs", items:[
+    ["V2","clean up","kliːn ʌp","phr v","dọn dẹp sạch sẽ"],["V2","calm down","kɑːm daʊn","phr v","bình tĩnh lại"],["V2","carry on","ˈkæri ɑːn","phr v","tiếp tục"],
+    ["V2","carry out","ˈkæri aʊt","phr v","tiến hành, thực hiện"],["V2","add up","æd ʌp","phr v","tính tổng, hợp lý"],["V2","add up to","æd ʌp tuː","phr v","lên đến tổng số"],
+    ["V2","back up","bæk ʌp","phr v","sao lưu, ủng hộ"],["V2","break down","breɪk daʊn","phr v","hỏng hóc, suy sụp"],["V2","break in","breɪk ɪn","phr v","đột nhập, ngắt lời"],
+    ["V2","break into","breɪk ˈɪntuː","phr v","đột nhập vào"],["V2","break off","breɪk ɔːf","phr v","hủy bỏ, rạn nứt"],["V2","break out","breɪk aʊt","phr v","bùng phát (dịch bệnh, chiến tranh)"],
+    ["V2","break up","breɪk ʌp","phr v","chia tay, đập vụn"],["V2","bring back","brɪŋ bæk","phr v","mang trở lại, gợi nhớ"],["V2","bring down","brɪŋ daʊn","phr v","hạ bệ, giảm bớt"],
+    ["V2","bring forward","brɪŋ ˈfɔːrwərd","phr v","dời lịch sớm hơn"],["V2","bring out","brɪŋ aʊt","phr v","phát hành, làm nổi bật"],["V2","bring up","brɪŋ ʌp","phr v","nuôi nấng, đề cập đến"],
+    ["V2","call back","kɔːl bæk","phr v","gọi điện lại"],["V2","call off","kɔːl ɔːf","phr v","hủy bỏ (sự kiện)"],["V2","call up","kɔːl ʌp","phr v","gọi điện, gọi nhập ngũ"],
+  ]},
+];
+
+let TOTAL_WORDS = 0, V1_TOTAL = 0, V2_TOTAL = 0;
+CATEGORIES.forEach(c => c.items.forEach(([t]) => {
+  TOTAL_WORDS++;
+  if(t==='V1') V1_TOTAL++; else V2_TOTAL++;
+}));
+document.getElementById('catCounter').innerHTML = `${TOTAL_WORDS} từ<br>${CATEGORIES.length} chủ đề`;
+
+/* ========================================================================
+   LIBRARY
+   ======================================================================== */
+let libTier = 'all';
+let libSelectedCats = new Set(['ALL']);
+
+function buildCatGrid(containerId, selectedSetRef, onChange){
+  const grid = document.getElementById(containerId);
+  grid.innerHTML = '';
+  const allBtn = document.createElement('div');
+  allBtn.className = 'cat-choice sel';
+  allBtn.dataset.cat = 'ALL';
+  allBtn.textContent = 'Tất cả chủ đề';
+  grid.appendChild(allBtn);
+  CATEGORIES.forEach((c, idx) => {
+    const el = document.createElement('div');
+    el.className = 'cat-choice';
+    el.dataset.cat = String(idx);
+    el.innerHTML = `${c.title}<small>${c.items.length} từ</small>`;
+    grid.appendChild(el);
+  });
+  grid.querySelectorAll('.cat-choice').forEach(el => {
+    el.addEventListener('click', () => {
+      if(el.dataset.cat === 'ALL'){
+        selectedSetRef.clear(); selectedSetRef.add('ALL');
+      } else {
+        selectedSetRef.delete('ALL');
+        if(selectedSetRef.has(el.dataset.cat)) selectedSetRef.delete(el.dataset.cat);
+        else selectedSetRef.add(el.dataset.cat);
+        if(selectedSetRef.size === 0) selectedSetRef.add('ALL');
+      }
+      grid.querySelectorAll('.cat-choice').forEach(x => x.classList.toggle('sel', selectedSetRef.has(x.dataset.cat)));
+      onChange();
+    });
+  });
+}
+buildCatGrid('catGrid', libSelectedCats, renderLib);
+
+document.querySelectorAll('#tierRow .filter-choice').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('#tierRow .filter-choice').forEach(x => x.classList.remove('sel'));
+    el.classList.add('sel');
+    libTier = el.dataset.tier;
+    renderLib();
+  });
+});
+
+const libList = document.getElementById('libList');
+function renderLib(){
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  libList.innerHTML = '';
+  let shown = 0;
+  CATEGORIES.forEach((c, idx) => {
+    if(!libSelectedCats.has('ALL') && !libSelectedCats.has(String(idx))) return;
+    let items = c.items;
+    if(libTier !== 'all') items = items.filter(([t]) => t === libTier);
+    if(q) items = items.filter(([,w,,,vi]) => w.toLowerCase().includes(q) || vi.toLowerCase().includes(q));
+    if(items.length === 0) return;
+    shown += items.length;
+    const card = document.createElement('div');
+    card.className = 'card';
+    const head = document.createElement('div');
+    head.className = 'card-head';
+    head.innerHTML = `<h3>${c.title}</h3><span class="cnt">${items.length} từ</span>`;
+    card.appendChild(head);
+    const ledger = document.createElement('div');
+    ledger.className = 'ledger';
+    items.forEach(([t, w, ipa, pos, vi]) => {
+      const row = document.createElement('div');
+      row.className = 'ledger-row';
+      row.innerHTML = `
+        <div class="lw-row"><span class="tier-dot ${t.toLowerCase()}"></span><span class="lw">${w}</span><span class="lipa">/${ipa}/</span><span class="lpos">(${pos})</span></div>
+        <div class="lv">${vi}</div>
+      `;
+      ledger.appendChild(row);
+    });
+    card.appendChild(ledger);
+    libList.appendChild(card);
+  });
+  if(shown === 0){
+    libList.innerHTML = '<p style="color:#aab1a9;font-size:13px;text-align:center;">Không tìm thấy từ phù hợp.</p>';
+  }
+}
+renderLib();
+document.getElementById('searchBox').addEventListener('input', renderLib);
+
+/* ========================================================================
+   TABS
+   ======================================================================== */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ========================================================================
+   QUIZ
+   ======================================================================== */
+let direction = 'en-vi';
+let questionCount = 15;
+let quizTier = 'all';
+let quizSelectedCats = new Set(['ALL']);
+let sessionItems = [];
+let currentIndex = 0;
+let correctCount = 0;
+let missed = [];
+let answered = false;
+
+buildCatGrid('quizCatGrid', quizSelectedCats, updatePoolInfo);
+
+function currentPool(){
+  let pool = [];
+  CATEGORIES.forEach((c, idx) => {
+    if(!quizSelectedCats.has('ALL') && !quizSelectedCats.has(String(idx))) return;
+    c.items.forEach(it => {
+      if(quizTier !== 'all' && it[0] !== quizTier) return;
+      pool.push({ tier: it[0], w: it[1], ipa: it[2], pos: it[3], vi: it[4] });
+    });
+  });
+  return pool;
+}
+function updatePoolInfo(){
+  document.getElementById('poolInfo').textContent = `Có ${currentPool().length} từ khả dụng trong phạm vi đã chọn.`;
+}
+document.querySelectorAll('#quizTierRow .choice').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#quizTierRow .choice').forEach(x => x.classList.remove('sel'));
+    c.classList.add('sel');
+    quizTier = c.dataset.tier;
+    updatePoolInfo();
+  });
+});
+updatePoolInfo();
+
+document.querySelectorAll('#dirRow .choice').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#dirRow .choice').forEach(x => x.classList.remove('sel'));
+    c.classList.add('sel');
+    direction = c.dataset.dir;
+  });
+});
+document.querySelectorAll('#countRow .choice').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#countRow .choice').forEach(x => x.classList.remove('sel'));
+    c.classList.add('sel');
+    questionCount = c.dataset.count;
+  });
+});
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function normalizeVN(str){
+  return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+}
+function normalizeEN(str){
+  return str.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+}
+
+function startQuiz(){
+  let pool = shuffle(currentPool());
+  if(pool.length === 0) return;
+  if(questionCount !== 'all') pool = pool.slice(0, parseInt(questionCount));
+  sessionItems = pool;
+  currentIndex = 0; correctCount = 0; missed = [];
+  document.getElementById('setupBox').style.display = 'none';
+  document.getElementById('endBox').style.display = 'none';
+  document.getElementById('quizBox').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answered = false;
+  const item = sessionItems[currentIndex];
+  document.getElementById('progressText').textContent = `Câu ${currentIndex+1}/${sessionItems.length}`;
+  document.getElementById('scoreText').textContent = `Đúng: ${correctCount}`;
+  document.getElementById('progressFill').style.width = (currentIndex/sessionItems.length*100) + '%';
+  const feedbackBox = document.getElementById('feedbackBox');
+  feedbackBox.className = 'feedback'; feedbackBox.innerHTML = '';
+  const input = document.getElementById('answerInput');
+  input.value = ''; input.disabled = false; input.focus();
+  document.getElementById('submitBtn').textContent = 'Kiểm tra';
+  const listenBtn = document.getElementById('listenBtn');
+  const promptSub = document.getElementById('promptSub');
+  if(direction === 'en-vi'){
+    document.getElementById('promptLabel').textContent = 'ANH → VIỆT — nghĩa là gì?';
+    document.getElementById('promptMain').textContent = item.w;
+    promptSub.textContent = `/${item.ipa}/ (${item.pos})`;
+    input.placeholder = 'Nhập nghĩa tiếng Việt…';
+    listenBtn.style.display = 'inline-flex';
+  } else {
+    document.getElementById('promptLabel').textContent = 'VIỆT → ANH — từ tiếng Anh là gì?';
+    document.getElementById('promptMain').textContent = item.vi.split(',')[0].split(';')[0];
+    promptSub.textContent = `(${item.pos})`;
+    input.placeholder = 'Nhập từ tiếng Anh…';
+    listenBtn.style.display = 'none'; // ẩn để không lộ đáp án trước khi trả lời
+  }
+}
+
+function checkAnswer(){
+  if(answered) return;
+  const item = sessionItems[currentIndex];
+  const raw = document.getElementById('answerInput').value.trim();
+  if(!raw) return;
+  let isCorrect = false;
+  const feedbackBox = document.getElementById('feedbackBox');
+  if(direction === 'en-vi'){
+    const userN = normalizeVN(raw);
+    const accepted = item.vi.split(/[,;]/).map(s => normalizeVN(s.replace(/\(.*?\)/g,'')));
+    isCorrect = accepted.some(a => a.length>0 && (userN === a || userN.includes(a) || a.includes(userN)));
+  } else {
+    const userN = normalizeEN(raw);
+    isCorrect = userN === normalizeEN(item.w);
+  }
+  answered = true;
+  correctCount += isCorrect ? 1 : 0;
+  if(!isCorrect) missed.push(item);
+  document.getElementById('answerInput').disabled = true;
+  document.getElementById('scoreText').textContent = `Đúng: ${correctCount}`;
+  document.getElementById('submitBtn').textContent = 'Câu tiếp theo →';
+  feedbackBox.className = 'feedback show ' + (isCorrect ? 'ok' : 'bad');
+  const correctDisplay = direction === 'en-vi' ? item.vi : item.w;
+  feedbackBox.innerHTML = isCorrect
+    ? `✓ Chính xác! <span class="correct-ans">${correctDisplay}</span>`
+    : `✗ Chưa đúng. Đáp án: <span class="correct-ans">${correctDisplay}</span>`;
+  feedbackBox.innerHTML += `<div class="ipa-line">/${item.ipa}/ (${item.pos})</div>`;
+  if(direction === 'vi-en'){
+    document.getElementById('listenBtn').style.display = 'inline-flex';
+  }
+}
+
+function nextQuestion(){
+  currentIndex++;
+  if(currentIndex >= sessionItems.length) endQuiz();
+  else renderQuestion();
+}
+
+function endQuiz(){
+  document.getElementById('quizBox').style.display = 'none';
+  document.getElementById('endBox').style.display = 'block';
+  const total = sessionItems.length;
+  document.getElementById('finalScore').textContent = `${correctCount}/${total}`;
+  const pct = total ? Math.round(correctCount/total*100) : 0;
+  document.getElementById('finalSub').textContent = `Đúng ${pct}%`;
+  const missedList = document.getElementById('missedList');
+  missedList.innerHTML = '';
+  if(missed.length === 0){
+    missedList.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;">Xuất sắc — không sai câu nào!</div>';
+    document.getElementById('retryMissedBtn').style.display = 'none';
+  } else {
+    document.getElementById('retryMissedBtn').style.display = 'block';
+    missed.forEach(m => {
+      const row = document.createElement('div');
+      row.className = 'mi';
+      row.innerHTML = `<span class="mw">${m.w}</span><span class="mv">${m.vi}</span>`;
+      missedList.appendChild(row);
+    });
+  }
+}
+
+document.getElementById('startBtn').addEventListener('click', startQuiz);
+document.getElementById('submitBtn').addEventListener('click', () => { if(!answered) checkAnswer(); else nextQuestion(); });
+document.getElementById('skipBtn').addEventListener('click', () => {
+  if(!answered){
+    const item = sessionItems[currentIndex];
+    missed.push(item); answered = true;
+    document.getElementById('answerInput').disabled = true;
+    const feedbackBox = document.getElementById('feedbackBox');
+    feedbackBox.className = 'feedback show bad';
+    const correctDisplay = direction === 'en-vi' ? item.vi : item.w;
+    feedbackBox.innerHTML = `Đáp án: <span class="correct-ans">${correctDisplay}</span><div class="ipa-line">/${item.ipa}/ (${item.pos})</div>`;
+    document.getElementById('submitBtn').textContent = 'Câu tiếp theo →';
+    document.getElementById('listenBtn').style.display = 'inline-flex';
+  } else nextQuestion();
+});
+document.getElementById('answerInput').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter'){ e.preventDefault(); if(!answered) checkAnswer(); else nextQuestion(); }
+});
+document.getElementById('restartBtn').addEventListener('click', () => {
+  document.getElementById('endBox').style.display = 'none';
+  document.getElementById('setupBox').style.display = 'block';
+});
+document.getElementById('retryMissedBtn').addEventListener('click', () => {
+  sessionItems = shuffle(missed); currentIndex = 0; correctCount = 0; missed = [];
+  document.getElementById('endBox').style.display = 'none';
+  document.getElementById('quizBox').style.display = 'block';
+  renderQuestion();
+});
+
+document.getElementById('listenBtn').addEventListener('click', () => {
+  const item = sessionItems[currentIndex];
+  if(!item || !('speechSynthesis' in window)) return;
+  const utter = new SpeechSynthesisUtterance(item.w);
+  utter.lang = 'en-US'; utter.rate = 0.92;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+});
+</script>
+</body>
+</html>
