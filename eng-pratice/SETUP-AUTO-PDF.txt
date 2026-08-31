@@ -1,0 +1,17 @@
+THIẾT LẬP MỘT LẦN
+
+1. Upload toàn bộ nội dung gói này vào repository GitHub của website.
+2. Giữ nguyên thư mục .github/workflows/ (đây là GitHub Action).
+3. Trên GitHub: Settings > Actions > General > Workflow permissions > chọn Read and write permissions > Save.
+4. Cloudflare Pages phải đang kết nối với branch main của repository.
+
+TỪ SAU CHỈ CẦN
+- Upload PDF vào thư mục documents/ rồi Commit.
+- GitHub Action tự tạo documents.json.
+- Cloudflare tự deploy commit mới.
+- PDF xuất hiện tại documents.html.
+
+LƯU Ý
+- Nếu tên file là english-grammar.pdf, tên hiển thị tự động là English grammar.
+- Muốn tên đẹp hơn, hãy đặt tên file rõ ràng trước khi upload.
+- PDF trên static site vẫn có thể được người dùng tải nếu họ có quyền truy cập URL.
