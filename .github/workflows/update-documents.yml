@@ -1,0 +1,71 @@
+name: Update site libraries
+
+on:
+  push:
+    paths:
+      - "eng-pratice/*.html"
+      - "eng-pratice/grammar/**/*.html"
+      - "eng-pratice/documents/**/*.pdf"
+      - "eng-pratice/documents/**/*.PDF"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-library:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate HTML, Grammar and PDF indexes
+        shell: python
+        run: |
+          from pathlib import Path
+          import json, re
+
+          site = Path("eng-pratice")
+
+          def make_title(p):
+              title = re.sub(r"\s+", " ", p.stem.replace("_", " ").replace("-", " ")).strip()
+              return title[:1].upper() + title[1:] if title else p.name
+
+          # PDF library
+          root = site / "documents"
+          docs = []
+          if root.exists():
+              for p in sorted(root.rglob("*"), key=lambda x: x.name.lower()):
+                  if p.is_file() and p.suffix.lower() == ".pdf":
+                      docs.append({"title": make_title(p), "file": p.relative_to(root).as_posix()})
+          (site / "documents.json").write_text(json.dumps(docs, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+
+          # Grammar library
+          grammar_root = site / "grammar"
+          grammar = []
+          if grammar_root.exists():
+              for p in sorted(grammar_root.rglob("*.html"), key=lambda x: x.name.lower()):
+                  if p.is_file():
+                      grammar.append({"title": make_title(p), "file": p.relative_to(grammar_root).as_posix()})
+          (site / "grammar.json").write_text(json.dumps(grammar, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+
+          # Newly uploaded root HTML files; curated pages excluded
+          excluded = {
+              "index.html", "404.html", "documents.html",
+              "vocabulary-1300.html", "vocabulary-rounds-3-4.html",
+              "vocabulary-rounds-5-6.html", "vocabulary-new.html",
+              "c1-vocabulary.html", "confusing-words.html", "english-verbs.html",
+              "phrasal-verbs.html", "paraphrase.html", "ielts-collocations.html"
+          }
+          apps = []
+          for p in sorted(site.glob("*.html"), key=lambda x: x.name.lower()):
+              if p.name not in excluded:
+                  apps.append({"title": make_title(p), "file": p.name})
+          (site / "apps.json").write_text(json.dumps(apps, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+
+      - name: Commit generated indexes
+        run: |
+          if git diff --quiet eng-pratice/apps.json eng-pratice/grammar.json eng-pratice/documents.json; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add eng-pratice/apps.json eng-pratice/grammar.json eng-pratice/documents.json
+          git commit -m "Update site library indexes"
+          git push
