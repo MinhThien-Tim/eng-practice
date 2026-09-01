@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lexicon — Bộ Từ Vựng 604 Từ</title>
+<style>
+  :root{
+    --paper:#f4f0e8;
+    --paper-2:#fbf8f3;
+    --ink:#3d372f;
+    --ink-soft:#928a7b;
+    --rule:#e4ddce;
+    --accent:#bd7c66;
+    --accent-soft:#d0977e;
+    --gold:#bb9958;
+    --card-back:#4d4238;
+    --sage:#7f9376;
+    --radius-lg:20px;
+    --radius:14px;
+    --radius-sm:10px;
+    --serif: "Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --display: "Didot","Bodoni MT","Playfair Display",Georgia,serif;
+    --mono: "Courier New", Courier, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at top left, rgba(255,255,255,0.3), transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    min-height:100vh;
+    padding:18px 14px 36px;
+  }
+  .wrap{max-width:600px;margin:0 auto;}
+
+  header{
+    text-align:center;
+    margin-bottom:14px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--rule);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-style:italic;
+    font-size:24px;
+    margin:4px 0 2px;
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-size:12px;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  .mode-switch{
+    display:flex;
+    justify-content:center;
+    gap:0;
+    margin-bottom:10px;
+    border:1px solid var(--rule);
+    border-radius:999px;
+    overflow:hidden;
+    width:fit-content;
+    margin-left:auto;
+    margin-right:auto;
+    background:var(--paper-2);
+  }
+  .mode-switch button{
+    flex:none;
+    border:none;
+    border-radius:0;
+    background:transparent;
+    padding:7px 16px;
+    font-size:11px;
+  }
+  .mode-switch button.active{
+    background:var(--ink);
+    color:var(--paper);
+  }
+
+  /* filter pill */
+  .filter-row{
+    display:flex;
+    justify-content:center;
+    margin:0 0 10px;
+  }
+  .filter-pill{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.03em;
+    border:1px solid var(--rule);
+    background:var(--paper-2);
+    color:var(--ink-soft);
+    padding:8px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .filter-pill .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--rule);
+    transition:background .15s;
+  }
+  .filter-pill.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .filter-pill.active .dot{
+    background:var(--sage);
+  }
+
+  /* progress strip */
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-soft);
+    margin:0 2px 6px;
+  }
+  .progress-bar{
+    height:4px;
+    background:var(--rule);
+    border-radius:6px;
+    overflow:hidden;
+    margin:0 2px 12px;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:6px;
+    width:0%;
+    transition:width .3s ease;
+  }
+
+  /* card */
+  .stage{
+    perspective:1400px;
+    margin:0 0 12px;
+  }
+  .card{
+    position:relative;
+    width:100%;
+    min-height:210px;
+    cursor:pointer;
+    transform-style:preserve-3d;
+    transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .card.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border-radius:var(--radius-lg);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:22px 20px;
+    text-align:center;
+  }
+  .face.front{
+    background:var(--paper-2);
+    border:1px solid var(--rule);
+    box-shadow:0 8px 20px -14px rgba(61,55,47,0.3);
+  }
+  .card-index{
+    position:absolute;
+    top:14px;
+    left:16px;
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--ink-soft);
+    letter-spacing:0.06em;
+  }
+  .card-pos{
+    position:absolute;
+    top:12px;
+    right:14px;
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    font-style:normal;
+    padding:4px 10px;
+    border-radius:999px;
+    border:1px solid transparent;
+  }
+  .pos-v{ background:#e7ede3; color:#5f7355; border-color:#b9c9ae; }
+  .pos-n{ background:#e6ebf1; color:#4f6478; border-color:#b7c5d6; }
+  .pos-adj{ background:#f3e6e0; color:#96543f; border-color:#ddb3a2; }
+  .pos-adv{ background:#efe4f2; color:#7a5484; border-color:#d3b8da; }
+  .pos-phr{ background:#f3ecd9; color:#8a6f2e; border-color:#ddc98a; }
+  .pos-multi{ background:#ece7dc; color:#6b6153; border-color:#cfc6b3; }
+  .headword{
+    font-family:var(--display);
+    font-size:32px;
+    font-weight:700;
+    line-height:1.08;
+    margin-bottom:8px;
+    word-break:break-word;
+  }
+  .ipa{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:15px;
+    color:var(--accent);
+    letter-spacing:0.02em;
+  }
+
+  .face.back{
+    background:var(--card-back);
+    color:var(--paper);
+    transform:rotateY(180deg);
+    box-shadow:0 8px 20px -14px rgba(0,0,0,0.4);
+  }
+  .back .headword-small{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:14px;
+    color:var(--gold);
+    margin-bottom:8px;
+    opacity:0.9;
+  }
+  .meaning{
+    font-size:19px;
+    line-height:1.4;
+    font-weight:400;
+  }
+  .back .rule{
+    width:28px;
+    height:1px;
+    background:var(--gold);
+    margin:12px auto 0;
+    opacity:0.6;
+  }
+
+  /* done state */
+  .done-state{
+    display:none;
+    text-align:center;
+    padding:50px 20px;
+    background:var(--paper-2);
+    border:1px solid var(--rule);
+    border-radius:var(--radius-lg);
+    margin-bottom:12px;
+  }
+  .done-state .emoji{font-size:32px;margin-bottom:8px;}
+  .done-state p{
+    font-family:var(--serif);
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0;
+  }
+
+  /* controls */
+  .controls{
+    display:flex;
+    gap:8px;
+    margin-bottom:6px;
+  }
+  button{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    border:1px solid var(--rule);
+    background:var(--paper-2);
+    color:var(--ink);
+    padding:10px 8px;
+    border-radius:var(--radius-sm);
+    cursor:pointer;
+    flex:1;
+    transition:background .15s, transform .1s;
+  }
+  button:active{transform:scale(0.97);}
+  button:hover{background:#ede6d7;}
+  .btn-know{
+    border-color:var(--sage);
+    color:var(--sage);
+  }
+  .btn-know:hover{background:rgba(127,147,118,0.12);}
+  .btn-again{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .btn-again:hover{background:rgba(189,124,102,0.10);}
+
+  .nav-row{
+    display:flex;
+    gap:8px;
+  }
+  .nav-row button{
+    background:transparent;
+  }
+
+  /* toolbar */
+  .toolbar{
+    display:flex;
+    gap:8px;
+    margin:16px 0 8px;
+  }
+  .toolbar input[type=text]{
+    flex:1;
+    font-family:var(--serif);
+    font-size:14px;
+    padding:9px 12px;
+    border:1px solid var(--rule);
+    background:var(--paper-2);
+    border-radius:var(--radius-sm);
+    color:var(--ink);
+  }
+  .toolbar input::placeholder{color:var(--ink-soft);}
+  .toolbar select{
+    font-family:var(--mono);
+    font-size:11px;
+    border:1px solid var(--rule);
+    background:var(--paper-2);
+    color:var(--ink);
+    padding:0 10px;
+    border-radius:var(--radius-sm);
+  }
+
+  /* list mode */
+  .list-view{margin-top:4px;}
+  .entry{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    padding:10px 6px;
+    border-bottom:1px solid var(--rule);
+    cursor:pointer;
+    border-radius:var(--radius-sm);
+  }
+  .entry:hover{background:rgba(189,124,102,0.06);}
+  .entry .idx{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--ink-soft);
+    width:24px;
+    flex-shrink:0;
+  }
+  .entry .ew{
+    font-weight:700;
+    min-width:110px;
+  }
+  .entry .eipa{
+    font-style:italic;
+    color:var(--accent);
+    font-size:12px;
+    flex-shrink:0;
+  }
+  .entry .epos{
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:700;
+    font-style:normal;
+    flex-shrink:0;
+    padding:2px 8px;
+    border-radius:999px;
+    border:1px solid transparent;
+  }
+  .entry .em{
+    color:var(--ink-soft);
+    font-size:12px;
+    flex:1;
+    text-align:right;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:44px 20px;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:22px;
+    font-family:var(--mono);
+    font-size:9px;
+    color:var(--ink-soft);
+    letter-spacing:0.08em;
+    opacity:0.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Advanced English — Vietnamese Gloss</div>
+    <h1>A Lexicon of 604 Words</h1>
+    <div class="subtitle">tra cứu · lật thẻ · tự kiểm tra</div>
+  </header>
+
+  <div class="mode-switch" id="modeSwitch">
+    <button id="btnCardMode" class="active">Thẻ ghi nhớ</button>
+    <button id="btnListMode">Danh mục</button>
+  </div>
+
+  <div id="cardMode">
+    <div class="filter-row">
+      <button class="filter-pill" id="btnFilter"><span class="dot"></span><span id="filterLabel">Chỉ hiện từ chưa thuộc</span></button>
+    </div>
+
+    <div class="progress-row">
+      <span id="progressLabel">1 / 604</span>
+      <span id="progressStats">Đã thuộc: 0 · Cần ôn: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+    <div class="stage">
+      <div class="card" id="card">
+        <div class="face front">
+          <div class="card-index" id="cardIndex">001</div>
+          <div class="card-pos" id="cardPos">v</div>
+          <div class="headword" id="headword">Abate</div>
+          <div class="ipa" id="ipa">/əˈbeɪt/</div>
+        </div>
+        <div class="face back">
+          <div class="headword-small" id="headwordSmall">Abate</div>
+          <div class="meaning" id="meaning">Làm dịu, giảm bớt</div>
+          <div class="rule"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="done-state" id="doneState">
+      <div class="emoji">🌿</div>
+      <p>Bạn đã thuộc hết từ trong danh sách này.</p>
+    </div>
+
+    <div class="controls" id="controlsRow">
+      <button class="btn-again" id="btnAgain">✕ Ôn lại</button>
+      <button class="btn-know" id="btnKnow">✓ Đã thuộc</button>
+    </div>
+    <div class="nav-row" id="navRow">
+      <button id="btnPrev">← Trước</button>
+      <button id="btnShuffle">⟳ Xáo trộn</button>
+      <button id="btnNext">Sau →</button>
+    </div>
+  </div>
+
+  <div id="listMode" style="display:none;">
+    <div class="toolbar">
+      <input type="text" id="searchBox" placeholder="Tìm từ hoặc nghĩa…">
+      <select id="filterPos">
+        <option value="">Tất cả</option>
+        <option value="v">v</option>
+        <option value="n">n</option>
+        <option value="adj">adj</option>
+        <option value="adv">adv</option>
+        <option value="phr">phr</option>
+      </select>
+    </div>
+    <div class="list-view" id="listView"></div>
+    <div class="empty-state" id="emptyState" style="display:none;">Không tìm thấy từ nào.</div>
+  </div>
+
+  <footer>OXFORD-STYLE ENTRY · 604 HEADWORDS · IPA · VI GLOSS</footer>
+</div>
+
+<script>
+const WORDS = [{"w": "Abate", "ipa": "əˈbeɪt", "pos": "v", "m": "Làm dịu, giảm bớt"}, {"w": "Abrasion", "ipa": "əˈbreɪʒn", "pos": "n", "m": "Sự trầy xước, sự ăn mòn"}, {"w": "Abrupt", "ipa": "əˈbrʌpt", "pos": "adj", "m": "Đột ngột, bất ngờ"}, {"w": "Adherent", "ipa": "ədˈhɪərənt", "pos": "n", "m": "Người tuân theo, tín đồ"}, {"w": "Adjourn", "ipa": "əˈdʒɜːn", "pos": "v", "m": "Hoãn lại, tạm dừng"}, {"w": "Adroit", "ipa": "əˈdrɔɪt", "pos": "adj", "m": "Khéo léo, linh hoạt"}, {"w": "Advent", "ipa": "ˈædvent", "pos": "n", "m": "Sự đến, sự xuất hiện"}, {"w": "Adversary", "ipa": "ˈædvəsəri", "pos": "n", "m": "Đối thủ, kẻ thù"}, {"w": "Averse", "ipa": "əˈvɜːs", "pos": "adj", "m": "Không thích, phản đối"}, {"w": "Affinity", "ipa": "əˈfɪnəti", "pos": "n", "m": "Sự gắn kết, mối quan hệ thân thiết"}, {"w": "Afforded", "ipa": "əˈfɔːdɪd", "pos": "v", "m": "Đã cấp cho, đã cung cấp"}, {"w": "Aggravate", "ipa": "ˈæɡrəveɪt", "pos": "v", "m": "Làm trầm trọng thêm, làm tức giận"}, {"w": "Aggression", "ipa": "əˈɡreʃn", "pos": "n", "m": "Sự hiếu chiến, hành vi xâm lược"}, {"w": "Agronomy", "ipa": "əˈɡrɒnəmi", "pos": "n", "m": "Nông học"}, {"w": "Alienate", "ipa": "ˈeɪliəneɪt", "pos": "v", "m": "Làm cho xa lánh, cô lập"}, {"w": "Allegiance", "ipa": "əˈliːdʒəns", "pos": "n", "m": "Lòng trung thành"}, {"w": "Alliteration", "ipa": "əˌlɪtəˈreɪʃn", "pos": "n", "m": "Sự điệp âm"}, {"w": "Alteration", "ipa": "ˌɔːltəˈreɪʃn", "pos": "n", "m": "Sự thay đổi, sự biến đổi"}, {"w": "Altitude", "ipa": "ˈæltɪtjuːd", "pos": "n", "m": "Độ cao (so với mặt nước biển)"}, {"w": "Ambidextrous", "ipa": "ˌæmbiˈdekstrəs", "pos": "adj", "m": "Thuận cả hai tay"}, {"w": "Amiable", "ipa": "ˈeɪmiəbl", "pos": "adj", "m": "Hoà nhã, dễ thương"}, {"w": "Amity", "ipa": "ˈæməti", "pos": "n", "m": "Mối quan hệ hòa hảo, tình hữu nghị"}, {"w": "Amorous", "ipa": "ˈæmərəs", "pos": "adj", "m": "Si tình, thuộc về tình yêu"}, {"w": "Anachronism", "ipa": "əˈnækrənɪzəm", "pos": "n", "m": "Sự lỗi thời, sự sai niên đại"}, {"w": "Anagram", "ipa": "ˈænəɡræm", "pos": "n", "m": "Từ đảo chữ"}, {"w": "Animosity", "ipa": "ˌænɪˈmɒsəti", "pos": "n", "m": "Thù hận, sự hận thù"}, {"w": "Animus", "ipa": "ˈænɪməs", "pos": "n", "m": "Thù oán, ý niệm thù địch"}, {"w": "Anteroom", "ipa": "ˈæntiruːm", "pos": "n", "m": "Phòng chờ, phòng ngoài"}, {"w": "Antidote", "ipa": "ˈæntidəʊt", "pos": "n", "m": "Thuốc giải độc"}, {"w": "Antihistamine", "ipa": "ˌæntiˈhɪstəmiːn", "pos": "n", "m": "Thuốc chống dị ứng"}, {"w": "Antipathy", "ipa": "ænˈtɪpəθi", "pos": "n", "m": "Sự ác cảm, ác cảm"}, {"w": "Antiseptic", "ipa": "ˌæntiˈseptɪk", "pos": "n/adj", "m": "Chất sát trùng; sát trùng"}, {"w": "Antithesis", "ipa": "ænˈtɪθəsɪs", "pos": "n", "m": "Sự đối lập hoàn toàn"}, {"w": "Appendix", "ipa": "əˈpendɪks", "pos": "n", "m": "Phụ lục; Ruột thừa"}, {"w": "Apprehend", "ipa": "ˌæprɪˈhend", "pos": "v", "m": "Bắt giữ; Lĩnh hội, hiểu"}, {"w": "Apprehensive", "ipa": "ˌæprɪˈhensɪv", "pos": "adj", "m": "Lo âu, sợ hãi"}, {"w": "Apprentice", "ipa": "əˈprentɪs", "pos": "n", "m": "Người học việc, học nghề"}, {"w": "Apprise", "ipa": "əˈpraɪz", "pos": "v", "m": "Thông báo, cho biết"}, {"w": "Aptly", "ipa": "ˈæptli", "pos": "adv", "m": "Một cách thích hợp, khéo léo"}, {"w": "Aristocracy", "ipa": "ˌærɪˈstɒkrəsi", "pos": "n", "m": "Tầng lớp quý tộc"}, {"w": "Aristocrat", "ipa": "ˈærɪstəkræt", "pos": "n", "m": "Quý tộc"}, {"w": "Ascribe to", "ipa": "əˈskraɪb tuː", "pos": "phr v", "m": "Quy cho, gán cho"}, {"w": "Asterisk", "ipa": "ˈæstərɪsk", "pos": "n", "m": "Dấu sao (*)"}, {"w": "Asteroid", "ipa": "ˈæstərɔɪd", "pos": "n", "m": "Tiểu hành tinh"}, {"w": "Astound", "ipa": "əˈstaʊnd", "pos": "v", "m": "Làm kinh ngạc, làm sững sờ"}, {"w": "Astute", "ipa": "əˈstjuːt", "pos": "adj", "m": "Sắc sảo, tinh khôn"}, {"w": "At variation", "ipa": "æt ˌveəriˈeɪʃn", "pos": "phr", "m": "Khác biệt, mâu thuẫn"}, {"w": "Audacious", "ipa": "ɔːˈdeɪʃəs", "pos": "adj", "m": "Táo bạo, liều lĩnh"}, {"w": "Autocrat", "ipa": "ˈɔːtəkræt", "pos": "n", "m": "Kẻ độc tài"}, {"w": "Autocracy", "ipa": "ɔːˈtɒkrəsi", "pos": "n", "m": "Chế độ độc tài"}, {"w": "Autopsy", "ipa": "ˈɔːtɒpsi", "pos": "n", "m": "Sự khám nghiệm tử thi"}, {"w": "Avarice", "ipa": "ˈævərɪs", "pos": "n", "m": "Tính tham lam"}, {"w": "Avocation", "ipa": "ˌævəˈkeɪʃn", "pos": "n", "m": "Việc phụ, sở thích lúc rảnh"}, {"w": "Avowal", "ipa": "əˈvaʊəl", "pos": "n", "m": "Lời thú nhận, lời tuyên bố công khai"}, {"w": "Bandage", "ipa": "ˈbændɪdʒ", "pos": "n", "m": "Băng gạc y tế"}, {"w": "Barometer", "ipa": "bəˈrɒmɪtə(r)", "pos": "n", "m": "Phong vũ biểu, thước đo"}, {"w": "Belligerent", "ipa": "bəˈlɪdʒərənt", "pos": "adj", "m": "Hiếu chiến, hung hăng"}, {"w": "Benevolent", "ipa": "bəˈnevələnt", "pos": "adj", "m": "Nhân từ, rộng lượng"}, {"w": "Bicameral", "ipa": "ˌbaɪˈkæmərəl", "pos": "adj", "m": "Lưỡng viện (quốc hội)"}, {"w": "Biennial", "ipa": "baɪˈeniəl", "pos": "adj", "m": "Hai năm một lần"}, {"w": "Biodegradable", "ipa": "ˌbaɪəʊdɪˈɡreɪdəbl", "pos": "adj", "m": "Phân hủy sinh học"}, {"w": "Bilateral", "ipa": "ˌbaɪˈlætərəl", "pos": "adj", "m": "Song phương, hai bên"}, {"w": "Blunder", "ipa": "ˈblʌndə(r)", "pos": "n", "m": "Sai lầm ngớ ngẩn"}, {"w": "Brainwave", "ipa": "ˈbreɪnweɪv", "pos": "n", "m": "Ý tưởng bất ngờ, sóng não"}, {"w": "Bulletin board", "ipa": "ˈbʊlətɪn bɔːd", "pos": "n", "m": "Bảng tin"}, {"w": "Bulwark", "ipa": "ˈbʊlwək", "pos": "n", "m": "Bức tường thành, lá chắn bảo vệ"}, {"w": "Bureaucracy", "ipa": "bjʊəˈrɒkrəsi", "pos": "n", "m": "Bộ máy quan liêu"}, {"w": "Cartographer", "ipa": "kɑːˈtɒɡrəfə(r)", "pos": "n", "m": "Người vẽ bản đồ"}, {"w": "Casualty", "ipa": "ˈkæʒuəlti", "pos": "n", "m": "Thương vong, nạn nhân"}, {"w": "Cellophane", "ipa": "ˈseləfeɪn", "pos": "n", "m": "Giấy kiếng, chất xen-lô-fan"}, {"w": "Chalk", "ipa": "tʃɔːk", "pos": "n", "m": "Phấn viết"}, {"w": "Choreography", "ipa": "ˌkɒriˈɒɡrəfi", "pos": "n", "m": "Nghệ thuật biên đạo múa"}, {"w": "Chronicle", "ipa": "ˈkrɒnɪkl", "pos": "n", "m": "Sử biên niên, ghi chép lịch sử"}, {"w": "Circumference", "ipa": "səˈkʌmfərəns", "pos": "n", "m": "Chu vi"}, {"w": "Circumspect", "ipa": "ˈsɜːkəmspekt", "pos": "adj", "m": "Thận trọng, cẩn trọng"}, {"w": "Clandestine", "ipa": "klænˈdestɪn", "pos": "adj", "m": "Giấu giếm, lén lút"}, {"w": "Cleave", "ipa": "kliːv", "pos": "v", "m": "Chẻ ra, chia tách; Gắn bó"}, {"w": "Cleavage", "ipa": "ˈkliːvɪdʒ", "pos": "n", "m": "Sự chia rẽ, khe hở"}, {"w": "Cogent", "ipa": "ˈkəʊdʒənt", "pos": "adj", "m": "Thuyết phục, vững chắc"}, {"w": "Cohesion", "ipa": "kəʊˈhiːʒn", "pos": "n", "m": "Sự gắn kết, tính kết dính"}, {"w": "Collateral", "ipa": "kəˈlætərəl", "pos": "n/adj", "m": "Tài sản thế chấp; Song song, phụ thêm"}, {"w": "Collusion", "ipa": "kəˈluːʒn", "pos": "n", "m": "Sự thông đồng, cấu kết"}, {"w": "Commend", "ipa": "kəˈmend", "pos": "v", "m": "Khen ngợi, tuyên dương"}, {"w": "Concord", "ipa": "ˈkɒŋkɔːd", "pos": "n", "m": "Sự hòa hợp, sự nhất trí"}, {"w": "Condiment", "ipa": "ˈkɒndɪmənt", "pos": "n", "m": "Gia vị"}, {"w": "Cordiality", "ipa": "kɔːdɪˈælɪti", "pos": "n", "m": "Sự chân thành, sự nồng nhiệt"}, {"w": "Conform", "ipa": "kənˈfɔːm", "pos": "v", "m": "Tuân thủ, làm theo"}, {"w": "Congregate", "ipa": "ˈkɒŋɡrɪɡeɪt", "pos": "v", "m": "Tụ họp, nhóm lại"}, {"w": "Congenital", "ipa": "kənˈdʒenɪtl", "pos": "adj", "m": "Bẩm sinh"}, {"w": "Conspicuous", "ipa": "kənˈspɪkjuəs", "pos": "adj", "m": "Dễ thấy, nổi bật"}, {"w": "Consort", "ipa": "kənˈsɔːt", "pos": "v", "m": "Giao du, kết bạn"}, {"w": "Constituent", "ipa": "kənˈstɪtjuənt", "pos": "n", "m": "Thành phần cấu tạo; Cử tri"}, {"w": "Contaminate", "ipa": "kənˈtæmɪneɪt", "pos": "v", "m": "Làm ô nhiễm, làm bẩn"}, {"w": "Contraband", "ipa": "ˈkɒntrəbænd", "pos": "n", "m": "Hàng cấm"}, {"w": "Convene", "ipa": "kənˈviːn", "pos": "v", "m": "Triệu tập (cuộc họp)"}, {"w": "Coverage", "ipa": "ˈkʌvərɪdʒ", "pos": "n", "m": "Mức độ bao phủ, tin tức truyền thông"}, {"w": "Covet", "ipa": "ˈkʌvət", "pos": "v", "m": "Thèm muốn, thèm khát"}, {"w": "Craven", "ipa": "ˈkreɪvn", "pos": "adj", "m": "Hèn nhát"}, {"w": "Crony", "ipa": "ˈkrəʊni", "pos": "n", "m": "Bạn thân, bạn tri kỷ"}, {"w": "Crop", "ipa": "krɒp", "pos": "n", "m": "Cây trồng, mùa màng"}, {"w": "Culprit", "ipa": "ˈkʌlprɪt", "pos": "n", "m": "Thủ phạm, kẻ có tội"}, {"w": "Cuticle", "ipa": "ˈkjuːtɪkl", "pos": "n", "m": "Lớp biểu bì (móng tay, cây)"}, {"w": "Cyclical", "ipa": "ˈsaɪklɪkl", "pos": "adj", "m": "Theo chu kỳ"}, {"w": "Dastardly", "ipa": "ˈdæstədli", "pos": "adj", "m": "Hèn hạ, độc ác"}, {"w": "Dauntless", "ipa": "ˈdɔːntləs", "pos": "adj", "m": "Dũng cảm, không sợ hãi"}, {"w": "Dawdle", "ipa": "ˈdɔːdl", "pos": "v", "m": "Lề mề, tốn thời gian vô ích"}, {"w": "Debilitate", "ipa": "dɪˈbɪlɪteɪt", "pos": "v", "m": "Làm suy yếu, làm kiệt sức"}, {"w": "Decrepit", "ipa": "dɪˈkrepɪt", "pos": "adj", "m": "Già yếu, kiệt huệ"}, {"w": "Defendant", "ipa": "dɪˈfendant", "pos": "n", "m": "Bị cáo (trong tòa án)"}, {"w": "Defiance", "ipa": "dɪˈfaɪəns", "pos": "n", "m": "Sự thách thức, sự chống đối"}, {"w": "Definitive", "ipa": "dɪˈfɪnətɪv", "pos": "adj", "m": "Dứt khoát, sau cùng"}, {"w": "Deluge with", "ipa": "ˈdeljuːdʒ wɪð", "pos": "phr v", "m": "Tràn ngập, dồn dập"}, {"w": "Demagogue", "ipa": "ˈdeməɡɒɡ", "pos": "n", "m": "Kẻ mị dân"}, {"w": "Demented", "ipa": "dɪˈmentɪd", "pos": "adj", "m": "Bị phát điên, cuồng trí"}, {"w": "Denizen", "ipa": "ˈdenɪzn", "pos": "n", "m": "Cư dân, sinh vật sống ở một nơi"}, {"w": "Depose", "ipa": "dɪˈpəʊz", "pos": "v", "m": "Phế truất, hạ bệ"}, {"w": "Dermatologist", "ipa": "ˌdɜːməˈtɒlədʒɪst", "pos": "n", "m": "Bác sĩ da liễu"}, {"w": "Dermis", "ipa": "ˈdɜːmɪs", "pos": "n", "m": "Lớp da thật (dưới biểu bì)"}, {"w": "Despotic", "ipa": "dɪˈspɒtɪk", "pos": "adj", "m": "Độc tài, chuyên quyền"}, {"w": "Destitute", "ipa": "ˈdestɪtjuːt", "pos": "adj", "m": "Nghèo khổ, thiếu thốn"}, {"w": "Devour", "ipa": "dɪˈvaʊə(r)", "pos": "v", "m": "Ăn ngấu nghiến"}, {"w": "Dexterity", "ipa": "dekˈsterəti", "pos": "n", "m": "Sự khéo tay, sự tháo vát"}, {"w": "Diminutive", "ipa": "dɪˈmɪnjətɪv", "pos": "adj", "m": "Nhỏ nhắn, bé tẹo"}, {"w": "Discrepancy", "ipa": "dɪsˈkrepənsi", "pos": "n", "m": "Sự khác biệt, sự không thống nhất"}, {"w": "Discreet", "ipa": "dɪˈskriːt", "pos": "adj", "m": "Thận trọng, kín đáo"}, {"w": "Disseminate", "ipa": "dɪˈsemɪneɪt", "pos": "v", "m": "Phổ biến, gieo rắc (thông tin)"}, {"w": "Dispassionate", "ipa": "dɪsˈpæʃənət", "pos": "adj", "m": "Vô tư, không định kiến"}, {"w": "Dissolution", "ipa": "ˌdɪsəˈluːʃn", "pos": "n", "m": "Sự tan rã, sự giải tán"}, {"w": "Dissolve", "ipa": "dɪˈzɒlv", "pos": "v", "m": "Hòa tan, giải thể"}, {"w": "Divulge", "ipa": "daɪˈvʌldʒ", "pos": "v", "m": "Tiết lộ (bí mật)"}, {"w": "Docile", "ipa": "ˈdəʊsaɪl", "pos": "adj", "m": "Dễ bảo, ngoan ngoãn"}, {"w": "Dogma", "ipa": "ˈdɒɡmə", "pos": "n", "m": "Giáo điều, tín điều"}, {"w": "Domicile", "ipa": "ˈdɒmɪsaɪl", "pos": "n", "m": "Nơi cư trú, nhà ở"}, {"w": "Dormant", "ipa": "ˈdɔːmənt", "pos": "adj", "m": "Tiềm ẩn, ngủ đông"}, {"w": "Dovetail", "ipa": "ˈdʌvteɪl", "pos": "v", "m": "Khớp vào nhau hoàn hảo"}, {"w": "Drizzle", "ipa": "ˈdrɪzl", "pos": "n/v", "m": "Mưa phun; Mưa lâm râm"}, {"w": "Dubious", "ipa": "ˈdjuːbiəs", "pos": "adj", "m": "Mơ hồ, đáng nghi"}, {"w": "Edifice", "ipa": "ˈedɪfɪs", "pos": "n", "m": "Dinh thự, công trình lớn"}, {"w": "Elaborate", "ipa": "ɪˈlæbərət", "pos": "adj", "m": "Tỉ mỉ, phức tạp"}, {"w": "Embroil", "ipa": "ɪmˈbrɔɪl", "pos": "v", "m": "Lôi kéo vào (cuộc tranh chấp)"}, {"w": "Eminent", "ipa": "ˈemɪnənt", "pos": "adj", "m": "Xuất sắc, lỗi lạc"}, {"w": "Enamored", "ipa": "ɪˈnæməd", "pos": "adj", "m": "Say đắm, mê mệt"}, {"w": "Enervate", "ipa": "ˈenəveɪt", "pos": "v", "m": "Làm kiệt sức, suy yếu"}, {"w": "Enigma", "ipa": "ɪˈnɪɡmə", "pos": "n", "m": "Điều bí ẩn, câu đố"}, {"w": "Entail", "ipa": "ɪnˈteɪl", "pos": "v", "m": "Đòi hỏi, kéo theo"}, {"w": "Epidemic", "ipa": "ˌepɪˈdemɪk", "pos": "n", "m": "Bệnh dịch"}, {"w": "Epidermis", "ipa": "ˌepɪˈdɜːmɪs", "pos": "n", "m": "Lớp biểu bì da"}, {"w": "Epithet", "ipa": "ˈepɪθet", "pos": "n", "m": "Biệt hiệu, danh xưng"}, {"w": "Equanimity", "ipa": "ˌekwəˈnɪməti", "pos": "n", "m": "Sự bình tĩnh, sự thản nhiên"}, {"w": "Equilateral", "ipa": "ˌiːkwɪˈlætərəl", "pos": "adj", "m": "Đều (tam giác đều)"}, {"w": "Equilibrium", "ipa": "ˌiːkwɪˈlɪbriəm", "pos": "n", "m": "Trạng thái cân bằng"}, {"w": "Eradicate", "ipa": "ɪˈrædɪkeɪt", "pos": "v", "m": "Trừ khử, tiêu diệt tận gốc"}, {"w": "Erratic", "ipa": "ɪˈrætɪk", "pos": "adj", "m": "Thất thường, không ổn định"}, {"w": "Estrange", "ipa": "ɪˈstreɪndʒ", "pos": "v", "m": "Làm xa lạ, làm xa cách"}, {"w": "Exuberant", "ipa": "ɪɡˈzjuːbərənt", "pos": "adj", "m": "Xum xuê, tràn đầy năng lượng"}, {"w": "Exempt", "ipa": "ɪɡˈzempt", "pos": "adj/v", "m": "Được miễn; Miễn trừ"}, {"w": "Exonerate", "ipa": "ɪɡˈzɒnəreɪt", "pos": "v", "m": "Giải oan, tha tội"}, {"w": "Extemporaneous", "ipa": "ekˌstempəˈreɪniəs", "pos": "adj", "m": "Ứng biến, không chuẩn bị trước"}, {"w": "Extravagant", "ipa": "ɪkˈstrævəɡənt", "pos": "adj", "m": "Phung phí, xa hoa"}, {"w": "Extracurricular", "ipa": "ˌekstrəkəˈrɪkjələ(r)", "pos": "adj", "m": "Ngoại khóa"}, {"w": "Extraneous", "ipa": "ɪkˈstreɪniəs", "pos": "adj", "m": "Không liên quan, xa lạ"}, {"w": "Extricate", "ipa": "ˈekstrɪkeɪt", "pos": "v", "m": "Giải thoát, gỡ rối"}, {"w": "Facetious", "ipa": "fəˈsiːʃəs", "pos": "adj", "m": "Khôi hài, đùa cợt"}, {"w": "Fancy", "ipa": "ˈfænsi", "pos": "n/adj", "m": "Tưởng tượng; Sang trọng, cầu kỳ"}, {"w": "Fatigue", "ipa": "fəˈtiːɡ", "pos": "n", "m": "Sự mệt mỏi, mệt nhọc"}, {"w": "Feasible", "ipa": "ˈfiːzəbl", "pos": "adj", "m": "Khả thi, có thể thực hiện"}, {"w": "Fictitious", "ipa": "fɪkˈtɪʃəs", "pos": "adj", "m": "Hư cấu, giả tưởng"}, {"w": "Finis", "ipa": "ˈfɪnɪs", "pos": "n", "m": "Kết thúc, đoạn kết"}, {"w": "Flatter", "ipa": "ˈflætər", "pos": "v", "m": "Nịnh hót, tâng bốc"}, {"w": "Flea", "ipa": "fliː", "pos": "n", "m": "Con bọ chét"}, {"w": "Flee", "ipa": "fliː", "pos": "v", "m": "Chạy trốn, bỏ chạy"}, {"w": "Flux", "ipa": "flʌks", "pos": "n", "m": "Sự biến đổi liên tục, dòng chảy"}, {"w": "Foreboding", "ipa": "fɔːˈbəʊdɪŋ", "pos": "n", "m": "Điềm báo xấu, sự lo sợ"}, {"w": "Forebear", "ipa": "ˈfɔːbeə(r)", "pos": "n", "m": "Tổ tiên, ông cha"}, {"w": "Foresight", "ipa": "ˈfɔːsaɪt", "pos": "n", "m": "Tầm nhìn xa, sự lo xa"}, {"w": "Forfeit", "ipa": "ˈfɔːfɪt", "pos": "v/n", "m": "Tước đoạt; Tự mất (quyền)"}, {"w": "Formidable", "ipa": "ˈfɔːmɪdəbl", "pos": "adj", "m": "Ghê gớm, đáng sợ"}, {"w": "Forte", "ipa": "ˈfɔːteɪ", "pos": "n", "m": "Sở trường, điểm mạnh"}, {"w": "Fortitude", "ipa": "ˈfɔːtɪtjuːd", "pos": "n", "m": "Sự nghị lực, lòng dũng cảm"}, {"w": "Frail", "ipa": "freɪl", "pos": "adj", "m": "Mỏng manh, yếu ớt"}, {"w": "Freckles", "ipa": "ˈfreklz", "pos": "n", "m": "Tàn nhang"}, {"w": "Friction", "ipa": "ˈfrɪkʃn", "pos": "n", "m": "Sự ma sát, sự xung đột"}, {"w": "Frugal", "ipa": "ˈfruːɡl", "pos": "adj", "m": "Tiết kiệm, thanh cảnh"}, {"w": "Gallon", "ipa": "ˈɡælən", "pos": "n", "m": "Đơn vị đo thể tích (Gia-lông)"}, {"w": "Gastronome", "ipa": "ˈɡæstrənəʊm", "pos": "n", "m": "Người sành ăn"}, {"w": "Genre", "ipa": "ˈʒɒ̃rə", "pos": "n", "m": "Thể loại (nghệ thuật, văn học)"}, {"w": "Glutton", "ipa": "ˈɡlʌtn", "pos": "n", "m": "Kẻ tham ăn"}, {"w": "Gratuitous", "ipa": "ɡrəˈtjuːɪtəs", "pos": "adj", "m": "Miễn phí; Không có lý do chính đáng"}, {"w": "Gregarious", "ipa": "ɡrɪˈɡeəriəs", "pos": "adj", "m": "Hòa đồng, thích tập thể"}, {"w": "Grumpy", "ipa": "ˈɡrʌmpi", "pos": "adj", "m": "Cáu kỉnh, gắt gỏng"}, {"w": "Hang up", "ipa": "ˈhæŋ ʌp", "pos": "phr v", "m": "Cúp máy, treo lên"}, {"w": "Head in", "ipa": "ˈhed ɪn", "pos": "phr v", "m": "Đi vào, tiến vào"}, {"w": "Heed", "ipa": "hiːd", "pos": "v/n", "m": "Chú ý, lưu ý"}, {"w": "Heedless", "ipa": "ˈhiːdləs", "pos": "adj", "m": "Lơ đễnh, không chú ý"}, {"w": "Heterogeneous", "ipa": "ˌhetərəˈdʒiːniəs", "pos": "adj", "m": "Hỗn hợp, không đồng nhất"}, {"w": "Hibernate", "ipa": "ˈhaɪbəneɪt", "pos": "v", "m": "Ngủ đông"}, {"w": "Hinterland", "ipa": "ˈhɪntəlænd", "pos": "n", "m": "Vùng nội địa, vùng sâu"}, {"w": "Hydro", "ipa": "ˈhaɪdrəʊ", "pos": "adj/n", "m": "Thủy, liên quan đến nước"}, {"w": "Hypodermic", "ipa": "ˌhaɪpəˈdɜːmɪk", "pos": "adj", "m": "Dưới da"}, {"w": "Illegible", "ipa": "ɪˈledʒəbl", "pos": "adj", "m": "Khó đọc, không đọc được"}, {"w": "Immaculate", "ipa": "ɪˈmækjələt", "pos": "adj", "m": "Tinh khiết, không vết bẩn"}, {"w": "Imminent", "ipa": "ˈɪmɪnənt", "pos": "adj", "m": "Sắp xảy ra (tới nơi)"}, {"w": "Impair", "ipa": "ɪmˈpeə(r)", "pos": "v", "m": "Làm suy yếu, làm tổn hại"}, {"w": "Impassable", "ipa": "ɪmˈpɑːsəbl", "pos": "adj", "m": "Không thể đi qua"}, {"w": "Imperative", "ipa": "ɪmˈperətɪv", "pos": "adj", "m": "Bắt buộc, cấp bách"}, {"w": "Imperil", "ipa": "ɪmˈperəl", "pos": "v", "m": "Đưa vào nguy hiểm"}, {"w": "Impervious", "ipa": "ɪmˈpɜːviəs", "pos": "adj", "m": "Không thấm, không bị ảnh hưởng"}, {"w": "Impugn", "ipa": "ɪmˈpjuːn", "pos": "v", "m": "Nghi ngờ, công kích"}, {"w": "Impregnable", "ipa": "ɪmˈpreɡnəbl", "pos": "adj", "m": "Không thể xâm nhập, kiên cố"}, {"w": "Improvise", "ipa": "ˈɪmprəvaɪz", "pos": "v", "m": "Ứng biến, ứng tác"}, {"w": "Impurity", "ipa": "ɪmˈpjʊərəti", "pos": "n", "m": "Tạp chất, sự không tinh khiết"}, {"w": "Inadvertent", "ipa": "ˌɪnədˈvɜːtənt", "pos": "adj", "m": "Vô ý, sơ suất"}, {"w": "Inadvertently", "ipa": "ˌɪnədˈvɜːtəntli", "pos": "adv", "m": "Một cách vô tình"}, {"w": "Incapacitate", "ipa": "ˌɪnkəˈpæsɪteɪt", "pos": "v", "m": "Làm cho bất lực, mất khả năng"}, {"w": "Incentive", "ipa": "ɪnˈsentɪv", "pos": "n", "m": "Sự khuyến khích, động cơ"}, {"w": "Incipient", "ipa": "ɪnˈsɪpiənt", "pos": "adj", "m": "Chớm nở, mới bắt đầu"}, {"w": "Incessant", "ipa": "ɪnˈsesnt", "pos": "adj", "m": "Không ngừng, liên tục"}, {"w": "Incumbent", "ipa": "ɪnˈkʌmbənt", "pos": "adj/n", "m": "Đương nhiệm; Là nghĩa vụ của"}, {"w": "Indomitable", "ipa": "ɪnˈdɒmɪtəbl", "pos": "adj", "m": "Bất khuất, không thể khuất phục"}, {"w": "Indispensable", "ipa": "ˌɪndɪˈspensəbl", "pos": "adj", "m": "Không thể thiếu"}, {"w": "Infallible", "ipa": "ɪnˈfæləbl", "pos": "adj", "m": "Không bao giờ sai, tuyệt đối chính xác"}, {"w": "Infinitesimal", "ipa": "ˌɪnfɪnɪˈtesɪml", "pos": "adj", "m": "Vô cùng nhỏ"}, {"w": "Influx", "ipa": "ˈɪnflʌks", "pos": "n", "m": "Sự tràn vào, dòng lưu thông vào"}, {"w": "Infraction", "ipa": "ɪnˈfrækʃn", "pos": "n", "m": "Sự vi phạm"}, {"w": "Ingratitude", "ipa": "ɪnˈɡrætɪtjuːd", "pos": "n", "m": "Sự vô ơn"}, {"w": "Inherent", "ipa": "ɪnˈhɪərənt", "pos": "adj", "m": "Vốn có, cố hữu"}, {"w": "Initiate", "ipa": "ɪˈnɪʃieɪt", "pos": "v", "m": "Khởi xướng, bắt đầu"}, {"w": "Inscription", "ipa": "ɪnˈskrɪpʃn", "pos": "n", "m": "Dòng chữ khắc"}, {"w": "Insoluble", "ipa": "ɪnˈsɒljəbl", "pos": "adj", "m": "Không hòa tan; Không giải quyết được"}, {"w": "Insubordinate", "ipa": "ˌɪnsəˈbɔːdɪnət", "pos": "adj", "m": "Ngỗ ngược, không tuân lệnh"}, {"w": "Insurgent", "ipa": "ɪnˈsɜːdʒənt", "pos": "n", "m": "Kẻ nổi loạn"}, {"w": "Inter", "ipa": "ɪnˈtɜː(r)", "pos": "v", "m": "Chôn cất, an táng"}, {"w": "Intercept", "ipa": "ˌɪntəˈsept", "pos": "v", "m": "Chặn đứng, đánh chặn"}, {"w": "Interlude", "ipa": "ˈɪntəluːd", "pos": "n", "m": "Thời gian nghỉ giữa hiệp, khúc dạo"}, {"w": "Intermediary", "ipa": "ˌɪntəˈmiːdiəri", "pos": "n", "m": "Người trung gian"}, {"w": "Intermittent", "ipa": "ˌɪntəˈmɪtənt", "pos": "adj", "m": "Gián đoạn, không liên tục"}, {"w": "Intramural", "ipa": "ˌɪntrəˈmjʊərəl", "pos": "adj", "m": "Nội bộ (trong trường, cơ quan)"}, {"w": "Intravenous", "ipa": "ˌɪntrəˈviːnəs", "pos": "adj", "m": "Trong tĩnh mạch"}, {"w": "Intrepid", "ipa": "ɪnˈtrepɪd", "pos": "adj", "m": "Dũng cảm, gan dạ"}, {"w": "Intriguing", "ipa": "ɪnˈtriːɡɪŋ", "pos": "adj", "m": "Hấp dẫn, gợi sự tò mò"}, {"w": "Intimidate", "ipa": "ɪnˈtɪmɪdeɪt", "pos": "v", "m": "Hăm dọa, đe dọa"}, {"w": "Inundate", "ipa": "ˈɪnʌndeɪt", "pos": "v", "m": "Tràn ngập, làm ngập lụt"}, {"w": "Invigorate", "ipa": "ɪnˈvɪɡəreɪt", "pos": "v", "m": "Tiếp năng lượng, làm tiếp sức"}, {"w": "Irreconcilable", "ipa": "ɪˌrekənˈsaɪləbl", "pos": "adj", "m": "Không thể hòa giải"}, {"w": "Iota", "ipa": "aɪˈəʊtə", "pos": "n", "m": "Lượng rất nhỏ, chút xíu"}, {"w": "Itinerary", "ipa": "aɪˈtɪnərəri", "pos": "n", "m": "Lịch trình chuyến đi"}, {"w": "Ivory", "ipa": "ˈaɪvəri", "pos": "n", "m": "Ngà voi; Màu ngà"}, {"w": "Jeopardy", "ipa": "ˈdʒepədi", "pos": "n", "m": "Nguy hiểm, hiểm nghèo"}, {"w": "Jolting", "ipa": "ˈdʒəʊltɪŋ", "pos": "adj", "m": "Xóc nảy, gây chấn động"}, {"w": "Kleptomania", "ipa": "ˌkleptəˈmeɪniə", "pos": "n", "m": "Tật ăn cắp vặt"}, {"w": "Landfill", "ipa": "ˈlændfɪl", "pos": "n", "m": "Bãi rác, khu chôn lấp rác"}, {"w": "Latent", "ipa": "ˈleɪtnt", "pos": "adj", "m": "Tiềm ẩn, ngầm"}, {"w": "Lateral", "ipa": "ˈlætərəl", "pos": "adj", "m": "Ở bên, thuộc về cạnh"}, {"w": "Latitude", "ipa": "ˈlætɪtjuːd", "pos": "n", "m": "Vĩ độ; Tự do hành động"}, {"w": "Livestock", "ipa": "ˈlaɪvstɒk", "pos": "n", "m": "Vật nuôi, gia súc"}, {"w": "Locomotion", "ipa": "ˌləʊkəˈməʊʃn", "pos": "n", "m": "Sự di chuyển, sự vận động"}, {"w": "Lucrative", "ipa": "ˈluːkrətɪv", "pos": "adj", "m": "Béo bở, sinh lời cao"}, {"w": "Luminary", "ipa": "ˈluːmɪnəri", "pos": "n", "m": "Danh nhân, ngọn đèn sáng"}, {"w": "Luminous", "ipa": "ˈluːmɪnəs", "pos": "adj", "m": "Phát sáng, dạ quang"}, {"w": "Luscious", "ipa": "ˈlʌʃəs", "pos": "adj", "m": "Thơm ngon, mọng nước"}, {"w": "Lurk", "ipa": "lɜːk", "pos": "v", "m": "Ẩn nấp, rình rập"}, {"w": "Magnanimous", "ipa": "mæɡˈnænɪməs", "pos": "adj", "m": "Hào hiệp, bao dung"}, {"w": "Maladjusted", "ipa": "ˌmælənˈdʒʌstɪd", "pos": "adj", "m": "Thích nghi kém"}, {"w": "Malediction", "ipa": "ˌmælɪˈdɪkʃn", "pos": "n", "m": "Lời nguyền rủa"}, {"w": "Malefactor", "ipa": "ˈmælɪfæktə(r)", "pos": "n", "m": "Kẻ phạm tội, kẻ xấu"}, {"w": "Malice", "ipa": "ˈmælɪs", "pos": "n", "m": "Hiểm ác, ác ý"}, {"w": "Malcontent", "ipa": "ˈmælknteənt", "pos": "n", "m": "Người bất mãn"}, {"w": "Manacle", "ipa": "ˈmænəkl", "pos": "n", "m": "Còng tay"}, {"w": "Mandate", "ipa": "ˈmændeɪt", "pos": "n/v", "m": "Lệnh, ủy nhiệm"}, {"w": "Mania", "ipa": "ˈmeɪniə", "pos": "n", "m": "Chứng cuồng, sự đam mê quá mức"}, {"w": "Maniac", "ipa": "ˈmeɪniæk", "pos": "n", "m": "Kẻ điên cuồng"}, {"w": "Meek", "ipa": "miːk", "pos": "adj", "m": "Hiền lành, nhu mì"}, {"w": "Misdeed", "ipa": "ˌmɪsˈdiːd", "pos": "n", "m": "Hành vi sai trái, tội lỗi"}, {"w": "Misgiving", "ipa": "ˌmɪsˈɡɪvɪŋ", "pos": "n", "m": "Sự nghi ngại, mối lo âu"}, {"w": "Multilateral", "ipa": "ˌmʌltiˈlætərəl", "pos": "adj", "m": "Đa phương"}, {"w": "Myriad", "ipa": "ˈmɪriəd", "pos": "n/adj", "m": "Vô số, rất nhiều"}, {"w": "Nemesis", "ipa": "ˈneməsɪs", "pos": "n", "m": "Báo ứng, kẻ thù truyền kiếp"}, {"w": "Nomad", "ipa": "ˈnəʊmæd", "pos": "n", "m": "Dân du mục"}, {"w": "Nomadic", "ipa": "nəʊˈmædɪk", "pos": "adj", "m": "Thuộc du mục"}, {"w": "Novice", "ipa": "ˈnɒvɪs", "pos": "n", "m": "Người mới bắt đầu"}, {"w": "Obtrude", "ipa": "əbˈtruːd", "pos": "v", "m": "Ép buộc, xen vào"}, {"w": "Occupation", "ipa": "ˌɒkjuˈpeɪʃn", "pos": "n", "m": "Nghề nghiệp; Sự chiếm giữ"}, {"w": "Opaque", "ipa": "əʊˈpeɪk", "pos": "adj", "m": "Mờ đục, không trong suốt"}, {"w": "Opulence", "ipa": "ˈɒpjələns", "pos": "n", "m": "Sự giàu có, sự xa hoa"}, {"w": "Orthopedic", "ipa": "ˌɔːθəˈpiːdɪk", "pos": "adj", "m": "Chỉnh hình (y tế)"}, {"w": "Orthodox", "ipa": "ˈɔːθədɒks", "pos": "adj", "m": "Chính thống, truyền thống"}, {"w": "Osteoporosis", "ipa": "ˌɒstiəʊpɔːˈrəʊsɪs", "pos": "n", "m": "Bệnh loãng xương"}, {"w": "Overbearing", "ipa": "ˌəʊvəˈbeərɪŋ", "pos": "adj", "m": "Hãnh tiến, độc đoán"}, {"w": "Overt", "ipa": "əʊˈvɜːt", "pos": "adj", "m": "Công khai, rõ ràng"}, {"w": "Palatable", "ipa": "ˈpælətəbl", "pos": "adj", "m": "Ngon miệng, dễ chịu"}, {"w": "Panacea", "ipa": "ˌpænəˈsiːə", "pos": "n", "m": "Thuốc chữa mọi bệnh"}, {"w": "Pandemonium", "ipa": "ˌpændəˈməʊniəm", "pos": "n", "m": "Sự hỗn loạn, sự náo động"}, {"w": "Panoply", "ipa": "ˈpænəpli", "pos": "n", "m": "Tập hợp phong phú, bộ áo giáp"}, {"w": "Panorama", "ipa": "ˌpænəˈrɑːmə", "pos": "n", "m": "Toàn cảnh"}, {"w": "Pantomime", "ipa": "ˈpæntəmaɪm", "pos": "n", "m": "Kịch câm"}, {"w": "Parrot", "ipa": "ˈpærət", "pos": "n", "m": "Con vẹt"}, {"w": "Passage", "ipa": "ˈpæsɪdʒ", "pos": "n", "m": "Lối đi, đoạn văn"}, {"w": "Patronage", "ipa": "ˈpætrənɪdʒ", "pos": "n", "m": "Sự bảo trợ, nâng đỡ"}, {"w": "Pedagogue", "ipa": "ˈpedəɡɒɡ", "pos": "n", "m": "Nhà giáo, nhà sư phạm"}, {"w": "Pedagogy", "ipa": "ˈpedəɡɒdʒi", "pos": "n", "m": "Phương pháp giảng dạy"}, {"w": "Pediatric", "ipa": "ˌpiːdiˈætrɪk", "pos": "adj", "m": "Thuộc nhi khoa"}, {"w": "Pediatrician", "ipa": "ˌpiːdiəˈtrɪʃn", "pos": "n", "m": "Bác sĩ nhi khoa"}, {"w": "Pendant", "ipa": "ˈpendənt", "pos": "n", "m": "Mặt dây chuyền"}, {"w": "Permeate", "ipa": "ˈpɜːmieɪt", "pos": "v", "m": "Thấm qua, lan tỏa"}, {"w": "Perennial", "ipa": "pəˈreniəl", "pos": "adj", "m": "Lâu năm, vĩnh viễn"}, {"w": "Pertinent", "ipa": "ˈpɜːtɪnənt", "pos": "adj", "m": "Thích hợp, đi thẳng vào vấn đề"}, {"w": "Perverse", "ipa": "pəˈvɜːs", "pos": "adj", "m": "Ngoan cố, ngang bướng"}, {"w": "Phenomenon", "ipa": "fəˈnɒmɪnən", "pos": "n", "m": "Hiện tượng"}, {"w": "Picayune", "ipa": "ˌpɪkəˈjuːn", "pos": "adj", "m": "Nhỏ nhặt, không quan trọng"}, {"w": "Pistol", "ipa": "ˈpɪstl", "pos": "n", "m": "Khẩu súng ngắn"}, {"w": "Pittance", "ipa": "ˈpɪtəns", "pos": "n", "m": "Thù lao hắt hiu, số tiền ít ỏi"}, {"w": "Pliable", "ipa": "ˈplaɪəbl", "pos": "adj", "m": "Dễ uốn, dễ bị ảnh hưởng"}, {"w": "Plucky", "ipa": "ˈplʌki", "pos": "adj", "m": "Gan dạ, dũng cảm"}, {"w": "Plump", "ipa": "plʌm", "pos": "adj", "m": "Đầy đặn, tròn trịa"}, {"w": "Plutocracy", "ipa": "pluːˈtɒkrəsi", "pos": "n", "m": "Chế độ tài phiệt"}, {"w": "Postmortem", "ipa": "ˌpəʊstˈmɔːtəm", "pos": "n/adj", "m": "Sự khám nghiệm tử thi; Sau khi chết"}, {"w": "Postscript", "ipa": "ˈpəʊstskrɪpt", "pos": "n", "m": "Bài tái bút (P.S.)"}, {"w": "Pound", "ipa": "paʊnd", "pos": "n", "m": "Bảng Anh; Đơn vị đo cân nặng (pao)"}, {"w": "Prairie", "ipa": "ˈpreəri", "pos": "n", "m": "Đồng cỏ rộng lớn"}, {"w": "Preclude", "ipa": "prɪˈkluːd", "pos": "v", "m": "Ngăn ngừa, loại trừ"}, {"w": "Precocious", "ipa": "prɪˈkəʊʃəs", "pos": "adj", "m": "Chín sớm, phát triển sớm"}, {"w": "Premature", "ipa": "ˌpreməˈtʃʊə(r)", "pos": "adj", "m": "Sớm, chưa đủ tháng"}, {"w": "Procrastinate", "ipa": "prəˈkræstɪneɪt", "pos": "v", "m": "Trì hoãn, chần chừ"}, {"w": "Prodigious", "ipa": "prəˈdɪdʒəs", "pos": "adj", "m": "Phi thường, to lớn"}, {"w": "Proficient", "ipa": "prəˈfɪʃnt", "pos": "adj", "m": "Thành thạo, giỏi"}, {"w": "Profuse", "ipa": "prəˈfjuːs", "pos": "adj", "m": "Dồi dào, vô số"}, {"w": "Proponent", "ipa": "prəˈpəʊnənt", "pos": "n", "m": "Người ủng hộ, người đề xướng"}, {"w": "Protoplasm", "ipa": "ˈprəʊtəplæzəm", "pos": "n", "m": "Chất nguyên sinh"}, {"w": "Protract", "ipa": "prəˈtrækt", "pos": "v", "m": "Kéo dài (thời gian)"}, {"w": "Protrude", "ipa": "prəˈtruːd", "pos": "v", "m": "Nhô ra, thò ra"}, {"w": "Puddle", "ipa": "ˈpʌdl", "pos": "n", "m": "Vũng nước nhỏ"}, {"w": "Puncture", "ipa": "ˈpʌŋktʃə(r)", "pos": "v/n", "m": "Đâm thủng; Vết đâm"}, {"w": "Purse", "ipa": "pɜːs", "pos": "n", "m": "Ví nữ, túi xách"}, {"w": "Pyromania", "ipa": "ˌpaɪrəʊˈmeɪniə", "pos": "n", "m": "Chứng cuồng phóng hỏa"}, {"w": "Quarantine", "ipa": "ˈkwɒrəntiːn", "pos": "n/v", "m": "Sự cách ly y tế"}, {"w": "Quintet", "ipa": "kwɪnˈtet", "pos": "n", "m": "Nhóm 5 người/vật; Bản ngũ tấu"}, {"w": "Rash", "ipa": "ræʃ", "pos": "adj/n", "m": "Hấp tấp, liều lĩnh; Phát ban"}, {"w": "Rear", "ipa": "rɪə(r)", "pos": "n/v", "m": "Phía sau; Nuôi dưỡng"}, {"w": "Rebuke", "ipa": "rɪˈbjuːk", "pos": "v/n", "m": "Trách mắng, khiển trách"}, {"w": "Recital", "ipa": "rɪˈsaɪtl", "pos": "n", "m": "Buổi biểu diễn độc tấu, sự ngâm thơ"}, {"w": "Recess", "ipa": "rɪˈses", "pos": "n", "m": "Giờ nghỉ, giờ giải lao"}, {"w": "Recoil", "ipa": "rɪˈkɔɪl", "pos": "v", "m": "Lùi lại, giật lùi (vì sợ)"}, {"w": "Reconcile", "ipa": "ˈrekənsaɪl", "pos": "v", "m": "Hòa giải, làm cho phù hợp"}, {"w": "Relent", "ipa": "rɪˈlent", "pos": "v", "m": "Bớt gay gắt, mủi lòng"}, {"w": "Relinquish", "ipa": "rɪˈlɪŋkwɪʃ", "pos": "v", "m": "Từ bỏ, buông bỏ"}, {"w": "Repose", "ipa": "rɪˈpəʊz", "pos": "n/v", "m": "Sự nghỉ ngơi, thư giãn"}, {"w": "Requisite", "ipa": "ˈrekwɪzɪt", "pos": "n/adj", "m": "Điều kiện cần thiết; Bắt buộc"}, {"w": "Reserved", "ipa": "rɪˈzɜːvd", "pos": "adj", "m": "Dè dặt, kín đáo"}, {"w": "Reservoir", "ipa": "ˈrezəvwɑː(r)", "pos": "n", "m": "Hồ chứa nước"}, {"w": "Reside", "ipa": "rɪˈzaɪd", "pos": "v", "m": "Cư trú, ở"}, {"w": "Rigid", "ipa": "ˈrɪdʒɪd", "pos": "adj", "m": "Cứng nhắc, không linh hoạt"}, {"w": "Rigorous", "ipa": "ˈrɪɡərəs", "pos": "adj", "m": "Nghiêm ngặt, khắt khe"}, {"w": "Rummage", "ipa": "ˈrʌmɪdʒ", "pos": "v", "m": "Lục soát, lục tìm"}, {"w": "Scarf", "ipa": "skɑːf", "pos": "n", "m": "Khăn quàng cổ"}, {"w": "Scorching", "ipa": "ˈskɔːtʃɪŋ", "pos": "adj", "m": "Nóng như đốt, thiêu đốt"}, {"w": "Scribe", "ipa": "skraɪb", "pos": "n", "m": "Người chép thuê, thư ký"}, {"w": "Scrupulous", "ipa": "ˈskruːpjələs", "pos": "adj", "m": "Tỉ mỉ, thận trọng"}, {"w": "Secession", "ipa": "sɪˈseʃn", "pos": "n", "m": "Sự ly khai"}, {"w": "Seclude", "ipa": "sɪˈkluːd", "pos": "v", "m": "Tách biệt, cô lập"}, {"w": "Sedition", "ipa": "sɪˈdɪʃn", "pos": "n", "m": "Tội xúi giục nổi loạn"}, {"w": "Segregation", "ipa": "ˌseɡrɪˈɡeɪʃn", "pos": "n", "m": "Sự phân biệt, sự chia rẽ"}, {"w": "Semidetached", "ipa": "ˌsemidɪˈtætʃt", "pos": "adj", "m": "Nhà liền kề một bên"}, {"w": "Simpering", "ipa": "ˈsɪmpərɪŋ", "pos": "adj", "m": "Cười khẩy, cười giả tạo"}, {"w": "Slake", "ipa": "sleɪk", "pos": "v", "m": "Giải tỏa, làm dịu (cơn khát)"}, {"w": "Slate", "ipa": "sleɪt", "pos": "n", "m": "Đá phiến; Bảng đá"}, {"w": "Slovenly", "ipa": "ˈslʌvnli", "pos": "adj", "m": "Nhếch nhác, lộm thuộm"}, {"w": "Sojourn", "ipa": "ˈsɒdʒən", "pos": "n/v", "m": "Sự tạm trú; Ở tạm"}, {"w": "Solicitude", "ipa": "səˈlɪsɪtjuːd", "pos": "n", "m": "Sự lo lắng chu đáo"}, {"w": "Soliloquy", "ipa": "səˈlɪləkwi", "pos": "n", "m": "Độc thoại"}, {"w": "Soluble", "ipa": "ˈsɒljəbl", "pos": "adj", "m": "Có thể hòa tan"}, {"w": "Solvent", "ipa": "ˈsɒlvənt", "pos": "n/adj", "m": "Dung môi; Có khả năng trả nợ"}, {"w": "Spawn", "ipa": "spɔːn", "pos": "n/v", "m": "Trứng cá/ếch; Đẻ trứng, sinh ra"}, {"w": "Sporadic", "ipa": "spəˈrædɪk", "pos": "adj", "m": "Thỉnh thoảng, rải rác"}, {"w": "Stamen", "ipa": "ˈsteɪmən", "pos": "n", "m": "Nhị hoa"}, {"w": "Submit", "ipa": "səbˈmɪt", "pos": "v", "m": "Nộp; Khuất phục"}, {"w": "Succulent", "ipa": "ˈsʌkjələnt", "pos": "adj/n", "m": "Mọng nước; Cây cảnh mọng nước"}, {"w": "Suspense", "ipa": "səˈspens", "pos": "n", "m": "Sự hồi hộp, tình trạng chờ đợi"}, {"w": "Symmetry", "ipa": "ˈsɪmətri", "pos": "n", "m": "Sự đối xứng"}, {"w": "Taxidermist", "ipa": "ˈtæksɪdɜːmɪst", "pos": "n", "m": "Người nhồi bông động vật"}, {"w": "Tenacious", "ipa": "təˈneɪʃəs", "pos": "adj", "m": "Kiên trì, dai dẳng"}, {"w": "Timid", "ipa": "ˈtɪmɪd", "pos": "adj", "m": "Rụt rè, nhút nhát"}, {"w": "Timorous", "ipa": "ˈtɪmərəs", "pos": "adj", "m": "Nhút nhát, sợ hãi"}, {"w": "Transient", "ipa": "ˈtrænziənt", "pos": "adj", "m": "Tạm thời, thoáng qua"}, {"w": "Transgress", "ipa": "trænzˈɡres", "pos": "v", "m": "Vi phạm, vượt giới hạn"}, {"w": "Trepidation", "ipa": "ˌtrepɪˈdeɪʃn", "pos": "n", "m": "Sự lo sợ, sự thảng thốt"}, {"w": "Tractable", "ipa": "ˈtræktəbl", "pos": "adj", "m": "Dễ điều khiển, dễ bảo"}, {"w": "Turquoise", "ipa": "ˈtɜːkwɔɪz", "pos": "n/adj", "m": "Màu xanh ngọc bích"}, {"w": "Unabridged", "ipa": "ˌʌnəˈbrɪdʒd", "pos": "adj", "m": "Nguyên bản, không cắt gọt"}, {"w": "Unanimity", "ipa": "ˌjuːnəˈnɪməti", "pos": "n", "m": "Sự nhất trí 100%"}, {"w": "Unanimous", "ipa": "juˈnænɪməs", "pos": "adj", "m": "Nhất trí, đồng lòng"}, {"w": "Unequalled", "ipa": "ʌnˈiːkwəld", "pos": "adj", "m": "Vô song, không ai bằng"}, {"w": "Unnerved", "ipa": "ˌʌnˈnɜːvd", "pos": "adj", "m": "Bị hoảng sợ, mất tinh thần"}, {"w": "Unorthodox", "ipa": "ʌnˈɔːθədɒks", "pos": "adj", "m": "Không chính thống, phá cách"}, {"w": "Unquenchable", "ipa": "ʌnˈkwentʃəbl", "pos": "adj", "m": "Không thể dập tắt/thỏa mãn"}, {"w": "Unwary", "ipa": "ʌnˈweəri", "pos": "adj", "m": "Không cảnh giác, lơ đễnh"}, {"w": "Upheaval", "ipa": "ʌpˈhiːvl", "pos": "n", "m": "Sự biến động lớn"}, {"w": "Upkeep", "ipa": "ˈʌpkiːp", "pos": "n", "m": "Sự bảo trì, chi phí bảo dưỡng"}, {"w": "Upturn", "ipa": "ˈʌptɜːn", "pos": "n", "m": "Sự gia tăng, xu hướng đi lên"}, {"w": "Vehement", "ipa": "ˈviːəmənt", "pos": "adj", "m": "Mãnh liệt, kịch liệt"}, {"w": "Veracity", "ipa": "vəˈræsəti", "pos": "n", "m": "Tính chân thực, tính trung thực"}, {"w": "Veritable", "ipa": "ˈverɪtəbl", "pos": "adj", "m": "Thực sự, đúng là"}, {"w": "Verity", "ipa": "ˈverəti", "pos": "n", "m": "Chân lý, sự thật"}, {"w": "Vertebrate", "ipa": "ˈvɜːtɪbrət", "pos": "n", "m": "Động vật có xương sống"}, {"w": "Versatile", "ipa": "ˈvɜːsətaɪl", "pos": "adj", "m": "Đa năng, linh hoạt"}, {"w": "Vigilance", "ipa": "ˈvɪdʒɪləns", "pos": "n", "m": "Sự cảnh giác, sự cẩn trọng"}, {"w": "Vigor", "ipa": "ˈvɪɡə(r)", "pos": "n", "m": "Sức mạnh, sinh lực"}, {"w": "Visibility", "ipa": "ˌvɪzəˈbɪləti", "pos": "n", "m": "Tầm nhìn, độ rõ"}, {"w": "Volatile", "ipa": "ˈvɒlətaɪl", "pos": "adj", "m": "Dễ bay hơi; Biến đổi thất thường"}, {"w": "Voracious", "ipa": "vəˈreɪʃəs", "pos": "adj", "m": "Tham ăn, khao khát lớn"}, {"w": "Vulcanize", "ipa": "ˈvʌlkənaɪz", "pos": "v", "m": "Lưu hóa (cao su)"}, {"w": "Wary", "ipa": "ˈweəri", "pos": "adj", "m": "Cảnh giác, thận trọng"}, {"w": "Wrangle", "ipa": "ˈræŋɡl", "pos": "v/n", "m": "Cãi lộn, cuộc tranh cãi gay gắt"}, {"w": "Wrinkles", "ipa": "ˈrɪŋklz", "pos": "n", "m": "Nếp nhăn"}, {"w": "Wretched", "ipa": "ˈretʃɪd", "pos": "adj", "m": "Khốn khổ, tồi tệ"}, {"w": "Abundant", "ipa": "əˈbʌndənt", "pos": "adj", "m": "dồi dào, phong phú, nhiều"}, {"w": "Accentuate", "ipa": "əkˈsentʃu.eɪt", "pos": "v", "m": "nhấn mạnh, làm nổi bật"}, {"w": "Accord", "ipa": "əˈkɔːrd", "pos": "n/v", "m": "sự đồng thuận; phù hợp; dành/trao"}, {"w": "Adhere", "ipa": "ədˈhɪr", "pos": "v", "m": "tuân thủ; bám, dính"}, {"w": "Adjacent", "ipa": "əˈdʒeɪsənt", "pos": "adj", "m": "liền kề, kế bên"}, {"w": "Adopt", "ipa": "əˈdɑːpt", "pos": "v", "m": "áp dụng; chấp nhận; nhận nuôi"}, {"w": "Advocate", "ipa": "ˈædvəkeɪt", "pos": "n/v", "m": "người ủng hộ; ủng hộ, chủ trương"}, {"w": "Aggregate", "ipa": "ˈæɡrɪɡət", "pos": "n/adj/v", "m": "tổng thể; tổng hợp; tập hợp"}, {"w": "Alleviate", "ipa": "əˈliːvieɪt", "pos": "v", "m": "làm giảm, làm dịu"}, {"w": "Ameliorate", "ipa": "əˈmiːliəreɪt", "pos": "v", "m": "cải thiện, làm tốt hơn"}, {"w": "Ambiguous", "ipa": "æmˈbɪɡjuəs", "pos": "adj", "m": "mơ hồ, nhập nhằng, có nhiều cách hiểu"}, {"w": "Annotate", "ipa": "ˈænəteɪt", "pos": "v", "m": "chú thích, ghi chú"}, {"w": "Antagonistic", "ipa": "ænˌtæɡəˈnɪstɪk", "pos": "adj", "m": "đối kháng, thù địch"}, {"w": "Appraise", "ipa": "əˈpreɪz", "pos": "v", "m": "đánh giá, thẩm định"}, {"w": "Appraisal", "ipa": "əˈpreɪzəl", "pos": "n", "m": "sự đánh giá, thẩm định"}, {"w": "Arbitrate", "ipa": "ˈɑːrbɪtreɪt", "pos": "v", "m": "phân xử, làm trọng tài"}, {"w": "Arbitrary", "ipa": "ˈɑːrbətreri", "pos": "adj", "m": "tùy tiện, độc đoán, không dựa trên nguyên tắc rõ ràng"}, {"w": "Articulate", "ipa": "ɑːrˈtɪkjəleɪt", "pos": "v/adj", "m": "diễn đạt rõ ràng; rõ ràng, mạch lạc"}, {"w": "Ascribe", "ipa": "əˈskraɪb", "pos": "v", "m": "quy cho, cho là do"}, {"w": "Aspiration", "ipa": "ˌæspəˈreɪʃən", "pos": "n", "m": "khát vọng, nguyện vọng, hoài bão"}, {"w": "Assent", "ipa": "əˈsent", "pos": "n/v", "m": "sự đồng ý; đồng ý, tán thành"}, {"w": "Assimilate", "ipa": "əˈsɪməleɪt", "pos": "v", "m": "tiếp thu; đồng hóa; hòa nhập"}, {"w": "Assimilation", "ipa": "əˌsɪməˈleɪʃən", "pos": "n", "m": "sự tiếp thu, đồng hóa, hòa nhập"}, {"w": "Attribute", "ipa": "ˈætrɪbjuːt", "pos": "n/v", "m": "đặc tính; quy cho, cho là do"}, {"w": "Augment", "ipa": "ɔːɡˈment", "pos": "v", "m": "tăng, gia tăng, bổ sung"}, {"w": "Avert", "ipa": "əˈvɜːrt", "pos": "v", "m": "ngăn chặn; tránh, làm chệch hướng"}, {"w": "Benign", "ipa": "bɪˈnaɪn", "pos": "adj", "m": "lành tính; vô hại; ôn hòa"}, {"w": "Bolster", "ipa": "ˈboʊlstər", "pos": "v", "m": "củng cố, tăng cường, hỗ trợ"}, {"w": "Boundary", "ipa": "ˈbaʊndəri", "pos": "n", "m": "ranh giới, giới hạn"}, {"w": "Chastise", "ipa": "tʃæˈstaɪz", "pos": "v", "m": "khiển trách, quở trách, trừng phạt"}, {"w": "Circumvent", "ipa": "ˌsɜːrkəmˈvent", "pos": "v", "m": "né tránh, lách, vượt qua bằng thủ đoạn"}, {"w": "Coerce", "ipa": "koʊˈɜːrs", "pos": "v", "m": "cưỡng ép, ép buộc"}, {"w": "Concede", "ipa": "kənˈsiːd", "pos": "v", "m": "thừa nhận; nhượng bộ"}, {"w": "Conclusive", "ipa": "kənˈkluːsɪv", "pos": "adj", "m": "có tính kết luận, xác đáng, không thể bác bỏ"}, {"w": "Condescending", "ipa": "ˌkɑːndɪˈsendɪŋ", "pos": "adj", "m": "trịch thượng, kẻ cả"}, {"w": "Confer", "ipa": "kənˈfɜːr", "pos": "v", "m": "trao, ban; bàn bạc, hội ý"}, {"w": "Confound", "ipa": "kənˈfaʊnd", "pos": "v", "m": "làm bối rối; làm sai lệch; bác bỏ dự đoán"}, {"w": "Contingent", "ipa": "kənˈtɪndʒənt", "pos": "adj/n", "m": "phụ thuộc vào điều kiện; nhóm/phái"}, {"w": "Contingency", "ipa": "kənˈtɪndʒənsi", "pos": "n", "m": "khả năng có thể xảy ra; tình huống bất ngờ"}, {"w": "Contrive", "ipa": "kənˈtraɪv", "pos": "v", "m": "xoay xở; nghĩ ra; sắp đặt, tạo ra một cách khéo léo"}, {"w": "Corroborate", "ipa": "kəˈrɑːbəreɪt", "pos": "v", "m": "xác nhận, củng cố bằng bằng chứng"}, {"w": "Credibility", "ipa": "ˌkredəˈbɪləti", "pos": "n", "m": "độ tin cậy, uy tín"}, {"w": "Culminate", "ipa": "ˈkʌlmɪneɪt", "pos": "v", "m": "lên đến đỉnh điểm; kết thúc bằng"}, {"w": "Cumulative", "ipa": "ˈkjuːmjələtɪv", "pos": "adj", "m": "tích lũy, cộng dồn"}, {"w": "Cursory", "ipa": "ˈkɜːrsəri", "pos": "adj", "m": "qua loa, sơ sài, hời hợt"}, {"w": "Curtail", "ipa": "kɜːrˈteɪl", "pos": "v", "m": "cắt giảm, hạn chế, rút ngắn"}, {"w": "Debilitating", "ipa": "dɪˈbɪlɪteɪtɪŋ", "pos": "adj", "m": "làm suy yếu, làm suy nhược"}, {"w": "Deduce", "ipa": "dɪˈduːs", "pos": "v", "m": "suy ra, suy luận"}, {"w": "Defer", "ipa": "dɪˈfɜːr", "pos": "v", "m": "trì hoãn; defer to = tôn trọng/nhường cho"}, {"w": "Delineate", "ipa": "dɪˈlɪnieɪt", "pos": "v", "m": "vạch rõ, mô tả rõ ràng, phân định"}, {"w": "Detach", "ipa": "dɪˈtætʃ", "pos": "v", "m": "tách ra; tách rời; không để cảm xúc chi phối"}, {"w": "Deter", "ipa": "dɪˈtɜːr", "pos": "v", "m": "ngăn cản, làm nản lòng"}, {"w": "Detrimental", "ipa": "ˌdetrɪˈmentəl", "pos": "adj", "m": "có hại, bất lợi"}, {"w": "Deviate", "ipa": "ˈdiːvieɪt", "pos": "v", "m": "đi lệch, chệch khỏi"}, {"w": "Dilute", "ipa": "daɪˈluːt", "pos": "v", "m": "pha loãng; làm suy yếu, giảm mức độ"}, {"w": "Discerning", "ipa": "dɪˈsɜːrnɪŋ", "pos": "adj", "m": "sáng suốt, tinh tế, có khả năng nhận định tốt"}, {"w": "Discrepant", "ipa": "dɪˈskrepənt", "pos": "adj", "m": "không phù hợp, mâu thuẫn, sai lệch"}, {"w": "Discrete", "ipa": "dɪˈskriːt", "pos": "adj", "m": "riêng biệt, tách biệt"}, {"w": "Disparate", "ipa": "ˈdɪspərət", "pos": "adj", "m": "khác biệt rõ rệt, không tương đồng"}, {"w": "Disparity", "ipa": "dɪˈspærəti", "pos": "n", "m": "sự chênh lệch, bất bình đẳng"}, {"w": "Dissemination", "ipa": "dɪˌsemɪˈneɪʃən", "pos": "n", "m": "sự phổ biến, truyền bá"}, {"w": "Eclectic", "ipa": "ɪˈklektɪk", "pos": "adj", "m": "chiết trung; chọn lọc từ nhiều nguồn/phong cách"}, {"w": "Elicit", "ipa": "ɪˈlɪsɪt", "pos": "v", "m": "khơi gợi, gợi ra, thu được (thông tin/phản ứng)"}, {"w": "Elusive", "ipa": "ɪˈluːsɪv", "pos": "adj", "m": "khó nắm bắt, khó tìm, khó đạt được"}, {"w": "Encompass", "ipa": "ɪnˈkʌmpəs", "pos": "v", "m": "bao gồm, bao quát"}, {"w": "Entrench", "ipa": "ɪnˈtrentʃ", "pos": "v", "m": "củng cố vững chắc; ăn sâu, cố thủ"}, {"w": "Enforce", "ipa": "ɪnˈfɔːrs", "pos": "v", "m": "thi hành, thực thi; bắt buộc tuân thủ"}, {"w": "Ensnare", "ipa": "ɪnˈsner", "pos": "v", "m": "gài bẫy, mắc bẫy, làm sa vào"}, {"w": "Enumerate", "ipa": "ɪˈnuːməreɪt", "pos": "v", "m": "liệt kê, kể ra từng mục"}, {"w": "Envisage", "ipa": "ɪnˈvɪzɪdʒ", "pos": "v", "m": "hình dung, dự liệu, tưởng tượng"}, {"w": "Ephemeral", "ipa": "ɪˈfemərəl", "pos": "adj", "m": "chóng tàn, ngắn ngủi"}, {"w": "Equivocal", "ipa": "ɪˈkwɪvəkəl", "pos": "adj", "m": "mập mờ, nước đôi, không rõ ràng"}, {"w": "Exacerbate", "ipa": "ɪɡˈzæsərbeɪt", "pos": "v", "m": "làm trầm trọng thêm, làm xấu hơn"}, {"w": "Exclude", "ipa": "ɪkˈskluːd", "pos": "v", "m": "loại trừ, loại bỏ, không bao gồm"}, {"w": "Exhaustive", "ipa": "ɪɡˈzɔːstɪv", "pos": "adj", "m": "toàn diện, đầy đủ, kỹ lưỡng"}, {"w": "Expedient", "ipa": "ɪkˈspiːdiənt", "pos": "adj/n", "m": "có lợi trước mắt, thiết thực; biện pháp tạm thời"}, {"w": "Facet", "ipa": "ˈfæsɪt", "pos": "n", "m": "khía cạnh, phương diện"}, {"w": "Fluctuate", "ipa": "ˈflʌktʃueɪt", "pos": "v", "m": "dao động, biến động"}, {"w": "Foster", "ipa": "ˈfɔːstər", "pos": "v", "m": "thúc đẩy, nuôi dưỡng, khuyến khích"}, {"w": "Fragmented", "ipa": "fræɡˈmentɪd", "pos": "adj", "m": "phân mảnh, rời rạc"}, {"w": "Fraught", "ipa": "frɔːt", "pos": "adj", "m": "đầy rẫy; đầy nguy cơ/khó khăn"}, {"w": "Generic", "ipa": "dʒəˈnerɪk", "pos": "adj", "m": "chung chung; không đặc thù; phổ thông"}, {"w": "Hinder", "ipa": "ˈhɪndər", "pos": "v", "m": "cản trở, gây khó khăn"}, {"w": "Homogeneous", "ipa": "ˌhoʊməˈdʒiːniəs", "pos": "adj", "m": "đồng nhất, đồng đều"}, {"w": "Hostile", "ipa": "ˈhɑːstəl", "pos": "adj", "m": "thù địch; không thân thiện; chống đối"}, {"w": "Inadequate", "ipa": "ɪnˈædəkwət", "pos": "adj", "m": "không đủ, thiếu, không thích đáng"}, {"w": "Inclination", "ipa": "ˌɪnkləˈneɪʃən", "pos": "n", "m": "xu hướng; khuynh hướng; ý muốn"}, {"w": "Inhibition", "ipa": "ˌɪnhəˈbɪʃən", "pos": "n", "m": "sự kìm hãm, ức chế; sự dè dặt"}, {"w": "Intrinsic", "ipa": "ɪnˈtrɪnzɪk", "pos": "adj", "m": "nội tại, vốn có, bản chất"}, {"w": "Marginal", "ipa": "ˈmɑːrdʒɪnəl", "pos": "adj", "m": "nhỏ, không đáng kể; bên lề; cận biên"}, {"w": "Mitigate", "ipa": "ˈmɪtɪɡeɪt", "pos": "v", "m": "giảm nhẹ, làm dịu, giảm tác hại"}, {"w": "Negligible", "ipa": "ˈneɡlɪdʒəbəl", "pos": "adj", "m": "không đáng kể, có thể bỏ qua"}, {"w": "Obscure", "ipa": "əbˈskjʊr", "pos": "adj/v", "m": "mơ hồ, khó hiểu; che khuất, làm lu mờ"}, {"w": "Offset", "ipa": "ˈɔːfset", "pos": "n/v", "m": "sự bù đắp; bù đắp, cân bằng"}, {"w": "Plausible", "ipa": "ˈplɔːzəbəl", "pos": "adj", "m": "hợp lý, có vẻ đáng tin"}, {"w": "Proliferate", "ipa": "prəˈlɪfəreɪt", "pos": "v", "m": "sinh sôi nhanh; phát triển/tràn lan"}, {"w": "Prone", "ipa": "proʊn", "pos": "adj", "m": "dễ có xu hướng; dễ bị"}, {"w": "Refute", "ipa": "rɪˈfjuːt", "pos": "v", "m": "bác bỏ, phản bác bằng lập luận/bằng chứng"}, {"w": "Render", "ipa": "ˈrendər", "pos": "v", "m": "khiến cho; cung cấp; trình bày; chuyển thể"}, {"w": "Repudiate", "ipa": "rɪˈpjuːdieɪt", "pos": "v", "m": "bác bỏ, phủ nhận; từ chối chấp nhận"}, {"w": "Salient", "ipa": "ˈseɪliənt", "pos": "adj", "m": "nổi bật, đáng chú ý, quan trọng"}, {"w": "Substantiate", "ipa": "səbˈstænʃieɪt", "pos": "v", "m": "chứng minh, xác thực bằng bằng chứng"}, {"w": "Superficial", "ipa": "ˌsuːpərˈfɪʃəl", "pos": "adj", "m": "hời hợt, nông cạn; bề ngoài"}, {"w": "Tentative", "ipa": "ˈtentətɪv", "pos": "adj", "m": "thăm dò; chưa chắc chắn; tạm thời"}, {"w": "Tenuous", "ipa": "ˈtenjuəs", "pos": "adj", "m": "mong manh, yếu ớt; thiếu cơ sở vững chắc"}, {"w": "Trivial", "ipa": "ˈtrɪviəl", "pos": "adj", "m": "tầm thường; không đáng kể"}, {"w": "Underpin", "ipa": "ˌʌndərˈpɪn", "pos": "v", "m": "làm nền tảng, hỗ trợ, củng cố"}, {"w": "Undermine", "ipa": "ˌʌndərˈmaɪn", "pos": "v", "m": "làm suy yếu, phá hoại ngầm"}, {"w": "Trigger", "ipa": "ˈtrɪɡə(r)", "pos": "v", "m": "kích hoạt, gây ra"}, {"w": "Fuel", "ipa": "ˈfjuːəl", "pos": "v", "m": "làm tăng, kích động"}, {"w": "Prompt", "ipa": "prɒmpt", "pos": "v", "m": "thúc đẩy"}, {"w": "Reinforce", "ipa": "ˌriːɪnˈfɔːs", "pos": "v", "m": "củng cố"}, {"w": "Cultivate", "ipa": "ˈkʌltɪveɪt", "pos": "v", "m": "nuôi dưỡng"}, {"w": "Hamper", "ipa": "ˈhæmpə(r)", "pos": "v", "m": "cản trở"}, {"w": "Encroach on", "ipa": "ɪnˈkrəʊtʃ ɒn", "pos": "phr v", "m": "xâm lấn"}, {"w": "Erode", "ipa": "ɪˈrəʊd", "pos": "v", "m": "bào mòn"}, {"w": "Violate", "ipa": "ˈvaɪəleɪt", "pos": "v", "m": "vi phạm"}, {"w": "Facilitate", "ipa": "fəˈsɪlɪteɪt", "pos": "v", "m": "tạo điều kiện"}, {"w": "Inhibit", "ipa": "ɪnˈhɪbɪt", "pos": "v", "m": "kìm hãm"}, {"w": "Accelerate", "ipa": "əkˈseləreɪt", "pos": "v", "m": "đẩy nhanh"}, {"w": "Exert", "ipa": "ɪɡˈzɜːt", "pos": "v", "m": "gây ảnh hưởng, gây áp lực"}, {"w": "Contribute to", "ipa": "kənˈtrɪbjuːt tuː", "pos": "phr v", "m": "góp phần"}, {"w": "Yield", "ipa": "jiːld", "pos": "v", "m": "tạo ra, đem lại"}, {"w": "Beneficial", "ipa": "ˌbenɪˈfɪʃl", "pos": "adj", "m": "có lợi"}, {"w": "Viable", "ipa": "ˈvaɪəbl", "pos": "adj", "m": "khả thi"}, {"w": "Inevitable", "ipa": "ɪnˈevɪtəbl", "pos": "adj", "m": "không thể tránh khỏi"}, {"w": "Prominent", "ipa": "ˈprɒmɪnənt", "pos": "adj", "m": "nổi bật"}, {"w": "Substantial", "ipa": "səbˈstænʃl", "pos": "adj", "m": "đáng kể"}, {"w": "Notable", "ipa": "ˈnəʊtəbl", "pos": "adj", "m": "đáng chú ý"}, {"w": "Sustainable", "ipa": "səˈsteɪnəbl", "pos": "adj", "m": "bền vững"}, {"w": "Sophisticated", "ipa": "səˈfɪstɪkeɪtɪd", "pos": "adj", "m": "tinh vi, phức tạp"}, {"w": "Resilient", "ipa": "rɪˈzɪliənt", "pos": "adj", "m": "kiên cường, phục hồi tốt"}, {"w": "Controversial", "ipa": "ˌkɒntrəˈvɜːʃl", "pos": "adj", "m": "gây tranh cãi"}, {"w": "Compelling", "ipa": "kəmˈpelɪŋ", "pos": "adj", "m": "thuyết phục"}, {"w": "Extensive", "ipa": "ɪkˈstensɪv", "pos": "adj", "m": "rộng, bao quát"}, {"w": "Scarce", "ipa": "skeəs", "pos": "adj", "m": "khan hiếm"}, {"w": "Adverse", "ipa": "ˈædvɜːs", "pos": "adj", "m": "bất lợi"}, {"w": "Escalate", "ipa": "ˈeskəleɪt", "pos": "v", "m": "tăng nhanh"}, {"w": "Plummet", "ipa": "ˈplʌmɪt", "pos": "v", "m": "giảm mạnh"}, {"w": "Surge", "ipa": "sɜːdʒ", "pos": "n/v", "m": "tăng đột biến"}, {"w": "Stabilise", "ipa": "ˈsteɪbəlaɪz", "pos": "v", "m": "ổn định"}, {"w": "Dwarf", "ipa": "dwɔːf", "pos": "v", "m": "làm lu mờ"}, {"w": "Outpace", "ipa": "ˌaʊtˈpeɪs", "pos": "v", "m": "vượt tốc độ"}, {"w": "Exceed", "ipa": "ɪkˈsiːd", "pos": "v", "m": "vượt quá"}, {"w": "Undergo", "ipa": "ˌʌndəˈɡəʊ", "pos": "v", "m": "trải qua"}, {"w": "Peak", "ipa": "piːk", "pos": "n/v", "m": "đạt đỉnh"}, {"w": "Deteriorate", "ipa": "dɪˈtɪəriəreɪt", "pos": "v", "m": "xấu đi"}, {"w": "Soar", "ipa": "sɔː(r)", "pos": "v", "m": "tăng vọt"}, {"w": "Decline", "ipa": "dɪˈklaɪn", "pos": "n/v", "m": "suy giảm"}, {"w": "Plateau", "ipa": "ˈplætəʊ", "pos": "n/v", "m": "chững lại, đi ngang"}, {"w": "Rebound", "ipa": "rɪˈbaʊnd", "pos": "n/v", "m": "phục hồi, tăng trở lại"}, {"w": "Address", "ipa": "əˈdres", "pos": "v", "m": "xử lý (một vấn đề)"}, {"w": "Acknowledge", "ipa": "əkˈnɒlɪdʒ", "pos": "v", "m": "công nhận"}, {"w": "Assert", "ipa": "əˈsɜːt", "pos": "v", "m": "khẳng định mạnh mẽ"}, {"w": "Contradict", "ipa": "ˌkɒntrəˈdɪkt", "pos": "v", "m": "mâu thuẫn"}, {"w": "Overlook", "ipa": "ˌəʊvəˈlʊk", "pos": "v", "m": "bỏ qua"}, {"w": "Rectify", "ipa": "ˈrektɪfaɪ", "pos": "v", "m": "sửa chữa"}, {"w": "Curb", "ipa": "kɜːb", "pos": "v", "m": "kiềm chế"}, {"w": "Devise", "ipa": "dɪˈvaɪz", "pos": "v", "m": "nghĩ ra"}, {"w": "Implement", "ipa": "ˈɪmplɪment", "pos": "v", "m": "thực thi"}, {"w": "Embody", "ipa": "ɪmˈbɒdi", "pos": "v", "m": "hiện thân của"}, {"w": "Instil", "ipa": "ɪnˈstɪl", "pos": "v", "m": "truyền dạy"}, {"w": "Invoke", "ipa": "ɪnˈvəʊk", "pos": "v", "m": "viện dẫn"}, {"w": "Precipitate", "ipa": "prɪˈsɪpɪteɪt", "pos": "v", "m": "làm xảy ra"}, {"w": "Perpetuate", "ipa": "pəˈpetʃueɪt", "pos": "v", "m": "kéo dài, duy trì"}, {"w": "Eliminate", "ipa": "ɪˈlɪmɪneɪt", "pos": "v", "m": "loại bỏ"}, {"w": "Harness", "ipa": "ˈhɑːnɪs", "pos": "v", "m": "khai thác"}, {"w": "Retain", "ipa": "rɪˈteɪn", "pos": "v", "m": "giữ lại"}, {"w": "Scrutinise", "ipa": "ˈskruːtənaɪz", "pos": "v", "m": "xem xét kỹ"}, {"w": "Speculate", "ipa": "ˈspekjuleɪt", "pos": "v", "m": "phỏng đoán"}, {"w": "Infer", "ipa": "ɪnˈfɜː(r)", "pos": "v", "m": "suy ra"}, {"w": "Highlight", "ipa": "ˈhaɪlaɪt", "pos": "v", "m": "nhấn mạnh"}, {"w": "Contend", "ipa": "kənˈtend", "pos": "v", "m": "cho rằng"}, {"w": "Reiterate", "ipa": "riːˈɪtəreɪt", "pos": "v", "m": "nhắc lại"}, {"w": "Justify", "ipa": "ˈdʒʌstɪfaɪ", "pos": "v", "m": "biện minh"}, {"w": "Underscore", "ipa": "ˌʌndəˈskɔː(r)", "pos": "v", "m": "nhấn mạnh"}, {"w": "Conceptualise", "ipa": "kənˈseptʃuəlaɪz", "pos": "v", "m": "hình dung"}, {"w": "Evaluate", "ipa": "ɪˈvæljueɪt", "pos": "v", "m": "đánh giá"}, {"w": "Differentiate", "ipa": "ˌdɪfəˈrenʃieɪt", "pos": "v", "m": "phân biệt"}, {"w": "Synthesise", "ipa": "ˈsɪnθəsaɪz", "pos": "v", "m": "tổng hợp"}, {"w": "Demonstrate", "ipa": "ˈdemənstreɪt", "pos": "v", "m": "chứng minh"}, {"w": "Inequity", "ipa": "ɪnˈekwəti", "pos": "n", "m": "sự bất bình đẳng"}, {"w": "Prosperity", "ipa": "prɒˈsperəti", "pos": "n", "m": "thịnh vượng"}, {"w": "Affluence", "ipa": "ˈæfluəns", "pos": "n", "m": "giàu có"}, {"w": "Initiative", "ipa": "ɪˈnɪʃətɪv", "pos": "n", "m": "sáng kiến"}, {"w": "Intervention", "ipa": "ˌɪntəˈvenʃn", "pos": "n", "m": "sự can thiệp"}, {"w": "Infrastructure", "ipa": "ˈɪnfrəstrʌktʃə(r)", "pos": "n", "m": "cơ sở hạ tầng"}, {"w": "Legislation", "ipa": "ˌledʒɪsˈleɪʃn", "pos": "n", "m": "luật pháp"}, {"w": "Socioeconomic", "ipa": "ˌsəʊsiəʊˌekəˈnɒmɪk", "pos": "adj", "m": "kinh tế – xã hội"}, {"w": "Prevalence", "ipa": "ˈprevələns", "pos": "n", "m": "mức độ phổ biến"}];
+
+// ---------------- state ----------------
+let order = WORDS.map((_, i) => i);
+let pos = 0;
+let flipped = false;
+let status = {}; // idx -> 'know' | 'again'
+let filterOn = false;
+
+const el = id => document.getElementById(id);
+
+function posColorVar(pos){
+  const p = pos.trim().toLowerCase();
+  if(p.includes('/')) return 'pos-multi';
+  if(p.startsWith('phr')) return 'pos-phr';
+  if(p === 'v') return 'pos-v';
+  if(p === 'n') return 'pos-n';
+  if(p === 'adj') return 'pos-adj';
+  if(p === 'adv') return 'pos-adv';
+  return 'pos-multi';
+}
+
+function getVisible(){
+  return filterOn ? order.filter(i => status[i] !== 'know') : order;
+}
+
+function render(){
+  const visible = getVisible();
+  const known = Object.values(status).filter(s => s === 'know').length;
+  const again = Object.values(status).filter(s => s === 'again').length;
+  el('progressStats').textContent = 'Đã thuộc: ' + known + ' · Cần ôn: ' + again;
+
+  if(visible.length === 0){
+    el('doneState').style.display = 'block';
+    el('card').parentElement.style.display = 'none';
+    el('controlsRow').style.display = 'none';
+    el('navRow').style.display = 'none';
+    el('progressLabel').textContent = '0 / ' + WORDS.length;
+    el('progressFill').style.width = '0%';
+    return;
+  }
+  el('doneState').style.display = 'none';
+  el('card').parentElement.style.display = '';
+  el('controlsRow').style.display = 'flex';
+  el('navRow').style.display = 'flex';
+
+  if(pos >= visible.length) pos = 0;
+  if(pos < 0) pos = visible.length - 1;
+
+  const i = visible[pos];
+  const w = WORDS[i];
+  el('cardIndex').textContent = String(i+1).padStart(3,'0');
+  el('cardPos').textContent = w.pos;
+  el('cardPos').className = 'card-pos ' + posColorVar(w.pos);
+  el('headword').textContent = w.w;
+  el('ipa').textContent = '/' + w.ipa + '/';
+  el('headwordSmall').textContent = w.w;
+  el('meaning').textContent = w.m;
+  el('progressLabel').textContent = (pos+1) + ' / ' + visible.length;
+  el('progressFill').style.width = ((pos+1) / visible.length * 100) + '%';
+
+  const card = el('card');
+  flipped = false;
+  card.classList.remove('flipped');
+}
+
+function flip(){
+  flipped = !flipped;
+  el('card').classList.toggle('flipped', flipped);
+}
+
+function next(){
+  const visible = getVisible();
+  if(visible.length === 0){ render(); return; }
+  pos = (pos + 1) % visible.length;
+  render();
+}
+function prev(){
+  const visible = getVisible();
+  if(visible.length === 0){ render(); return; }
+  pos = (pos - 1 + visible.length) % visible.length;
+  render();
+}
+function mark(state){
+  const visible = getVisible();
+  if(visible.length === 0) return;
+  const idx = visible[pos];
+  status[idx] = state;
+  if(filterOn && state === 'know'){
+    // item drops out of the visible list at this position; don't advance
+    render();
+  } else {
+    next();
+  }
+}
+function shuffle(){
+  for(let a = order.length - 1; a > 0; a--){
+    const b = Math.floor(Math.random() * (a+1));
+    [order[a], order[b]] = [order[b], order[a]];
+  }
+  pos = 0;
+  render();
+}
+function toggleFilter(){
+  filterOn = !filterOn;
+  el('btnFilter').classList.toggle('active', filterOn);
+  pos = 0;
+  render();
+}
+
+el('card').addEventListener('click', flip);
+el('btnKnow').addEventListener('click', (e)=>{ e.stopPropagation(); mark('know'); });
+el('btnAgain').addEventListener('click', (e)=>{ e.stopPropagation(); mark('again'); });
+el('btnNext').addEventListener('click', next);
+el('btnPrev').addEventListener('click', prev);
+el('btnShuffle').addEventListener('click', shuffle);
+el('btnFilter').addEventListener('click', toggleFilter);
+
+document.addEventListener('keydown', (e)=>{
+  if(el('cardMode').style.display === 'none') return;
+  if(e.key === 'ArrowRight') next();
+  else if(e.key === 'ArrowLeft') prev();
+  else if(e.key === ' '){ e.preventDefault(); flip(); }
+  else if(e.key === '1') mark('again');
+  else if(e.key === '2') mark('know');
+});
+
+// ---------------- list mode ----------------
+function renderList(){
+  const q = el('searchBox').value.trim().toLowerCase();
+  const posFilter = el('filterPos').value;
+  const container = el('listView');
+  container.innerHTML = '';
+  let count = 0;
+  WORDS.forEach((w, i) => {
+    if(posFilter && w.pos !== posFilter) return;
+    if(q && !(w.w.toLowerCase().includes(q) || w.m.toLowerCase().includes(q))) return;
+    count++;
+    const row = document.createElement('div');
+    row.className = 'entry';
+    row.innerHTML = `
+      <span class="idx">${String(i+1).padStart(3,'0')}</span>
+      <span class="ew">${w.w}</span>
+      <span class="eipa">/${w.ipa}/</span>
+      <span class="epos ${posColorVar(w.pos)}">${w.pos}</span>
+      <span class="em">${w.m}</span>
+    `;
+    row.addEventListener('click', () => {
+      const idxInOrder = order.indexOf(i);
+      if(idxInOrder === -1){ order.push(i); }
+      filterOn = false;
+      el('btnFilter').classList.remove('active');
+      pos = order.indexOf(i);
+      render();
+      setMode('card');
+    });
+    container.appendChild(row);
+  });
+  el('emptyState').style.display = count === 0 ? 'block' : 'none';
+}
+
+el('searchBox').addEventListener('input', renderList);
+el('filterPos').addEventListener('change', renderList);
+
+function setMode(mode){
+  if(mode === 'card'){
+    el('cardMode').style.display = '';
+    el('listMode').style.display = 'none';
+    el('btnCardMode').classList.add('active');
+    el('btnListMode').classList.remove('active');
+  } else {
+    el('cardMode').style.display = 'none';
+    el('listMode').style.display = '';
+    el('btnCardMode').classList.remove('active');
+    el('btnListMode').classList.add('active');
+    renderList();
+  }
+}
+el('btnCardMode').addEventListener('click', () => setMode('card'));
+el('btnListMode').addEventListener('click', () => setMode('list'));
+
+render();
+</script>
+</body>
+</html>

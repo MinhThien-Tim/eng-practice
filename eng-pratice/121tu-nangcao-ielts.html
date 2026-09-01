@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>121 từ nâng cao IELTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fdf3d0; --cream-border:#f0c94a; --white:#ffffff; --white-border:#f0c94a;
+    --brown:#7a3b12; --orange:#e07b1e; --green:#8fd9b6; --green-text:#1a5c3f;
+    --red:#e0432b; --blue:#2f5fd6; --gray:#6b6b6b; --bg:#fffaf0; --pos:#6a8fd8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--brown);font-family:'Nunito',sans-serif;min-height:100vh;padding:18px 12px 60px;}
+  .wrap{max-width:600px;margin:0 auto;}
+  .eyebrow{font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);margin-bottom:4px;}
+  h1{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;margin:0 0 4px;color:var(--brown);}
+  .sub{font-size:13px;color:#9a8a6a;margin-bottom:14px;}
+  .statrow{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#9a8a6a;margin-bottom:10px;font-weight:700;}
+  .statrow button{background:#fff;border:2px solid var(--cream-border);color:var(--brown);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;}
+  .statrow button:hover{background:var(--cream);}
+  .card{background:var(--cream);border:2px solid var(--cream-border);border-radius:22px;padding:22px 22px 20px;margin-bottom:14px;cursor:pointer;}
+  .badges{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+  .badge{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;padding:4px 12px;border-radius:14px;}
+  .badge.root{background:var(--orange);color:#fff;}
+  .badge.level{background:var(--green);color:var(--green-text);}
+  .badge.pos{background:var(--pos);color:#fff;}
+  .word{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:30px;color:var(--brown);margin-bottom:6px;line-height:1.15;}
+  .ipa{font-size:15px;color:#4a4a4a;font-style:italic;margin-bottom:0;}
+  .exwrap{background:#fff;border:2px solid var(--white-border);border-radius:18px;padding:18px 20px;margin-top:-4px;display:none;}
+  .exwrap.show{display:block;}
+  .meaning{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:20px;color:var(--orange);margin-bottom:12px;padding-bottom:12px;border-bottom:2px dashed var(--cream-border);}
+  .ex-item{margin-bottom:12px;}
+  .ex-item:last-child{margin-bottom:0;}
+  .ex-label{font-weight:700;color:var(--orange);font-size:12px;margin-bottom:3px;}
+  .ex-en{font-style:italic;font-size:15px;color:#333;line-height:1.4;}
+  .ex-en b{color:var(--blue);}
+  .ex-vi{font-style:italic;font-size:13px;color:var(--gray);margin-top:2px;line-height:1.35;}
+  .hint{text-align:center;font-size:12px;color:#b3a684;margin-top:2px;font-weight:700;}
+  .navrow{display:flex;gap:10px;margin-top:8px;}
+  .navbtn{flex:1;padding:13px;border-radius:12px;border:2px solid var(--cream-border);font-weight:700;font-size:14px;cursor:pointer;background:#fff;color:var(--brown);}
+  .navbtn.unknown{background:#fdeae5;border-color:var(--red);color:var(--red);}
+  .navbtn.known{background:#e7f7ef;border-color:var(--green-text);color:var(--green-text);}
+  footer{text-align:center;margin-top:20px;font-size:11px;color:#b3a684;font-weight:700;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Từ vựng nâng cao — IELTS</div>
+  <h1>Abrupt → Volatile</h1>
+  <div class="sub">121 từ · 3 ví dụ mỗi từ · chạm vào thẻ để xem nghĩa</div>
+
+  <div class="statrow">
+    <span id="count">1 / 121</span>
+    <div>
+      <button onclick="shuffleDeck()">Xáo trộn</button>
+      <button onclick="filterUnknown()" id="filterBtn">Chỉ từ chưa thuộc</button>
+    </div>
+  </div>
+
+  <div class="card" id="card" onclick="flip()">
+    <div class="badges">
+      <span class="badge root">(root)</span>
+      <span class="badge pos" id="cPos">v</span>
+      <span class="badge level" id="cLevel">C1</span>
+    </div>
+    <div class="word" id="cWord">word</div>
+    <div class="ipa" id="cIpa">/…/</div>
+  </div>
+
+  <div class="exwrap" id="exwrap">
+    <div class="meaning" id="cVi">nghĩa</div>
+    <div id="exList"></div>
+  </div>
+  <div class="hint" id="cHint">chạm vào thẻ để xem nghĩa</div>
+
+  <div class="navrow">
+    <button class="navbtn" onclick="prevCard()">← Trước</button>
+    <button class="navbtn unknown" onclick="markCard(false)">Chưa thuộc</button>
+    <button class="navbtn known" onclick="markCard(true)">Đã thuộc</button>
+  </div>
+  <footer>121 từ nâng cao IELTS</footer>
+</div>
+
+<script>
+// [word, pos, level, ipa, vi, [[en,vi],[en,vi],[en,vi]]]
+const DATA = [
+["Abrupt","adj","C1","/əˈbrʌpt/","đột ngột",[["The meeting ended in an abrupt manner.","Cuộc họp kết thúc một cách đột ngột."],["There was an abrupt change in policy.","Có một sự thay đổi đột ngột trong chính sách."],["He gave an abrupt reply.","Anh ấy đưa ra một câu trả lời cộc lốc."]]],
+["Abate","v","C1","/əˈbeɪt/","giảm bớt, lắng xuống",[["The storm finally began to abate.","Cơn bão cuối cùng bắt đầu lắng xuống."],["Public anger has not abated.","Sự tức giận của công chúng vẫn chưa lắng xuống."],["Inflation is expected to abate next year.","Lạm phát dự kiến sẽ giảm bớt vào năm tới."]]],
+["Abundant","adj","C1","/əˈbʌndənt/","dồi dào, phong phú",[["The region has abundant natural resources.","Khu vực này có nguồn tài nguyên thiên nhiên dồi dào."],["Evidence is abundant that the policy failed.","Bằng chứng dồi dào cho thấy chính sách đã thất bại."],["Rainfall was abundant this season.","Lượng mưa dồi dào trong mùa này."]]],
+["Accentuate","v","C1","/əkˈsɛntʃueɪt/","làm nổi bật, nhấn mạnh",[["The crisis accentuated existing inequalities.","Cuộc khủng hoảng làm nổi bật thêm những bất bình đẳng hiện có."],["The lighting accentuated the room's design.","Ánh sáng làm nổi bật thiết kế của căn phòng."],["Her tone accentuated the urgency.","Giọng điệu của cô ấy nhấn mạnh tính cấp bách."]]],
+["Accord","n/v","C1","/əˈkɔːrd/","sự thỏa thuận, phù hợp",[["The two countries reached an accord.","Hai nước đã đạt được một thỏa thuận."],["His actions were not in accord with the rules.","Hành động của anh ta không phù hợp với các quy tắc."],["The peace accord ended years of conflict.","Hiệp định hòa bình chấm dứt nhiều năm xung đột."]]],
+["Adhere","v","C1","/ədˈhɪr/","tuân thủ, bám chặt",[["Companies must adhere to safety standards.","Các công ty phải tuân thủ các tiêu chuẩn an toàn."],["She adhered strictly to the schedule.","Cô ấy tuân thủ nghiêm ngặt lịch trình."],["The tape adhered well to the surface.","Miếng băng dính bám chặt vào bề mặt."]]],
+["Adjacent","adj","C1","/əˈdʒeɪsnt/","liền kề",[["The office is adjacent to the station.","Văn phòng nằm liền kề với ga tàu."],["They live in adjacent apartments.","Họ sống trong các căn hộ liền kề nhau."],["The park is adjacent to the river.","Công viên nằm liền kề dòng sông."]]],
+["Adopt","v","B2","/əˈdɑːpt/","áp dụng, nhận nuôi",[["The company adopted a new strategy.","Công ty áp dụng một chiến lược mới."],["They adopted a child last year.","Họ nhận nuôi một đứa trẻ vào năm ngoái."],["Many countries adopted the reform.","Nhiều quốc gia áp dụng cải cách này."]]],
+["Advocate","v/n","C1","/ˈædvəkeɪt/","ủng hộ; người ủng hộ",[["She advocates for stronger labor rights.","Cô ấy ủng hộ quyền lợi lao động mạnh mẽ hơn."],["He is a leading advocate for reform.","Anh ấy là một người ủng hộ hàng đầu cho cải cách."],["They advocate a cautious approach.","Họ ủng hộ một cách tiếp cận thận trọng."]]],
+["Aggregate","adj/n","C1","/ˈæɡrɪɡət/","tổng hợp, tổng cộng",[["Aggregate demand rose last quarter.","Tổng cầu tăng trong quý trước."],["The aggregate score determined the winner.","Tổng điểm số quyết định người chiến thắng."],["They calculated the aggregate cost.","Họ tính toán tổng chi phí."]]],
+["Alleviate","v","C1","/əˈliːvieɪt/","làm giảm bớt",[["New measures aim to alleviate poverty.","Các biện pháp mới nhằm làm giảm nghèo đói."],["The drug alleviated her symptoms.","Loại thuốc làm giảm bớt các triệu chứng của cô ấy."],["Aid programs alleviate suffering.","Các chương trình viện trợ làm giảm bớt sự đau khổ."]]],
+["Ameliorate","v","C1","/əˈmiːliəreɪt/","cải thiện",[["The policy aims to ameliorate living conditions.","Chính sách nhằm cải thiện điều kiện sống."],["They took steps to ameliorate the situation.","Họ thực hiện các bước để cải thiện tình hình."],["The reform ameliorated working conditions.","Cải cách cải thiện điều kiện làm việc."]]],
+["Ambiguous","adj","C1","/æmˈbɪɡjuəs/","mơ hồ, không rõ ràng",[["The contract's wording was ambiguous.","Câu chữ trong hợp đồng khá mơ hồ."],["Her answer was deliberately ambiguous.","Câu trả lời của cô ấy cố tình mơ hồ."],["The law remains ambiguous on this point.","Luật vẫn còn mơ hồ về điểm này."]]],
+["Annotate","v","C1","/ˈænəteɪt/","chú thích",[["She annotated the manuscript with comments.","Cô ấy chú thích bản thảo bằng những nhận xét."],["The teacher annotated each essay.","Giáo viên chú thích từng bài luận."],["They annotated the data for clarity.","Họ chú thích dữ liệu để rõ ràng hơn."]]],
+["Antagonistic","adj","C1","/ænˌtæɡəˈnɪstɪk/","đối kháng, thù địch",[["The two parties remained antagonistic.","Hai bên vẫn duy trì thái độ đối kháng."],["He took an antagonistic tone in the debate.","Anh ấy có giọng điệu đối kháng trong cuộc tranh luận."],["Their relationship became antagonistic over time.","Mối quan hệ của họ trở nên đối kháng theo thời gian."]]],
+["Appraise / Appraisal","v/n","C1","/əˈpreɪz/ /əˈpreɪzl/","đánh giá; sự đánh giá",[["They appraised the property before selling.","Họ định giá bất động sản trước khi bán."],["The annual appraisal reviews performance.","Đợt đánh giá hàng năm xem xét hiệu suất làm việc."],["Experts appraised the artwork's value.","Các chuyên gia định giá giá trị của tác phẩm nghệ thuật."]]],
+["Arbitrate / Arbitrary","v/adj","C1","/ˈɑːrbɪtreɪt/ /ˈɑːrbɪtreri/","phân xử; tùy tiện",[["They agreed to arbitrate the dispute.","Họ đồng ý phân xử tranh chấp."],["The decision seemed entirely arbitrary.","Quyết định có vẻ hoàn toàn tùy tiện."],["An independent panel arbitrated the conflict.","Một hội đồng độc lập phân xử cuộc xung đột."]]],
+["Articulate","v","C1","/ɑːrˈtɪkjəleɪt/","diễn đạt rõ ràng",[["She articulated her concerns clearly.","Cô ấy diễn đạt rõ ràng những lo ngại của mình."],["He struggled to articulate his thoughts.","Anh ấy gặp khó khăn khi diễn đạt suy nghĩ của mình."],["The report articulates a clear strategy.","Báo cáo diễn đạt rõ ràng một chiến lược."]]],
+["Ascribe","v","C1","/əˈskraɪb/","quy cho, cho là do",[["They ascribed the delay to bad weather.","Họ cho rằng sự chậm trễ là do thời tiết xấu."],["She ascribed her success to hard work.","Cô ấy cho rằng thành công của mình là nhờ làm việc chăm chỉ."],["The rise was ascribed to strong demand.","Sự gia tăng được cho là do nhu cầu mạnh."]]],
+["Aspiration","n","C1","/ˌæspəˈreɪʃən/","khát vọng, nguyện vọng",[["Economic growth fueled national aspirations.","Tăng trưởng kinh tế thổi bùng khát vọng dân tộc."],["Her aspiration is to become a doctor.","Nguyện vọng của cô ấy là trở thành bác sĩ."],["The plan reflects their long-term aspirations.","Kế hoạch phản ánh khát vọng dài hạn của họ."]]],
+["Assent","n/v","C1","/əˈsɛnt/","sự đồng ý",[["The board gave its assent to the merger.","Hội đồng quản trị đã đồng ý với vụ sáp nhập."],["She nodded in assent.","Cô ấy gật đầu đồng ý."],["Royal assent was required for the bill.","Cần có sự phê chuẩn của hoàng gia đối với dự luật."]]],
+["Assimilate / Assimilation","v/n","C1","/əˈsɪməleɪt/ /əˌsɪməˈleɪʃən/","hòa nhập; sự hòa nhập",[["Immigrants worked to assimilate into society.","Người nhập cư nỗ lực hòa nhập vào xã hội."],["Cultural assimilation took generations.","Sự hòa nhập văn hóa kéo dài qua nhiều thế hệ."],["The company assimilated new employees quickly.","Công ty hòa nhập nhân viên mới một cách nhanh chóng."]]],
+["Astute","adj","C1","/əˈstuːt/","sắc sảo, tinh tường",[["She made an astute business decision.","Cô ấy đưa ra một quyết định kinh doanh sắc sảo."],["He is known as an astute investor.","Anh ấy được biết đến là một nhà đầu tư tinh tường."],["The astute observer noticed the trend early.","Người quan sát tinh tường đã nhận ra xu hướng sớm."]]],
+["Attribute","v/n","C1","/ˈætrɪbjuːt/","quy cho; thuộc tính",[["Analysts attribute the decline to weak demand.","Các nhà phân tích quy sự suy giảm này là do nhu cầu yếu."],["Honesty is a valuable attribute.","Trung thực là một phẩm chất quý giá."],["The success is attributed to teamwork.","Thành công được quy cho tinh thần đồng đội."]]],
+["Augment","v","C1","/ɔːɡˈmɛnt/","tăng cường, bổ sung",[["The company augmented its workforce.","Công ty tăng cường lực lượng lao động của mình."],["They augmented their income with a second job.","Họ tăng thêm thu nhập bằng công việc thứ hai."],["The plan augments existing resources.","Kế hoạch bổ sung thêm cho các nguồn lực hiện có."]]],
+["Averse","adj","C1","/əˈvɜːrs/","không thích, ác cảm",[["Investors are averse to risk during downturns.","Nhà đầu tư ác cảm với rủi ro trong thời kỳ suy thoái."],["She is averse to change.","Cô ấy không thích sự thay đổi."],["They were not averse to compromise.","Họ không phản đối việc thỏa hiệp."]]],
+["Avert","v","C1","/əˈvɜːrt/","ngăn chặn, tránh",[["Quick action helped avert a crisis.","Hành động nhanh chóng giúp ngăn chặn một cuộc khủng hoảng."],["They tried to avert the strike.","Họ cố gắng ngăn chặn cuộc đình công."],["The reform averted further losses.","Cải cách ngăn chặn thêm tổn thất."]]],
+["Benign","adj","C1","/bɪˈnaɪn/","lành tính, ôn hòa",[["The tumor was found to be benign.","Khối u được phát hiện là lành tính."],["The policy had a relatively benign impact.","Chính sách có tác động tương đối ôn hòa."],["Economic conditions remained benign.","Điều kiện kinh tế vẫn ôn hòa."]]],
+["Bolster","v","C1","/ˈboʊlstər/","củng cố, hỗ trợ",[["The reform bolstered investor confidence.","Cải cách củng cố niềm tin của nhà đầu tư."],["They bolstered their defenses.","Họ củng cố hệ thống phòng thủ của mình."],["The data bolstered her argument.","Dữ liệu củng cố lập luận của cô ấy."]]],
+["Boundary","n","B2","/ˈbaʊndri/","ranh giới",[["The river forms a natural boundary.","Dòng sông tạo thành ranh giới tự nhiên."],["They crossed the boundary into another state.","Họ vượt qua ranh giới vào một tiểu bang khác."],["The new law blurred the boundary between public and private.","Luật mới làm mờ ranh giới giữa công và tư."]]],
+["Chastise","v","C1","/tʃæˈstaɪz/","khiển trách",[["The manager chastised the team for the delay.","Người quản lý khiển trách nhóm vì sự chậm trễ."],["She was chastised for her mistake.","Cô ấy bị khiển trách vì sai lầm của mình."],["Critics chastised the government's response.","Các nhà phê bình khiển trách phản ứng của chính phủ."]]],
+["Circumvent","v","C1","/ˌsɜːrkəmˈvɛnt/","lách qua, tránh né",[["Companies tried to circumvent the regulations.","Các công ty cố gắng lách các quy định."],["They found a way to circumvent the tax.","Họ tìm ra cách để tránh loại thuế này."],["The loophole allowed firms to circumvent the law.","Kẽ hở cho phép các công ty lách luật."]]],
+["Coerce","v","C1","/koʊˈɜːrs/","ép buộc",[["Employees felt coerced into working overtime.","Nhân viên cảm thấy bị ép buộc làm thêm giờ."],["They were coerced into signing the contract.","Họ bị ép buộc ký hợp đồng."],["No one should be coerced into voting a certain way.","Không ai nên bị ép buộc bỏ phiếu theo một cách nhất định."]]],
+["Cogent","adj","C1","/ˈkoʊdʒənt/","thuyết phục, xác đáng",[["She made a cogent argument for reform.","Cô ấy đưa ra một lập luận thuyết phục cho cải cách."],["The report offered cogent evidence.","Báo cáo đưa ra bằng chứng xác đáng."],["His explanation was cogent and clear.","Lời giải thích của anh ấy xác đáng và rõ ràng."]]],
+["Concede","v","C1","/kənˈsiːd/","thừa nhận",[["The minister conceded that reforms had failed.","Bộ trưởng thừa nhận rằng cải cách đã thất bại."],["She conceded the election gracefully.","Cô ấy thừa nhận thất bại trong cuộc bầu cử một cách lịch thiệp."],["He conceded that the plan had flaws.","Anh ấy thừa nhận rằng kế hoạch có những thiếu sót."]]],
+["Conclusive","adj","C1","/kənˈkluːsɪv/","có tính kết luận, dứt khoát",[["The evidence was not conclusive.","Bằng chứng không mang tính kết luận."],["They reached a conclusive verdict.","Họ đưa ra một phán quyết dứt khoát."],["The test results were conclusive.","Kết quả xét nghiệm mang tính kết luận rõ ràng."]]],
+["Condescending","adj","C1","/ˌkɑːndɪˈsɛndɪŋ/","kẻ cả, trịch thượng",[["His tone sounded condescending.","Giọng điệu của anh ta nghe có vẻ trịch thượng."],["She resented his condescending attitude.","Cô ấy khó chịu với thái độ kẻ cả của anh ta."],["The comment was seen as condescending.","Bình luận này bị coi là trịch thượng."]]],
+["Confer","v","C1","/kənˈfɜːr/","trao (quyền); hội ý",[["The title confers certain legal privileges.","Danh hiệu này trao cho những đặc quyền pháp lý nhất định."],["They conferred before making a decision.","Họ hội ý trước khi đưa ra quyết định."],["The university conferred an honorary degree.","Trường đại học trao bằng danh dự."]]],
+["Confound","v","C1","/kənˈfaʊnd/","gây bối rối, làm ngạc nhiên",[["The results confounded experts.","Kết quả khiến các chuyên gia bối rối."],["Her behavior confounded her colleagues.","Hành vi của cô ấy khiến đồng nghiệp bối rối."],["The data confounded predictions.","Dữ liệu này trái ngược với các dự đoán."]]],
+["Contingent / Contingency","adj/n","C1","/kənˈtɪndʒənt/ /kənˈtɪndʒənsi/","phụ thuộc vào; tình huống bất ngờ",[["Approval is contingent on further review.","Việc phê duyệt phụ thuộc vào việc xem xét thêm."],["They prepared a contingency plan.","Họ chuẩn bị một kế hoạch dự phòng."],["Funding is contingent on the budget vote.","Nguồn tài trợ phụ thuộc vào cuộc bỏ phiếu ngân sách."]]],
+["Contrive","v","C1","/kənˈtraɪv/","bày mưu, dàn dựng",[["They contrived a plan to cut costs.","Họ nghĩ ra một kế hoạch để cắt giảm chi phí."],["She contrived to avoid the meeting.","Cô ấy tìm cách để tránh cuộc họp."],["The scheme was cleverly contrived.","Âm mưu này được dàn dựng một cách khéo léo."]]],
+["Corroborate","v","C1","/kəˈrɑːbəreɪt/","xác nhận, củng cố",[["The witness corroborated her story.","Nhân chứng xác nhận câu chuyện của cô ấy."],["New data corroborated the earlier findings.","Dữ liệu mới xác nhận các phát hiện trước đó."],["Experts corroborated the report's conclusions.","Các chuyên gia xác nhận kết luận của báo cáo."]]],
+["Credibility","n","C1","/ˌkrɛdəˈbɪləti/","độ tin cậy, uy tín",[["The scandal damaged the bank's credibility.","Vụ bê bối làm tổn hại uy tín của ngân hàng."],["His credibility suffered after the lie.","Uy tín của anh ta bị tổn hại sau lời nói dối."],["The source lacked credibility.","Nguồn tin này thiếu độ tin cậy."]]],
+["Culminate","v","C1","/ˈkʌlmɪneɪt/","lên đến đỉnh điểm",[["The negotiations culminated in an agreement.","Các cuộc đàm phán lên đến đỉnh điểm bằng một thỏa thuận."],["Years of research culminated in a breakthrough.","Nhiều năm nghiên cứu đã lên đến đỉnh điểm là một bước đột phá."],["The protests culminated in a general strike.","Các cuộc biểu tình lên đến đỉnh điểm là một cuộc tổng đình công."]]],
+["Cumulative","adj","C1","/ˈkjuːmjəleɪtɪv/","tích lũy",[["The cumulative effect was significant.","Tác động tích lũy là đáng kể."],["Cumulative losses reached millions.","Tổng lỗ tích lũy lên đến hàng triệu."],["The cumulative impact of small changes added up.","Tác động tích lũy của những thay đổi nhỏ cộng dồn lại."]]],
+["Cursory","adj","C1","/ˈkɜːrsəri/","sơ sài, qua loa",[["He gave the report only a cursory glance.","Anh ấy chỉ liếc qua báo cáo một cách sơ sài."],["The review was cursory and incomplete.","Việc rà soát khá sơ sài và chưa đầy đủ."],["A cursory inspection missed the defect.","Một cuộc kiểm tra qua loa đã bỏ sót lỗi này."]]],
+["Curtail","v","C1","/kɜːrˈteɪl/","cắt giảm",[["The company curtailed its spending.","Công ty cắt giảm chi tiêu của mình."],["They curtailed civil liberties during the crisis.","Họ cắt giảm các quyền tự do dân sự trong cuộc khủng hoảng."],["Budget cuts curtailed the program's scope.","Cắt giảm ngân sách thu hẹp phạm vi của chương trình."]]],
+["Debilitating","adj","C1","/dɪˈbɪlɪteɪtɪŋ/","suy nhược, làm suy yếu",[["The illness had a debilitating effect on her.","Căn bệnh gây ra tác động suy nhược đối với cô ấy."],["Debilitating debt crippled the company.","Nợ nần suy nhược làm tê liệt công ty."],["The injury was debilitating for the athlete.","Chấn thương gây suy nhược cho vận động viên."]]],
+["Deduce","v","C1","/dɪˈduːs/","suy luận",[["Detectives deduced the cause from the evidence.","Các thám tử suy luận ra nguyên nhân từ bằng chứng."],["She deduced the answer logically.","Cô ấy suy luận ra câu trả lời một cách logic."],["We can deduce the trend from past data.","Chúng ta có thể suy luận ra xu hướng từ dữ liệu trong quá khứ."]]],
+["Defer","v","C1","/dɪˈfɜːr/","trì hoãn; nhường theo",[["They deferred the decision until next month.","Họ trì hoãn quyết định đến tháng sau."],["She deferred to her manager's judgment.","Cô ấy nhường theo phán đoán của quản lý."],["The payment was deferred for six months.","Khoản thanh toán bị hoãn lại trong sáu tháng."]]],
+["Delineate","v","C1","/dɪˈlɪnieɪt/","vạch ra, phác thảo rõ",[["The contract delineates each party's duties.","Hợp đồng vạch ra rõ nhiệm vụ của mỗi bên."],["The report delineates the main risks.","Báo cáo phác thảo rõ những rủi ro chính."],["They delineated clear boundaries for the project.","Họ vạch ra ranh giới rõ ràng cho dự án."]]],
+["Detach","v","C1","/dɪˈtætʃ/","tách rời",[["She detached herself from the conflict.","Cô ấy tách mình ra khỏi cuộc xung đột."],["The trailer was detached from the truck.","Rơ-moóc được tách khỏi xe tải."],["Investors detached their emotions from decisions.","Nhà đầu tư tách cảm xúc của mình khỏi các quyết định."]]],
+["Deter","v","C1","/dɪˈtɜːr/","ngăn cản, răn đe",[["High fines deter illegal dumping.","Mức phạt cao ngăn cản việc đổ rác trái phép."],["The risk did not deter investors.","Rủi ro không ngăn cản được nhà đầu tư."],["Strict penalties deter crime.","Hình phạt nghiêm khắc răn đe tội phạm."]]],
+["Detrimental","adj","C1","/ˌdɛtrɪˈmɛntl/","có hại",[["Excessive screen time is detrimental to eyesight.","Thời gian sử dụng màn hình quá mức có hại cho thị lực."],["The policy had a detrimental effect on farmers.","Chính sách này có tác động có hại đến nông dân."],["Smoking is detrimental to health.","Hút thuốc có hại cho sức khỏe."]]],
+["Deviate","v","C1","/ˈdiːvieɪt/","lệch khỏi, đi chệch",[["They deviated from the original plan.","Họ đi chệch khỏi kế hoạch ban đầu."],["The results deviated slightly from expectations.","Kết quả lệch nhẹ so với kỳ vọng."],["He never deviated from his principles.","Anh ấy không bao giờ đi chệch khỏi nguyên tắc của mình."]]],
+["Dilute","v","C1","/daɪˈluːt/","pha loãng, làm giảm hiệu lực",[["The reform was diluted by compromises.","Cải cách bị làm giảm hiệu lực bởi các thỏa hiệp."],["They diluted the solution with water.","Họ pha loãng dung dịch với nước."],["New shares diluted existing shareholders' stakes.","Cổ phiếu mới làm loãng cổ phần của các cổ đông hiện tại."]]],
+["Discerning","adj","C1","/dɪˈsɜːrnɪŋ/","sáng suốt, tinh tế",[["Discerning consumers demand higher quality.","Người tiêu dùng sáng suốt đòi hỏi chất lượng cao hơn."],["She has a discerning eye for design.","Cô ấy có con mắt tinh tế về thiết kế."],["A discerning investor checks the details.","Một nhà đầu tư sáng suốt kiểm tra các chi tiết."]]],
+["Discrepant / Discrepancy","adj/n","C1","/dɪˈskrɛpənt/ /dɪˈskrɛpənsi/","không nhất quán; sự khác biệt",[["There was a discrepancy in the accounts.","Có sự khác biệt trong sổ sách kế toán."],["The two reports were discrepant.","Hai báo cáo này không nhất quán với nhau."],["They investigated the discrepancy in figures.","Họ điều tra sự chênh lệch trong các con số."]]],
+["Discrete","adj","C1","/dɪˈskriːt/","riêng biệt, rời rạc",[["The project consists of several discrete phases.","Dự án bao gồm nhiều giai đoạn riêng biệt."],["Each unit is a discrete entity.","Mỗi đơn vị là một thực thể riêng biệt."],["The data was divided into discrete categories.","Dữ liệu được chia thành các danh mục riêng biệt."]]],
+["Disparate / Disparity","adj/n","C1","/ˈdɪspərət/ /dɪˈspærəti/","khác biệt hoàn toàn; sự chênh lệch",[["There is a wide disparity in income levels.","Có sự chênh lệch lớn về mức thu nhập."],["They combined disparate ideas into one plan.","Họ kết hợp những ý tưởng hoàn toàn khác biệt thành một kế hoạch."],["The disparity between rich and poor widened.","Sự chênh lệch giữa người giàu và người nghèo ngày càng lớn."]]],
+["Disseminate / Dissemination","v/n","C1","/dɪˈsɛmɪneɪt/ /dɪˌsɛmɪˈneɪʃən/","phổ biến, truyền bá",[["The report was disseminated widely.","Báo cáo được phổ biến rộng rãi."],["They disseminated information through social media.","Họ truyền bá thông tin qua mạng xã hội."],["The dissemination of research findings took months.","Việc phổ biến các phát hiện nghiên cứu mất nhiều tháng."]]],
+["Dormant","adj","C1","/ˈdɔːrmənt/","tiềm ẩn, ngủ yên",[["The volcano has been dormant for centuries.","Núi lửa đã ngủ yên trong nhiều thế kỷ."],["The issue remained dormant for years.","Vấn đề này vẫn tiềm ẩn trong nhiều năm."],["The account had been dormant since 2020.","Tài khoản đã không hoạt động kể từ năm 2020."]]],
+["Dubious","adj","C1","/ˈduːbiəs/","đáng ngờ, không chắc chắn",[["The claim seemed dubious at best.","Tuyên bố này có vẻ đáng ngờ."],["They viewed the offer with dubious eyes.","Họ nhìn nhận lời đề nghị với ánh mắt hoài nghi."],["The source was of dubious reliability.","Nguồn tin có độ tin cậy đáng ngờ."]]],
+["Eclectic","adj","C1","/ɪˈklɛktɪk/","đa dạng, chiết trung",[["She has an eclectic taste in music.","Cô ấy có gu âm nhạc đa dạng."],["The menu offers an eclectic mix of dishes.","Thực đơn cung cấp một sự pha trộn đa dạng các món ăn."],["The team has eclectic skills.","Đội ngũ có những kỹ năng đa dạng."]]],
+["Elicit","v","C1","/ɪˈlɪsɪt/","gợi ra, khơi gợi",[["The survey elicited useful feedback.","Cuộc khảo sát đã gợi ra những phản hồi hữu ích."],["Her comment elicited a strong reaction.","Bình luận của cô ấy khơi gợi một phản ứng mạnh mẽ."],["The question elicited no response.","Câu hỏi không gợi ra được phản hồi nào."]]],
+["Elusive","adj","C1","/ɪˈluːsɪv/","khó nắm bắt, khó tìm",[["A solution remained elusive.","Một giải pháp vẫn khó nắm bắt."],["Success proved elusive for the startup.","Thành công tỏ ra khó đạt được đối với công ty khởi nghiệp."],["The cause of the problem was elusive.","Nguyên nhân của vấn đề khó xác định được."]]],
+["Elaborate","v/adj","C1","/ɪˈlæbəreɪt/","giải thích thêm; công phu",[["She elaborated on the bank's strategy.","Bà giải thích thêm về chiến lược của ngân hàng."],["The wedding had an elaborate design.","Đám cưới có thiết kế cầu kỳ."],["Could you elaborate on that point?","Bạn có thể giải thích thêm về điểm đó không?"]]],
+["Encompass","v","C1","/ɪnˈkʌmpəs/","bao gồm",[["The plan encompasses both fiscal and monetary measures.","Kế hoạch bao gồm cả biện pháp tài khóa lẫn tiền tệ."],["The course encompasses history and economics.","Khóa học bao gồm lịch sử và kinh tế học."],["The project encompasses several departments.","Dự án bao gồm nhiều phòng ban."]]],
+["Entrench","v","C1","/ɪnˈtrɛntʃ/","củng cố vững chắc, ăn sâu",[["The practice became entrenched over time.","Thói quen này trở nên ăn sâu theo thời gian."],["Corruption was deeply entrenched in the system.","Tham nhũng đã ăn sâu vào hệ thống."],["The company entrenched its market position.","Công ty củng cố vững chắc vị trí trên thị trường."]]],
+["Enforce","v","C1","/ɪnˈfɔːrs/","thi hành",[["Regulators struggled to enforce the rules.","Các cơ quan quản lý gặp khó khăn trong việc thực thi quy định."],["Police enforce traffic laws.","Cảnh sát thực thi luật giao thông."],["The school enforced a strict dress code.","Trường học thực thi quy định trang phục nghiêm ngặt."]]],
+["Ensnare","v","C1","/ɪnˈsnɛr/","gài bẫy, sập bẫy",[["Many households were ensnared by debt.","Nhiều hộ gia đình bị sập bẫy nợ nần."],["The scheme ensnared unsuspecting investors.","Âm mưu này gài bẫy những nhà đầu tư không nghi ngờ."],["They were ensnared in a legal dispute.","Họ bị vướng vào một tranh chấp pháp lý."]]],
+["Entail","v","C1","/ɪnˈteɪl/","kéo theo, đòi hỏi",[["The job entails frequent travel.","Công việc này đòi hỏi phải đi công tác thường xuyên."],["The plan entails significant risk.","Kế hoạch này kéo theo rủi ro đáng kể."],["Reform entails difficult trade-offs.","Cải cách đòi hỏi những sự đánh đổi khó khăn."]]],
+["Enumerate","v","C1","/ɪˈnuːməreɪt/","liệt kê",[["The report enumerates key recommendations.","Báo cáo liệt kê các khuyến nghị chính."],["She enumerated the reasons for her decision.","Cô ấy liệt kê những lý do cho quyết định của mình."],["They enumerated the risks involved.","Họ liệt kê các rủi ro liên quan."]]],
+["Envisage","v","C1","/ɪnˈvɪzɪdʒ/","hình dung, dự kiến",[["They envisage rapid growth next year.","Họ dự kiến tăng trưởng nhanh vào năm tới."],["She envisaged a different outcome.","Cô ấy hình dung một kết quả khác."],["The plan envisages major reforms.","Kế hoạch dự kiến những cải cách lớn."]]],
+["Ephemeral","adj","C1","/ɪˈfɛmərəl/","phù du, ngắn ngủi",[["Fame in this industry is often ephemeral.","Danh tiếng trong ngành này thường ngắn ngủi."],["The trend proved to be ephemeral.","Xu hướng này tỏ ra chỉ tồn tại nhất thời."],["Their success was ephemeral.","Thành công của họ chỉ thoáng qua."]]],
+["Equivocal","adj","C1","/ɪˈkwɪvəkl/","mập mờ, nước đôi",[["The statement was deliberately equivocal.","Tuyên bố này cố tình mập mờ."],["His answer remained equivocal.","Câu trả lời của anh ta vẫn nước đôi."],["The evidence was equivocal at best.","Bằng chứng khá mập mờ."]]],
+["Eradicate","v","C1","/ɪˈrædɪkeɪt/","xóa bỏ hoàn toàn",[["They aim to eradicate extreme poverty.","Họ nhằm xóa bỏ hoàn toàn nghèo cùng cực."],["The vaccine helped eradicate the disease.","Vắc-xin giúp xóa bỏ căn bệnh này."],["The reform sought to eradicate corruption.","Cải cách nhằm xóa bỏ tham nhũng."]]],
+["Exacerbate","v","C1","/ɪɡˈzæsərbeɪt/","làm trầm trọng thêm",[["High taxes may exacerbate inequality.","Thuế cao có thể làm trầm trọng thêm bất bình đẳng."],["The drought exacerbated food shortages.","Hạn hán làm trầm trọng thêm tình trạng thiếu lương thực."],["Poor communication exacerbated the conflict.","Giao tiếp kém làm trầm trọng thêm xung đột."]]],
+["Exclude","v","B2","/ɪkˈskluːd/","loại trừ",[["The report excludes informal sector data.","Báo cáo loại trừ dữ liệu khu vực phi chính thức."],["The policy excludes part-time workers.","Chính sách này loại trừ người lao động bán thời gian."],["They were excluded from the discussion.","Họ bị loại khỏi cuộc thảo luận."]]],
+["Exhaustive","adj","C1","/ɪɡˈzɔːstɪv/","toàn diện, đầy đủ",[["They conducted an exhaustive review.","Họ tiến hành một cuộc rà soát toàn diện."],["The report was exhaustive in its detail.","Báo cáo rất toàn diện về mặt chi tiết."],["An exhaustive search found no evidence.","Một cuộc tìm kiếm toàn diện không tìm thấy bằng chứng nào."]]],
+["Expedient","adj","C1","/ɪkˈspiːdiənt/","thuận tiện, thực dụng",[["They chose the most expedient solution.","Họ chọn giải pháp thuận tiện nhất."],["It was politically expedient to delay the vote.","Việc trì hoãn cuộc bỏ phiếu là thuận tiện về mặt chính trị."],["The decision was expedient but risky.","Quyết định này thực dụng nhưng rủi ro."]]],
+["Facet","n","C1","/ˈfæsɪt/","khía cạnh",[["Every facet of the business was reviewed.","Mọi khía cạnh của doanh nghiệp đều được xem xét."],["The report examines multiple facets of the issue.","Báo cáo xem xét nhiều khía cạnh của vấn đề."],["Communication is a key facet of leadership.","Giao tiếp là một khía cạnh then chốt của lãnh đạo."]]],
+["Feasible","adj","C1","/ˈfiːzəbl/","khả thi",[["Building more metro lines is a feasible solution.","Xây dựng thêm các tuyến tàu điện ngầm là một giải pháp khả thi."],["The proposal seemed feasible given the budget.","Đề xuất có vẻ khả thi xét theo ngân sách."],["They studied whether the plan was feasible.","Họ nghiên cứu xem kế hoạch có khả thi hay không."]]],
+["Fluctuate","v","C1","/ˈflʌktʃueɪt/","dao động",[["Temperatures fluctuate throughout the day.","Nhiệt độ dao động trong suốt cả ngày."],["Prices fluctuate with market sentiment.","Giá cả dao động theo tâm lý thị trường."],["Exchange rates fluctuate constantly.","Tỷ giá hối đoái dao động liên tục."]]],
+["Formidable","adj","C1","/ˈfɔːrmɪdəbl/","đáng gờm, ghê gớm",[["The company faces a formidable competitor.","Công ty phải đối mặt với một đối thủ đáng gờm."],["It was a formidable challenge.","Đó là một thách thức ghê gớm."],["She built a formidable reputation.","Cô ấy xây dựng được một danh tiếng đáng gờm."]]],
+["Foster","v","C1","/ˈfɔːstər/","thúc đẩy, nuôi dưỡng",[["The policy aims to foster innovation.","Chính sách nhằm thúc đẩy đổi mới sáng tạo."],["The program fosters collaboration among students.","Chương trình thúc đẩy sự hợp tác giữa các học sinh."],["They fostered a child for two years.","Họ nhận nuôi dưỡng một đứa trẻ trong hai năm."]]],
+["Fragmented","adj","C1","/ˈfræɡmɛntɪd/","phân mảnh",[["The market became increasingly fragmented.","Thị trường ngày càng trở nên phân mảnh."],["The industry is highly fragmented.","Ngành này bị phân mảnh cao độ."],["Political power was fragmented among many parties.","Quyền lực chính trị bị phân mảnh giữa nhiều đảng phái."]]],
+["Fraught","adj","C1","/frɔːt/","đầy (nguy hiểm, khó khăn)",[["The plan was fraught with risk.","Kế hoạch này đầy rẫy rủi ro."],["Negotiations were fraught with tension.","Các cuộc đàm phán đầy căng thẳng."],["The journey was fraught with difficulty.","Chuyến đi đầy khó khăn."]]],
+["Generic","adj","C1","/dʒəˈnɛrɪk/","chung chung",[["The store sells generic brands of medicine.","Cửa hàng bán thuốc gốc không thương hiệu."],["The email felt generic and impersonal.","Email này có vẻ chung chung và thiếu cá nhân hóa."],["Generic drugs are usually cheaper.","Thuốc gốc thường rẻ hơn."]]],
+["Hinder","v","C1","/ˈhɪndər/","cản trở",[["Bureaucracy hindered the approval process.","Bộ máy quan liêu cản trở quá trình phê duyệt."],["Poor infrastructure hinders economic growth.","Cơ sở hạ tầng kém cản trở tăng trưởng kinh tế."],["The delay hindered their progress.","Sự chậm trễ cản trở tiến độ của họ."]]],
+["Homogeneous","adj","C1","/ˌhoʊməˈdʒiːniəs/","đồng nhất",[["The population is remarkably homogeneous.","Dân số khá đồng nhất."],["The market is not entirely homogeneous.","Thị trường không hoàn toàn đồng nhất."],["They assumed a homogeneous group of consumers.","Họ giả định một nhóm người tiêu dùng đồng nhất."]]],
+["Hostile","adj","C1","/ˈhɑːstl/","thù địch",[["Investors reacted with hostile skepticism.","Nhà đầu tư phản ứng với sự hoài nghi thù địch."],["The two nations remained hostile toward each other.","Hai quốc gia vẫn duy trì thái độ thù địch với nhau."],["The takeover was seen as hostile.","Vụ thâu tóm bị xem là thù địch."]]],
+["Inadequate","adj","C1","/ɪnˈædɪkwət/","không đầy đủ",[["The funding was inadequate for the project.","Nguồn tài trợ không đủ cho dự án."],["The response was widely seen as inadequate.","Phản ứng này được coi là không thỏa đáng."],["Housing remained inadequate for the growing population.","Nhà ở vẫn không đủ cho dân số ngày càng tăng."]]],
+["Incentive","n","B2","/ɪnˈsɛntɪv/","động lực, ưu đãi",[["Tax incentives encouraged investment.","Ưu đãi thuế khuyến khích đầu tư."],["The company offers incentives for performance.","Công ty cung cấp ưu đãi cho hiệu suất làm việc."],["There was little incentive to change.","Có rất ít động lực để thay đổi."]]],
+["Inclination","n","C1","/ˌɪnklɪˈneɪʃən/","khuynh hướng, xu hướng",[["She showed no inclination to compromise.","Cô ấy không có xu hướng thỏa hiệp."],["There is a natural inclination toward caution.","Có một xu hướng tự nhiên hướng đến sự thận trọng."],["His inclination was to avoid risk.","Xu hướng của anh ta là tránh rủi ro."]]],
+["Inhibition","n","C1","/ˌɪnhɪˈbɪʃən/","sự kìm hãm, sự e dè",[["Fear creates inhibition in decision-making.","Nỗi sợ tạo ra sự kìm hãm trong việc ra quyết định."],["She spoke without inhibition.","Cô ấy nói mà không hề e dè."],["Regulatory inhibition slowed innovation.","Sự kìm hãm của quy định làm chậm đổi mới."]]],
+["Intrinsic","adj","C1","/ɪnˈtrɪnzɪk/","vốn có, nội tại",[["The painting has intrinsic artistic value.","Bức tranh có giá trị nghệ thuật vốn có."],["Trust is intrinsic to good leadership.","Niềm tin là điều vốn có của khả năng lãnh đạo tốt."],["The risk is intrinsic to the investment.","Rủi ro vốn có trong khoản đầu tư này."]]],
+["Marginal","adj","C1","/ˈmɑːrdʒɪnl/","nhỏ, không đáng kể",[["The new policy had only a marginal effect.","Chính sách mới chỉ có tác động nhỏ, không đáng kể."],["The improvement was marginal at best.","Sự cải thiện chỉ là không đáng kể lắm."],["Marginal cost increases with output.","Chi phí biên tăng theo sản lượng."]]],
+["Mitigate","v","C1","/ˈmɪtɪɡeɪt/","giảm thiểu",[["Policies are needed to mitigate environmental damage.","Cần có các chính sách để giảm thiểu thiệt hại môi trường."],["The new law aims to mitigate congestion.","Luật mới nhằm giảm thiểu tình trạng tắc nghẽn."],["Firms took steps to mitigate financial risk.","Các công ty thực hiện các bước để giảm thiểu rủi ro tài chính."]]],
+["Negligible","adj","C1","/ˈnɛɡlɪdʒəbl/","không đáng kể",[["The impact was negligible.","Tác động này không đáng kể."],["The cost difference is negligible.","Sự khác biệt về chi phí không đáng kể."],["They reported negligible growth this quarter.","Họ báo cáo mức tăng trưởng không đáng kể trong quý này."]]],
+["Obscure","adj/v","C1","/əbˈskjʊr/","mơ hồ, khó hiểu; che khuất",[["The reasoning behind the rule was obscure.","Lý do đằng sau quy định này khá mơ hồ."],["Smoke obscured the view.","Khói che khuất tầm nhìn."],["The report's findings remained obscure.","Các phát hiện của báo cáo vẫn khó hiểu."]]],
+["Offset","v","C1","/ˈɔːfsɛt/","bù đắp, cân bằng",[["Higher sales offset rising costs.","Doanh số cao hơn bù đắp cho chi phí tăng."],["They offset the loss with new investments.","Họ bù đắp khoản lỗ bằng các khoản đầu tư mới."],["Carbon credits offset emissions.","Tín chỉ carbon bù đắp cho lượng khí thải."]]],
+["Pertinent","adj","C1","/ˈpɜːrtnənt/","thích đáng, liên quan",[["She raised a pertinent question.","Cô ấy đưa ra một câu hỏi thích đáng."],["The data is pertinent to the discussion.","Dữ liệu này liên quan đến cuộc thảo luận."],["They gathered pertinent information first.","Họ thu thập thông tin liên quan trước tiên."]]],
+["Plausible","adj","C1","/ˈplɔːzəbl/","hợp lý",[["Her explanation seems plausible.","Lời giải thích của cô ấy có vẻ hợp lý."],["The theory offers a plausible explanation.","Lý thuyết này đưa ra một lời giải thích hợp lý."],["It is plausible that prices will rise further.","Có khả năng hợp lý là giá sẽ tiếp tục tăng."]]],
+["Preclude","v","C1","/prɪˈkluːd/","ngăn cản, loại trừ khả năng",[["The rule precludes any exceptions.","Quy định này loại trừ mọi ngoại lệ."],["Budget constraints precluded further expansion.","Hạn chế ngân sách ngăn cản việc mở rộng thêm."],["Nothing precludes a future partnership.","Không có gì ngăn cản một quan hệ đối tác trong tương lai."]]],
+["Proliferate","v","C1","/prəˈlɪfəreɪt/","lan rộng, gia tăng nhanh",[["Online scams have proliferated in recent years.","Các trò lừa đảo trực tuyến đã gia tăng nhanh trong những năm gần đây."],["Startups proliferated during the boom.","Các công ty khởi nghiệp gia tăng nhanh trong thời kỳ bùng nổ."],["Misinformation proliferated on social media.","Thông tin sai lệch lan rộng trên mạng xã hội."]]],
+["Prone","adj","C1","/proʊn/","dễ bị, có xu hướng",[["The region is prone to flooding.","Khu vực này dễ bị ngập lụt."],["Small firms are prone to cash flow problems.","Các doanh nghiệp nhỏ dễ gặp vấn đề về dòng tiền."],["He is prone to making quick decisions.","Anh ấy có xu hướng đưa ra quyết định nhanh chóng."]]],
+["Reconcile","v","C1","/ˈrɛkənsaɪl/","hòa giải, dung hòa",[["They struggled to reconcile the two viewpoints.","Họ gặp khó khăn khi dung hòa hai quan điểm."],["The company reconciled its accounts.","Công ty đối chiếu lại sổ sách của mình."],["The two sides eventually reconciled.","Hai bên cuối cùng đã hòa giải."]]],
+["Refute","v","C1","/rɪˈfjuːt/","bác bỏ",[["The report refutes earlier claims.","Báo cáo bác bỏ những tuyên bố trước đó."],["She refuted the accusations firmly.","Cô ấy kiên quyết bác bỏ các cáo buộc."],["Scientists refuted the theory with new data.","Các nhà khoa học bác bỏ lý thuyết này bằng dữ liệu mới."]]],
+["Render","v","C1","/ˈrɛndər/","khiến trở nên",[["The crisis rendered the plan obsolete.","Cuộc khủng hoảng khiến kế hoạch này trở nên lỗi thời."],["They rendered assistance to the victims.","Họ cung cấp sự hỗ trợ cho các nạn nhân."],["The decision rendered the contract void.","Quyết định này khiến hợp đồng trở nên vô hiệu."]]],
+["Repudiate","v","C1","/rɪˈpjuːdieɪt/","bác bỏ, khước từ",[["He repudiated the allegations entirely.","Anh ta hoàn toàn bác bỏ những cáo buộc."],["The company repudiated the agreement.","Công ty khước từ thỏa thuận này."],["She repudiated her earlier statement.","Cô ấy bác bỏ tuyên bố trước đó của mình."]]],
+["Rigorous","adj","C1","/ˈrɪɡərəs/","nghiêm ngặt, khắt khe",[["The study followed a rigorous methodology.","Nghiên cứu tuân theo một phương pháp luận nghiêm ngặt."],["They underwent rigorous testing.","Họ trải qua quá trình kiểm tra nghiêm ngặt."],["The selection process was rigorous.","Quy trình tuyển chọn rất khắt khe."]]],
+["Salient","adj","C1","/ˈseɪliənt/","nổi bật, quan trọng",[["The report highlights the salient points.","Báo cáo nêu bật những điểm quan trọng."],["The salient feature of the plan is its cost.","Đặc điểm nổi bật của kế hoạch là chi phí của nó."],["She summarized the salient facts.","Cô ấy tóm tắt những sự kiện nổi bật."]]],
+["Substantiate","v","C1","/səbˈstænʃieɪt/","chứng minh, xác minh",[["They failed to substantiate the claim.","Họ đã không thể chứng minh được tuyên bố này."],["The data substantiates her argument.","Dữ liệu chứng minh cho lập luận của cô ấy."],["Evidence substantiated the allegations.","Bằng chứng xác minh các cáo buộc."]]],
+["Superficial","adj","C1","/ˌsuːpərˈfɪʃl/","hời hợt, bề ngoài",[["The review was superficial and lacked depth.","Bài đánh giá khá hời hợt và thiếu chiều sâu."],["Their analysis remained superficial.","Phân tích của họ vẫn còn hời hợt."],["The similarities were only superficial.","Những điểm tương đồng chỉ là bề ngoài."]]],
+["Tentative","adj","C1","/ˈtɛntətɪv/","tạm thời, dè dặt",[["They reached a tentative agreement.","Họ đạt được một thỏa thuận tạm thời."],["The forecast remains tentative.","Dự báo vẫn còn mang tính tạm thời."],["She gave a tentative response.","Cô ấy đưa ra một phản hồi dè dặt."]]],
+["Tenuous","adj","C1","/ˈtɛnjuəs/","mong manh, yếu ớt",[["The connection between the two events is tenuous.","Mối liên hệ giữa hai sự kiện này khá mong manh."],["Their argument rests on tenuous evidence.","Lập luận của họ dựa trên bằng chứng mong manh."],["The peace remained tenuous.","Nền hòa bình vẫn còn mong manh."]]],
+["Trivial","adj","C1","/ˈtrɪviəl/","tầm thường, không đáng kể",[["The difference in cost was trivial.","Sự khác biệt về chi phí là không đáng kể."],["They dismissed the issue as trivial.","Họ coi vấn đề này là không đáng kể."],["It seemed like a trivial detail at first.","Ban đầu, nó có vẻ là một chi tiết tầm thường."]]],
+["Underpin","v","C1","/ˌʌndərˈpɪn/","làm nền tảng, hỗ trợ căn bản",[["Trust underpins any successful partnership.","Niềm tin làm nền tảng cho bất kỳ quan hệ đối tác thành công nào."],["Strong demand underpinned the recovery.","Nhu cầu mạnh làm nền tảng cho sự phục hồi."],["The theory underpins modern economics.","Lý thuyết này là nền tảng cho kinh tế học hiện đại."]]],
+["Undermine","v","C1","/ˌʌndərˈmaɪn/","làm suy yếu",[["Misinformation undermines public trust.","Thông tin sai lệch làm suy yếu lòng tin của công chúng."],["Corruption undermines economic development.","Tham nhũng làm suy yếu sự phát triển kinh tế."],["The scandal undermined his credibility.","Vụ bê bối làm suy yếu độ tin cậy của anh ta."]]],
+["Volatile","adj","C1","/ˈvɑːlətl/","biến động, dễ thay đổi",[["The market remained highly volatile.","Thị trường vẫn biến động mạnh."],["Oil prices are notoriously volatile.","Giá dầu nổi tiếng là biến động thất thường."],["The situation was politically volatile.","Tình hình mang tính biến động về mặt chính trị."]]]
+];
+
+let deck = DATA.map((d,i)=>({w:d[0],pos:d[1],level:d[2],ipa:d[3],vi:d[4],examples:d[5],idx:i,known:false}));
+let curIdx=0, flipped=false, onlyUnknown=false;
+
+function currentDeck(){ return onlyUnknown ? deck.filter(d=>!d.known) : deck; }
+
+function renderCard(){
+  const cd = currentDeck();
+  if(cd.length===0){
+    document.getElementById('cWord').textContent="Tất cả đã thuộc!";
+    document.getElementById('cIpa').textContent=""; document.getElementById('cVi').textContent="";
+    document.getElementById('cLevel').textContent=""; document.getElementById('cPos').textContent="";
+    document.getElementById('exwrap').classList.remove('show');
+    document.getElementById('count').textContent="0 / 0";
+    return;
+  }
+  if(curIdx>=cd.length) curIdx=0;
+  if(curIdx<0) curIdx=cd.length-1;
+  const item=cd[curIdx];
+  const baseWord = item.w.split(' (')[0].split(' / ')[0];
+  document.getElementById('cWord').textContent=item.w;
+  document.getElementById('cIpa').textContent=item.ipa;
+  document.getElementById('cVi').textContent=item.vi;
+  document.getElementById('cLevel').textContent=item.level;
+  document.getElementById('cPos').textContent=item.pos;
+  const exListEl = document.getElementById('exList');
+  exListEl.innerHTML='';
+  item.examples.forEach((pair,i)=>{
+    const div=document.createElement('div');
+    div.className='ex-item';
+    const enHtml = pair[0].replace(new RegExp(baseWord,'i'), m=>"<b>"+m+"</b>");
+    div.innerHTML = '<div class="ex-label">Ex '+(i+1)+':</div><div class="ex-en">'+enHtml+'</div><div class="ex-vi">'+pair[1]+'</div>';
+    exListEl.appendChild(div);
+  });
+  document.getElementById('exwrap').classList.toggle('show', flipped);
+  document.getElementById('cHint').textContent=flipped?'':'chạm vào thẻ để xem nghĩa';
+  document.getElementById('count').textContent=(curIdx+1)+" / "+cd.length;
+}
+function flip(){flipped=!flipped;renderCard();}
+function nextCard(){flipped=false;curIdx++;renderCard();}
+function prevCard(){flipped=false;curIdx--;renderCard();}
+function markCard(isKnown){
+  const cd=currentDeck(); if(cd.length===0) return;
+  cd[curIdx].known=isKnown; nextCard();
+}
+function shuffleDeck(){
+  for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+  curIdx=0;flipped=false;renderCard();
+}
+function filterUnknown(){
+  onlyUnknown=!onlyUnknown;
+  document.getElementById('filterBtn').textContent=onlyUnknown?"Xem tất cả":"Chỉ từ chưa thuộc";
+  curIdx=0;flipped=false;renderCard();
+}
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='ArrowRight') nextCard();
+  if(e.key==='ArrowLeft') prevCard();
+  if(e.key===' '){e.preventDefault();flip();}
+});
+renderCard();
+</script>
+</body>
+</html>

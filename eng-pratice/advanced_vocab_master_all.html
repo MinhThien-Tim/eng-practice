@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Vocabulary · Flashcards đầy đủ (Phần 1–14 &amp; Phần cuối)</title>
+<style>
+  :root{
+    --ink:#1c2430; --sub:#5b6675; --line:#e2e6ec; --bg:#f4f6f9;
+    --card:#ffffff; --accent:#2f5d8a; --accent2:#c0392b; --soft:#eef2f7;
+    --star:#c9962c; --starbg:#fff7e6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:Georgia,'Times New Roman',serif; background:var(--bg); color:var(--ink); padding:24px 16px 60px;}
+  header{max-width:1200px; margin:0 auto 6px; border-bottom:2px solid var(--ink); padding-bottom:10px; font-family:Arial,Helvetica,sans-serif;}
+  header h1{font-size:16px; margin:0;}
+  header .sub{font-size:12px; color:var(--sub); margin-top:2px;}
+  .toolbar{max-width:1200px; margin:14px auto 6px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; font-family:Arial,Helvetica,sans-serif; font-size:13px; position:sticky; top:0; background:var(--bg); padding:10px 0; z-index:5;}
+  .toolbar button, .toolbar select{border:1px solid var(--ink); background:var(--card); color:var(--ink); padding:6px 12px; border-radius:6px; cursor:pointer; font-size:13px;}
+  .toolbar button:hover{background:var(--ink); color:#fff;}
+  .toolbar button.starred{background:var(--star); border-color:var(--star); color:#fff;}
+  .progress{color:var(--sub); font-family:Arial,sans-serif; font-size:12px;}
+  .progress-row{max-width:1200px; margin:0 auto 14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;}
+  .filter-input{font-family:Arial,sans-serif; padding:6px 10px; border:1px solid var(--line); border-radius:6px; font-size:13px; min-width:180px;}
+  .cat-nav{max-width:1200px; margin:0 auto 10px; font-family:Arial,sans-serif; font-size:11px; color:var(--sub); display:flex; flex-wrap:wrap; gap:5px; max-height:80px; overflow-y:auto; padding:6px; border:1px solid var(--line); border-radius:6px; background:var(--card);}
+  .cat-nav a{color:var(--accent); text-decoration:none; border:1px solid var(--line); padding:2px 7px; border-radius:5px; white-space:nowrap;}
+  .cat-nav a:hover{background:var(--soft);}
+  .cat-block{max-width:1200px; margin:0 auto 26px; scroll-margin-top:130px;}
+  .cat-title{font-family:Arial,sans-serif; font-size:14.5px; font-weight:bold; color:var(--accent); border-bottom:1px solid var(--line); padding-bottom:6px; margin:22px 0 12px; display:flex; align-items:center; gap:8px;}
+  .cat-title .count{font-weight:normal; color:var(--sub); font-size:12px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:10px; min-height:110px; padding:14px; cursor:pointer; position:relative; transition:box-shadow .15s, transform .1s, border-color .15s; display:flex; flex-direction:column; justify-content:center;}
+  .card:hover{box-shadow:0 4px 14px rgba(0,0,0,.08); transform:translateY(-1px);}
+  .card.marked{border-color:var(--star); background:var(--starbg);}
+  .card .tag{position:absolute; top:8px; left:10px; font-family:Arial,sans-serif; font-size:9px; color:var(--sub); background:var(--soft); padding:2px 6px; border-radius:4px; max-width:70%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .card .star-btn{position:absolute; top:6px; right:8px; font-size:16px; line-height:1; background:none; border:none; cursor:pointer; color:var(--line); padding:2px;}
+  .card .star-btn.on{color:var(--star);}
+  .word{font-size:18px; font-weight:bold; margin-top:16px; margin-bottom:2px;}
+  .vi{font-size:14.5px; line-height:1.4; color:var(--ink); margin-top:16px;}
+  .hint{font-family:Arial,sans-serif; font-size:10.5px; color:var(--sub); margin-top:8px;}
+  .empty-msg{max-width:1200px; margin:40px auto; text-align:center; font-family:Arial,sans-serif; color:var(--sub);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ADVANCED VOCABULARY · FLASHCARDS ĐẦY ĐỦ</h1>
+  <div class="sub">Gộp toàn bộ Phần 1–14 &amp; Phần cuối · ~520 từ · nhóm theo chủ đề · có đánh dấu "chưa thuộc" để ôn lại</div>
+</header>
+
+<div class="toolbar">
+  <button id="flipAll0">Mặt 1: Từ</button>
+  <button id="flipAll1">Mặt 2: Nghĩa</button>
+  <select id="catFilter"><option value="all">Tất cả nhóm</option></select>
+  <input class="filter-input" id="filterBox" placeholder="Tìm từ / nghĩa...">
+  <button id="onlyMarked">★ Chỉ hiện từ chưa thuộc (0)</button>
+  <button id="clearMarked">Xóa tất cả đánh dấu</button>
+</div>
+<div class="progress-row">
+  <span class="progress" id="progress"></span>
+  <span class="progress" style="color:#c9962c">Lưu ý: đánh dấu chỉ tồn tại trong phiên xem hiện tại — tải lại trang sẽ mất, vì trang không dùng bộ nhớ trình duyệt.</span>
+</div>
+
+<div class="cat-nav" id="catNav"></div>
+
+<div id="content"></div>
+
+<script>
+const DATA = [
+/* ===================== NHÓM TỪ FILE 1 (theo chủ đề đơn) ===================== */
+{w:"Repudiate",vi:"bác bỏ hoàn toàn, từ chối",cat:"Lập luận"},
+{w:"Refute",vi:"bác bỏ bằng bằng chứng",cat:"Lập luận"},
+{w:"Corroborative",vi:"có tính xác nhận, củng cố bằng chứng",cat:"Lập luận"},
+{w:"Conclusive",vi:"mang tính kết luận, quyết định",cat:"Lập luận"},
+{w:"Categorical",vi:"tuyệt đối, rõ ràng",cat:"Lập luận"},
+{w:"Conjecturable",vi:"có thể suy đoán",cat:"Lập luận"},
+{w:"Corroborant",vi:"thứ xác nhận, bằng chứng hỗ trợ",cat:"Lập luận"},
+{w:"Refute",vi:"bác bỏ",cat:"Lập luận"},
+
+{w:"Dismantle",vi:"tháo dỡ, phá bỏ",cat:"Hành động"},
+{w:"Obstruct",vi:"cản trở, ngăn chặn",cat:"Hành động"},
+{w:"Dispense",vi:"phân phát, miễn trừ",cat:"Hành động"},
+{w:"Elicit",vi:"gợi ra, thu được",cat:"Hành động"},
+{w:"Render",vi:"khiến trở thành, cung cấp",cat:"Hành động"},
+{w:"Withholding",vi:"giữ lại, không cung cấp",cat:"Hành động"},
+{w:"Disguise",vi:"cải trang, che giấu",cat:"Hành động"},
+{w:"Deceive",vi:"lừa dối",cat:"Hành động"},
+{w:"Shed",vi:"rơi, làm rụng, đổ ra",cat:"Hành động"},
+{w:"Unclench",vi:"mở ra sau khi nắm chặt",cat:"Hành động"},
+{w:"Wrestle",vi:"vật lộn, đấu tranh",cat:"Hành động"},
+
+{w:"Entrench",vi:"ăn sâu, khó thay đổi",cat:"Xã hội"},
+{w:"Obsolete",vi:"lỗi thời",cat:"Xã hội"},
+{w:"Emasculate",vi:"làm mất sức mạnh, làm suy yếu",cat:"Xã hội"},
+
+{w:"Scruple",vi:"sự do dự vì đạo đức",cat:"Đạo đức"},
+
+{w:"Incongruous",vi:"không phù hợp, trái ngược",cat:"Mô tả"},
+{w:"Ubiquitous",vi:"có mặt khắp nơi",cat:"Mô tả"},
+
+{w:"Commensurate",vi:"tương xứng",cat:"Đánh giá"},
+{w:"Expedience",vi:"tính tiện lợi, lợi ích trước mắt",cat:"Đánh giá"},
+{w:"Salient",vi:"nổi bật, quan trọng",cat:"Đánh giá"},
+{w:"Superficial",vi:"hời hợt, bề mặt",cat:"Đánh giá"},
+{w:"Tenuous",vi:"yếu ớt, không chắc chắn",cat:"Đánh giá"},
+{w:"Exhaustive",vi:"toàn diện, đầy đủ",cat:"Đánh giá"},
+{w:"Cursory",vi:"sơ sài, qua loa",cat:"Đánh giá"},
+{w:"Preposterous",vi:"vô lý, nực cười",cat:"Đánh giá"},
+
+{w:"Elucidate",vi:"làm sáng tỏ, giải thích rõ",cat:"Học thuật"},
+{w:"Benefactive",vi:"có lợi, mang lợi ích",cat:"Học thuật"},
+{w:"Derivation",vi:"nguồn gốc, sự hình thành",cat:"Học thuật"},
+{w:"Ambiguous",vi:"mơ hồ, nhiều nghĩa",cat:"Học thuật"},
+{w:"Surrogate",vi:"thay thế, đại diện",cat:"Học thuật"},
+
+{w:"Candid",vi:"thẳng thắn, thành thật",cat:"Thái độ"},
+{w:"Forthright",vi:"trực tiếp, thẳng thắn",cat:"Thái độ"},
+{w:"Evasive",vi:"né tránh",cat:"Thái độ"},
+{w:"Conciliatory",vi:"hòa giải, làm dịu",cat:"Thái độ"},
+{w:"Impartial",vi:"không thiên vị",cat:"Thái độ"},
+{w:"Disparage",vi:"coi thường, hạ thấp",cat:"Thái độ"},
+{w:"Cordial",vi:"thân thiện, nồng nhiệt",cat:"Thái độ"},
+
+{w:"Definite",vi:"chắc chắn, rõ ràng",cat:"Sự chắc chắn"},
+{w:"Tentative",vi:"tạm thời, chưa chắc chắn",cat:"Sự chắc chắn"},
+
+{w:"Instigate",vi:"kích động, gây ra",cat:"Nguyên nhân"},
+{w:"Perpetuate",vi:"duy trì, kéo dài",cat:"Nguyên nhân"},
+{w:"Exacerbate",vi:"làm trầm trọng hơn",cat:"Nguyên nhân"},
+{w:"Undermine",vi:"làm suy yếu",cat:"Nguyên nhân"},
+
+{w:"Complacence",vi:"sự tự mãn",cat:"Tâm lý"},
+{w:"Whim",vi:"ý thích bất chợt",cat:"Tâm lý"},
+
+{w:"Immutable",vi:"không thể thay đổi",cat:"Tính chất"},
+
+{w:"Nebulous",vi:"mơ hồ, không rõ ràng",cat:"Sự rõ ràng"},
+{w:"Obscure",vi:"khó hiểu, ít được biết đến",cat:"Sự rõ ràng"},
+
+{w:"Intrinsic",vi:"vốn có, bản chất",cat:"Khái niệm"},
+
+{w:"Underlying",vi:"bên dưới, nguyên nhân sâu xa",cat:"Phân tích"},
+
+{w:"Placate",vi:"xoa dịu, làm nguôi giận",cat:"Cảm xúc"},
+{w:"Vehement",vi:"mạnh mẽ, dữ dội",cat:"Cảm xúc"},
+{w:"Frown",vi:"cau mày",cat:"Cảm xúc"},
+{w:"Chuckle",vi:"cười khúc khích",cat:"Cảm xúc"},
+
+{w:"Bribe",vi:"hối lộ",cat:"Pháp luật"},
+{w:"Trespass",vi:"xâm phạm trái phép",cat:"Pháp luật"},
+{w:"Custody",vi:"quyền giám hộ, sự giam giữ",cat:"Pháp luật"},
+
+{w:"Faithful",vi:"trung thành",cat:"Tính cách"},
+{w:"Shrewd",vi:"sắc sảo, khôn ngoan",cat:"Tính cách"},
+{w:"Eccentric",vi:"lập dị",cat:"Tính cách"},
+{w:"Snob",vi:"người coi thường người khác",cat:"Tính cách"},
+{w:"Smug",vi:"tự mãn",cat:"Tính cách"},
+
+{w:"Antagonize",vi:"gây thù địch",cat:"Quan hệ"},
+
+{w:"Con",vi:"lừa đảo, kẻ lừa đảo",cat:"Tội phạm"},
+
+{w:"Haggard",vi:"tiều tụy, mệt mỏi",cat:"Trạng thái"},
+{w:"Chill",vi:"lạnh / thư giãn",cat:"Trạng thái"},
+{w:"Faint",vi:"yếu, mờ, ngất",cat:"Trạng thái"},
+{w:"Flush",vi:"đỏ bừng / xả nước",cat:"Trạng thái"},
+
+{w:"Mold",vi:"nấm mốc / tạo hình",cat:"Tự nhiên"},
+{w:"Stream",vi:"dòng chảy",cat:"Tự nhiên"},
+
+{w:"Hunch",vi:"linh cảm",cat:"Nhận thức"},
+{w:"Concentrate",vi:"tập trung",cat:"Nhận thức"},
+
+{w:"Pawn",vi:"cầm cố / con tốt",cat:"Kinh tế"},
+
+{w:"Puberty",vi:"tuổi dậy thì",cat:"Sinh học"},
+
+{w:"Savior",vi:"vị cứu tinh",cat:"Con người"},
+
+{w:"Coup",vi:"cuộc đảo chính",cat:"Chính trị"},
+
+{w:"Holocaust",vi:"cuộc thảm sát Holocaust",cat:"Lịch sử"},
+
+{w:"Extraterrestrial",vi:"ngoài Trái Đất",cat:"Khoa học"},
+
+{w:"Declension",vi:"sự biến cách (ngôn ngữ học)",cat:"Ngôn ngữ"},
+
+{w:"Aptitude",vi:"năng khiếu, khả năng",cat:"Khả năng"},
+
+{w:"Itinerary",vi:"lịch trình chuyến đi",cat:"Du lịch"},
+
+{w:"Nail",vi:"móng / đóng đinh / bắt đúng",cat:"Nhiều nghĩa"},
+{w:"Flag",vi:"cờ / đánh dấu / suy yếu",cat:"Nhiều nghĩa"},
+
+/* ===================== FILE 2: XÃ HỘI-CHÍNH TRỊ-LUẬT PHÁP / CẢM XÚC-TÍNH CÁCH-THÁI ĐỘ / HÀNH ĐỘNG-GIẢI QUYẾT-DI CHUYỂN ===================== */
+{w:"Entrench",vi:"ăn sâu, khó thay đổi",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Mandate",vi:"sự ủy quyền, chỉ thị chính thức",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Coup",vi:"cuộc đảo chính",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Pact",vi:"hiệp ước, thỏa thuận",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Moratorium",vi:"lệnh đình chỉ tạm thời",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Secular",vi:"thuộc thế tục, không tôn giáo",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Indigenous",vi:"bản địa",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Extradition",vi:"sự dẫn độ",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Holocaust",vi:"cuộc thảm sát Holocaust",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Insurgence",vi:"cuộc nổi dậy",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Defiance",vi:"sự chống đối, thách thức",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Exile",vi:"sự lưu đày",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Trespass",vi:"xâm phạm trái phép",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Custody",vi:"quyền giám hộ, sự giam giữ",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Consent",vi:"sự đồng ý",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Negligence",vi:"sự cẩu thả, sơ suất",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Felony",vi:"trọng tội",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Allegation",vi:"lời cáo buộc",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Incriminate",vi:"buộc tội, làm liên lụy",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Acquisition",vi:"sự thu nhận, mua lại",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Privilege",vi:"đặc quyền",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Vested",vi:"được trao quyền, có quyền lợi",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Unencumbered",vi:"không bị ràng buộc",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Impoverish",vi:"làm nghèo, làm kiệt quệ",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Famine",vi:"nạn đói",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Scarcity",vi:"sự khan hiếm",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Stagnant",vi:"trì trệ",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Decay",vi:"sự suy tàn, mục nát",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Calamity",vi:"tai họa, thảm họa",cat:"Xã hội - Chính trị - Luật pháp"},
+{w:"Catastrophe",vi:"thảm họa lớn",cat:"Xã hội - Chính trị - Luật pháp"},
+
+{w:"Candid",vi:"thẳng thắn, thành thật",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Forthright",vi:"thẳng thắn, trực tiếp",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Evasive",vi:"né tránh",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Vehement",vi:"mạnh mẽ, dữ dội",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Conciliatory",vi:"hòa giải",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Cordial",vi:"thân thiện, nồng nhiệt",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Faithful",vi:"trung thành",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Shrewd",vi:"khôn ngoan, sắc sảo",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Eccentric",vi:"lập dị",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Quirky",vi:"kỳ quặc, độc đáo",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Smug",vi:"tự mãn",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Snob",vi:"người coi thường người khác",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Arrogance",vi:"sự kiêu ngạo",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Narcissism",vi:"tính ái kỷ",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Condescending",vi:"kẻ cả, trịch thượng",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Devout",vi:"sùng đạo, tận tâm",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Naive",vi:"ngây thơ, thiếu kinh nghiệm",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Ingenious",vi:"sáng tạo, tài giỏi",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Cunning",vi:"xảo quyệt",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Resent",vi:"oán giận",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Loathe",vi:"căm ghét",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Adore",vi:"yêu thích",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Admire",vi:"ngưỡng mộ",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Yearn",vi:"khao khát",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Whim",vi:"ý thích bất chợt",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Impulse",vi:"sự thôi thúc",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Sentiment",vi:"cảm xúc, tình cảm",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Nostalgia",vi:"nỗi nhớ quá khứ",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Gloomy",vi:"u ám, buồn bã",cat:"Cảm xúc - Tính cách - Thái độ"},
+{w:"Pathetic",vi:"đáng thương, thảm hại",cat:"Cảm xúc - Tính cách - Thái độ"},
+
+{w:"Approach",vi:"tiếp cận, phương pháp",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Proceed",vi:"tiến hành, tiếp tục",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Pursue",vi:"theo đuổi",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Extract",vi:"lấy ra, chiết xuất",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Render",vi:"làm cho trở thành, cung cấp",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Dispense",vi:"phân phát",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Elicit",vi:"gợi ra, thu được",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Conjure",vi:"gợi lên, triệu hồi, tưởng tượng",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Probe",vi:"thăm dò, điều tra",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Interrogate",vi:"thẩm vấn",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Debrief",vi:"hỏi lại sau nhiệm vụ",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Intervene",vi:"can thiệp",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Suspend",vi:"đình chỉ, treo",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Confine",vi:"giới hạn, giam giữ",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Seclude",vi:"tách biệt, cô lập",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Flee",vi:"chạy trốn",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Ambush",vi:"phục kích",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Chase",vi:"đuổi theo",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Plunge",vi:"lao xuống",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Burst",vi:"nổ tung, bùng nổ",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Collapse",vi:"sụp đổ",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Rally",vi:"tập hợp, phục hồi",cat:"Hành động - Giải quyết - Di chuyển"},
+{w:"Converge",vi:"hội tụ",cat:"Hành động - Giải quyết - Di chuyển"},
+
+/* ===================== FILE 3: KHOA HỌC-Y HỌC-SINH HỌC / KINH TẾ-TÀI CHÍNH-CÔNG VIỆC / TỘI PHẠM-AN NINH-NGUY HIỂM / GIAO TIẾP-NGÔN NGỮ-NHẬN THỨC ===================== */
+{w:"Disease",vi:"bệnh tật",cat:"Khoa học - Y học - Sinh học"},
+{w:"Tumor",vi:"khối u",cat:"Khoa học - Y học - Sinh học"},
+{w:"Diabetes",vi:"bệnh tiểu đường",cat:"Khoa học - Y học - Sinh học"},
+{w:"Antiretroviral",vi:"thuốc kháng virus HIV",cat:"Khoa học - Y học - Sinh học"},
+{w:"Sedative",vi:"thuốc an thần",cat:"Khoa học - Y học - Sinh học"},
+{w:"Concussion",vi:"chấn động não",cat:"Khoa học - Y học - Sinh học"},
+{w:"Stroke",vi:"đột quỵ",cat:"Khoa học - Y học - Sinh học"},
+{w:"Homicide",vi:"tội giết người",cat:"Khoa học - Y học - Sinh học"},
+{w:"Slaughter",vi:"sự giết hại hàng loạt",cat:"Khoa học - Y học - Sinh học"},
+{w:"Fungus",vi:"nấm",cat:"Khoa học - Y học - Sinh học"},
+{w:"Bacteria",vi:"vi khuẩn",cat:"Khoa học - Y học - Sinh học"},
+{w:"Plaque",vi:"mảng bám, mảng xơ",cat:"Khoa học - Y học - Sinh học"},
+{w:"Sediment",vi:"trầm tích",cat:"Khoa học - Y học - Sinh học"},
+{w:"Extraction",vi:"sự chiết xuất",cat:"Khoa học - Y học - Sinh học"},
+{w:"Condenser",vi:"bình ngưng, thiết bị ngưng tụ",cat:"Khoa học - Y học - Sinh học"},
+{w:"Ignition",vi:"sự đánh lửa",cat:"Khoa học - Y học - Sinh học"},
+{w:"Radiate",vi:"phát ra, tỏa ra",cat:"Khoa học - Y học - Sinh học"},
+{w:"Fluid",vi:"chất lỏng",cat:"Khoa học - Y học - Sinh học"},
+{w:"Cosmos",vi:"vũ trụ",cat:"Khoa học - Y học - Sinh học"},
+{w:"Extraterrestrial",vi:"ngoài Trái Đất",cat:"Khoa học - Y học - Sinh học"},
+{w:"Magnitude",vi:"độ lớn, quy mô",cat:"Khoa học - Y học - Sinh học"},
+{w:"Gauge",vi:"đo lường, dụng cụ đo",cat:"Khoa học - Y học - Sinh học"},
+{w:"Probe",vi:"thăm dò, khảo sát",cat:"Khoa học - Y học - Sinh học"},
+{w:"Tangible",vi:"hữu hình, có thể chạm thấy",cat:"Khoa học - Y học - Sinh học"},
+
+{w:"Invoice",vi:"hóa đơn",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Audit",vi:"kiểm toán",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Transaction",vi:"giao dịch",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Lease",vi:"hợp đồng thuê",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Refinance",vi:"tái cấp vốn",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Acquisition",vi:"sự mua lại, thu nhận",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Stake",vi:"cổ phần, lợi ích",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Pawn",vi:"cầm cố",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Vendor",vi:"người bán, nhà cung cấp",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Depot",vi:"kho chứa, trạm trung chuyển",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Input",vi:"đầu vào",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Output",vi:"đầu ra",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Exchequer",vi:"ngân khố",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Toll",vi:"phí, lệ phí",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Scarcity",vi:"sự khan hiếm",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Abundant",vi:"dồi dào",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Congest",vi:"làm tắc nghẽn",cat:"Kinh tế - Tài chính - Công việc"},
+{w:"Congested",vi:"bị tắc nghẽn",cat:"Kinh tế - Tài chính - Công việc"},
+
+{w:"Bribe",vi:"hối lộ",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Counterfeiter",vi:"kẻ làm giả",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Counterfeit",vi:"hàng giả, làm giả",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Culprit",vi:"thủ phạm",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Assault",vi:"tấn công",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Frisk",vi:"khám xét người",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Interrogate",vi:"thẩm vấn",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Ambush",vi:"phục kích",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Hostage",vi:"con tin",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Impale",vi:"đâm xuyên",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Spear",vi:"giáo, đâm bằng giáo",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Lance",vi:"lao, ngọn giáo",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Stab",vi:"đâm",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Threat",vi:"mối đe dọa",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Curse",vi:"lời nguyền, chửi rủa",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Villain",vi:"kẻ xấu, phản diện",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Con",vi:"kẻ lừa đảo",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Deceive",vi:"lừa dối",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Disguise",vi:"cải trang, che giấu",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Incriminate",vi:"buộc tội, làm liên lụy",cat:"Tội phạm - An ninh - Nguy hiểm"},
+{w:"Felony",vi:"trọng tội",cat:"Tội phạm - An ninh - Nguy hiểm"},
+
+{w:"Elucidate",vi:"làm sáng tỏ",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Clarify",vi:"làm rõ",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Convey",vi:"truyền đạt",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Express",vi:"thể hiện",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Indicate",vi:"chỉ ra",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Suggest",vi:"gợi ý",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Imply",vi:"ám chỉ",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Foresaw",vi:"nhìn thấy trước, dự đoán",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Ponder",vi:"suy ngẫm",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Fathom",vi:"hiểu sâu",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Comprehend",vi:"hiểu",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Decipher",vi:"giải mã",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Riddle",vi:"câu đố, điều bí ẩn",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Enigma",vi:"điều bí ẩn",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Cryptic",vi:"khó hiểu, bí ẩn",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Subtle",vi:"tinh tế, khó nhận thấy",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Subtlety",vi:"sự tinh tế",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Digress",vi:"đi lệch chủ đề",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Definition",vi:"định nghĩa",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+{w:"Declension",vi:"sự biến cách (ngôn ngữ học)",cat:"Giao tiếp - Ngôn ngữ - Nhận thức"},
+
+/* ===================== FILE 4: PHẦN 7-14 & PHẦN CUỐI ===================== */
+{w:"Physique",vi:"vóc dáng, thể chất",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Puberty",vi:"tuổi dậy thì",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Ancestry",vi:"tổ tiên, nguồn gốc dòng họ",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Kinship",vi:"quan hệ họ hàng",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Trait",vi:"đặc điểm, tính trạng",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Integrity",vi:"sự chính trực, toàn vẹn",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Composure",vi:"sự bình tĩnh",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Resilience",vi:"khả năng phục hồi",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Sobriety",vi:"sự tỉnh táo",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Leisure",vi:"thời gian rảnh",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Tenancy",vi:"quyền thuê nhà",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Custody",vi:"sự chăm sóc, quyền giám hộ",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Presence",vi:"sự hiện diện",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Absence",vi:"sự vắng mặt",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Numb",vi:"tê liệt, mất cảm giác",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Stiff",vi:"cứng, khó cử động",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Limp",vi:"đi khập khiễng",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Lame",vi:"què, yếu",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Tremble",vi:"run rẩy",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Shiver",vi:"run lên vì lạnh/sợ",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Faint",vi:"yếu, mờ, ngất",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Blush",vi:"đỏ mặt",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Flush",vi:"đỏ bừng, xả nước",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Exhale",vi:"thở ra",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Swallow",vi:"nuốt",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Squeeze",vi:"bóp, ép",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Unclench",vi:"thả lỏng sau khi nắm chặt",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Stroke",vi:"vuốt ve / đột quỵ",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+{w:"Nail",vi:"móng tay / đóng đinh",cat:"Đời sống - Con người - Cơ thể - Trạng thái"},
+
+{w:"Adjacent",vi:"liền kề",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Proximity",vi:"sự gần gũi",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Distant",vi:"xa xôi",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Underneath",vi:"bên dưới",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Enclose",vi:"bao quanh",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Verge",vi:"bờ vực, sắp xảy ra",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Stationary",vi:"đứng yên, không di chuyển",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Transit",vi:"sự đi lại, quá cảnh",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Itinerary",vi:"lịch trình",cat:"Thời gian - Không gian - Vị trí"},
+{w:"March",vi:"tháng 3 / diễu hành",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Upon",vi:"trên, ngay khi",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Part",vi:"phần / rời khỏi",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Approach",vi:"tiếp cận",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Depot",vi:"trạm, kho chứa",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Peninsula",vi:"bán đảo",cat:"Thời gian - Không gian - Vị trí"},
+{w:"Porch",vi:"hiên nhà",cat:"Thời gian - Không gian - Vị trí"},
+
+{w:"Stream",vi:"dòng suối, dòng chảy",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Oasis",vi:"ốc đảo",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Cattle",vi:"gia súc",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Grapes",vi:"nho",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Courgette",vi:"bí ngòi",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Mold",vi:"nấm mốc",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Decay",vi:"phân hủy, mục nát",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Crumble",vi:"vỡ vụn",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Sediment",vi:"trầm tích",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Fluid",vi:"chất lỏng",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Damp",vi:"ẩm ướt",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Sheer",vi:"dốc đứng / hoàn toàn",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Magnitude",vi:"độ lớn",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Cosmos",vi:"vũ trụ",cat:"Tự nhiên - Môi trường - Vật chất"},
+{w:"Extraterrestrial",vi:"ngoài Trái Đất",cat:"Tự nhiên - Môi trường - Vật chất"},
+
+{w:"Admirer",vi:"người ngưỡng mộ",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Savior",vi:"vị cứu tinh",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Surrogate",vi:"người/vật thay thế",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Puppet",vi:"con rối, người bị điều khiển",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Ensemble",vi:"nhóm, tập hợp",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Chic",vi:"thanh lịch, thời trang",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Jolly",vi:"vui vẻ",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Quiet",vi:"yên tĩnh",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Chuckle",vi:"cười khúc khích",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Groan",vi:"rên rỉ, than vãn",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Frown",vi:"cau mày",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Condolence",vi:"lời chia buồn",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Prayer",vi:"lời cầu nguyện",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Feast",vi:"bữa tiệc lớn",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Encore",vi:"màn biểu diễn thêm",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Snogging",vi:"hôn nhau (Anh-Anh)",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Cordial",vi:"thân thiện",cat:"Quan hệ - Xã hội - Hành vi"},
+{w:"Courteous",vi:"lịch sự",cat:"Quan hệ - Xã hội - Hành vi"},
+
+{w:"Consciousness",vi:"ý thức",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Subconscious",vi:"tiềm thức",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Conception",vi:"sự hình thành ý tưởng",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Notion",vi:"khái niệm, ý niệm",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Insight",vi:"sự hiểu biết sâu sắc",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Perception",vi:"nhận thức, cách nhìn nhận",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Sentiment",vi:"cảm xúc, quan điểm",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Perspective",vi:"góc nhìn",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Rationale",vi:"lý do, cơ sở lập luận",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Premise",vi:"tiền đề",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Assumption",vi:"giả định",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Hypothesis",vi:"giả thuyết",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Enigma",vi:"điều bí ẩn",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Riddle",vi:"câu đố, vấn đề khó hiểu",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Mystery",vi:"bí ẩn",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Foresaw",vi:"dự đoán trước",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Conjecturable",vi:"có thể suy đoán",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Ponder",vi:"suy ngẫm",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Contemplate",vi:"suy xét, chiêm nghiệm",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Fathom",vi:"hiểu sâu",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Decipher",vi:"giải mã",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Deduce",vi:"suy luận",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Infer",vi:"suy ra",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Interpretation",vi:"sự diễn giải",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Deliberate",vi:"suy nghĩ kỹ, cân nhắc",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+{w:"Impulse",vi:"sự thôi thúc",cat:"Từ trừu tượng - Tư duy - Khái niệm"},
+
+{w:"Complacence",vi:"sự tự mãn",cat:"Cảm xúc - Tâm lý"},
+{w:"Arrogance",vi:"sự kiêu ngạo",cat:"Cảm xúc - Tâm lý"},
+{w:"Narcissism",vi:"tính ái kỷ",cat:"Cảm xúc - Tâm lý"},
+{w:"Resent",vi:"oán giận",cat:"Cảm xúc - Tâm lý"},
+{w:"Loathe",vi:"ghét cay ghét đắng",cat:"Cảm xúc - Tâm lý"},
+{w:"Adore",vi:"yêu thích",cat:"Cảm xúc - Tâm lý"},
+{w:"Yearn",vi:"khao khát",cat:"Cảm xúc - Tâm lý"},
+{w:"Whim",vi:"ý thích bất chợt",cat:"Cảm xúc - Tâm lý"},
+{w:"Lust",vi:"ham muốn mạnh mẽ",cat:"Cảm xúc - Tâm lý"},
+{w:"Nostalgia",vi:"nỗi nhớ quá khứ",cat:"Cảm xúc - Tâm lý"},
+{w:"Gloomy",vi:"u ám, buồn bã",cat:"Cảm xúc - Tâm lý"},
+{w:"Pathetic",vi:"đáng thương, thảm hại",cat:"Cảm xúc - Tâm lý"},
+{w:"Frustrate",vi:"làm thất vọng, gây khó chịu",cat:"Cảm xúc - Tâm lý"},
+{w:"Torment",vi:"hành hạ, đau khổ",cat:"Cảm xúc - Tâm lý"},
+{w:"Solace",vi:"sự an ủi",cat:"Cảm xúc - Tâm lý"},
+{w:"Grieve",vi:"đau buồn",cat:"Cảm xúc - Tâm lý"},
+{w:"Shame",vi:"sự xấu hổ",cat:"Cảm xúc - Tâm lý"},
+{w:"Suspicion",vi:"sự nghi ngờ",cat:"Cảm xúc - Tâm lý"},
+{w:"Hunch",vi:"linh cảm",cat:"Cảm xúc - Tâm lý"},
+{w:"Flattered",vi:"được tâng bốc, vui vì được khen",cat:"Cảm xúc - Tâm lý"},
+{w:"Admire",vi:"ngưỡng mộ",cat:"Cảm xúc - Tâm lý"},
+{w:"Admirer",vi:"người ngưỡng mộ",cat:"Cảm xúc - Tâm lý"},
+
+{w:"Faithful",vi:"trung thành",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Shrewd",vi:"khôn ngoan, sắc bén",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Cunning",vi:"xảo quyệt",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Naive",vi:"ngây thơ",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Eccentric",vi:"lập dị",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Quirky",vi:"kỳ quặc, độc đáo",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Smug",vi:"tự mãn",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Snob",vi:"người coi thường người khác",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Dogmatic",vi:"giáo điều, bảo thủ",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Rigid",vi:"cứng nhắc",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Pragmatic",vi:"thực tế, thực dụng",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Ingenious",vi:"tài tình, sáng tạo",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Candid",vi:"thẳng thắn",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Forthright",vi:"thẳng thắn, trực tiếp",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Evasive",vi:"né tránh",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Condescending",vi:"kẻ cả, trịch thượng",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Devout",vi:"sùng đạo, tận tâm",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Integrity",vi:"sự chính trực",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+{w:"Trait",vi:"đặc điểm",cat:"Đặc điểm - Tính cách - Cách ứng xử"},
+
+{w:"Strategy",vi:"chiến lược",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Initiative",vi:"sáng kiến, sự chủ động",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Approach",vi:"phương pháp, cách tiếp cận",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Method",vi:"phương pháp",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Procedure",vi:"quy trình",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Coordinate",vi:"phối hợp",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Collate",vi:"tập hợp, đối chiếu",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Audit",vi:"kiểm tra, kiểm toán",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Assess",vi:"đánh giá",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Appraise",vi:"đánh giá",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Gauge",vi:"đo lường",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Probe",vi:"thăm dò",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Implement",vi:"triển khai",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Refine",vi:"cải tiến",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Rectify",vi:"sửa chữa",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Optimize",vi:"tối ưu hóa",cat:"Học thuật - Kỹ năng - Phương pháp"},
+{w:"Prerequisite",vi:"điều kiện tiên quyết",cat:"Học thuật - Kỹ năng - Phương pháp"},
+
+{w:"Adhere",vi:"tuân thủ, bám vào",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Convey",vi:"truyền đạt, truyền tải",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Acquire",vi:"đạt được, thu nhận",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Consume",vi:"tiêu thụ, sử dụng",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Sustain",vi:"duy trì",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Persist",vi:"tiếp tục tồn tại",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Retain",vi:"giữ lại",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Withhold",vi:"giữ lại, không cung cấp",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Render",vi:"khiến trở thành, cung cấp",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Dispense",vi:"phân phát",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Extract",vi:"lấy ra, chiết xuất",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Insertion",vi:"sự chèn vào, đưa vào",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Coordinate",vi:"phối hợp",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Converge",vi:"hội tụ",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Cascade",vi:"đổ xuống, lan rộng theo chuỗi",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+{w:"Cascading",vi:"xảy ra liên tiếp, lan truyền",cat:"Từ quan trọng còn lại - Đời sống - Khẩu ngữ"},
+
+{w:"Sheer",vi:"hoàn toàn / dốc đứng",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Facade",vi:"mặt tiền, vẻ bề ngoài giả tạo",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Rigid",vi:"cứng nhắc",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Stiff",vi:"cứng, khó cử động",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Fluid",vi:"linh hoạt, chất lỏng",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Intricate",vi:"phức tạp, tinh vi",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Subtle",vi:"tinh tế, khó nhận thấy",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Subtlety",vi:"sự tinh tế",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Cryptic",vi:"bí ẩn, khó hiểu / có tính mã hóa",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Tangible",vi:"hữu hình, rõ ràng",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Intact",vi:"nguyên vẹn",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Pristine",vi:"nguyên sơ, sạch sẽ",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Scant",vi:"ít ỏi, thiếu hụt",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Voluminous",vi:"rất lớn, đồ sộ",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Abundant",vi:"phong phú, dồi dào",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Damp",vi:"ẩm ướt",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Eerie",vi:"kỳ lạ, đáng sợ",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Sinister",vi:"hiểm ác, đáng ngờ",cat:"Từ mô tả - Tính chất - Trạng thái"},
+{w:"Sterling",vi:"xuất sắc, chất lượng cao",cat:"Từ mô tả - Tính chất - Trạng thái"},
+
+{w:"Haul",vi:"kéo, vận chuyển nặng",cat:"Từ hành động - Di chuyển"},
+{w:"Thrust",vi:"đẩy mạnh, thúc đẩy",cat:"Từ hành động - Di chuyển"},
+{w:"Spear",vi:"đâm bằng giáo",cat:"Từ hành động - Di chuyển"},
+{w:"Lance",vi:"lao tới, đâm bằng thương",cat:"Từ hành động - Di chuyển"},
+{w:"Shove",vi:"đẩy mạnh",cat:"Từ hành động - Di chuyển"},
+{w:"Slash",vi:"chém, cắt giảm mạnh",cat:"Từ hành động - Di chuyển"},
+{w:"Snip",vi:"cắt nhỏ",cat:"Từ hành động - Di chuyển"},
+{w:"Stab",vi:"đâm",cat:"Từ hành động - Di chuyển"},
+{w:"Plunge",vi:"lao xuống",cat:"Từ hành động - Di chuyển"},
+{w:"Burst",vi:"bùng nổ, vỡ ra",cat:"Từ hành động - Di chuyển"},
+{w:"Collapse",vi:"sụp đổ",cat:"Từ hành động - Di chuyển"},
+{w:"Crash",vi:"va chạm, sụp đổ",cat:"Từ hành động - Di chuyển"},
+{w:"Collide",vi:"va chạm",cat:"Từ hành động - Di chuyển"},
+{w:"Stumble",vi:"vấp ngã",cat:"Từ hành động - Di chuyển"},
+{w:"Wrestle",vi:"vật lộn, đấu tranh",cat:"Từ hành động - Di chuyển"},
+{w:"Chase",vi:"đuổi theo",cat:"Từ hành động - Di chuyển"},
+{w:"Flee",vi:"chạy trốn",cat:"Từ hành động - Di chuyển"},
+{w:"Rally",vi:"tập hợp, phục hồi",cat:"Từ hành động - Di chuyển"},
+
+{w:"Antiretroviral",vi:"thuốc kháng virus HIV",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Tumor",vi:"khối u",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Diabetes",vi:"bệnh tiểu đường",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Concussion",vi:"chấn động não",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Stroke",vi:"đột quỵ",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Sedative",vi:"thuốc an thần",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Fungus",vi:"nấm",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Plaque",vi:"mảng bám",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Sediment",vi:"trầm tích",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Condenser",vi:"thiết bị ngưng tụ",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Ignition",vi:"sự đánh lửa",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Radiate",vi:"phát ra, tỏa ra",cat:"Từ chuyên ngành - Y học - Sinh học"},
+{w:"Genome",vi:"bộ gen",cat:"Từ chuyên ngành - Y học - Sinh học"},
+
+{w:"Monastery",vi:"tu viện",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Catholic",vi:"Công giáo",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Prayer",vi:"lời cầu nguyện",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Celibacy",vi:"sự độc thân, kiêng quan hệ",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Feast",vi:"bữa tiệc lớn",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Encore",vi:"màn biểu diễn thêm",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Chic",vi:"sang trọng, thời trang",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Jolly",vi:"vui vẻ",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Quiet",vi:"yên tĩnh",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Leisure",vi:"thời gian rảnh",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Porch",vi:"hiên nhà",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Pouch",vi:"túi nhỏ",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Holster",vi:"bao súng",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Mural",vi:"tranh tường",cat:"Từ xã hội - Văn hóa - Đời sống"},
+{w:"Cleavage",vi:"khe, sự tách đôi",cat:"Từ xã hội - Văn hóa - Đời sống"},
+
+{w:"Buck",vi:"đô la / con hươu đực / chống lại",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Chill",vi:"thư giãn / lạnh",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Nuts",vi:"điên / hạt",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Gig",vi:"buổi biểu diễn nhỏ, công việc tạm thời",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Snogging",vi:"hôn nhau (Anh-Anh)",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Bollocks",vi:"điều vô nghĩa (Anh-Anh, tục)",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Chuckles",vi:"cười khúc khích",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Whim",vi:"ý thích bất chợt",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Smug",vi:"tự mãn",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Snob",vi:"người coi thường người khác",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Quirky",vi:"kỳ quặc",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Eccentric",vi:"lập dị",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Truant",vi:"bỏ học, trốn học",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Frown",vi:"cau mày",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Groan",vi:"rên rỉ, than vãn",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Blush",vi:"đỏ mặt",cat:"Từ khẩu ngữ / Ít gặp"},
+{w:"Flush",vi:"đỏ bừng / xả nước",cat:"Từ khẩu ngữ / Ít gặp"}
+];
+
+const CATS = [...new Set(DATA.map(d=>d.cat))];
+let flipState = new Array(DATA.length).fill(0);
+let marked = new Set(); // indices marked as "chưa thuộc"
+let activeCat = "all";
+let searchQ = "";
+let onlyMarkedMode = false;
+
+function slug(s){ return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\w]+/g,'-'); }
+
+function faceHTML(item, state){
+  if(state===0){
+    return `<div class="word">${item.w}</div><div class="hint">Nhấn để xem nghĩa →</div>`;
+  }
+  return `<div class="word" style="font-size:15px">${item.w}</div><div class="vi">${item.vi}</div><div class="hint">Nhấn để quay lại →</div>`;
+}
+
+function matchesFilter(item, idx){
+  if(onlyMarkedMode && !marked.has(idx)) return false;
+  if(activeCat!=="all" && item.cat!==activeCat) return false;
+  if(searchQ){
+    const hay = (item.w+" "+item.vi+" "+item.cat).toLowerCase();
+    if(!hay.includes(searchQ)) return false;
+  }
+  return true;
+}
+
+function buildFilterOptions(){
+  const sel = document.getElementById('catFilter');
+  CATS.forEach(c=>{
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
+
+function buildNav(){
+  const nav = document.getElementById('catNav');
+  nav.innerHTML = CATS.map(c=>`<a href="#cat-${slug(c)}">${c}</a>`).join('');
+}
+
+function cardInnerHTML(item, idx){
+  const isMarked = marked.has(idx);
+  return `<span class="tag">${item.cat}</span>`
+    + `<button class="star-btn ${isMarked?'on':''}" data-idx="${idx}" title="Đánh dấu chưa thuộc">${isMarked?'★':'☆'}</button>`
+    + faceHTML(item, flipState[idx]);
+}
+
+function render(){
+  const content = document.getElementById('content');
+  content.innerHTML='';
+  let anyVisible = false;
+  CATS.forEach(cat=>{
+    const items = DATA.map((it,idx)=>({it,idx})).filter(o=>o.it.cat===cat && matchesFilter(o.it,o.idx));
+    if(items.length===0) return;
+    anyVisible = true;
+    const block = document.createElement('div');
+    block.className='cat-block';
+    block.id = `cat-${slug(cat)}`;
+    block.innerHTML = `<div class="cat-title">${cat} <span class="count">(${items.length} từ)</span></div>`;
+    const grid = document.createElement('div');
+    grid.className='grid';
+    items.forEach(o=>{
+      const card = document.createElement('div');
+      card.className='card' + (marked.has(o.idx) ? ' marked' : '');
+      card.innerHTML = cardInnerHTML(o.it, o.idx);
+      card.addEventListener('click', (e)=>{
+        if(e.target.closest('.star-btn')) return;
+        flipState[o.idx] = (flipState[o.idx]+1) % 2;
+        card.innerHTML = cardInnerHTML(o.it, o.idx);
+        updateProgress();
+      });
+      grid.appendChild(card);
+    });
+    block.appendChild(grid);
+    content.appendChild(block);
+  });
+  if(!anyVisible){
+    content.innerHTML = `<div class="empty-msg">Không có từ nào khớp bộ lọc hiện tại.${onlyMarkedMode ? ' Bạn chưa đánh dấu từ nào là "chưa thuộc".' : ''}</div>`;
+  }
+  // attach star handlers (delegate after render via event bubbling on content)
+  updateProgress();
+}
+
+content_click_delegate();
+function content_click_delegate(){
+  document.getElementById('content').addEventListener('click', (e)=>{
+    const btn = e.target.closest('.star-btn');
+    if(!btn) return;
+    e.stopPropagation();
+    const idx = parseInt(btn.dataset.idx, 10);
+    if(marked.has(idx)) marked.delete(idx); else marked.add(idx);
+    render();
+  });
+}
+
+function updateProgress(){
+  const visibleCount = DATA.filter((it,idx)=>matchesFilter(it,idx)).length;
+  const seenCount = DATA.filter((it,idx)=>matchesFilter(it,idx) && flipState[idx]===1).length;
+  document.getElementById('progress').textContent = `Đã xem nghĩa: ${seenCount}/${visibleCount} từ (đang lọc) · Tổng số từ: ${DATA.length}`;
+  document.getElementById('onlyMarked').textContent = `★ Chỉ hiện từ chưa thuộc (${marked.size})`;
+  document.getElementById('onlyMarked').classList.toggle('starred', onlyMarkedMode);
+}
+
+document.getElementById('flipAll0').onclick = ()=>{ flipState.fill(0); render(); };
+document.getElementById('flipAll1').onclick = ()=>{ flipState.fill(1); render(); };
+document.getElementById('catFilter').addEventListener('change',(e)=>{ activeCat = e.target.value; render(); });
+document.getElementById('filterBox').addEventListener('input',(e)=>{ searchQ = e.target.value.trim().toLowerCase(); render(); });
+document.getElementById('onlyMarked').addEventListener('click', ()=>{ onlyMarkedMode = !onlyMarkedMode; render(); });
+document.getElementById('clearMarked').addEventListener('click', ()=>{ marked.clear(); render(); });
+
+buildFilterOptions();
+buildNav();
+render();
+</script>
+</body>
+</html>
