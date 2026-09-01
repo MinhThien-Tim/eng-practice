@@ -16,6 +16,28 @@
 </div></section>
 <section class="section"><h2>IELTS</h2><div class="grid"><a class="card" href="ielts-collocations.html"><div class="tag">IELTS · Units 1–19</div><h3>IELTS Hiking · Collocations</h3><p>Ngân hàng collocations theo 19 units với nghĩa và ví dụ.</p><div class="open">MỞ BÀI →</div></a></div></section>
 
+<section class="section" id="auto-grammar" hidden><h2>Grammar</h2><div class="grid" id="auto-grammar-grid"></div></section>
+<script>
+(async()=>{
+  try{
+    const r=await fetch('grammar.json',{cache:'no-store'});
+    if(!r.ok)return;
+    const items=await r.json();
+    if(!Array.isArray(items)||!items.length)return;
+    const grid=document.getElementById('auto-grammar-grid');
+    for(const item of items){
+      const a=document.createElement('a'); a.className='card'; a.href='grammar/'+item.file;
+      const tag=document.createElement('div'); tag.className='tag'; tag.textContent='Grammar';
+      const h=document.createElement('h3'); h.textContent=item.title;
+      const desc=document.createElement('p'); desc.textContent='Bài học và bài tập ngữ pháp.';
+      const open=document.createElement('div'); open.className='open'; open.textContent='MỞ BÀI →';
+      a.append(tag,h,desc,open); grid.appendChild(a);
+    }
+    document.getElementById('auto-grammar').hidden=false;
+  }catch(e){}
+})();
+</script>
+
 <section class="section" id="auto-apps" hidden><h2>Ứng dụng mới</h2><div class="grid" id="auto-app-grid"></div></section>
 <script>
 (async()=>{
