@@ -5,6 +5,9 @@ on:
       - "eng-pratice/*.html"
       - "eng-pratice/grammar/**/*.html"
       - "eng-pratice/listening/**/*.html"
+      - "eng-pratice/speaking/**/*.html"
+      - "eng-pratice/writing/**/*.html"
+      - "eng-pratice/guides/**/*.html"
       - "eng-pratice/documents/**/*.pdf"
       - "eng-pratice/documents/**/*.PDF"
   workflow_dispatch:
@@ -32,14 +35,17 @@ jobs:
           (site/"documents.json").write_text(json.dumps(d,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           (site/"grammar.json").write_text(json.dumps(htmls(site/"grammar"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           (site/"listening.json").write_text(json.dumps(htmls(site/"listening"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          (site/"speaking.json").write_text(json.dumps(htmls(site/"speaking"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          (site/"writing.json").write_text(json.dumps(htmls(site/"writing"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          (site/"guides.json").write_text(json.dumps(htmls(site/"guides"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           excluded={"index.html","404.html","documents.html","vocabulary-new.html","vong-1-2-vocabulary-complete-examples.html","vong-3-4-vocabulary-complete-examples.html","vong-5-6-vocabulary-complete-examples.html","c1-vocabulary.html","confusing-words.html","english-verbs.html","five-forms-of-verbs-with-3rd-person.html","phrasal-verbs.html","paraphrase.html","ielts-collocations-topic-table-with-dictation.html","ielts_hiking_collocations_full_with_dictation.html"}
           a=[{"title":title(p),"file":p.name} for p in sorted(site.glob("*.html"),key=lambda x:x.name.lower()) if p.name not in excluded]
           (site/"apps.json").write_text(json.dumps(a,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
       - name: Commit generated indexes
         run: |
-          if git diff --quiet -- eng-pratice/apps.json eng-pratice/documents.json eng-pratice/grammar.json eng-pratice/listening.json; then exit 0; fi
+          if git diff --quiet -- eng-pratice/apps.json eng-pratice/documents.json eng-pratice/grammar.json eng-pratice/listening.json eng-pratice/speaking.json eng-pratice/writing.json eng-pratice/guides.json; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add eng-pratice/apps.json eng-pratice/documents.json eng-pratice/grammar.json eng-pratice/listening.json
+          git add eng-pratice/apps.json eng-pratice/documents.json eng-pratice/grammar.json eng-pratice/listening.json eng-pratice/speaking.json eng-pratice/writing.json eng-pratice/guides.json
           git commit -m "Update site library indexes"
           git push
