@@ -57,7 +57,7 @@ button{cursor:pointer}
 .option:hover{border-color:#9aa8e9;background:#f8f9ff}
 .option.correct{border-color:#71c79a;background:#edf9f2;color:#0c6b3c}
 .option.wrong{border-color:#ef9a94;background:#fff0ef;color:#9d2018}
-.explain{margin-top:14px;padding:12px;background:#f8fafc;border-radius:10px;color:#475467;display:none}
+.explain{margin-top:14px;padding:12px;background:#f8fafc;border-radius:10px;color:#475467;display:none;white-space:pre-line}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700}
 .btn.primary{background:var(--brand);color:#fff}
@@ -103,9 +103,32 @@ button{cursor:pointer}
 .example-line{margin:6px 0;color:#344054}
 .wrong-text{text-decoration:line-through;color:#a13a32}
 .right-text{color:#157347;font-weight:700}
+.exam-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+.exam-status{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.exam-pill{background:#eef2ff;color:#3547b4;border-radius:999px;padding:7px 11px;font-size:13px;font-weight:750}
+.exam-list{display:grid;gap:13px;margin-top:16px}
+.exam-card{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+.exam-card.correct{border-color:#78c99e;background:#f4fbf7}
+.exam-card.wrong{border-color:#ee9a94;background:#fff7f6}
+.exam-card.unanswered{border-color:#f3bf62;background:#fffaf0}
+.exam-q{font-weight:750;margin:4px 0 12px}
+.exam-q .blank{display:inline-block;min-width:68px;border-bottom:2px solid #667eea;color:#667eea;text-align:center}
+.exam-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.exam-choice{display:flex;gap:9px;align-items:flex-start;border:1px solid #dce1ea;border-radius:10px;padding:9px 11px;background:#fff;cursor:pointer}
+.exam-choice:hover{border-color:#9ba8e8;background:#fafbff}
+.exam-choice input{margin-top:4px;accent-color:var(--brand)}
+.exam-choice.answer-correct{border-color:#55b883;background:#eaf8f0;color:#0c6b3c;font-weight:700}
+.exam-choice.answer-wrong{border-color:#e98d86;background:#fff0ef;color:#9d2018}
+.exam-answer{display:none;margin-top:11px;padding:10px 12px;border-radius:9px;background:#f1f5f9;color:#42526b;white-space:pre-line}
+.exam-card.reviewed .exam-answer{display:block}
+.exam-result-box{display:none;border:1px solid #dce3ef;border-radius:14px;padding:16px;background:#f8fafc;margin:14px 0}
+.exam-result-box.show{display:block}
+.exam-timer{font-variant-numeric:tabular-nums;background:#172033;color:#fff;border-radius:10px;padding:9px 12px;font-weight:800}
+.exam-timer.urgent{background:#b42318}
+.exam-toolbar-bottom{position:sticky;bottom:10px;background:rgba(255,255,255,.96);border:1px solid #dde3ed;border-radius:14px;padding:11px;box-shadow:0 10px 28px rgba(15,23,42,.12);z-index:4}
 @media(max-width:900px){
  .app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.nav{display:flex;overflow:auto;gap:6px}.nav button{min-width:max-content}
- .main{padding:18px}.transform-row{grid-template-columns:1fr}.cols{grid-template-columns:1fr}
+ .main{padding:18px}.transform-row{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.exam-options{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -113,12 +136,13 @@ button{cursor:pointer}
 <div class="app">
 <aside class="sidebar">
   <div class="brand">English Suffix Lab</div>
-  <div class="subtitle">Lý thuyết • Thư viện • Nhận diện • Word Form</div>
+  <div class="subtitle">Lý thuyết • Thư viện • Nhận diện • Word Form • Thi</div>
   <div class="nav">
     <button class="active" data-section="theory">📖 Lý thuyết <small>nền tảng</small></button>
     <button data-section="library">📚 Thư viện <small>suffix</small></button>
     <button data-section="infer">🧠 Suy từ đuôi <small>quiz</small></button>
     <button data-section="transform">✍️ Biến đổi từ <small>word form</small></button>
+    <button data-section="exam">🏁 Thi thực hành <small>101 câu</small></button>
     <button data-section="families">🔗 Word families <small>chuỗi</small></button>
     <button data-section="cautions">⚠️ Cần lưu ý <small>bẫy</small></button>
   </div>
@@ -133,12 +157,13 @@ button{cursor:pointer}
 <main class="main">
 <section class="hero">
   <h1>English Suffix Lab</h1>
-  <p>Lý thuyết từ loại và cách thành lập từ đã kiểm chứng, thư viện 78 nhóm đuôi, quiz nhận diện và ngân hàng Word Form có thể chọn số câu hoặc làm tất cả.</p>
+  <p>Lý thuyết từ loại và cấu trúc câu, thư viện 78 nhóm đuôi, quiz nhận diện, ngân hàng Word Form và đề thi thực hành 101 câu có đáp án giải thích.</p>
   <div class="stats">
     <div class="stat"><b id="suffixCount">0</b> nhóm đuôi</div>
     <div class="stat"><b id="exampleCount">0</b> ví dụ thư viện</div>
     <div class="stat"><b id="quizCount">0</b> câu suy luận</div>
     <div class="stat"><b id="transformCount">0</b> câu word form</div>
+    <div class="stat"><b id="examCount">0</b> câu thi thực hành</div>
   </div>
 </section>
 
@@ -187,6 +212,60 @@ button{cursor:pointer}
           <div class="formula-card"><b>Preposition + N / V-ing</b><br>with <i>confidence</i>; by <i>practising</i></div>
           <div class="formula-card"><b>Parallel forms</b><br>safety and <i>reliability</i>; both useful and <i>practical</i></div>
         </div>
+        <h3>Bảng cấu trúc đầy đủ để nhận diện từ loại</h3>
+        <p class="meta">Ký hiệu: Det = từ hạn định; S = chủ ngữ; V = động từ; O = tân ngữ; IO/DO = tân ngữ gián tiếp/trực tiếp; C = bổ ngữ; Prep = giới từ; Aux = trợ động từ.</p>
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Nhóm</th><th>Mẫu</th><th>Ví dụ</th><th>Dấu hiệu cần nhìn</th></tr></thead>
+          <tbody>
+            <tr><td>Cụm danh từ</td><td>Det + N</td><td>the book; her decision</td><td>Sau từ hạn định thường là danh từ hoặc Adj + N.</td></tr>
+            <tr><td>Cụm danh từ</td><td>Adj + N</td><td>a difficult problem</td><td>Tính từ đứng trước và bổ nghĩa cho danh từ.</td></tr>
+            <tr><td>Cụm danh từ</td><td>N + N</td><td>government policy; energy supplier</td><td>Danh từ đầu đóng vai trò bổ nghĩa/phân loại danh từ chính.</td></tr>
+            <tr><td>Cụm danh từ</td><td>Det + Adj + N</td><td>a difficult problem</td><td>Danh từ là trung tâm; tính từ nằm giữa Det và N.</td></tr>
+            <tr><td>Cụm danh từ</td><td>Det + Adv + Adj + N</td><td>a very difficult problem</td><td>Trạng từ bổ nghĩa cho tính từ, không trực tiếp cho danh từ.</td></tr>
+            <tr><td>Cụm danh từ</td><td>Possessive + (Adj) + N</td><td>Mr. Montrose's persistence</td><td>Sau sở hữu cần cụm danh từ.</td></tr>
+            <tr><td>Cụm danh từ</td><td>Quantifier + plural/uncountable N</td><td>many applicants; much information</td><td>Kiểm tra danh từ số nhiều/không đếm được.</td></tr>
+            <tr><td>Bổ nghĩa</td><td>Adv + Adj</td><td>very difficult; equally important</td><td>Trạng từ chỉ mức độ đứng trước tính từ.</td></tr>
+            <tr><td>Bổ nghĩa</td><td>Adv + Adv</td><td>very quickly; remarkably well</td><td>Trạng từ thứ nhất bổ nghĩa cho trạng từ thứ hai.</td></tr>
+            <tr><td>Câu cơ bản</td><td>S + V</td><td>She smiled.</td><td>Động từ nội động không cần tân ngữ.</td></tr>
+            <tr><td>Câu cơ bản</td><td>S + V + O</td><td>She read the book.</td><td>Động từ ngoại động nhận tân ngữ.</td></tr>
+            <tr><td>Câu cơ bản</td><td>S + V + IO + DO</td><td>She gave me a book.</td><td>Hai tân ngữ: người nhận + vật được trao.</td></tr>
+            <tr><td>Trạng từ</td><td>S + V + Adv</td><td>She spoke quietly.</td><td>Trạng từ bổ nghĩa cho động từ.</td></tr>
+            <tr><td>Trạng từ</td><td>S + Adv + V + O</td><td>She carefully read the book.</td><td>Trạng từ có thể đứng trước động từ chính.</td></tr>
+            <tr><td>Trạng từ</td><td>S + V + O + Adv</td><td>She read the book carefully.</td><td>Trạng từ cách thức thường đứng sau tân ngữ.</td></tr>
+            <tr><td>Trạng từ</td><td>S + modal + Adv + V</td><td>Prices may occasionally vary.</td><td>Trạng từ có thể đứng giữa modal và động từ chính.</td></tr>
+            <tr><td>Trạng từ</td><td>S + Aux + Adv + V-ed/V-ing</td><td>It was thoroughly reevaluated.</td><td>Trạng từ chen giữa trợ động từ và phân từ.</td></tr>
+            <tr><td>Trạng từ</td><td>Adv, + clause</td><td>Consistently, she met every deadline.</td><td>Trạng từ đầu câu có thể bổ nghĩa cho cả mệnh đề.</td></tr>
+            <tr><td>Linking verb</td><td>S + linking V + Adj</td><td>She became angry.</td><td>Sau be/seem/become/look/feel... dùng tính từ mô tả S.</td></tr>
+            <tr><td>Linking verb</td><td>S + linking V + N</td><td>She became chairperson.</td><td>Danh từ làm bổ ngữ định danh chủ ngữ.</td></tr>
+            <tr><td>Bổ ngữ O</td><td>S + V + O + Adj</td><td>They made him angry.</td><td>Tính từ mô tả kết quả/trạng thái của tân ngữ.</td></tr>
+            <tr><td>Bổ ngữ O</td><td>S + V + O + N</td><td>They elected him president.</td><td>Danh từ định danh tân ngữ.</td></tr>
+            <tr><td>Cấu trúc tồn tại</td><td>There + be + N</td><td>There is an opening.</td><td>Danh từ/cụm danh từ theo sau be.</td></tr>
+            <tr><td>Chủ ngữ giả</td><td>It + be + Adj + to-V</td><td>It is important to practise.</td><td>Tính từ đánh giá; to-V là chủ ngữ thật.</td></tr>
+            <tr><td>Chủ ngữ giả</td><td>It + be + Adj + that-clause</td><td>It is clear that costs rose.</td><td>Mệnh đề that là nội dung được đánh giá.</td></tr>
+            <tr><td>Bị động</td><td>S + be + V-ed (+ by...)</td><td>The proposal was approved.</td><td>V-ed thuộc cụm động từ bị động; trạng từ có thể đứng trước V-ed.</td></tr>
+            <tr><td>Bổ ngữ V</td><td>V + to-V</td><td>want to leave; decide to apply</td><td>Động từ sau to ở nguyên mẫu.</td></tr>
+            <tr><td>Bổ ngữ V</td><td>V + V-ing</td><td>enjoy reading; avoid waiting</td><td>Một số động từ nhận gerund.</td></tr>
+            <tr><td>Bổ ngữ V</td><td>V + O + to-V</td><td>want him to leave</td><td>Tân ngữ đứng trước to-V.</td></tr>
+            <tr><td>Bổ ngữ V</td><td>V + O + bare V</td><td>made him leave; saw him cross</td><td>Make/let và một số động từ tri giác dùng V nguyên mẫu không to.</td></tr>
+            <tr><td>Bổ ngữ V</td><td>V + O + V-ing</td><td>saw him crossing; keep the machine running</td><td>V-ing nhấn hành động đang diễn ra.</td></tr>
+            <tr><td>Bổ ngữ V</td><td>V + Prep + N/V-ing</td><td>depend on him; focus on producing</td><td>Giới từ đi theo động từ/collocation; sau giới từ dùng N hoặc V-ing.</td></tr>
+            <tr><td>Mệnh đề</td><td>V + that-clause</td><td>know that he left</td><td>That-clause làm tân ngữ/nội dung của động từ.</td></tr>
+            <tr><td>Mệnh đề</td><td>V + wh-clause</td><td>know where he lives</td><td>Wh-clause dùng trật tự câu khẳng định, không đảo trợ động từ.</td></tr>
+            <tr><td>Tính từ</td><td>Adj + to-V</td><td>ready to leave; happy to help</td><td>To-V bổ sung nội dung cho tính từ.</td></tr>
+            <tr><td>Tính từ</td><td>Adj + Prep + N/V-ing</td><td>interested in science; good at writing</td><td>Sau giới từ là danh từ/đại từ/V-ing.</td></tr>
+            <tr><td>Tính từ</td><td>Adj + that-clause</td><td>confident that it will work</td><td>That-clause bổ sung điều được tin/cảm nhận.</td></tr>
+            <tr><td>Danh từ</td><td>N + of + N</td><td>impact of technology</td><td>Danh từ sau of bổ nghĩa/xác định danh từ trước.</td></tr>
+            <tr><td>Danh từ</td><td>N + Prep + N/V-ing</td><td>reason for leaving; increase in profits</td><td>Giới từ phụ thuộc vào danh từ/collocation.</td></tr>
+            <tr><td>Danh từ</td><td>N + to-V</td><td>a decision to expand</td><td>To-V nêu nội dung/mục đích của danh từ.</td></tr>
+            <tr><td>Danh từ</td><td>N + that-clause</td><td>the fact that prices rose</td><td>That-clause giải thích nội dung danh từ.</td></tr>
+            <tr><td>Danh từ</td><td>N + relative clause</td><td>the man who came</td><td>Mệnh đề quan hệ bổ nghĩa cho danh từ.</td></tr>
+            <tr><td>Giới từ</td><td>Prep + N / pronoun / V-ing</td><td>with care; for them; from dropping</td><td>Không dùng động từ chia thì ngay sau giới từ.</td></tr>
+            <tr><td>Song song</td><td>X + and/or + X</td><td>health and well-being; neat, well dressed, and cheerful</td><td>Các thành phần nối nhau thường cùng chức năng ngữ pháp.</td></tr>
+            <tr><td>So sánh</td><td>as + Adv/Adj + as</td><td>as accurately as possible</td><td>Chọn Adj hay Adv theo từ được bổ nghĩa.</td></tr>
+            <tr><td>Cụm cố định</td><td>one of + plural N</td><td>one of her specialties</td><td>Danh từ sau one of phải ở số nhiều.</td></tr>
+            <tr><td>Cụm cố định</td><td>a variety of + plural N</td><td>a variety of flavors</td><td>Variety là danh từ trung tâm; of + danh từ số nhiều.</td></tr>
+          </tbody>
+        </table></div>
         <div class="callout good-note"><b>Linking verbs thường gặp:</b> be, seem, become, appear, feel, look, sound, smell, taste, remain, stay, grow, turn, get. Sau linking verb, dùng tính từ khi mô tả chủ ngữ: <i>The soup tastes good</i>, không phải <i>tastes well</i> (trừ khi nói khả năng nếm).</div>
       </div>
     </details>
@@ -306,6 +385,7 @@ button{cursor:pointer}
             <tr><td>well</td><td>Adv; Adj = khỏe mạnh</td><td>She writes well. / She is well now.</td><td><i>Good</i> là tính từ thông thường: a good writer.</td></tr>
             <tr><td>fast</td><td>Adj / Adv</td><td>a fast car / The car runs fast.</td><td>Không có <i>fastly</i>.</td></tr>
             <tr><td>high</td><td>Adj / Adv</td><td>a high wall / The bird flew high.</td><td><i>Highly</i> = rất/được đánh giá cao: highly effective.</td></tr>
+            <tr><td>forward / backward</td><td>Adj / Adv<br><span class="meta">forward còn là V / N</span></td><td>step forward (Adv); a backward glance (Adj); seems backward (Adj); forward an email (V); a football forward (N)</td><td><i>Backward</i> sau linking verb có thể mang nghĩa “lạc hậu”. Anh–Anh cũng thường dùng <i>forwards/backwards</i> làm trạng từ.</td></tr>
             <tr><td>near</td><td>Adj / Adv / Prep</td><td>the near future / come near / near the station</td><td><i>Nearly</i> = gần như.</td></tr>
           </tbody>
         </table></div>
@@ -336,14 +416,16 @@ button{cursor:pointer}
 <section id="infer" class="section">
   <div class="panel">
     <h2>Kiểm tra đuôi từ — đủ 78 nhóm</h2>
-    <p class="meta">Mỗi nhóm có 4 kiểu câu hỏi: <b>từ loại</b>, <b>nghĩa của đuôi</b>, <b>mẫu biến đổi</b> và <b>nhận diện ví dụ</b>. Chọn số câu hoặc làm toàn bộ.</p>
+    <p class="meta">Mỗi nhóm có 4 kiểu câu hỏi cốt lõi: <b>từ loại</b>, <b>nghĩa của đuôi</b>, <b>mẫu biến đổi</b> và <b>nhận diện ví dụ</b>. Ngoài ra có câu <b>phân tích trong ngữ cảnh</b> cho các đuôi và từ đa chức năng. Chọn số câu hoặc làm toàn bộ.</p>
+    <div class="callout warn"><b>Đọc đề theo hai mức:</b> câu hỏi “đuôi này thường tạo từ loại nào?” hỏi về <i>xu hướng của hậu tố</i>; câu hỏi có cả câu ví dụ hỏi về <i>chức năng thật của từ trong câu</i>. Một hình thức như <span class="kbd">forward</span> có thể đổi từ loại theo vị trí.</div>
     <div class="toolbar">
       <select id="inferMode">
-        <option value="all">Tổng hợp 4 dạng</option>
+        <option value="all">Tổng hợp 5 dạng</option>
         <option value="type">Chỉ hỏi từ loại</option>
         <option value="meaning">Chỉ hỏi nghĩa của đuôi</option>
         <option value="pattern">Chỉ hỏi mẫu biến đổi</option>
         <option value="example">Chỉ hỏi ví dụ</option>
+        <option value="context">Ngữ cảnh & từ đa chức năng</option>
       </select>
       <select id="inferCountSelect">
         <option value="10">10 câu</option>
@@ -399,6 +481,56 @@ button{cursor:pointer}
   </div>
 </section>
 
+<section id="exam" class="section">
+  <div class="panel">
+    <h2>Thi thực hành Word Form — 101 câu</h2>
+    <p class="meta">Câu hỏi đã được đối chiếu với answer key. Các lỗi OCR/chính tả trong đề được sửa để câu và lựa chọn có nghĩa, nhưng đáp án chuẩn vẫn giữ nguyên.</p>
+    <div class="callout"><b>Chế độ thi:</b> đáp án và giải thích được ẩn hoàn toàn cho đến khi bạn nộp bài. Bạn có thể chọn riêng nhóm từ loại, đặt thời gian và làm lại chỉ những câu sai.</div>
+    <div class="toolbar">
+      <select id="examCategory">
+        <option value="all">Tổng hợp mọi từ loại</option>
+        <option value="Noun">Danh từ</option>
+        <option value="Adjective">Tính từ / phân từ</option>
+        <option value="Adverb">Trạng từ</option>
+        <option value="Verb">Động từ / V-ing</option>
+      </select>
+      <select id="examCountSelect">
+        <option value="10">10 câu</option>
+        <option value="20" selected>20 câu</option>
+        <option value="50">50 câu</option>
+        <option value="all">Làm tất cả</option>
+      </select>
+      <select id="examOrder">
+        <option value="random">Trộn câu</option>
+        <option value="original">Theo thứ tự 1–101</option>
+      </select>
+      <select id="examMinutes">
+        <option value="0">Không giới hạn giờ</option>
+        <option value="15">15 phút</option>
+        <option value="30">30 phút</option>
+        <option value="45">45 phút</option>
+        <option value="60">60 phút</option>
+      </select>
+      <button class="btn primary" id="startExam">Bắt đầu đề mới</button>
+    </div>
+    <div class="exam-status">
+      <span class="exam-pill" id="examPoolInfo">Ngân hàng: 101 câu</span>
+      <span class="exam-pill" id="examAnsweredInfo">Đã chọn: 0/0</span>
+      <span class="exam-timer" id="examTimer">Không giới hạn</span>
+    </div>
+    <div id="examResult" class="exam-result-box"></div>
+    <div id="examList" class="exam-list"></div>
+    <div class="exam-toolbar-bottom">
+      <div class="actions" style="margin-top:0">
+        <button class="btn primary" id="submitExam">Nộp bài</button>
+        <button class="btn secondary" id="toggleExamReview" disabled>Ẩn/hiện giải thích</button>
+        <button class="btn secondary" id="retryWrong" disabled>Làm lại câu sai</button>
+        <span class="score" id="examScore"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="families" class="section">
   <div class="panel">
     <h2>Word families — học theo chuỗi</h2>
@@ -437,6 +569,21 @@ if (allySuffix) {
   allySuffix.note = 'Thường xuất hiện khi thêm -ly vào tính từ kết thúc bằng -al: final → finally, national → nationally.';
 }
 
+const adjectiveWard = suffixes.find(x => x.suffix === '-ward' && x.type === 'Adjective');
+if (adjectiveWard) {
+  adjectiveWard.note = 'Dùng như tính từ khi đứng trước danh từ (a forward movement, a backward glance) hoặc sau linking verb (The plan seems backward). Backward còn có nghĩa bóng “lạc hậu”.';
+}
+const adverbWard = suffixes.find(x => x.suffix === '-ward / -wards' && x.type === 'Adverb');
+if (adverbWard) {
+  adverbWard.note = 'Dùng như trạng từ khi chỉ hướng cho động từ: step forward, look backward. Forward còn có thể là động từ (forward an email) và danh từ (a football forward).';
+}
+cautions.unshift({
+  title:'forward / backward: phải nhìn vị trí trong câu',
+  good:['step forward (Adv)','look backward (Adv)','a forward movement (Adj)','a backward glance (Adj)'],
+  trap:['seems backward = Adj, “lạc hậu”','forward an email = V','a football forward = N'],
+  rule:'-ward thường gợi nghĩa hướng, nhưng không đủ để xác định từ loại. Trước danh từ hoặc sau linking verb → thường là tính từ; bổ sung hướng cho động từ → trạng từ. Riêng forward còn có cách dùng động từ và danh từ.'
+});
+
 function shuffled(arr){
   const a=[...arr];
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
@@ -454,6 +601,68 @@ function typeLabel(type){
 }
 function groupLabel(s){return `${s.suffix} — ví dụ: ${s.examples.slice(0,2).join(', ')}`}
 
+const ambiguityNotes = {
+  '-ward|Adjective':'Trong “a forward movement” và “his backward glance”, từ đứng trước danh từ nên là tính từ. Sau linking verb cũng là tính từ: “The plan seems backward” (kế hoạch có vẻ lạc hậu).',
+  '-ward / -wards|Adverb':'Trong “She stepped forward” và “He looked backward”, từ bổ sung hướng cho động từ nên là trạng từ. Riêng forward còn có thể là động từ (forward an email) hoặc danh từ (a football forward).',
+  '-ly|Adjective':'friendly, lovely, lonely, lively, elderly và costly là tính từ dù có -ly: a friendly teacher; the teacher seems friendly.',
+  '-ly|Adverb':'quickly, carefully và clearly bổ nghĩa cho động từ/tính từ/trạng từ. Không kết luận chỉ từ chữ -ly; luôn kiểm tra vị trí.',
+  '-ing|Noun':'V-ing có thể là danh từ/gerund: “Reading improves concentration”; cũng có thể thuộc cụm động từ: “She is reading”.',
+  '-ing|Adjective':'-ing là tính từ khi mô tả thứ gây cảm giác/tác động: “an interesting book”. Trong “She is reading”, reading lại là động từ.',
+  '-ed|Adjective':'-ed là tính từ khi diễn tả trạng thái: “They are interested”. Nhưng trong “They finished the task”, finished là động từ quá khứ.',
+  '-er|Noun':'-er có thể tạo danh từ chỉ người/vật (teacher, cooker), nhưng cũng là đuôi so sánh hơn trong faster, smaller.',
+  '-al|Noun':'arrival, approval, refusal là danh từ. So sánh với natural, cultural, personal là tính từ.',
+  '-al|Adjective':'natural, cultural, personal là tính từ. So sánh với arrival, approval, refusal là danh từ.',
+  '-ant|Noun':'assistant, applicant, participant là danh từ; important, dominant, relevant là tính từ.',
+  '-ant|Adjective':'important, dominant, relevant là tính từ; assistant, applicant, participant là danh từ.',
+  '-ent|Noun':'student, resident, president là danh từ; different, efficient, consistent là tính từ.',
+  '-ent|Adjective':'different, efficient, consistent là tính từ; student, resident, president là danh từ.',
+  '-ian|Noun':'Có thể chỉ người: “A Canadian designed the system.” Lúc này Canadian là danh từ.',
+  '-ian|Adjective':'Có thể bổ nghĩa cho danh từ: “a Canadian company”. Lúc này Canadian là tính từ.',
+  '-ese|Adjective':'Trong “Chinese food”, Chinese là tính từ; trong “Chinese is widely spoken”, Chinese là danh từ chỉ ngôn ngữ.',
+  '-en|Adjective':'wooden/golden là tính từ chỉ chất liệu hoặc đặc tính; strengthen/widen là động từ mang nghĩa “làm cho trở nên”.',
+  '-en|Verb':'strengthen/widen là động từ; wooden/golden là tính từ. Cùng hình thức -en nhưng chức năng khác.',
+  '-ary|Adjective':'necessary/temporary/voluntary là tính từ; library/sanctuary là danh từ.',
+  '-ary|Noun':'library/sanctuary là danh từ; necessary/temporary/voluntary là tính từ.',
+  '-fold|Adverb':'“Sales increased twofold”: twofold bổ nghĩa cho increased nên là trạng từ. Trong “a twofold increase”, nó là tính từ.',
+  '-ics|Noun':'Economics/physics thường dùng động từ số ít khi chỉ môn học: “Economics is important.” Statistics có thể số ít (môn học) hoặc số nhiều (các số liệu).'
+};
+
+function detailFor(s){
+  const extra=ambiguityNotes[`${s.suffix}|${s.type}`];
+  return `Lưu ý: ${s.note}${extra?`\nNgữ cảnh: ${extra}`:''}`;
+}
+
+const contextualSuffixQuestions = [
+  {sentence:'She took a step forward.',word:'forward',answer:'Trạng từ',explain:'forward chỉ hướng của hành động took a step: cô ấy bước một bước về phía trước. Trong cách phân tích dành cho người học, nó làm trạng ngữ chỉ hướng.'},
+  {sentence:'He looked backward at the crowd.',word:'backward',answer:'Trạng từ',explain:'backward bổ sung hướng cho looked: anh ấy nhìn lại phía sau.'},
+  {sentence:'They noticed a forward movement.',word:'forward',answer:'Tính từ',explain:'forward đứng trước và bổ nghĩa cho danh từ movement: một chuyển động về phía trước.'},
+  {sentence:'His backward glance made me nervous.',word:'backward',answer:'Tính từ',explain:'backward đứng trước và bổ nghĩa cho danh từ glance: cái liếc nhìn về phía sau.'},
+  {sentence:'The plan seems a bit backward.',word:'backward',answer:'Tính từ',explain:'seems là linking verb; backward là bổ ngữ tính từ mô tả plan. Ở đây backward mang nghĩa bóng: lạc hậu hoặc kém tiến bộ.'},
+  {sentence:'Please forward this email to the whole team.',word:'forward',answer:'Động từ',explain:'Sau please dùng động từ nguyên mẫu. forward this email = chuyển tiếp email này. Đây không phải cách dùng hậu tố -ward chỉ hướng.'},
+  {sentence:'The club signed a new forward.',word:'forward',answer:'Danh từ',explain:'Sau a new cần một danh từ. a forward = cầu thủ chơi ở vị trí tiền đạo.'},
+  {sentence:'Reading improves concentration.',word:'Reading',answer:'Danh từ',explain:'Reading là gerund/V-ing làm chủ ngữ của improves, nên có chức năng danh từ.'},
+  {sentence:'She is reading the report now.',word:'reading',answer:'Động từ',explain:'is reading là cụm động từ ở thì hiện tại tiếp diễn; reading không phải tính từ trong câu này.'},
+  {sentence:'It is an interesting report.',word:'interesting',answer:'Tính từ',explain:'interesting đứng trước report và mô tả thứ gây hứng thú.'},
+  {sentence:'The students are interested in the topic.',word:'interested',answer:'Tính từ',explain:'interested đứng sau be và diễn tả trạng thái/cảm xúc của students; in the topic là bổ ngữ của tính từ.'},
+  {sentence:'The students completed the task yesterday.',word:'completed',answer:'Động từ',explain:'completed mang thì quá khứ và kể hành động đã xảy ra; đây là động từ, không phải tính từ -ed.'},
+  {sentence:'She is a friendly teacher.',word:'friendly',answer:'Tính từ',explain:'friendly có -ly nhưng đứng trước teacher và bổ nghĩa cho danh từ, nên là tính từ.'},
+  {sentence:'She explained the rule clearly.',word:'clearly',answer:'Trạng từ',explain:'clearly bổ nghĩa cho động từ explained và trả lời câu hỏi “giải thích như thế nào?”.'},
+  {sentence:'Her arrival surprised everyone.',word:'arrival',answer:'Danh từ',explain:'arrival đứng sau tính từ sở hữu her và làm chủ ngữ của surprised; -al ở đây tạo danh từ.'},
+  {sentence:'It was a cultural event.',word:'cultural',answer:'Tính từ',explain:'cultural đứng trước event và bổ nghĩa cho danh từ; -al ở đây tạo tính từ.'},
+  {sentence:'An assistant answered the phone.',word:'assistant',answer:'Danh từ',explain:'Sau an cần một danh từ đếm được số ít; assistant chỉ người.'},
+  {sentence:'The change was significant.',word:'significant',answer:'Tính từ',explain:'significant đứng sau linking verb was và mô tả change; -ant ở đây thuộc tính từ.'},
+  {sentence:'A Canadian designed this device.',word:'Canadian',answer:'Danh từ',explain:'Canadian đứng sau a và tự chỉ một người Canada, nên là danh từ.'},
+  {sentence:'A Canadian company designed this device.',word:'Canadian',answer:'Tính từ',explain:'Canadian đứng trước company và bổ nghĩa cho danh từ, nên là tính từ.'},
+  {sentence:'Chinese is widely spoken in Singapore.',word:'Chinese',answer:'Danh từ',explain:'Chinese là chủ ngữ và gọi tên một ngôn ngữ, nên có chức năng danh từ.'},
+  {sentence:'We ordered Chinese food.',word:'Chinese',answer:'Tính từ',explain:'Chinese bổ nghĩa cho food, nên là tính từ.'},
+  {sentence:'Sales increased twofold last year.',word:'twofold',answer:'Trạng từ',explain:'twofold bổ nghĩa cho increased và cho biết mức tăng: tăng gấp hai lần.'},
+  {sentence:'The policy produced a twofold increase.',word:'twofold',answer:'Tính từ',explain:'twofold đứng trước và bổ nghĩa cho danh từ increase: một mức tăng gấp hai lần.'},
+  {sentence:'The bird flew homeward.',word:'homeward',answer:'Trạng từ',explain:'homeward bổ sung hướng cho flew: bay về phía nhà.'},
+  {sentence:'They began their homeward journey.',word:'homeward',answer:'Tính từ',explain:'homeward đứng trước và bổ nghĩa cho journey: hành trình trở về nhà.'},
+  {sentence:'The wooden door was extremely heavy.',word:'wooden',answer:'Tính từ',explain:'wooden bổ nghĩa cho door và chỉ chất liệu: cánh cửa bằng gỗ.'},
+  {sentence:'Regular exercise can strengthen your back.',word:'strengthen',answer:'Động từ',explain:'Sau modal can cần động từ nguyên mẫu; strengthen = làm cho khỏe/mạnh hơn.'}
+];
+
 function buildSuffixQuestionBank(){
   const meanings=suffixes.map(x=>x.meaning);
   const patterns=suffixes.map(x=>x.pattern);
@@ -461,24 +670,24 @@ function buildSuffixQuestionBank(){
   suffixes.forEach((s,idx)=>{
     const label=groupLabel(s);
     bank.push(makeMCQ(
-      `Nhóm đuôi ${label} thường tạo từ loại nào?`,
+      `Theo chức năng đang xét trong mục này, nhóm đuôi ${label} thường tạo từ loại nào?`,
       typeLabel(s.type),
       ['Danh từ','Tính từ','Động từ','Trạng từ'].filter(x=>x!==typeLabel(s.type)).slice(0,3),
-      `${s.suffix}: ${s.meaning}. Mẫu: ${s.pattern}. Ví dụ: ${s.examples.join(', ')}.`,
+      `${s.suffix}: ${s.meaning}. Mẫu: ${s.pattern}. Ví dụ: ${s.examples.join(', ')}.\n${detailFor(s)}`,
       'type'
     ));
     bank.push(makeMCQ(
       `Nhóm đuôi ${label} thường mang nghĩa/chức năng nào?`,
       s.meaning,
       pickDistinct(meanings,s.meaning,3),
-      `${s.suffix} (${typeLabel(s.type)}) thường mang nghĩa: ${s.meaning}.`,
+      `${s.suffix} (${typeLabel(s.type)}) thường mang nghĩa: ${s.meaning}.\n${detailFor(s)}`,
       'meaning'
     ));
     bank.push(makeMCQ(
       `Mẫu biến đổi thường gặp của nhóm đuôi ${label} là gì?`,
       s.pattern,
       pickDistinct(patterns,s.pattern,3),
-      `${s.suffix}: ${s.pattern}. Nghĩa: ${s.meaning}.`,
+      `${s.suffix}: ${s.pattern}. Nghĩa: ${s.meaning}.\n${detailFor(s)}`,
       'pattern'
     ));
     const distractorExamples=[];
@@ -493,8 +702,17 @@ function buildSuffixQuestionBank(){
       `Từ nào là ví dụ đúng của nhóm ${s.suffix} (${s.meaning})?`,
       correct,
       distractorExamples,
-      `Ví dụ trong thư viện của ${s.suffix}: ${s.examples.join(', ')}.`,
+      `Ví dụ trong thư viện của ${s.suffix}: ${s.examples.join(', ')}.\n${detailFor(s)}`,
       'example'
+    ));
+  });
+  contextualSuffixQuestions.forEach(item=>{
+    bank.push(makeMCQ(
+      `Trong câu “${item.sentence}”, từ “${item.word}” thuộc từ loại nào?`,
+      item.answer,
+      ['Danh từ','Tính từ','Động từ','Trạng từ'].filter(x=>x!==item.answer).slice(0,3),
+      `${item.explain}\nQuy tắc: xác định từ loại bằng vị trí và chức năng của từ trong chính câu này, không chỉ nhìn phần cuối của từ.`,
+      'context'
     ));
   });
   return bank;
@@ -528,15 +746,120 @@ const sentenceWordFormBank=sentenceQuestions.map(q=>({
 }));
 const wordFormBank=[...sentenceWordFormBank,...directWordFormBank];
 
+const examQuestions = [
+  {id:1,text:`Lonan Imports will work _____ with any distributor to fulfill a customer request.`,options:['directly','directs','directed','directness'],answer:0,cat:'Adverb',why:'work là động từ; directly là trạng từ bổ nghĩa cho cách làm việc.'},
+  {id:2,text:`Products made by Izmir Vitamins are designed to promote _____ and well-being.`,options:['health','healthy','healthful','healthfully'],answer:0,cat:'Noun',why:'promote cần tân ngữ danh từ; health song song với danh từ well-being qua and.'},
+  {id:3,text:`Gyeong Designs recently changed its marketing strategy to target hotel and restaurant _____.`,options:['to own','owned','owners','own'],answer:2,cat:'Noun',why:'target cần tân ngữ chỉ người; hotel and restaurant owners là cụm danh từ số nhiều.'},
+  {id:4,text:`Jane Turngate was elected chairperson of the board of directors at Stellmann Corporation by a _____ margin.`,options:['narrow','narrows','narrowly','narrowness'],answer:0,cat:'Adjective',why:'a + adjective + noun: narrow bổ nghĩa cho margin.'},
+  {id:5,text:`Grove Canoes’ prices may _____ vary depending on changes in the cost of raw materials.`,options:['occasion','occasions','occasional','occasionally'],answer:3,cat:'Adverb',why:'Trạng từ có thể đứng giữa modal may và động từ chính vary.'},
+  {id:6,text:`At Hemdom Beds, our goal is to design _____ furniture while maintaining comfort and function.`,options:['innovatively','innovations','innovates','innovative'],answer:3,cat:'Adjective',why:'innovative đứng trước và bổ nghĩa cho danh từ furniture.'},
+  {id:7,text:`The well-known legal firm of Peterson, Wong, and Lundgren, Inc., is _____ referred to as PWL.`,options:['common','commonness','commonly','commonality'],answer:2,cat:'Adverb',why:'commonly bổ nghĩa cho cụm bị động is referred to.'},
+  {id:8,text:`Based on the _____ number of advance ticket sales, we expect record attendance at this year’s festival in Donegal.`,options:['overwhelm','overwhelms','overwhelming','overwhelmingly'],answer:2,cat:'Adjective',why:'overwhelming là tính từ V-ing đứng trước number, mang nghĩa “rất lớn/áp đảo”.'},
+  {id:9,text:`Dr. Chan’s groundbreaking research on hospital services has effectively redefined the basic _____ of patient care.`,options:['conceptualize','conceptually','concept','conceptual'],answer:2,cat:'Noun',why:'the basic + noun + of: concept là danh từ trung tâm và là tân ngữ của redefined.'},
+  {id:10,text:`Tallis Engineering is awaiting _____ that its new water tank designs meet legal specifications.`,options:['verify','verifies','verified','verification'],answer:3,cat:'Noun',why:'await là ngoại động từ và cần tân ngữ danh từ; verification có thể được bổ nghĩa bởi that-clause.'},
+  {id:11,text:`If the person you are trying to reach does not answer the telephone, please dial “0” to speak to the _____.`,options:['operator','operating','operate','operation'],answer:0,cat:'Noun',why:'the + danh từ chỉ người; operator là người trực tổng đài.'},
+  {id:12,text:`An outside auditor will visit the factory next week to determine whether or not _____ air-quality standards are being observed.`,options:['accept','accepting','acceptance','acceptable'],answer:3,cat:'Adjective',why:'acceptable đứng trước và bổ nghĩa cho cụm danh từ air-quality standards.'},
+  {id:13,text:`By striving to be neat, well dressed, and cheerful, our representatives can make a good first _____ on our clients.`,options:['impression','impressive','impressed','impress'],answer:0,cat:'Noun',why:'make a good first impression là collocation; sau a good first cần danh từ.'},
+  {id:14,text:`In Mr. Brothers’ performance review, the department supervisor wrote that he worked extremely _____ and always finished his assignments on time.`,options:['diligently','diligence','diligent','most diligent'],answer:0,cat:'Adverb',why:'extremely + adverb; diligently bổ nghĩa cho worked.'},
+  {id:15,text:`Working so many hours of overtime to meet the deadline has left the design staff feeling _____.`,options:['exhaust','exhausted','exhausting','exhaustive'],answer:1,cat:'Adjective',why:'feel + adjective; exhausted mô tả người nhận trạng thái mệt mỏi, còn exhausting mô tả thứ gây mệt.'},
+  {id:16,text:`A _____ from Jensen-Colmes Corporation will be happy to meet with prospective job applicants at the Westborough Job Fair.`,options:['represent','representing','representative','representation'],answer:2,cat:'Noun',why:'A + danh từ chỉ người; representative là đại diện.'},
+  {id:17,text:`The conference organizers were able to remedy the _____ logistical problems quite efficiently.`,options:['vary','various','variety','variance'],answer:1,cat:'Adjective',why:'the + adjective + logistical problems; various bổ nghĩa cho cả cụm danh từ.'},
+  {id:18,text:`The city council _____ approved the highway extension project pending the results of an environmental review.`,options:['conditions','conditioned','conditional','conditionally'],answer:3,cat:'Adverb',why:'conditionally bổ nghĩa cho approved: phê duyệt có điều kiện.'},
+  {id:19,text:`Visitors to the library are asked to speak _____ and keep conversations brief in the main reading room.`,options:['quiet','quietly','quietest','quietness'],answer:1,cat:'Adverb',why:'quietly bổ nghĩa cho động từ speak.'},
+  {id:20,text:`Crown Corporation has been the nation’s _____ commercial supplier of fabric dyes for over 25 years.`,options:['leads','leader','to lead','leading'],answer:3,cat:'Adjective',why:'leading là tính từ V-ing đứng trước commercial supplier, nghĩa là hàng đầu.'},
+  {id:21,text:`Candidates for positions at Pereira Consulting should answer the questions on the application form as _____ as possible.`,options:['accurate','accuracy','accuracies','accurately'],answer:3,cat:'Adverb',why:'answer là động từ nên cấu trúc as + adverb + as possible dùng accurately.'},
+  {id:22,text:`Most of the new houses for sale on Seegers Island are _____ priced and in excellent condition.`,options:['moderate','moderated','moderately','moderation'],answer:2,cat:'Adverb',why:'moderately bổ nghĩa cho priced trong cụm are moderately priced.'},
+  {id:23,text:`_____ of homegrown and organic fruits and vegetables, as well as handmade crafts and jewelry, are available at the Springdale Community Market.`,options:['Varies','Variant','Varieties','Various'],answer:2,cat:'Noun',why:'Vị trí chủ ngữ và động từ are yêu cầu danh từ số nhiều Varieties.'},
+  {id:24,text:`After Massey Corporation acquired Brawley, Ltd., the _____ of its stock rose twenty percent.`,options:['valuable','valuate','valued','value'],answer:3,cat:'Noun',why:'the + noun + of; value là chủ ngữ của rose.'},
+  {id:25,text:`In March, the Grand Symphony Orchestra will present an _____ opera by talented newcomer Maria Cruz.`,options:['excite','excites','exciting','excited'],answer:2,cat:'Adjective',why:'exciting mô tả vở opera gây hứng thú. Nguồn OCR ghi sai lựa chọn; đáp án C và ngữ nghĩa đều yêu cầu exciting.'},
+  {id:26,text:`Midtown Hospital compares _____ with other hospitals and provides services at lower rates.`,options:['favor','favored','favorable','favorably'],answer:3,cat:'Adverb',why:'compare favorably with là collocation: được so sánh một cách có lợi/tích cực.'},
+  {id:27,text:`The board of trustees will _____ vote on the revised proposal at its meeting later this month.`,options:['define','definite','definitive','definitely'],answer:3,cat:'Adverb',why:'definitely đứng giữa modal will và động từ vote.'},
+  {id:28,text:`Mark Jarvela proposed an innovative project that has been funded by one of the organization’s biggest _____.`,options:['sponsor','sponsors','sponsored','sponsoring'],answer:1,cat:'Noun',why:'one of + tính từ sở hữu + danh từ số nhiều: sponsors.'},
+  {id:29,text:`Dr. Sato has indicated that there may soon be an _____ for an apprentice technician in the chemical-production laboratory.`,options:['open','opened','openly','opening'],answer:3,cat:'Noun',why:'There may be an + danh từ đếm được số ít; opening nghĩa là vị trí trống.'},
+  {id:30,text:`The meteorological agency recommended that tourists to the region be _____ dressed for frigid conditions.`,options:['suitable','suitably','suitability','suitableness'],answer:1,cat:'Adverb',why:'suitably bổ nghĩa cho dressed trong be suitably dressed.'},
+  {id:31,text:`Although Dr. Obetz is qualified in several areas, nutritional health is one of her _____.`,options:['specials','specializes','specialties','specialists'],answer:2,cat:'Noun',why:'one of her + danh từ số nhiều; specialties chỉ các lĩnh vực chuyên môn, không phải người.'},
+  {id:32,text:`The analyst’s commentary in the progress report was sharply _____ of the leadership team.`,options:['critical','critic','critically','criticism'],answer:0,cat:'Adjective',why:'sharply + adjective sau linking verb was; critical of là collocation.'},
+  {id:33,text:`The _____ of the Municipal Park Restoration Project was announced yesterday by the local hospitality association.`,options:['completed','completes','completion','complete'],answer:2,cat:'Noun',why:'The + noun + of; completion là chủ ngữ của was announced.'},
+  {id:34,text:`The loan application process at Palau Bay Bank is very _____.`,options:['efficient','efficiency','efficiently','efficiencies'],answer:0,cat:'Adjective',why:'Sau linking verb is và trạng từ very cần tính từ efficient.'},
+  {id:35,text:`The Rio Blue jacket has a specially shaped pocket that prevents loose coins from _____ out.`,options:['drop','drops','dropped','dropping'],answer:3,cat:'Verb',why:'prevent something from + V-ing là cấu trúc cố định; drop gấp đôi p thành dropping.'},
+  {id:36,text:`Mr. Schweizer has worked under my _____ as an editorial assistant for the past five years.`,options:['supervise','supervises','supervised','supervision'],answer:3,cat:'Noun',why:'Sau tính từ sở hữu my cần danh từ; under my supervision là cụm cố định.'},
+  {id:37,text:`Unlike traditional book publishers, P-Gram Books focuses _____ on producing audiobooks that can be downloaded from the Internet.`,options:['exclusively','exclusive','exclusives','exclusivity'],answer:0,cat:'Adverb',why:'exclusively bổ nghĩa cho focuses; focus on + V-ing.'},
+  {id:38,text:`One reason the economy is doing so well is that people now have more discretionary funds at their _____.`,options:['dispose','disposing','disposal','disposes'],answer:2,cat:'Noun',why:'at one’s disposal là collocation nghĩa là có sẵn để sử dụng.'},
+  {id:39,text:`Mr. Uemura declined to _____ on rumors about how many medicines the manufacturer had in development.`,options:['commenting','commentary','comment','comments'],answer:2,cat:'Verb',why:'decline to + động từ nguyên mẫu: to comment.'},
+  {id:40,text:`Recent sales figures contrast _____ with those prior to the launch of Lido Foods’ advertising campaign.`,options:['sharp','sharper','sharply','sharpness'],answer:2,cat:'Adverb',why:'sharply bổ nghĩa cho động từ contrast.'},
+  {id:41,text:`OE Furniture Company is _____ to providing contemporary furniture at old-fashioned prices.`,options:['dedication','dedicates','dedicated','dedicating'],answer:2,cat:'Adjective',why:'be dedicated to + N/V-ing là cấu trúc cố định; dedicated là tính từ/phân từ.'},
+  {id:42,text:`While offering similar vacation packages, travel agencies may charge _____ different prices.`,options:['markedly','marked','marks','marking'],answer:0,cat:'Adverb',why:'markedly là trạng từ mức độ bổ nghĩa cho tính từ different: khác biệt rõ rệt.'},
+  {id:43,text:`Researchers at Gasnite Company have developed an improved method of _____ fuel from industrial waste materials.`,options:['extraction','extracts','extracted','extracting'],answer:3,cat:'Verb',why:'Sau giới từ of dùng V-ing; method of extracting fuel.'},
+  {id:44,text:`All passengers should present their _____ documents at the check-in counter.`,options:['boarded','boarding','to board','boards'],answer:1,cat:'Adjective',why:'boarding đứng trước documents như tính từ/danh từ bổ nghĩa: boarding documents.'},
+  {id:45,text:`Because the statistics came from a _____ source, Ms. Unger trusted her weather model.`,options:['reliably','reliable','relying','relies'],answer:1,cat:'Adjective',why:'a + adjective + noun; reliable bổ nghĩa cho source.'},
+  {id:46,text:`The increase in tourism has done less for small retailers than we _____ predicted.`,options:['original','originally','originated','originality'],answer:1,cat:'Adverb',why:'originally đứng giữa chủ ngữ we và động từ predicted, bổ nghĩa cho động từ.'},
+  {id:47,text:`Once the berries are harvested, Green Fields Farms packages the fruit for _____ to retail stores.`,options:['distribute','distributed','distribution','distributional'],answer:2,cat:'Noun',why:'Sau giới từ for cần danh từ; distribution to retail stores.'},
+  {id:48,text:`Dr. Marsha Herbert’s illustrations made her presentation _____ understandable.`,options:['easily','easier','easy','ease'],answer:0,cat:'Adverb',why:'easily bổ nghĩa cho tính từ understandable.'},
+  {id:49,text:`The clothing shop is _____ because it sells quality uniforms at competitive prices.`,options:['successful','success','succeed','successfully'],answer:0,cat:'Adjective',why:'Sau linking verb is cần tính từ successful mô tả shop.'},
+  {id:50,text:`Next Thursday the Lambert Historical Society will present _____ methods for learning about the history of your home.`,options:['specify','specifying','specific','specifications'],answer:2,cat:'Adjective',why:'specific đứng trước và bổ nghĩa cho methods.'},
+  {id:51,text:`The guest speaker highlighted some ideas for _____ introducing change in the workplace.`,options:['success','succeed','succeeding','successfully'],answer:3,cat:'Adverb',why:'successfully bổ nghĩa cho V-ing introducing; for là giới từ của cụm ideas for.'},
+  {id:52,text:`Costs for building materials rose _____ last quarter, lowering construction companies’ profits.`,options:['sharp','sharpness','sharply','sharpen'],answer:2,cat:'Adverb',why:'sharply bổ nghĩa cho động từ rose.'},
+  {id:53,text:`International experience is the main _____ that separates Mr. Sloan from the other candidates.`,options:['qualified','qualification','qualify','qualifying'],answer:1,cat:'Noun',why:'the main + noun; qualification là đặc điểm/năng lực phân biệt ứng viên.'},
+  {id:54,text:`The hotel’s quiet mountain setting provides a _____ change for visitors from crowded cities.`,options:['refreshing','refreshment','refreshed','refresh'],answer:0,cat:'Adjective',why:'refreshing đứng trước change và mô tả sự thay đổi đem lại cảm giác mới mẻ.'},
+  {id:55,text:`Following Ms. Agio’s appointment, the firm’s investment strategy was _____ reevaluated.`,options:['thoroughly','thorough','thoroughness','more thorough'],answer:0,cat:'Adverb',why:'Trạng từ đứng giữa trợ động từ was và past participle reevaluated.'},
+  {id:56,text:`Improvements in manufacturing resulted in greater _____ in the production of wood furniture.`,options:['consistency','consisting','consistently','consistent'],answer:0,cat:'Noun',why:'greater + danh từ; consistency là tân ngữ của giới từ in trong resulted in.'},
+  {id:57,text:`To keep prices _____, Kim’s Bakery will begin making its breads and cakes on the premises.`,options:['reasonable','reasonably','reasoning','reason'],answer:0,cat:'Adjective',why:'keep + object + adjective: reasonable là bổ ngữ mô tả prices.'},
+  {id:58,text:`Our contact information is on the back cover so that you may _____ refer to it.`,options:['ease','easy','easiest','easily'],answer:3,cat:'Adverb',why:'easily đứng giữa modal may và động từ refer.'},
+  {id:59,text:`Mr. Montrose’s _____ in his job search has resulted in offers from three companies.`,options:['persist','persisted','persistently','persistence'],answer:3,cat:'Noun',why:'Sau sở hữu Mr. Montrose’s cần danh từ; persistence là chủ ngữ.'},
+  {id:60,text:`Recent data indicate that the _____ of water in Orlova Valley has dropped.`,options:['consume','consumer','consumption','consumed'],answer:2,cat:'Noun',why:'the + noun + of; consumption là chủ ngữ của has dropped.'},
+  {id:61,text:`The advertising budget is divided _____ among the three marketing divisions.`,options:['equal','equals','equality','equally'],answer:3,cat:'Adverb',why:'equally bổ nghĩa cho cụm bị động is divided.'},
+  {id:62,text:`The sales goal set by the management team seems _____ to most of the staff.`,options:['realist','realism','realistic','realistically'],answer:2,cat:'Adjective',why:'seems là linking verb; realistic là tính từ mô tả goal.'},
+  {id:63,text:`Because the packaging machines _____ break down, factory officials have decided to replace them.`,options:['repeat','repeatedly','repeated','repetition'],answer:1,cat:'Adverb',why:'repeatedly đứng giữa chủ ngữ và phrasal verb break down, bổ nghĩa cho hành động.'},
+  {id:64,text:`Medical practitioners widely believe that a nutritious diet increases energy and _____.`,options:['alert','alerts','alerted','alertness'],answer:3,cat:'Noun',why:'alertness là danh từ song song với energy qua and.'},
+  {id:65,text:`The MNS Railroad’s most _____ passenger route runs through the White Mountain region.`,options:['picture','pictures','picturing','picturesque'],answer:3,cat:'Adjective',why:'most + adjective + noun; picturesque nghĩa là đẹp như tranh.'},
+  {id:66,text:`We are pleased to offer you a complimentary copy of our _____ magazine, Office Innovations.`,options:['popularly','popularity','popular','popularize'],answer:2,cat:'Adjective',why:'popular đứng trước và bổ nghĩa cho magazine.'},
+  {id:67,text:`One of Mr. Oh’s primary duties is the _____ of the corporate food service.`,options:['manage','manages','manageable','management'],answer:3,cat:'Noun',why:'the + noun + of; management là bổ ngữ danh từ sau is.'},
+  {id:68,text:`Takeda Electronics has been the area’s most _____ energy supplier for more than twenty years.`,options:['relying','reliable','reliability','reliably'],answer:1,cat:'Adjective',why:'most + adjective + noun; reliable bổ nghĩa cho energy supplier.'},
+  {id:69,text:`Mi-Sun Park’s artwork _____ combines classical elements with modern materials.`,options:['skill','skilled','skillful','skillfully'],answer:3,cat:'Adverb',why:'skillfully đứng giữa chủ ngữ artwork và động từ combines, bổ nghĩa cho động từ.'},
+  {id:70,text:`Ms. Gupta has earned the _____ of both her colleagues and her clients.`,options:['respect','respectable','respectably','respecting'],answer:0,cat:'Noun',why:'earn the respect of là collocation; sau the cần danh từ.'},
+  {id:71,text:`_____ of the shipment should be expected within ten days.`,options:['Receive','Received','Receivable','Receipt'],answer:3,cat:'Noun',why:'Receipt of the shipment là cụm danh từ làm chủ ngữ của should be expected.'},
+  {id:72,text:`Because teams in Beijing and Lisbon work closely, e-mail is the _____ method of communication.`,options:['prefer','preferred','preferably','preference'],answer:1,cat:'Adjective',why:'preferred là past participle dùng như tính từ trước method: phương pháp được ưu tiên.'},
+  {id:73,text:`Coffee packs from Pure Brew Coffee are available in a _____ of flavors.`,options:['varying','variety','varies','varied'],answer:1,cat:'Noun',why:'a variety of + danh từ số nhiều là cụm cố định.'},
+  {id:74,text:`Atro Air is not responsible for any _____ belongings left onboard an aircraft.`,options:['personally','personality','personal','personalize'],answer:2,cat:'Adjective',why:'personal đứng trước và bổ nghĩa cho belongings.'},
+  {id:75,text:`Tolus Restaurant is temporarily closed for _____ and will reopen on September 7.`,options:['renovates','renovated','renovations','renovate'],answer:2,cat:'Noun',why:'Sau giới từ for cần danh từ; renovations thường dùng số nhiều cho công việc sửa sang.'},
+  {id:76,text:`The views on the editorial page do not _____ reflect the opinions of East City News.`,options:['necessarily','necessity','necessitate','necessary'],answer:0,cat:'Adverb',why:'not necessarily reflect: trạng từ đứng giữa trợ động từ do not và động từ chính.'},
+  {id:77,text:`In _____ of the fine seasonal weather, Minnie’s Southern Kitchen will open its patio on April 5.`,options:['considering','considered','consideration','considerable'],answer:2,cat:'Noun',why:'in consideration of là cụm cố định; sau in cần danh từ consideration.'},
+  {id:78,text:`Mr. Cho will provide a workshop to help representatives advance their _____ speaking skills.`,options:['persuasive','persuades','persuaded','persuasively'],answer:0,cat:'Adjective',why:'persuasive bổ nghĩa cho cụm danh từ speaking skills.'},
+  {id:79,text:`Because of a _____ increase in profits, Tyro Sportswear employees will receive a bonus.`,options:['dramatically','dramatize','dramatic','drama'],answer:2,cat:'Adjective',why:'a + adjective + noun; dramatic bổ nghĩa cho increase.'},
+  {id:80,text:`Due to its need for _____ repairs, the Paliot 12Z conveyor belt will be replaced.`,options:['frequent','frequently','frequency','frequents'],answer:0,cat:'Adjective',why:'frequent đứng trước và bổ nghĩa cho danh từ số nhiều repairs.'},
+  {id:81,text:`_____ demonstrating an impressive work ethic, Ms. Hyun often takes on extra projects.`,options:['Consistently','Consistency','Consisted','Consistent'],answer:0,cat:'Adverb',why:'Consistently bổ nghĩa cho V-ing demonstrating ở đầu mệnh đề.'},
+  {id:82,text:`Ecologist Mei Ling offers a _____ review of Paul Winthrop’s research on drought resistance.`,options:['critic','critical','criticize','critically'],answer:1,cat:'Adjective',why:'a + adjective + noun; critical bổ nghĩa cho review.'},
+  {id:83,text:`Evergo’s latest hiking shoe is _____ named for its durability and strength.`,options:['suitably','suitable','suitability','suitableness'],answer:0,cat:'Adverb',why:'suitably bổ nghĩa cho past participle named trong cụm bị động.'},
+  {id:84,text:`Ms. Yasuda’s _____ in managing difficult projects has earned her respect.`,options:['succeed','success','succeeds','successful'],answer:1,cat:'Noun',why:'Sau sở hữu Ms. Yasuda’s cần danh từ; success là chủ ngữ.'},
+  {id:85,text:`To be more _____ to customers, the Jeness Department Store added a feedback section.`,options:['response','responded','responsive','responder'],answer:2,cat:'Adjective',why:'be more + adjective; responsive to là collocation.'},
+  {id:86,text:`Janning Footwear’s campaign was _____ aimed at young adults.`,options:['specify','specific','specifically','specifies'],answer:2,cat:'Adverb',why:'specifically đứng giữa was và aimed, bổ nghĩa cho cụm bị động.'},
+  {id:87,text:`Some researchers believe that multitasking _____ affects concentration and productivity.`,options:['adverse','adversity','adversities','adversely'],answer:3,cat:'Adverb',why:'adversely đứng trước và bổ nghĩa cho động từ affects.'},
+  {id:88,text:`The software keeps track of business activities in an _____ manner.`,options:['efficiency','efficiently','efficiencies','efficient'],answer:3,cat:'Adjective',why:'an + adjective + noun; efficient bổ nghĩa cho manner.'},
+  {id:89,text:`Zarina Bekker’s autumn collection features skirts in a _____ variety of colors and fabrics.`,options:['wide','width','widen','widely'],answer:0,cat:'Adjective',why:'a wide variety of là collocation; wide là tính từ bổ nghĩa cho variety.'},
+  {id:90,text:`Customers may return any item within 30 days if they are not _____ with it.`,options:['satisfactory','satisfaction','satisfied','satisfy'],answer:2,cat:'Adjective',why:'be satisfied with là cấu trúc cố định; satisfied mô tả cảm nhận của customers.'},
+  {id:91,text:`Augen Care, Inc., distributes eyeglasses to a _____ area of the Northwest.`,options:['broadly','broadness','broaden','broad'],answer:3,cat:'Adjective',why:'a + adjective + noun; broad bổ nghĩa cho area.'},
+  {id:92,text:`Once invoices arrive, they should be processed _____ to maintain accurate records.`,options:['prompt','promptly','promptness','more prompt'],answer:1,cat:'Adverb',why:'promptly bổ nghĩa cho cụm bị động should be processed.'},
+  {id:93,text:`Denton’s planning committee will _____ place recycling receptacles at the park entrances.`,options:['strategy','strategically','strategic','strategize'],answer:1,cat:'Adverb',why:'strategically đứng giữa modal will và động từ place.'},
+  {id:94,text:`Harrier Construction employs contractors whose _____ knowledge and experience produce quality workmanship.`,options:['collect','collectively','collective','collection'],answer:2,cat:'Adjective',why:'collective là tính từ đứng trước hai danh từ song song knowledge and experience. Đề gốc viết sai chính tả lựa chọn C.'},
+  {id:95,text:`For clients seeking environmentally conscious construction, Green Spaces Ltd. provides an affordable _____.`,options:['alternated','alternating','alternatively','alternative'],answer:3,cat:'Noun',why:'Sau an affordable cần danh từ trung tâm; alternative nghĩa là một lựa chọn thay thế.'},
+  {id:96,text:`The Watdee Marketing Firm will guide you in _____ promoting your product.`,options:['creatively','create','creative','created'],answer:0,cat:'Adverb',why:'creatively bổ nghĩa cho V-ing promoting; sau in dùng V-ing.'},
+  {id:97,text:`Winthrop Strategies seeks a _____ individual who consistently meets deadlines.`,options:['motivate','motivated','motivation','motivations'],answer:1,cat:'Adjective',why:'motivated là tính từ V-ed đứng trước individual.'},
+  {id:98,text:`Participants must pay a fee to cover the cost of materials and _____.`,options:['to supply','supplied','supplier','supplies'],answer:3,cat:'Noun',why:'supplies là danh từ số nhiều song song với materials qua and.'},
+  {id:99,text:`Current job _____ at Elite Insurance Company have been posted online.`,options:['open','openings','opened','opens'],answer:1,cat:'Noun',why:'job openings là chủ ngữ số nhiều, phù hợp với have been posted.'},
+  {id:100,text:`Employee recruitment and retention are _____ important.`,options:['equal','equally','equality','equalize'],answer:1,cat:'Adverb',why:'equally là trạng từ bổ nghĩa cho tính từ important.'},
+  {id:101,text:`Although Chang-Ho Nah is Permore Financial’s newest executive, he is _____ regarded as highly competent.`,options:['wide','wider','widest','widely'],answer:3,cat:'Adverb',why:'widely regarded as là collocation bị động: được xem rộng rãi là.'}
+];
+
 let inferQuestions=[];
 let inferIndex=0, inferCorrect=0, inferAnswered=0;
 let activeTransform=[];
+let activeExam=[], examWrongIds=[], examSubmitted=false, examTimerHandle=null, examDeadline=0;
 
-const state = JSON.parse(localStorage.getItem('suffixLabProgressV2') || '{"inferAnswered":0,"transformAnswered":0}');
+const state = JSON.parse(localStorage.getItem('suffixLabProgressV2') || '{"inferAnswered":0,"transformAnswered":0,"examAnswered":0,"examBest":0}');
 function saveState(){ localStorage.setItem('suffixLabProgressV2', JSON.stringify(state)); updateProgress(); }
 function updateProgress(){
-  const total=suffixQuestionBank.length+wordFormBank.length;
-  const done=Math.min(total,(state.inferAnswered||0)+(state.transformAnswered||0));
+  const total=suffixQuestionBank.length+wordFormBank.length+examQuestions.length;
+  const done=Math.min(total,(state.inferAnswered||0)+(state.transformAnswered||0)+(state.examAnswered||0));
   document.getElementById('progressText').textContent=`${done}/${total} lượt đã hoàn thành`;
   document.getElementById('progressFill').style.width=`${total?Math.round(done/total*100):0}%`;
 }
@@ -584,13 +907,13 @@ function startInferSession(){
   inferQuestions=selectCount(pool,count);
   inferIndex=0;inferCorrect=0;inferAnswered=0;
   document.getElementById('inferScore').textContent='';
-  document.getElementById('inferPoolInfo').innerHTML=`Ngân hàng phù hợp: <b>${pool.length}</b> câu. Bộ hiện tại: <b>${inferQuestions.length}</b> câu. Toàn bộ 78 nhóm = <b>${suffixQuestionBank.length}</b> câu (4 dạng/nhóm).`;
+  document.getElementById('inferPoolInfo').innerHTML=`Ngân hàng phù hợp: <b>${pool.length}</b> câu. Bộ hiện tại: <b>${inferQuestions.length}</b> câu. Tổng: <b>${suffixQuestionBank.length}</b> câu, gồm 312 câu cốt lõi cho 78 nhóm và ${contextualSuffixQuestions.length} câu phân tích ngữ cảnh.`;
   renderInfer();
 }
 function renderInfer(){
   if(!inferQuestions.length){document.getElementById('inferQuestion').textContent='Không có câu hỏi.';return}
   const q=inferQuestions[inferIndex];
-  document.getElementById('inferNum').innerHTML=`Câu ${inferIndex+1}/${inferQuestions.length} <span class="kind">${({type:'từ loại',meaning:'nghĩa',pattern:'mẫu',example:'ví dụ'})[q.kind]}</span>`;
+  document.getElementById('inferNum').innerHTML=`Câu ${inferIndex+1}/${inferQuestions.length} <span class="kind">${({type:'từ loại',meaning:'nghĩa',pattern:'mẫu',example:'ví dụ',context:'ngữ cảnh'})[q.kind]}</span>`;
   document.getElementById('inferQuestion').textContent=q.q;
   const exp=document.getElementById('inferExplain'); exp.style.display='none';exp.textContent='';
   const box=document.getElementById('inferOptions');
@@ -659,6 +982,101 @@ document.getElementById('clearTransform').addEventListener('click',()=>{
   activeTransform.forEach((q,i)=>{document.getElementById(`tr${i}`).value='';document.getElementById(`fb${i}`).textContent=''});document.getElementById('transformScore').textContent='';
 });
 
+function examLetter(i){return String.fromCharCode(65+i)}
+function formatExamText(text){return text.replace('_____', '<span class="blank">_____</span>')}
+function stopExamTimer(){if(examTimerHandle){clearInterval(examTimerHandle);examTimerHandle=null}}
+function updateExamAnswered(){
+  const chosen=activeExam.filter(q=>document.querySelector(`input[name="exam-${q.id}"]:checked`)).length;
+  document.getElementById('examAnsweredInfo').textContent=`Đã chọn: ${chosen}/${activeExam.length}`;
+}
+function renderExam(){
+  const box=document.getElementById('examList');
+  if(!activeExam.length){box.innerHTML='<div class="empty">Không có câu hỏi phù hợp.</div>';return}
+  box.innerHTML=activeExam.map((q,i)=>`
+    <article class="exam-card" id="examCard${q.id}">
+      <div class="qnum">Câu ${i+1}/${activeExam.length} • Câu gốc ${q.id} <span class="kind">${typeLabel(q.cat)}</span></div>
+      <div class="exam-q">${formatExamText(q.text)}</div>
+      <div class="exam-options">
+        ${q.options.map((o,j)=>`<label class="exam-choice" data-choice="${j}"><input type="radio" name="exam-${q.id}" value="${j}"><span><b>${examLetter(j)}.</b> ${o}</span></label>`).join('')}
+      </div>
+      <div class="exam-answer"><b>Đáp án ${examLetter(q.answer)} — ${q.options[q.answer]}</b>\n${q.why}</div>
+    </article>`).join('');
+  box.querySelectorAll('input[type="radio"]').forEach(x=>x.addEventListener('change',updateExamAnswered));
+}
+function startExamTimer(minutes){
+  stopExamTimer();
+  const timer=document.getElementById('examTimer');timer.classList.remove('urgent');
+  if(!minutes){timer.textContent='Không giới hạn';return}
+  examDeadline=Date.now()+minutes*60000;
+  const tick=()=>{
+    const left=Math.max(0,examDeadline-Date.now());
+    const m=Math.floor(left/60000),s=Math.floor((left%60000)/1000);
+    timer.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    timer.classList.toggle('urgent',left>0&&left<=60000);
+    if(left<=0){stopExamTimer();gradeExam(true)}
+  };
+  tick();examTimerHandle=setInterval(tick,1000);
+}
+function launchExam(poolOverride=null){
+  let pool=poolOverride?[...poolOverride]:examQuestions.filter(q=>document.getElementById('examCategory').value==='all'||q.cat===document.getElementById('examCategory').value);
+  const order=document.getElementById('examOrder').value;
+  if(order==='random') pool=shuffled(pool); else pool.sort((a,b)=>a.id-b.id);
+  if(!poolOverride){
+    const count=document.getElementById('examCountSelect').value;
+    if(count!=='all') pool=pool.slice(0,Math.min(Number(count),pool.length));
+  }
+  activeExam=pool;examWrongIds=[];examSubmitted=false;
+  document.getElementById('examScore').textContent='';
+  document.getElementById('examResult').className='exam-result-box';
+  document.getElementById('examResult').innerHTML='';
+  document.getElementById('toggleExamReview').disabled=true;
+  document.getElementById('retryWrong').disabled=true;
+  document.getElementById('submitExam').disabled=false;
+  const category=document.getElementById('examCategory').value;
+  const fullPool=poolOverride?poolOverride:examQuestions.filter(q=>category==='all'||q.cat===category);
+  document.getElementById('examPoolInfo').textContent=poolOverride?`Làm lại: ${pool.length} câu`:`Ngân hàng phù hợp: ${fullPool.length} • Đề hiện tại: ${pool.length}`;
+  document.getElementById('examAnsweredInfo').textContent=`Đã chọn: 0/${pool.length}`;
+  renderExam();startExamTimer(Number(document.getElementById('examMinutes').value));
+}
+function gradeExam(autoSubmitted=false){
+  if(examSubmitted||!activeExam.length)return;
+  stopExamTimer();examSubmitted=true;
+  let correct=0,unanswered=0,answered=0;examWrongIds=[];
+  activeExam.forEach(q=>{
+    const card=document.getElementById(`examCard${q.id}`);
+    const chosen=document.querySelector(`input[name="exam-${q.id}"]:checked`);
+    const choices=card.querySelectorAll('.exam-choice');
+    choices[q.answer].classList.add('answer-correct');
+    card.classList.add('reviewed');
+    card.querySelectorAll('input').forEach(x=>x.disabled=true);
+    if(!chosen){unanswered++;examWrongIds.push(q.id);card.classList.add('unanswered');return}
+    answered++;
+    if(Number(chosen.value)===q.answer){correct++;card.classList.add('correct')}
+    else{examWrongIds.push(q.id);card.classList.add('wrong');choices[Number(chosen.value)].classList.add('answer-wrong')}
+  });
+  const pct=Math.round(correct/activeExam.length*100);
+  state.examAnswered=(state.examAnswered||0)+answered;
+  state.examBest=Math.max(state.examBest||0,pct);saveState();
+  const result=document.getElementById('examResult');result.className='exam-result-box show';
+  result.innerHTML=`<h3 style="margin:0 0 8px">${autoSubmitted?'Hết giờ — bài đã được nộp':'Kết quả bài thi'}</h3><b>${correct}/${activeExam.length} câu đúng (${pct}%)</b><div class="meta">Sai: ${activeExam.length-correct-unanswered} • Chưa trả lời: ${unanswered} • Điểm tốt nhất đã lưu: ${state.examBest}%</div>`;
+  document.getElementById('examScore').textContent=`${correct}/${activeExam.length} • ${pct}%`;
+  document.getElementById('submitExam').disabled=true;
+  document.getElementById('toggleExamReview').disabled=false;
+  document.getElementById('retryWrong').disabled=examWrongIds.length===0;
+  document.getElementById('examAnsweredInfo').textContent=`Đã chọn: ${answered}/${activeExam.length}`;
+}
+document.getElementById('startExam').addEventListener('click',()=>launchExam());
+document.getElementById('submitExam').addEventListener('click',()=>gradeExam(false));
+document.getElementById('toggleExamReview').addEventListener('click',()=>{
+  if(!examSubmitted)return;
+  const cards=[...document.querySelectorAll('#examList .exam-card')];
+  const hide=cards.some(x=>x.classList.contains('reviewed'));
+  cards.forEach(x=>x.classList.toggle('reviewed',!hide));
+});
+document.getElementById('retryWrong').addEventListener('click',()=>{
+  const wrongSet=new Set(examWrongIds);launchExam(activeExam.filter(q=>wrongSet.has(q.id)));
+});
+
 function renderFamilies(){
   document.getElementById('familyBody').innerHTML=wordFamilies.map(x=>`
     <tr><td><b>${x.base}</b></td><td>${x.noun.join(' / ')||'—'}</td><td>${x.verb.join(' / ')||'—'}</td><td>${x.adj.join(' / ')||'—'}</td><td>${x.adv.join(' / ')||'—'}</td></tr>`).join('');
@@ -669,15 +1087,16 @@ function renderCautions(){
 }
 
 document.getElementById('resetProgress').addEventListener('click',()=>{
-  localStorage.removeItem('suffixLabProgressV2');state.inferAnswered=0;state.transformAnswered=0;inferCorrect=0;inferAnswered=0;document.getElementById('inferScore').textContent='';document.getElementById('transformScore').textContent='';updateProgress();
+  localStorage.removeItem('suffixLabProgressV2');state.inferAnswered=0;state.transformAnswered=0;state.examAnswered=0;state.examBest=0;inferCorrect=0;inferAnswered=0;document.getElementById('inferScore').textContent='';document.getElementById('transformScore').textContent='';document.getElementById('examScore').textContent='';updateProgress();
 });
 
 document.getElementById('suffixCount').textContent=suffixes.length;
 document.getElementById('exampleCount').textContent=suffixes.reduce((a,b)=>a+b.examples.length,0);
 document.getElementById('quizCount').textContent=suffixQuestionBank.length;
 document.getElementById('transformCount').textContent=wordFormBank.length;
+document.getElementById('examCount').textContent=examQuestions.length;
 
-renderLibrary();renderFamilies();renderCautions();updateProgress();startInferSession();startTransformSession();
+renderLibrary();renderFamilies();renderCautions();updateProgress();startInferSession();startTransformSession();launchExam();
 
 </script>
 </body>
