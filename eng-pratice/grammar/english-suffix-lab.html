@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Suffix Lab — Thư viện & Luyện tập đuôi từ</title>
+<style>
+:root{
+  --bg:#f5f7fb; --card:#ffffff; --text:#172033; --muted:#667085; --line:#e5e7eb;
+  --brand:#3559e0; --brand2:#6d5dfc; --soft:#eef2ff; --good:#157347; --bad:#b42318;
+  --warn:#a15c00; --shadow:0 10px 30px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;background:#111827;color:#fff;padding:24px 18px;overflow:auto}
+.brand{font-size:20px;font-weight:800;margin-bottom:6px}
+.subtitle{font-size:12px;color:#b8c0cf;margin-bottom:24px}
+.nav button{width:100%;border:0;background:transparent;color:#d9dfeb;text-align:left;padding:11px 12px;border-radius:10px;margin:4px 0}
+.nav button:hover,.nav button.active{background:#263145;color:#fff}
+.nav small{float:right;color:#94a3b8}
+.progressBox{margin-top:22px;padding:14px;border:1px solid #334155;border-radius:12px;background:#172033}
+.progressBox .bar{height:8px;background:#334155;border-radius:999px;overflow:hidden;margin-top:8px}
+.progressBox .fill{height:100%;background:#8ba2ff;width:0%}
+.main{padding:30px;max-width:1500px;width:100%;margin:0 auto}
+.hero{background:linear-gradient(135deg,#1e293b,#334155 60%,#3b4a67);color:#fff;border-radius:22px;padding:30px;box-shadow:var(--shadow);margin-bottom:24px}
+.hero h1{margin:0 0 8px;font-size:clamp(26px,4vw,44px);line-height:1.1}
+.hero p{margin:0;color:#dbe3f0;max-width:900px}
+.hero .stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.stat{background:rgba(255,255,255,.1);padding:10px 14px;border-radius:12px;font-size:13px}
+.section{display:none}
+.section.active{display:block}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px}
+.panel h2{margin-top:0}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.toolbar input,.toolbar select{border:1px solid #d0d5dd;background:#fff;border-radius:10px;padding:10px 12px;min-width:200px}
+.toolbar .btn{min-height:43px}
+.session-note{padding:10px 12px;border-radius:10px;background:#f8fafc;border:1px solid #e8edf3;margin-bottom:14px}
+.kind{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 7px;border-radius:999px;background:#eef2ff;color:#4054c7;margin-left:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.suffix-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;transition:.2s}
+.suffix-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.suffix-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.suffix{font-size:19px;font-weight:800}
+.tag{font-size:12px;padding:4px 8px;border-radius:999px;background:var(--soft);color:#3d4ed8;white-space:nowrap}
+.meta{color:var(--muted);font-size:13px;margin:7px 0}
+.examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ex{background:#f8fafc;border:1px solid #e9edf3;border-radius:8px;padding:4px 7px;font-size:12px}
+.note{margin-top:10px;font-size:12px;color:#6b7280;border-top:1px dashed #e5e7eb;padding-top:9px}
+.quiz-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.qnum{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.question{font-size:20px;font-weight:750;margin:8px 0 16px}
+.options{display:grid;gap:9px}
+.option{border:1px solid #d5dbe5;background:#fff;border-radius:11px;padding:11px 13px;text-align:left}
+.option:hover{border-color:#9aa8e9;background:#f8f9ff}
+.option.correct{border-color:#71c79a;background:#edf9f2;color:#0c6b3c}
+.option.wrong{border-color:#ef9a94;background:#fff0ef;color:#9d2018}
+.explain{margin-top:14px;padding:12px;background:#f8fafc;border-radius:10px;color:#475467;display:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700}
+.btn.primary{background:var(--brand);color:#fff}
+.btn.secondary{background:#edf1f7;color:#27364f}
+.btn.danger{background:#fff0ef;color:#9f231a}
+.score{font-weight:800}
+.transform-row{display:grid;grid-template-columns:1fr 180px 110px;gap:10px;align-items:center;padding:14px 0;border-bottom:1px solid #edf0f3}
+.transform-row:last-child{border-bottom:0}
+.transform-row input{border:1px solid #cfd5df;padding:9px 10px;border-radius:9px;width:100%}
+.feedback{font-size:12px;margin-top:5px}
+.good{color:var(--good)}
+.bad{color:var(--bad)}
+.family-table{width:100%;border-collapse:collapse}
+.family-table th,.family-table td{border-bottom:1px solid #edf0f3;padding:11px;text-align:left;vertical-align:top}
+.family-table th{background:#f8fafc;font-size:13px}
+.caution{border-left:4px solid #f59e0b;padding:14px 16px;background:#fffbeb;border-radius:10px;margin:12px 0}
+.caution h3{margin:0 0 6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#eef2f7;padding:2px 6px;border-radius:5px}
+.empty{text-align:center;color:var(--muted);padding:30px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;background:#f2f4f7;border-radius:999px;font-size:12px;margin:3px}
+.theory-lead{background:linear-gradient(135deg,#eef2ff,#f8fafc);border:1px solid #dfe5ff;border-radius:14px;padding:16px;margin-bottom:16px}
+.theory-lead strong{color:#2f4bc6}
+.theory-nav{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 20px}
+.theory-nav a{color:#3448b8;background:#eef2ff;border:1px solid #dce3ff;text-decoration:none;padding:7px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.theory-block{scroll-margin-top:18px;margin:15px 0;border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.theory-block summary{cursor:pointer;list-style:none;padding:15px 17px;font-weight:800;background:#f8fafc}
+.theory-block summary::-webkit-details-marker{display:none}
+.theory-block summary::after{content:'＋';float:right;color:#596780}
+.theory-block[open] summary::after{content:'－'}
+.theory-body{padding:17px}
+.theory-table{width:100%;border-collapse:collapse;min-width:720px}
+.theory-table th,.theory-table td{border:1px solid #e5e9f0;padding:10px 11px;text-align:left;vertical-align:top}
+.theory-table th{background:#f3f6fb;font-size:13px;position:sticky;top:0}
+.theory-table td:first-child{font-weight:750;white-space:nowrap}
+.table-wrap{overflow:auto;border-radius:10px}
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.formula-card{border:1px solid #e4e9f1;border-radius:11px;padding:12px;background:#fbfcfe}
+.formula-card b{color:#3048b8}
+.callout{border-left:4px solid #667eea;background:#f6f8ff;border-radius:9px;padding:11px 13px;margin:12px 0}
+.callout.warn{border-left-color:#f59e0b;background:#fffbeb}
+.callout.good-note{border-left-color:#22a06b;background:#effaf5}
+.example-line{margin:6px 0;color:#344054}
+.wrong-text{text-decoration:line-through;color:#a13a32}
+.right-text{color:#157347;font-weight:700}
+@media(max-width:900px){
+ .app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.nav{display:flex;overflow:auto;gap:6px}.nav button{min-width:max-content}
+ .main{padding:18px}.transform-row{grid-template-columns:1fr}.cols{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">English Suffix Lab</div>
+  <div class="subtitle">Lý thuyết • Thư viện • Nhận diện • Word Form</div>
+  <div class="nav">
+    <button class="active" data-section="theory">📖 Lý thuyết <small>nền tảng</small></button>
+    <button data-section="library">📚 Thư viện <small>suffix</small></button>
+    <button data-section="infer">🧠 Suy từ đuôi <small>quiz</small></button>
+    <button data-section="transform">✍️ Biến đổi từ <small>word form</small></button>
+    <button data-section="families">🔗 Word families <small>chuỗi</small></button>
+    <button data-section="cautions">⚠️ Cần lưu ý <small>bẫy</small></button>
+  </div>
+  <div class="progressBox">
+    <strong>Tiến độ luyện tập</strong>
+    <div id="progressText" style="font-size:12px;color:#cbd5e1;margin-top:5px">0 câu đã làm</div>
+    <div class="bar"><div id="progressFill" class="fill"></div></div>
+    <button id="resetProgress" class="btn danger" style="margin-top:12px;width:100%">Xóa tiến độ</button>
+  </div>
+</aside>
+
+<main class="main">
+<section class="hero">
+  <h1>English Suffix Lab</h1>
+  <p>Lý thuyết từ loại và cách thành lập từ đã kiểm chứng, thư viện 78 nhóm đuôi, quiz nhận diện và ngân hàng Word Form có thể chọn số câu hoặc làm tất cả.</p>
+  <div class="stats">
+    <div class="stat"><b id="suffixCount">0</b> nhóm đuôi</div>
+    <div class="stat"><b id="exampleCount">0</b> ví dụ thư viện</div>
+    <div class="stat"><b id="quizCount">0</b> câu suy luận</div>
+    <div class="stat"><b id="transformCount">0</b> câu word form</div>
+  </div>
+</section>
+
+<section id="theory" class="section active">
+  <div class="panel">
+    <h2>Lý thuyết từ loại và cách thành lập từ</h2>
+    <div class="theory-lead">
+      <strong>Ý chính:</strong> hậu tố giúp dự đoán từ loại, nhưng không quyết định tuyệt đối. Khi làm Word Form, hãy kết hợp ba dấu hiệu: <b>vị trí trong câu</b>, <b>nghĩa cần diễn đạt</b> và <b>hình thức của từ</b>.
+    </div>
+    <div class="theory-nav">
+      <a href="#parts-of-speech">Từ loại</a><a href="#position-clues">Vị trí trong câu</a><a href="#derivation">Tạo từ mới</a><a href="#noun-rules">Danh từ</a><a href="#adjective-rules">Tính từ</a><a href="#adverb-rules">Trạng từ</a><a href="#ing-ed-rules">-ing / -ed</a><a href="#special-words">Từ đặc biệt</a>
+    </div>
+
+    <details class="theory-block" id="parts-of-speech" open>
+      <summary>1. Các từ loại cốt lõi</summary>
+      <div class="theory-body">
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Từ loại</th><th>Định nghĩa chính xác</th><th>Ví dụ</th><th>Ví dụ trong câu</th></tr></thead>
+          <tbody>
+            <tr><td>Danh từ<br><span class="meta">Noun — N</span></td><td>Chỉ người, vật, nơi chốn, sự việc, ý tưởng, trạng thái hoặc phẩm chất.</td><td>teacher, house, library, freedom</td><td><i>The woman</i> gets up at around 7 a.m.</td></tr>
+            <tr><td>Đại từ<br><span class="meta">Pronoun</span></td><td>Thay cho <b>danh từ hoặc cụm danh từ</b>, hoặc dùng để chỉ người/vật mà không gọi tên lại. Đại từ không thay thế động từ hay tính từ.</td><td>I, you, she, it, they, who, someone</td><td>Lan is here. <i>She</i> wants to meet <i>you</i>.</td></tr>
+            <tr><td>Tính từ<br><span class="meta">Adjective — Adj</span></td><td>Mô tả hoặc phân loại danh từ/đại từ; cũng có thể làm bổ ngữ sau linking verb.</td><td>beautiful, strong, new, useful</td><td>She is <i>beautiful</i>. / It is a <i>useful</i> book.</td></tr>
+            <tr><td>Động từ<br><span class="meta">Verb — V</span></td><td>Diễn đạt hành động, sự kiện, quá trình hoặc trạng thái; là thành phần trung tâm của vị ngữ.</td><td>run, listen, become, know</td><td>I <i>enjoy</i> reading books.</td></tr>
+            <tr><td>Trạng từ<br><span class="meta">Adverb — Adv</span></td><td>Bổ nghĩa cho động từ, tính từ, trạng từ khác hoặc cả mệnh đề. Trạng từ không nhất thiết đứng ngay cạnh động từ.</td><td>always, carefully, very, recently</td><td>He <i>always</i> reads the newspaper <i>carefully</i>.</td></tr>
+            <tr><td>Giới từ<br><span class="meta">Preposition</span></td><td>Đứng trước danh từ, đại từ hoặc V-ing dùng như danh từ để biểu thị thời gian, nơi chốn, hướng, phương tiện hay quan hệ.</td><td>in, on, at, by, for, with</td><td>She was born <i>in 2000</i>. / He left <i>without saying goodbye</i>.</td></tr>
+            <tr><td>Liên từ kết hợp<br><span class="meta">Coordinating conjunction</span></td><td>Nối những thành phần ngang hàng. Nhóm thường nhớ bằng <b>FANBOYS</b>.</td><td>for, and, nor, but, or, yet, so</td><td>Would you like coffee <i>or</i> tea?</td></tr>
+            <tr><td>Liên từ tương quan<br><span class="meta">Correlative conjunction</span></td><td>Cặp từ nối hai thành phần song song về cấu trúc.</td><td>either…or; neither…nor; both…and; not only…but also; whether…or; rather…than</td><td>She drinks <i>both</i> tea <i>and</i> coffee.</td></tr>
+            <tr><td>Từ hạn định<br><span class="meta">Determiner</span></td><td>Đứng trước danh từ để xác định số lượng, sở hữu hoặc mức độ xác định.</td><td>a, an, the, this, my, some, many</td><td><i>These two books</i> are mine.</td></tr>
+            <tr><td>Thán từ<br><span class="meta">Interjection</span></td><td>Biểu thị cảm xúc hoặc phản ứng đột ngột; thường đứng tách khỏi cấu trúc cú pháp chính.</td><td>oh, oops, wow, ah</td><td><i>Oops!</i> I sent the wrong file.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout warn"><b>Đính chính quan trọng:</b> viết <i>at around 7 a.m.</i>, không viết <i>around 7:AM</i>. <i>Whether</i> có chữ <b>r</b>; <i>such…that</i> và <i>so…that</i> thường được xếp vào cấu trúc kết quả, không phải các cặp tương quan điển hình như <i>either…or</i>.</div>
+      </div>
+    </details>
+
+    <details class="theory-block" id="position-clues" open>
+      <summary>2. Nhìn vị trí để chọn đúng Word Form</summary>
+      <div class="theory-body">
+        <div class="formula-grid">
+          <div class="formula-card"><b>Determiner + (Adj) + N</b><br>a <i>successful</i> project; her <i>decision</i></div>
+          <div class="formula-card"><b>Subject + V</b><br>The plan <i>succeeded</i>.</div>
+          <div class="formula-card"><b>Linking verb + Adj</b><br>She looks <i>tired</i>. The idea seems <i>reasonable</i>.</div>
+          <div class="formula-card"><b>Action verb + Adv</b><br>She spoke <i>clearly</i>.</div>
+          <div class="formula-card"><b>Adv + Adj / Adv</b><br>highly <i>effective</i>; remarkably <i>quickly</i></div>
+          <div class="formula-card"><b>Modal / to + base verb</b><br>can <i>simplify</i>; to <i>strengthen</i></div>
+          <div class="formula-card"><b>Preposition + N / V-ing</b><br>with <i>confidence</i>; by <i>practising</i></div>
+          <div class="formula-card"><b>Parallel forms</b><br>safety and <i>reliability</i>; both useful and <i>practical</i></div>
+        </div>
+        <div class="callout good-note"><b>Linking verbs thường gặp:</b> be, seem, become, appear, feel, look, sound, smell, taste, remain, stay, grow, turn, get. Sau linking verb, dùng tính từ khi mô tả chủ ngữ: <i>The soup tastes good</i>, không phải <i>tastes well</i> (trừ khi nói khả năng nếm).</div>
+      </div>
+    </details>
+
+    <details class="theory-block" id="derivation">
+      <summary>3. Hậu tố tạo từ mới và hậu tố ngữ pháp</summary>
+      <div class="theory-body">
+        <p><b>Derivational suffixes</b> tạo từ mới, thường đổi từ loại hoặc nghĩa: <span class="kbd">develop → development</span>, <span class="kbd">care → careful</span>, <span class="kbd">modern → modernize</span>.</p>
+        <p><b>Inflectional suffixes</b> không tạo mục từ mới; chúng chỉ biểu thị ngữ pháp: số nhiều <span class="kbd">book → books</span>, ngôi thứ ba <span class="kbd">work → works</span>, quá khứ <span class="kbd">work → worked</span>, V-ing <span class="kbd">read → reading</span>, so sánh <span class="kbd">small → smaller → smallest</span>.</p>
+        <div class="callout warn"><b>Không trộn tiền tố với hậu tố:</b> <i>super-, under-, sub-</i> là <b>tiền tố</b>, đứng trước gốc từ: <i>supermarket, underdevelopment, subgroup</i>. Các từ <i>surface, surname, surplus</i> không nên dùng như một công thức “sur- + từ” có thể áp dụng tự do. <i>Subclassroom</i> và <i>undereducation</i> không phải ví dụ tự nhiên cho người học.</div>
+      </div>
+    </details>
+
+    <details class="theory-block" id="noun-rules">
+      <summary>4. Cách thành lập danh từ</summary>
+      <div class="theory-body">
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Nguồn</th><th>Công thức thường gặp</th><th>Ví dụ đúng</th><th>Lưu ý</th></tr></thead>
+          <tbody>
+            <tr><td>V → N</td><td>-tion / -sion / -ation</td><td>prevent → prevention; introduce → introduction; conserve → conservation</td><td>Chính tả thường biến đổi, không chỉ gắn đuôi máy móc.</td></tr>
+            <tr><td>V → N</td><td>-ment</td><td>develop → development; achieve → achievement; argue → argument</td><td><i>Argument</i> bỏ <i>e</i>.</td></tr>
+            <tr><td>V → người/vật</td><td>-er / -or / -ee</td><td>teach → teacher; edit → editor; examine → examinee</td><td><i>Cook</i> là người nấu ăn; <i>cooker</i> thường là thiết bị nấu.</td></tr>
+            <tr><td>V/Adj → N</td><td>-ance / -ence</td><td>attend → attendance; exist → existence; different → difference</td><td>Học theo cả word family.</td></tr>
+            <tr><td>V → N</td><td>-al / -age / -ing</td><td>arrive → arrival; drain → drainage; use → usage; teach → teaching</td><td><i>Building</i> có thể là hoạt động hoặc một tòa nhà.</td></tr>
+            <tr><td>N → N</td><td>-ship / -hood / -ism</td><td>friend → friendship; child → childhood; capital → capitalism</td><td><i>Tourism</i> là hoạt động/ngành du lịch, không phải “chủ nghĩa”.</td></tr>
+            <tr><td>Adj → N</td><td>-ness / -ity / -cy / -th</td><td>happy → happiness; possible → possibility; accurate → accuracy; strong → strength</td><td>Một số gốc đổi mạnh: long → length; wide → width.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="theory-block" id="adjective-rules">
+      <summary>5. Cách thành lập tính từ đơn và tính từ ghép</summary>
+      <div class="theory-body">
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Công thức</th><th>Ví dụ</th><th>Ý nghĩa thường gặp</th></tr></thead>
+          <tbody>
+            <tr><td>N + -y</td><td>rain → rainy; sun → sunny; health → healthy</td><td>có/đầy/mang đặc tính</td></tr>
+            <tr><td>N + -ly</td><td>day → daily; man → manly; cost → costly</td><td>thuộc về/có đặc tính; đây là tính từ, không phải trạng từ</td></tr>
+            <tr><td>N + -ful / -less</td><td>beauty → beautiful; harm → harmful / harmless</td><td>có/đầy ↔ không có/thiếu</td></tr>
+            <tr><td>N + -en / -ish / -ous</td><td>wood → wooden; child → childish; danger → dangerous</td><td>chất liệu; giống/hơi; có đặc tính</td></tr>
+            <tr><td>V + -able / -ible / -ive</td><td>read → readable; access → accessible; attract → attractive</td><td>có thể; có tính chất/xu hướng</td></tr>
+            <tr><td>V + -ed / -ing</td><td>interested / interesting; bored / boring</td><td>nhận trạng thái ↔ gây trạng thái</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Tính từ ghép</h3>
+        <div class="formula-grid">
+          <div class="formula-card"><b>Adj + Adj</b><br>a dark-blue coat; a red-hot bar</div>
+          <div class="formula-card"><b>N + Adj</b><br>a snow-white face; an oil-rich country</div>
+          <div class="formula-card"><b>N + participle</b><br>a horse-drawn cart; a heart-breaking story</div>
+          <div class="formula-card"><b>Adj/Adv + participle</b><br>a ready-made shirt; a newly built house; a well-dressed man</div>
+          <div class="formula-card"><b>N/Adj + noun-ed</b><br>a tile-roofed house; a dark-haired girl</div>
+          <div class="formula-card"><b>Number + singular noun</b><br>a twenty-year-old student; an eight-day trip</div>
+        </div>
+        <div class="callout"><b>Dấu gạch nối:</b> tính từ ghép thường có gạch nối khi đứng trước danh từ: <i>a well-known author</i>. Sau danh từ, nhiều cụm không cần gạch nối: <i>The author is well known.</i> Với số đo, danh từ ở dạng số ít: <i>a twelve-chapter novel</i>, không phải <i>twelve-chapters</i>.</div>
+      </div>
+    </details>
+
+    <details class="theory-block" id="adverb-rules">
+      <summary>6. Cách thành lập trạng từ</summary>
+      <div class="theory-body">
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Quy tắc</th><th>Ví dụ</th><th>Lưu ý chính tả</th></tr></thead>
+          <tbody>
+            <tr><td>Adj + -ly</td><td>quick → quickly; careful → carefully</td><td>Quy tắc cơ bản.</td></tr>
+            <tr><td>-y → -ily</td><td>happy → happily; easy → easily</td><td>Đổi <i>y</i> thành <i>i</i>.</td></tr>
+            <tr><td>-le → -ly</td><td>possible → possibly; gentle → gently</td><td>Thường bỏ <i>e</i>; toàn bộ <i>-le</i> thành <i>-ly</i>.</td></tr>
+            <tr><td>-ic → -ically</td><td>basic → basically; scientific → scientifically</td><td>Ngoại lệ nổi bật: public → publicly.</td></tr>
+            <tr><td>Một số -e giữ/bỏ khác nhau</td><td>final → finally; true → truly; whole → wholly</td><td>Cần học theo từ; không có một quy tắc bỏ <i>e</i> cho mọi từ.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout warn"><b>Không phải mọi từ tận cùng -ly đều là trạng từ:</b> <i>friendly, lovely, lonely, lively, elderly, costly</i> là tính từ. Muốn diễn đạt cách thức, nói <i>in a friendly way</i>, không nói <span class="wrong-text">in friendly way</span>.</div>
+      </div>
+    </details>
+
+    <details class="theory-block" id="ing-ed-rules">
+      <summary>7. Quy tắc chính tả khi thêm -ing và -ed</summary>
+      <div class="theory-body">
+        <h3>Thêm -ing</h3>
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Trường hợp</th><th>Ví dụ</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>Thông thường: thêm -ing</td><td>walk → walking; do → doing; buy → buying</td><td>Không dùng <i>to</i> trong dạng biến đổi.</td></tr>
+            <tr><td>Tận cùng -e câm: bỏ e</td><td>live → living; write → writing</td><td>Giữ <i>e</i> trong see → seeing, agree → agreeing; dye → dyeing và singe → singeing để tránh nhầm nghĩa/phát âm.</td></tr>
+            <tr><td>Tận cùng -ie: đổi thành y</td><td>die → dying; lie → lying; tie → tying</td><td>Không viết <i>dieing</i>.</td></tr>
+            <tr><td>CVC, âm tiết cuối có trọng âm: gấp đôi phụ âm</td><td>run → running; begin → beginning; prefer → preferring</td><td>Không gấp đôi <i>w, x, y</i>: snowing, fixing, playing.</td></tr>
+            <tr><td>Từ tận cùng -c: thêm k</td><td>panic → panicking; mimic → mimicking; traffic → trafficking</td><td>Giữ âm /k/ trước <i>i</i>.</td></tr>
+            <tr><td>Tận cùng -l</td><td>BrE: travelling; AmE: traveling<br>control → controlling</td><td>BrE thường gấp đôi <i>l</i>; AmE thường chỉ gấp đôi khi âm cuối có trọng âm.</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Thêm -ed</h3>
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Trường hợp</th><th>Ví dụ</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>Thông thường: thêm -ed</td><td>walk → walked; contradict → contradicted; recommend → recommended</td><td><i>Contradict</i> không biến thành <i>contradict</i> ở quá khứ.</td></tr>
+            <tr><td>Tận cùng -e: thêm -d</td><td>live → lived; analyse/analyze → analysed/analyzed</td><td>Anh–Anh thường <i>analyse</i>; Anh–Mỹ <i>analyze</i>.</td></tr>
+            <tr><td>Phụ âm + y: y → ied</td><td>study → studied; identify → identified; accompany → accompanied</td><td>Nguyên âm + y thì giữ y: play → played.</td></tr>
+            <tr><td>CVC, âm tiết cuối có trọng âm: gấp đôi phụ âm</td><td>stop → stopped; admit → admitted; prefer → preferred</td><td>Không gấp đôi nếu âm cuối không có trọng âm: open → opened.</td></tr>
+            <tr><td>Tận cùng -l</td><td>BrE: travelled; AmE: traveled<br>control → controlled; compel → compelled</td><td><i>Control</i> và <i>compel</i> nhấn âm cuối; <i>travel</i> nhấn âm đầu.</td></tr>
+            <tr><td>Động từ bất quy tắc</td><td>go → went → gone; write → wrote → written</td><td>Không áp dụng quy tắc -ed; phải học riêng.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout"><b>Phát âm -ed:</b> /ɪd/ sau /t, d/ (<i>wanted, needed</i>); /t/ sau âm vô thanh trừ /t/ (<i>worked, washed</i>); /d/ trong các trường hợp còn lại (<i>played, cleaned</i>).</div>
+      </div>
+    </details>
+
+    <details class="theory-block" id="special-words">
+      <summary>8. Từ đặc biệt và các cặp dễ nhầm</summary>
+      <div class="theory-body">
+        <div class="table-wrap"><table class="theory-table">
+          <thead><tr><th>Từ</th><th>Vai trò</th><th>Ví dụ chuẩn</th><th>Dễ nhầm</th></tr></thead>
+          <tbody>
+            <tr><td>friendly</td><td>Adj</td><td>She gave me a friendly welcome.<br>She welcomed me <i>in a friendly way</i>.</td><td>Không dùng <i>friendly</i> như trạng từ trực tiếp.</td></tr>
+            <tr><td>late</td><td>Adj / Adv</td><td>He was late. / He arrived late.</td><td><i>Lately</i> = gần đây, không phải “muộn”.</td></tr>
+            <tr><td>hard</td><td>Adj / Adv</td><td>The task is hard. / She works hard.</td><td><i>Hardly</i> = hầu như không.</td></tr>
+            <tr><td>early</td><td>Adj / Adv</td><td>an early meeting / arrive early</td><td>Không có dạng trạng từ <i>earlyly</i>.</td></tr>
+            <tr><td>well</td><td>Adv; Adj = khỏe mạnh</td><td>She writes well. / She is well now.</td><td><i>Good</i> là tính từ thông thường: a good writer.</td></tr>
+            <tr><td>fast</td><td>Adj / Adv</td><td>a fast car / The car runs fast.</td><td>Không có <i>fastly</i>.</td></tr>
+            <tr><td>high</td><td>Adj / Adv</td><td>a high wall / The bird flew high.</td><td><i>Highly</i> = rất/được đánh giá cao: highly effective.</td></tr>
+            <tr><td>near</td><td>Adj / Adv / Prep</td><td>the near future / come near / near the station</td><td><i>Nearly</i> = gần như.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout good-note"><b>Cách học nhanh nhất:</b> học theo chuỗi và theo câu: <span class="kbd">signify (V) → significance (N) → significant (Adj) → significantly (Adv)</span>. Sau đó tự hỏi: “Chỗ trống cần N, V, Adj hay Adv?” trước khi chọn hậu tố.</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section id="library" class="section">
+  <div class="panel">
+    <h2>Thư viện đuôi từ</h2>
+    <p class="meta">Tìm theo đuôi, nghĩa hoặc ví dụ. Có thể lọc theo từ loại.</p>
+    <div class="toolbar">
+      <input id="searchSuffix" placeholder="Tìm: -tion, responsibility, trạng thái...">
+      <select id="typeFilter">
+        <option value="All">Tất cả từ loại</option>
+        <option value="Noun">Danh từ</option>
+        <option value="Adjective">Tính từ</option>
+        <option value="Verb">Động từ</option>
+        <option value="Adverb">Trạng từ</option>
+      </select>
+    </div>
+    <div id="libraryGrid" class="grid"></div>
+  </div>
+</section>
+
+<section id="infer" class="section">
+  <div class="panel">
+    <h2>Kiểm tra đuôi từ — đủ 78 nhóm</h2>
+    <p class="meta">Mỗi nhóm có 4 kiểu câu hỏi: <b>từ loại</b>, <b>nghĩa của đuôi</b>, <b>mẫu biến đổi</b> và <b>nhận diện ví dụ</b>. Chọn số câu hoặc làm toàn bộ.</p>
+    <div class="toolbar">
+      <select id="inferMode">
+        <option value="all">Tổng hợp 4 dạng</option>
+        <option value="type">Chỉ hỏi từ loại</option>
+        <option value="meaning">Chỉ hỏi nghĩa của đuôi</option>
+        <option value="pattern">Chỉ hỏi mẫu biến đổi</option>
+        <option value="example">Chỉ hỏi ví dụ</option>
+      </select>
+      <select id="inferCountSelect">
+        <option value="10">10 câu</option>
+        <option value="20" selected>20 câu</option>
+        <option value="50">50 câu</option>
+        <option value="100">100 câu</option>
+        <option value="all">Làm tất cả</option>
+      </select>
+      <button class="btn primary" id="startInfer">Tạo bộ câu hỏi</button>
+    </div>
+    <div class="meta" id="inferPoolInfo"></div>
+    <div class="quiz-card">
+      <div class="qnum" id="inferNum"></div>
+      <div class="question" id="inferQuestion"></div>
+      <div class="options" id="inferOptions"></div>
+      <div class="explain" id="inferExplain"></div>
+      <div class="actions">
+        <button class="btn secondary" id="shuffleInfer">Trộn lại bộ hiện tại</button>
+        <button class="btn primary" id="nextInfer">Câu tiếp</button>
+        <span class="score" id="inferScore"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="transform" class="section">
+  <div class="panel">
+    <h2>Bài tập Word Form — ngân hàng đầy đủ</h2>
+    <p class="meta">Có hai dạng: <b>điền dạng đúng trong câu</b> và <b>biến đổi trực tiếp theo word family</b>. Chọn số lượng hoặc làm toàn bộ ngân hàng.</p>
+    <div class="toolbar">
+      <select id="transformMode">
+        <option value="all">Tổng hợp</option>
+        <option value="sentence">Điền trong câu</option>
+        <option value="direct">Biến đổi trực tiếp</option>
+      </select>
+      <select id="transformCountSelect">
+        <option value="10">10 câu</option>
+        <option value="20" selected>20 câu</option>
+        <option value="50">50 câu</option>
+        <option value="100">100 câu</option>
+        <option value="all">Làm tất cả</option>
+      </select>
+      <button class="btn primary" id="startTransform">Tạo bài</button>
+    </div>
+    <div class="meta" id="transformPoolInfo"></div>
+    <div id="transformList"></div>
+    <div class="actions">
+      <button class="btn primary" id="checkTransform">Chấm tất cả</button>
+      <button class="btn secondary" id="showTransform">Hiện đáp án</button>
+      <button class="btn secondary" id="clearTransform">Làm lại</button>
+      <span class="score" id="transformScore"></span>
+    </div>
+  </div>
+</section>
+
+<section id="families" class="section">
+  <div class="panel">
+    <h2>Word families — học theo chuỗi</h2>
+    <p class="meta">Thay vì học đuôi rời, hãy nhìn cả chuỗi N → V → Adj → Adv.</p>
+    <div style="overflow:auto">
+      <table class="family-table">
+        <thead><tr><th>Gốc</th><th>Danh từ</th><th>Động từ</th><th>Tính từ</th><th>Trạng từ</th></tr></thead>
+        <tbody id="familyBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="cautions" class="section">
+  <div class="panel">
+    <h2>Những từ và đuôi cần lưu ý</h2>
+    <p class="meta">Đây là các bẫy khiến việc "nhìn đuôi đoán từ loại" dễ sai.</p>
+    <div id="cautionList"></div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+const suffixes = [{"suffix": "-tion / -sion / -ion", "type": "Noun", "meaning": "hành động, quá trình, kết quả", "pattern": "V → N", "examples": ["action", "decision", "conclusion", "education", "operation", "expression"], "note": "Rất thường gặp trong từ học thuật; chính tả thay đổi theo gốc từ."}, {"suffix": "-ation", "type": "Noun", "meaning": "quá trình, hành động", "pattern": "V → N", "examples": ["information", "organization", "combination", "examination", "imagination", "preparation"], "note": "Thường thấy sau các động từ kết thúc bằng -ate hoặc dạng biến đổi tương ứng."}, {"suffix": "-ition", "type": "Noun", "meaning": "hành động, quá trình, trạng thái", "pattern": "V → N", "examples": ["addition", "competition", "definition", "repetition", "recognition", "composition"], "note": "Một biến thể quan trọng của nhóm -ion."}, {"suffix": "-ment", "type": "Noun", "meaning": "hành động, quá trình, kết quả, trạng thái", "pattern": "V → N", "examples": ["development", "improvement", "achievement", "agreement", "establishment", "requirement"], "note": "Một trong các đuôi danh từ dễ nhận diện nhất."}, {"suffix": "-ness", "type": "Noun", "meaning": "trạng thái, phẩm chất", "pattern": "Adj → N", "examples": ["happiness", "kindness", "darkness", "weakness", "awareness", "willingness"], "note": "Rất năng suất: thường gắn trực tiếp vào tính từ."}, {"suffix": "-ity", "type": "Noun", "meaning": "trạng thái, tính chất", "pattern": "Adj → N", "examples": ["activity", "possibility", "equality", "similarity", "security", "responsibility"], "note": "Hay gây đổi chính tả: possible → possibility, responsible → responsibility."}, {"suffix": "-ty", "type": "Noun", "meaning": "trạng thái, đặc tính", "pattern": "Adj → N", "examples": ["cruelty", "loyalty", "certainty", "safety", "poverty", "honesty"], "note": "Không phải mọi từ tận cùng -ty đều có thể tách máy móc."}, {"suffix": "-ence", "type": "Noun", "meaning": "trạng thái, phẩm chất", "pattern": "V/Adj → N", "examples": ["existence", "dependence", "difference", "preference", "occurrence", "reference"], "note": "Thường đi cùng tính từ -ent hoặc động từ tương ứng."}, {"suffix": "-ance", "type": "Noun", "meaning": "trạng thái, hành động", "pattern": "V/Adj → N", "examples": ["appearance", "performance", "attendance", "acceptance", "resistance", "assistance"], "note": "Thường đi cùng tính từ -ant hoặc động từ tương ứng."}, {"suffix": "-ancy / -ency", "type": "Noun", "meaning": "trạng thái, đặc tính", "pattern": "Adj → N", "examples": ["vacancy", "urgency", "efficiency", "fluency", "frequency", "consistency"], "note": "Hay gặp trong từ vựng học thuật và mô tả chất lượng."}, {"suffix": "-ism", "type": "Noun", "meaning": "học thuyết, hệ thống, quan điểm, hiện tượng", "pattern": "N/Adj → N", "examples": ["capitalism", "socialism", "realism", "idealism", "tourism", "racism"], "note": "Không chỉ học thuyết; tourism cũng là -ism."}, {"suffix": "-ist", "type": "Noun", "meaning": "người theo/chuyên về/làm một lĩnh vực", "pattern": "N → person", "examples": ["artist", "scientist", "economist", "journalist", "tourist", "psychologist"], "note": "Có thể chỉ nghề, chuyên môn, hoặc người theo một quan điểm."}, {"suffix": "-er", "type": "Noun", "meaning": "người/vật thực hiện hành động", "pattern": "V → person/thing", "examples": ["teacher", "worker", "writer", "reader", "driver", "speaker"], "note": "Cũng là đuôi so sánh hơn; phải xét ngữ cảnh."}, {"suffix": "-or", "type": "Noun", "meaning": "người/vật thực hiện hành động", "pattern": "V → person/thing", "examples": ["actor", "director", "creator", "investor", "operator", "translator"], "note": "Tương tự -er nhưng thường theo lịch sử từ vựng Latin."}, {"suffix": "-ee", "type": "Noun", "meaning": "người nhận/chịu tác động", "pattern": "V → receiver", "examples": ["employee", "trainee", "interviewee", "refugee", "nominee", "addressee"], "note": "Thường đối lập về vai trò với -er/-or: employer ↔ employee."}, {"suffix": "-ant", "type": "Noun", "meaning": "người có vai trò nào đó", "pattern": "V → person", "examples": ["assistant", "participant", "applicant", "consultant", "accountant", "immigrant"], "note": "-ant cũng có thể tạo tính từ."}, {"suffix": "-ent", "type": "Noun", "meaning": "người có vai trò/trạng thái", "pattern": "various → person", "examples": ["student", "resident", "president", "respondent", "dependent", "correspondent"], "note": "-ent cũng có thể là đuôi tính từ."}, {"suffix": "-ian", "type": "Noun", "meaning": "người thuộc nghề, lĩnh vực, quốc tịch", "pattern": "N → person", "examples": ["musician", "historian", "politician", "technician", "physician", "librarian"], "note": "Cũng có thể tạo tính từ chỉ quan hệ/nguồn gốc."}, {"suffix": "-ess", "type": "Noun", "meaning": "danh từ truyền thống chỉ nữ giới", "pattern": "N → female N", "examples": ["actress", "waitress", "princess", "goddess", "lioness", "hostess"], "note": "Nhiều nghề hiện nay ưu tiên từ trung tính giới tính."}, {"suffix": "-hood", "type": "Noun", "meaning": "trạng thái, giai đoạn, quan hệ", "pattern": "N → state", "examples": ["childhood", "adulthood", "brotherhood", "neighborhood", "motherhood", "likelihood"], "note": "Thường tạo danh từ trừu tượng."}, {"suffix": "-ship", "type": "Noun", "meaning": "trạng thái, kỹ năng, vị trí, quan hệ", "pattern": "N → abstract N", "examples": ["friendship", "leadership", "membership", "ownership", "partnership", "citizenship"], "note": "Rất hữu ích trong từ vựng xã hội, tổ chức, quan hệ."}, {"suffix": "-dom", "type": "Noun", "meaning": "trạng thái, lĩnh vực, phạm vi", "pattern": "Adj/N → N", "examples": ["freedom", "wisdom", "kingdom", "stardom", "boredom", "officialdom"], "note": "Không quá năng suất nhưng xuất hiện trong nhiều từ quen thuộc."}, {"suffix": "-age", "type": "Noun", "meaning": "hành động, kết quả, tập hợp, trạng thái", "pattern": "various → N", "examples": ["marriage", "storage", "coverage", "shortage", "breakage", "passage"], "note": "Nghĩa khá đa dạng; không nên suy nghĩa chỉ dựa vào đuôi."}, {"suffix": "-al", "type": "Noun", "meaning": "hành động/quá trình/kết quả", "pattern": "V → N", "examples": ["approval", "refusal", "arrival", "survival", "withdrawal", "renewal"], "note": "-al cũng là đuôi tính từ rất phổ biến."}, {"suffix": "-ure", "type": "Noun", "meaning": "hành động, kết quả, trạng thái", "pattern": "V → N", "examples": ["failure", "departure", "exposure", "closure", "pressure", "pleasure"], "note": "Một số từ không còn quan hệ hình thái rõ ràng với động từ hiện đại."}, {"suffix": "-ery / -ry", "type": "Noun", "meaning": "nơi chốn, hoạt động, tập hợp, trạng thái", "pattern": "various → N", "examples": ["bakery", "machinery", "robbery", "slavery", "discovery", "delivery"], "note": "Nghĩa thay đổi khá rộng."}, {"suffix": "-cy", "type": "Noun", "meaning": "trạng thái, phẩm chất", "pattern": "Adj → N", "examples": ["accuracy", "privacy", "democracy", "literacy", "adequacy", "supremacy"], "note": "Hay đi với các tính từ -ate/-ant/-ent theo lịch sử từ."}, {"suffix": "-th", "type": "Noun", "meaning": "trạng thái/tính chất", "pattern": "Adj → N", "examples": ["strength", "length", "width", "depth", "truth", "warmth"], "note": "Nhóm nhỏ nhưng rất quan trọng; thường biến đổi gốc."}, {"suffix": "-ing", "type": "Noun", "meaning": "hoạt động/quá trình khi dùng như danh từ", "pattern": "V → gerund/N", "examples": ["reading", "writing", "learning", "shopping", "building", "training"], "note": "-ing có thể là danh từ, tính từ hoặc dạng động từ."}, {"suffix": "-able", "type": "Adjective", "meaning": "có thể được..., có khả năng...", "pattern": "V/N → Adj", "examples": ["readable", "acceptable", "avoidable", "predictable", "comfortable", "remarkable"], "note": "Rất năng suất; thường gắn với gốc từ độc lập."}, {"suffix": "-ible", "type": "Adjective", "meaning": "có thể..., có khả năng...", "pattern": "root → Adj", "examples": ["possible", "visible", "flexible", "responsible", "accessible", "compatible"], "note": "Ít đoán chính tả hơn -able; nhiều từ cần học như một đơn vị."}, {"suffix": "-al", "type": "Adjective", "meaning": "thuộc về, liên quan đến", "pattern": "N → Adj", "examples": ["natural", "cultural", "political", "personal", "global", "traditional"], "note": "Đừng nhầm với -al tạo danh từ như arrival."}, {"suffix": "-ial", "type": "Adjective", "meaning": "thuộc về, liên quan đến", "pattern": "N → Adj", "examples": ["financial", "social", "commercial", "essential", "potential", "substantial"], "note": "Một biến thể bề mặt của nhóm -al."}, {"suffix": "-ic", "type": "Adjective", "meaning": "thuộc về, có tính chất", "pattern": "N → Adj", "examples": ["economic", "scientific", "historic", "academic", "specific", "dramatic"], "note": "Thường có trạng từ -ically."}, {"suffix": "-ical", "type": "Adjective", "meaning": "thuộc về, liên quan đến", "pattern": "N → Adj", "examples": ["historical", "political", "logical", "practical", "psychological", "technological"], "note": "-ic và -ical đôi khi khác nghĩa: historic ≠ historical."}, {"suffix": "-ous", "type": "Adjective", "meaning": "có đặc tính..., đầy...", "pattern": "N → Adj", "examples": ["dangerous", "famous", "serious", "nervous", "enormous", "curious"], "note": "Một trong các dấu hiệu tính từ mạnh nhất."}, {"suffix": "-ious", "type": "Adjective", "meaning": "có tính chất...", "pattern": "root → Adj", "examples": ["obvious", "previous", "various", "anxious", "religious", "ambitious"], "note": "Về chức năng gần với -ous."}, {"suffix": "-ful", "type": "Adjective", "meaning": "đầy, có", "pattern": "N → Adj", "examples": ["useful", "helpful", "beautiful", "powerful", "successful", "careful"], "note": "Đối lập thường gặp với -less."}, {"suffix": "-less", "type": "Adjective", "meaning": "không có, thiếu", "pattern": "N → Adj", "examples": ["useless", "helpless", "careless", "hopeless", "homeless", "endless"], "note": "Thường tạo nghĩa phủ định/thiếu vắng."}, {"suffix": "-ive", "type": "Adjective", "meaning": "có tính chất, có xu hướng", "pattern": "V/N → Adj", "examples": ["active", "effective", "creative", "positive", "attractive", "productive"], "note": "Rất phổ biến trong học thuật."}, {"suffix": "-ative", "type": "Adjective", "meaning": "có tính chất/hành động", "pattern": "V → Adj", "examples": ["informative", "comparative", "representative", "cooperative", "argumentative", "authoritative"], "note": "Có thể xem là nhóm mở rộng của -ive."}, {"suffix": "-itive", "type": "Adjective", "meaning": "có tính chất/xu hướng", "pattern": "V/root → Adj", "examples": ["competitive", "sensitive", "repetitive", "positive", "primitive", "intuitive"], "note": "Không phải mọi từ đều tách hình thái theo cùng một quy tắc."}, {"suffix": "-ent", "type": "Adjective", "meaning": "có tính chất/trạng thái", "pattern": "V/root → Adj", "examples": ["different", "dependent", "efficient", "consistent", "apparent", "persistent"], "note": "Thường liên hệ danh từ -ence/-ency."}, {"suffix": "-ant", "type": "Adjective", "meaning": "có đặc tính/trạng thái", "pattern": "V/root → Adj", "examples": ["important", "significant", "relevant", "dominant", "resistant", "reluctant"], "note": "Thường liên hệ danh từ -ance/-ancy."}, {"suffix": "-ary", "type": "Adjective", "meaning": "liên quan đến, thuộc về", "pattern": "N/root → Adj", "examples": ["necessary", "ordinary", "temporary", "primary", "secondary", "voluntary"], "note": "Một số từ -ary là danh từ, nên cần xét ngữ cảnh."}, {"suffix": "-ory", "type": "Adjective", "meaning": "liên quan đến/chức năng", "pattern": "V/N → Adj", "examples": ["compulsory", "introductory", "advisory", "regulatory", "supervisory", "contradictory"], "note": "Đặc biệt phổ biến trong văn viết."}, {"suffix": "-y", "type": "Adjective", "meaning": "có, đầy, mang đặc tính", "pattern": "N → Adj", "examples": ["rainy", "sunny", "cloudy", "healthy", "wealthy", "dirty"], "note": "Rất phổ biến trong từ đời sống."}, {"suffix": "-ly", "type": "Adjective", "meaning": "có tính chất giống...", "pattern": "N → Adj", "examples": ["friendly", "lovely", "lonely", "lively", "elderly", "costly"], "note": "Ngoại lệ quan trọng: không phải từ -ly nào cũng là trạng từ."}, {"suffix": "-ish", "type": "Adjective", "meaning": "hơi..., giống..., thuộc...", "pattern": "N/Adj → Adj", "examples": ["childish", "selfish", "foolish", "British", "greenish", "youngish"], "note": "Có thể mang sắc thái 'hơi/khá' trong văn nói."}, {"suffix": "-like", "type": "Adjective", "meaning": "giống như", "pattern": "N → Adj", "examples": ["childlike", "businesslike", "lifelike", "dreamlike", "warlike", "humanlike"], "note": "Khá trong suốt về nghĩa."}, {"suffix": "-en", "type": "Adjective", "meaning": "được làm bằng/chất liệu", "pattern": "N → Adj", "examples": ["wooden", "golden", "woolen", "earthen", "silken", "ashen"], "note": "Đừng nhầm với -en tạo động từ: strengthen."}, {"suffix": "-some", "type": "Adjective", "meaning": "gây/có đặc tính", "pattern": "N/V → Adj", "examples": ["handsome", "troublesome", "tiresome", "fearsome", "wholesome", "burdensome"], "note": "Nghĩa cụ thể của từng từ có thể không còn hoàn toàn trong suốt."}, {"suffix": "-ed", "type": "Adjective", "meaning": "cảm thấy/bị tác động", "pattern": "V → Adj", "examples": ["interested", "bored", "excited", "confused", "worried", "surprised"], "note": "Thường mô tả người/vật nhận cảm xúc hoặc tác động."}, {"suffix": "-ing", "type": "Adjective", "meaning": "gây ra cảm giác/tác động", "pattern": "V → Adj", "examples": ["interesting", "boring", "exciting", "confusing", "worrying", "surprising"], "note": "Thường mô tả thứ gây cảm xúc/tác động."}, {"suffix": "-ese", "type": "Adjective", "meaning": "thuộc quốc gia/ngôn ngữ", "pattern": "place → Adj", "examples": ["Chinese", "Japanese", "Vietnamese", "Portuguese", "Lebanese", "Sudanese"], "note": "Cũng có thể là danh từ chỉ người/ngôn ngữ."}, {"suffix": "-ian", "type": "Adjective", "meaning": "thuộc về/liên quan đến", "pattern": "N/name → Adj", "examples": ["Canadian", "Australian", "Victorian", "Darwinian", "Christian", "Shakespearean"], "note": "Cũng có thể là danh từ chỉ người."}, {"suffix": "-ern", "type": "Adjective", "meaning": "thuộc hướng/khu vực", "pattern": "direction → Adj", "examples": ["northern", "southern", "eastern", "western", "northwestern", "southeastern"], "note": "Nhóm chỉ phương hướng/khu vực."}, {"suffix": "-ward", "type": "Adjective", "meaning": "hướng về", "pattern": "direction → Adj/Adv", "examples": ["forward", "backward", "upward", "downward", "inward", "outward"], "note": "Có thể là tính từ hoặc trạng từ."}, {"suffix": "-ize / -ise", "type": "Verb", "meaning": "làm cho, biến thành", "pattern": "N/Adj → V", "examples": ["realize", "organize", "modernize", "recognize", "maximize", "specialize"], "note": "-ise phổ biến trong Anh-Anh; nhiều từ chấp nhận cả -ize và -ise."}, {"suffix": "-ify", "type": "Verb", "meaning": "làm cho trở thành", "pattern": "N/Adj → V", "examples": ["simplify", "clarify", "identify", "justify", "classify", "intensify"], "note": "Hay đổi chính tả của gốc từ."}, {"suffix": "-fy", "type": "Verb", "meaning": "làm cho", "pattern": "root → V", "examples": ["satisfy", "modify", "beautify", "purify", "terrify", "verify"], "note": "Thường được học cùng nhóm -ify."}, {"suffix": "-ate", "type": "Verb", "meaning": "thực hiện/làm cho trở thành", "pattern": "N/Adj/root → V", "examples": ["activate", "educate", "regulate", "separate", "demonstrate", "communicate"], "note": "-ate cũng xuất hiện ở danh/tính từ trong một số từ; phát âm thay đổi theo từ loại."}, {"suffix": "-en", "type": "Verb", "meaning": "làm cho trở nên...", "pattern": "Adj/N → V", "examples": ["strengthen", "widen", "deepen", "shorten", "weaken", "brighten"], "note": "Nhóm rất hữu ích để suy ra nghĩa 'làm cho trở nên'."}, {"suffix": "-ly", "type": "Adverb", "meaning": "một cách...", "pattern": "Adj → Adv", "examples": ["quickly", "carefully", "seriously", "clearly", "rapidly", "effectively"], "note": "Dấu hiệu trạng từ mạnh, nhưng friendly/lovely/lonely... là tính từ."}, {"suffix": "-ally", "type": "Adverb", "meaning": "một cách...", "pattern": "Adj → Adv", "examples": ["automatically", "basically", "economically", "systematically", "dramatically", "specifically"], "note": "Thường xuất hiện khi tính từ kết thúc bằng -al."}, {"suffix": "-ically", "type": "Adverb", "meaning": "một cách...", "pattern": "Adj → Adv", "examples": ["scientifically", "historically", "logically", "strategically", "theoretically", "politically"], "note": "Thường từ tính từ -ic/-ical."}, {"suffix": "-ward / -wards", "type": "Adverb", "meaning": "về phía...", "pattern": "direction → Adv", "examples": ["forward", "backward", "upward", "downward", "homeward", "eastward"], "note": "Một số dạng có cả -ward và -wards tùy biến thể/ngữ cảnh."}, {"suffix": "-wise", "type": "Adverb", "meaning": "theo cách..., xét về...", "pattern": "N → Adv", "examples": ["clockwise", "otherwise", "likewise", "lengthwise", "money-wise", "career-wise"], "note": "Dùng sáng tạo trong văn nói: time-wise, money-wise."}, {"suffix": "-logy", "type": "Noun", "meaning": "ngành nghiên cứu/khoa học về...", "pattern": "root → field", "examples": ["biology", "psychology", "sociology", "geology", "archaeology", "ecology"], "note": "Thường liên hệ -logist chỉ người chuyên môn."}, {"suffix": "-graphy", "type": "Noun", "meaning": "sự ghi chép/mô tả/ngành nghiên cứu", "pattern": "root → field/process", "examples": ["geography", "biography", "photography", "demography", "cartography", "oceanography"], "note": "Liên hệ -graph, -graphic."}, {"suffix": "-nomy", "type": "Noun", "meaning": "hệ thống/quy tắc/ngành tri thức", "pattern": "root → field/system", "examples": ["economy", "astronomy", "taxonomy", "agronomy", "autonomy", "gastronomy"], "note": "Không phải mọi từ đều dễ suy nghĩa từ đuôi."}, {"suffix": "-ics", "type": "Noun", "meaning": "môn học/lĩnh vực", "pattern": "root → field", "examples": ["economics", "politics", "physics", "linguistics", "statistics", "ethics"], "note": "Hình thức có -s nhưng nhiều từ là danh từ số ít về ngữ pháp khi chỉ môn học."}, {"suffix": "-let", "type": "Noun", "meaning": "vật nhỏ / dạng nhỏ", "pattern": "N → diminutive", "examples": ["booklet", "leaflet", "piglet", "droplet", "starlet", "ringlet"], "note": "Tính năng suất hạn chế nhưng dễ nhận diện."}, {"suffix": "-ling", "type": "Noun", "meaning": "con non/người/vật nhỏ hoặc người có tính chất", "pattern": "N/Adj → N", "examples": ["duckling", "gosling", "youngling", "underling", "hireling", "weakling"], "note": "Sắc thái nghĩa phụ thuộc từ."}, {"suffix": "-ette", "type": "Noun", "meaning": "vật nhỏ/phiên bản nhỏ hoặc danh xưng truyền thống", "pattern": "N → N", "examples": ["kitchenette", "cigarette", "diskette", "usherette", "launderette", "maisonette"], "note": "Không phải lúc nào cũng còn mang nghĩa 'nhỏ' rõ ràng."}, {"suffix": "-ary", "type": "Noun", "meaning": "nơi chốn/người/vật liên quan", "pattern": "root → N", "examples": ["library", "sanctuary", "granary", "aviary", "dispensary", "seminary"], "note": "-ary cũng là đuôi tính từ."}, {"suffix": "-ium", "type": "Noun", "meaning": "nơi chốn/cấu trúc/thuật ngữ khoa học", "pattern": "root → N", "examples": ["stadium", "aquarium", "auditorium", "gymnasium", "planetarium", "sanatorium"], "note": "Không nên coi mọi từ -ium là cùng một nghĩa."}, {"suffix": "-fold", "type": "Adverb", "meaning": "gấp ... lần", "pattern": "number → multiplier", "examples": ["twofold", "threefold", "fourfold", "tenfold", "hundredfold", "manifold"], "note": "Có thể dùng như tính từ hoặc trạng từ."}];
+
+const wordFamilies = [{"base": "act", "noun": ["action", "activity"], "verb": ["act", "activate"], "adj": ["active"], "adv": ["actively"]}, {"base": "create", "noun": ["creation", "creator", "creativity"], "verb": ["create"], "adj": ["creative"], "adv": ["creatively"]}, {"base": "produce", "noun": ["product", "production", "producer"], "verb": ["produce"], "adj": ["productive"], "adv": ["productively"]}, {"base": "compete", "noun": ["competition", "competitor", "competitiveness"], "verb": ["compete"], "adj": ["competitive"], "adv": ["competitively"]}, {"base": "economy", "noun": ["economy", "economics", "economist"], "verb": ["economize"], "adj": ["economic", "economical"], "adv": ["economically"]}, {"base": "signify", "noun": ["significance"], "verb": ["signify"], "adj": ["significant", "insignificant"], "adv": ["significantly", "insignificantly"]}, {"base": "decide", "noun": ["decision"], "verb": ["decide"], "adj": ["decisive"], "adv": ["decisively"]}, {"base": "respond", "noun": ["response", "respondent"], "verb": ["respond"], "adj": ["responsive"], "adv": ["responsively"]}, {"base": "rely", "noun": ["reliance", "reliability"], "verb": ["rely"], "adj": ["reliable", "reliant"], "adv": ["reliably"]}, {"base": "differ", "noun": ["difference"], "verb": ["differ"], "adj": ["different"], "adv": ["differently"]}, {"base": "persist", "noun": ["persistence"], "verb": ["persist"], "adj": ["persistent"], "adv": ["persistently"]}, {"base": "prefer", "noun": ["preference"], "verb": ["prefer"], "adj": ["preferable"], "adv": ["preferably"]}, {"base": "develop", "noun": ["development"], "verb": ["develop"], "adj": ["developmental", "developed", "developing"], "adv": ["developmentally"]}, {"base": "improve", "noun": ["improvement"], "verb": ["improve"], "adj": ["improved"], "adv": []}, {"base": "achieve", "noun": ["achievement"], "verb": ["achieve"], "adj": ["achievable"], "adv": []}, {"base": "agree", "noun": ["agreement"], "verb": ["agree"], "adj": ["agreeable"], "adv": ["agreeably"]}, {"base": "establish", "noun": ["establishment"], "verb": ["establish"], "adj": ["established"], "adv": []}, {"base": "require", "noun": ["requirement"], "verb": ["require"], "adj": ["required"], "adv": []}, {"base": "exist", "noun": ["existence"], "verb": ["exist"], "adj": ["existent", "existing"], "adv": []}, {"base": "depend", "noun": ["dependence", "dependency"], "verb": ["depend"], "adj": ["dependent"], "adv": ["dependently"]}, {"base": "refer", "noun": ["reference"], "verb": ["refer"], "adj": ["referential"], "adv": ["referentially"]}, {"base": "appear", "noun": ["appearance"], "verb": ["appear"], "adj": ["apparent"], "adv": ["apparently"]}, {"base": "assist", "noun": ["assistance", "assistant"], "verb": ["assist"], "adj": ["assistive"], "adv": []}, {"base": "accept", "noun": ["acceptance"], "verb": ["accept"], "adj": ["acceptable"], "adv": ["acceptably"]}, {"base": "avoid", "noun": ["avoidance"], "verb": ["avoid"], "adj": ["avoidable"], "adv": ["avoidably"]}, {"base": "predict", "noun": ["prediction", "predictability"], "verb": ["predict"], "adj": ["predictable"], "adv": ["predictably"]}, {"base": "comfort", "noun": ["comfort"], "verb": ["comfort"], "adj": ["comfortable"], "adv": ["comfortably"]}, {"base": "remark", "noun": ["remark"], "verb": ["remark"], "adj": ["remarkable"], "adv": ["remarkably"]}, {"base": "access", "noun": ["access", "accessibility"], "verb": ["access"], "adj": ["accessible"], "adv": ["accessibly"]}, {"base": "danger", "noun": ["danger"], "verb": ["endanger"], "adj": ["dangerous"], "adv": ["dangerously"]}, {"base": "fame", "noun": ["fame"], "verb": [], "adj": ["famous"], "adv": ["famously"]}, {"base": "serious", "noun": ["seriousness"], "verb": [], "adj": ["serious"], "adv": ["seriously"]}, {"base": "curious", "noun": ["curiosity"], "verb": [], "adj": ["curious"], "adv": ["curiously"]}, {"base": "use", "noun": ["use", "usefulness"], "verb": ["use"], "adj": ["useful", "useless"], "adv": ["usefully", "uselessly"]}, {"base": "help", "noun": ["help", "helpfulness"], "verb": ["help"], "adj": ["helpful", "helpless"], "adv": ["helpfully", "helplessly"]}, {"base": "power", "noun": ["power"], "verb": ["empower"], "adj": ["powerful", "powerless"], "adv": ["powerfully", "powerlessly"]}, {"base": "success", "noun": ["success"], "verb": ["succeed"], "adj": ["successful"], "adv": ["successfully"]}, {"base": "care", "noun": ["care", "carelessness"], "verb": ["care"], "adj": ["careful", "careless"], "adv": ["carefully", "carelessly"]}, {"base": "attract", "noun": ["attraction", "attractiveness"], "verb": ["attract"], "adj": ["attractive"], "adv": ["attractively"]}, {"base": "cooperate", "noun": ["cooperation"], "verb": ["cooperate"], "adj": ["cooperative"], "adv": ["cooperatively"]}, {"base": "compare", "noun": ["comparison"], "verb": ["compare"], "adj": ["comparative", "comparable"], "adv": ["comparatively"]}, {"base": "represent", "noun": ["representation", "representative"], "verb": ["represent"], "adj": ["representative"], "adv": ["representatively"]}, {"base": "argue", "noun": ["argument"], "verb": ["argue"], "adj": ["argumentative"], "adv": ["argumentatively"]}, {"base": "authority", "noun": ["authority"], "verb": ["authorize"], "adj": ["authoritative"], "adv": ["authoritatively"]}, {"base": "sense", "noun": ["sense", "sensitivity"], "verb": ["sense"], "adj": ["sensitive", "sensible"], "adv": ["sensitively", "sensibly"]}, {"base": "repeat", "noun": ["repetition"], "verb": ["repeat"], "adj": ["repetitive"], "adv": ["repetitively"]}, {"base": "intuition", "noun": ["intuition"], "verb": ["intuit"], "adj": ["intuitive"], "adv": ["intuitively"]}, {"base": "important", "noun": ["importance"], "verb": [], "adj": ["important"], "adv": ["importantly"]}, {"base": "dominate", "noun": ["dominance", "domination"], "verb": ["dominate"], "adj": ["dominant"], "adv": ["dominantly"]}, {"base": "resist", "noun": ["resistance"], "verb": ["resist"], "adj": ["resistant"], "adv": []}, {"base": "reluctant", "noun": ["reluctance"], "verb": [], "adj": ["reluctant"], "adv": ["reluctantly"]}, {"base": "necessary", "noun": ["necessity"], "verb": ["necessitate"], "adj": ["necessary"], "adv": ["necessarily"]}, {"base": "ordinary", "noun": ["ordinariness"], "verb": [], "adj": ["ordinary"], "adv": ["ordinarily"]}, {"base": "temporary", "noun": ["temporariness"], "verb": [], "adj": ["temporary"], "adv": ["temporarily"]}, {"base": "volunteer", "noun": ["volunteer"], "verb": ["volunteer"], "adj": ["voluntary"], "adv": ["voluntarily"]}, {"base": "introduce", "noun": ["introduction"], "verb": ["introduce"], "adj": ["introductory"], "adv": []}, {"base": "advise", "noun": ["advice", "adviser"], "verb": ["advise"], "adj": ["advisable", "advisory"], "adv": ["advisably"]}, {"base": "supervise", "noun": ["supervision", "supervisor"], "verb": ["supervise"], "adj": ["supervisory"], "adv": []}, {"base": "contradict", "noun": ["contradiction"], "verb": ["contradict"], "adj": ["contradictory"], "adv": ["contradictorily"]}, {"base": "health", "noun": ["health"], "verb": ["heal"], "adj": ["healthy"], "adv": ["healthily"]}, {"base": "wealth", "noun": ["wealth"], "verb": [], "adj": ["wealthy"], "adv": []}, {"base": "logic", "noun": ["logic"], "verb": [], "adj": ["logical"], "adv": ["logically"]}, {"base": "science", "noun": ["science", "scientist"], "verb": [], "adj": ["scientific"], "adv": ["scientifically"]}, {"base": "history", "noun": ["history", "historian"], "verb": [], "adj": ["historic", "historical"], "adv": ["historically"]}, {"base": "psychology", "noun": ["psychology", "psychologist"], "verb": [], "adj": ["psychological"], "adv": ["psychologically"]}, {"base": "technology", "noun": ["technology", "technologist"], "verb": [], "adj": ["technological"], "adv": ["technologically"]}, {"base": "politics", "noun": ["politics", "politician"], "verb": ["politicize"], "adj": ["political"], "adv": ["politically"]}, {"base": "system", "noun": ["system"], "verb": ["systematize"], "adj": ["systematic"], "adv": ["systematically"]}, {"base": "drama", "noun": ["drama"], "verb": ["dramatize"], "adj": ["dramatic"], "adv": ["dramatically"]}, {"base": "specific", "noun": ["specificity"], "verb": ["specify"], "adj": ["specific"], "adv": ["specifically"]}, {"base": "theory", "noun": ["theory"], "verb": ["theorize"], "adj": ["theoretical"], "adv": ["theoretically"]}, {"base": "strategy", "noun": ["strategy"], "verb": ["strategize"], "adj": ["strategic"], "adv": ["strategically"]}, {"base": "nation", "noun": ["nation", "nationality"], "verb": ["nationalize"], "adj": ["national"], "adv": ["nationally"]}, {"base": "person", "noun": ["person", "personality"], "verb": ["personalize"], "adj": ["personal"], "adv": ["personally"]}, {"base": "culture", "noun": ["culture"], "verb": ["culture"], "adj": ["cultural"], "adv": ["culturally"]}, {"base": "nature", "noun": ["nature"], "verb": ["naturalize"], "adj": ["natural"], "adv": ["naturally"]}, {"base": "finance", "noun": ["finance"], "verb": ["finance"], "adj": ["financial"], "adv": ["financially"]}, {"base": "commerce", "noun": ["commerce"], "verb": ["commercialize"], "adj": ["commercial"], "adv": ["commercially"]}, {"base": "essence", "noun": ["essence"], "verb": [], "adj": ["essential"], "adv": ["essentially"]}, {"base": "potential", "noun": ["potential"], "verb": [], "adj": ["potential"], "adv": ["potentially"]}, {"base": "tradition", "noun": ["tradition"], "verb": [], "adj": ["traditional"], "adv": ["traditionally"]}, {"base": "benefit", "noun": ["benefit"], "verb": ["benefit"], "adj": ["beneficial"], "adv": ["beneficially"]}, {"base": "harm", "noun": ["harm"], "verb": ["harm"], "adj": ["harmful", "harmless"], "adv": ["harmfully", "harmlessly"]}, {"base": "hope", "noun": ["hope"], "verb": ["hope"], "adj": ["hopeful", "hopeless"], "adv": ["hopefully", "hopelessly"]}, {"base": "beauty", "noun": ["beauty"], "verb": ["beautify"], "adj": ["beautiful"], "adv": ["beautifully"]}, {"base": "strong", "noun": ["strength"], "verb": ["strengthen"], "adj": ["strong"], "adv": ["strongly"]}, {"base": "wide", "noun": ["width"], "verb": ["widen"], "adj": ["wide"], "adv": ["widely"]}, {"base": "deep", "noun": ["depth"], "verb": ["deepen"], "adj": ["deep"], "adv": ["deeply"]}, {"base": "weak", "noun": ["weakness"], "verb": ["weaken"], "adj": ["weak"], "adv": ["weakly"]}, {"base": "bright", "noun": ["brightness"], "verb": ["brighten"], "adj": ["bright"], "adv": ["brightly"]}, {"base": "simple", "noun": ["simplicity"], "verb": ["simplify"], "adj": ["simple"], "adv": ["simply"]}, {"base": "clear", "noun": ["clarity"], "verb": ["clarify"], "adj": ["clear"], "adv": ["clearly"]}, {"base": "pure", "noun": ["purity"], "verb": ["purify"], "adj": ["pure"], "adv": ["purely"]}, {"base": "intense", "noun": ["intensity"], "verb": ["intensify"], "adj": ["intense"], "adv": ["intensely"]}, {"base": "modern", "noun": ["modernization"], "verb": ["modernize"], "adj": ["modern"], "adv": []}, {"base": "special", "noun": ["specialty", "specialization"], "verb": ["specialize"], "adj": ["special"], "adv": ["specially"]}, {"base": "real", "noun": ["reality"], "verb": ["realize"], "adj": ["real"], "adv": ["really"]}, {"base": "organize", "noun": ["organization"], "verb": ["organize"], "adj": ["organizational", "organized"], "adv": []}, {"base": "inform", "noun": ["information"], "verb": ["inform"], "adj": ["informative", "informed"], "adv": ["informatively"]}, {"base": "communicate", "noun": ["communication"], "verb": ["communicate"], "adj": ["communicative"], "adv": ["communicatively"]}, {"base": "educate", "noun": ["education"], "verb": ["educate"], "adj": ["educational", "educated"], "adv": ["educationally"]}, {"base": "regulate", "noun": ["regulation", "regulator"], "verb": ["regulate"], "adj": ["regulatory"], "adv": []}, {"base": "flexible", "noun": ["flexibility"], "verb": ["flex"], "adj": ["flexible"], "adv": ["flexibly"]}, {"base": "accurate", "noun": ["accuracy"], "verb": [], "adj": ["accurate"], "adv": ["accurately"]}, {"base": "efficient", "noun": ["efficiency"], "verb": [], "adj": ["efficient"], "adv": ["efficiently"]}, {"base": "fluent", "noun": ["fluency"], "verb": [], "adj": ["fluent"], "adv": ["fluently"]}, {"base": "possible", "noun": ["possibility"], "verb": [], "adj": ["possible"], "adv": ["possibly"]}, {"base": "responsible", "noun": ["responsibility"], "verb": [], "adj": ["responsible"], "adv": ["responsibly"]}, {"base": "secure", "noun": ["security"], "verb": ["secure"], "adj": ["secure"], "adv": ["securely"]}];
+const sentenceQuestions = [{"sentence": "The new policy could significantly improve energy ________.", "base": "efficient", "answer": "efficiency", "hint": "Cần danh từ sau energy."}, {"sentence": "She explained the procedure very ________.", "base": "clear", "answer": "clearly", "hint": "Bổ nghĩa cho động từ explained → trạng từ."}, {"sentence": "The results were highly ________ and surprised the research team.", "base": "significance", "answer": "significant", "hint": "Sau were + highly cần tính từ."}, {"sentence": "The company plans to ________ its internal reporting system.", "base": "modern", "answer": "modernize", "hint": "Sau to cần động từ nguyên mẫu."}, {"sentence": "His sudden ________ shocked everyone in the room.", "base": "arrive", "answer": "arrival", "hint": "Sau tính từ sở hữu his và sudden cần danh từ."}, {"sentence": "The instructions were so ________ that even beginners could follow them.", "base": "clarity", "answer": "clear", "hint": "Sau were so cần tính từ."}, {"sentence": "We need a more ________ method for evaluating long-term risks.", "base": "system", "answer": "systematic", "hint": "Bổ nghĩa cho method → tính từ."}, {"sentence": "The device operates ________ under extreme temperatures.", "base": "reliable", "answer": "reliably", "hint": "Bổ nghĩa cho operates → trạng từ."}, {"sentence": "The team's ________ helped them finish the project on time.", "base": "cooperate", "answer": "cooperation", "hint": "Sau sở hữu team's cần danh từ."}, {"sentence": "The article offers a useful ________ of recent economic changes.", "base": "analyze", "answer": "analysis", "hint": "Sau a useful cần danh từ; đây là biến đổi bất quy tắc."}, {"sentence": "The committee reached a final ________ after three hours of debate.", "base": "decide", "answer": "decision", "hint": "Sau a final cần danh từ."}, {"sentence": "The two samples are chemically ________.", "base": "difference", "answer": "different", "hint": "Sau are và trạng từ chemically cần tính từ."}, {"sentence": "The government introduced new rules to ________ the industry.", "base": "regulation", "answer": "regulate", "hint": "Sau to cần động từ."}, {"sentence": "The speaker answered the question ________.", "base": "confidence", "answer": "confidently", "hint": "Bổ nghĩa cho answered → trạng từ."}, {"sentence": "The rapid ________ of the city has created pressure on housing.", "base": "expand", "answer": "expansion", "hint": "Sau rapid cần danh từ."}, {"sentence": "This material is highly ________ and can be reused many times.", "base": "flexibility", "answer": "flexible", "hint": "Sau is highly cần tính từ."}, {"sentence": "The report was criticized for its lack of ________.", "base": "accurate", "answer": "accuracy", "hint": "Sau lack of cần danh từ."}, {"sentence": "The new evidence may ________ the original conclusion.", "base": "weak", "answer": "weaken", "hint": "Sau may cần động từ nguyên mẫu."}, {"sentence": "Her explanation was both concise and ________.", "base": "information", "answer": "informative", "hint": "Song song với concise → tính từ."}, {"sentence": "The change happened so ________ that few people noticed it.", "base": "gradual", "answer": "gradually", "hint": "Bổ nghĩa cho happened → trạng từ."}, {"sentence": "The rapid ________ of digital services has changed consumer behavior.", "base": "expand", "answer": "expansion", "hint": "Sau rapid cần danh từ."}, {"sentence": "The two proposals are fundamentally ________ in their approach.", "base": "difference", "answer": "different", "hint": "Sau are + trạng từ fundamentally cần tính từ."}, {"sentence": "The researchers presented their findings ________ and without exaggeration.", "base": "objective", "answer": "objectively", "hint": "Bổ nghĩa cho presented → trạng từ."}, {"sentence": "Public ________ of the new rule remains relatively low.", "base": "aware", "answer": "awareness", "hint": "Sau Public cần danh từ làm chủ ngữ."}, {"sentence": "The software is designed to be easily ________ by non-specialists.", "base": "access", "answer": "accessible", "hint": "Sau be easily cần tính từ."}, {"sentence": "The evidence strongly ________ the original hypothesis.", "base": "support", "answer": "supports", "hint": "Chủ ngữ số ít evidence → động từ hiện tại ngôi 3 số ít."}, {"sentence": "The reform was introduced ________ rather than all at once.", "base": "gradual", "answer": "gradually", "hint": "Bổ nghĩa cho was introduced → trạng từ."}, {"sentence": "The committee questioned the ________ of the data.", "base": "reliable", "answer": "reliability", "hint": "Sau the và of cần danh từ."}, {"sentence": "The government hopes to ________ access to higher education.", "base": "wide", "answer": "widen", "hint": "Sau to cần động từ nguyên mẫu."}, {"sentence": "Her argument was clear, concise, and highly ________.", "base": "persuade", "answer": "persuasive", "hint": "Song song với clear, concise → tính từ."}, {"sentence": "The policy may have serious economic ________ for small firms.", "base": "imply", "answer": "implications", "hint": "Sau economic cần danh từ số nhiều phù hợp nghĩa."}, {"sentence": "The machine can operate ________ for more than twelve hours.", "base": "continue", "answer": "continuously", "hint": "Bổ nghĩa cho operate → trạng từ."}, {"sentence": "The study highlights the ________ between income and health outcomes.", "base": "relate", "answer": "relationship", "hint": "Sau the cần danh từ."}, {"sentence": "The manager handled the disagreement with great ________.", "base": "professional", "answer": "professionalism", "hint": "Sau with great cần danh từ."}, {"sentence": "The instructions should be ________ enough for a first-time user.", "base": "clarity", "answer": "clear", "hint": "Sau be cần tính từ."}, {"sentence": "The company is trying to ________ its product range.", "base": "diverse", "answer": "diversify", "hint": "Sau to cần động từ."}, {"sentence": "The new process has greatly increased production ________.", "base": "efficient", "answer": "efficiency", "hint": "Sau production cần danh từ."}, {"sentence": "The candidate responded ________ to a difficult question.", "base": "confidence", "answer": "confidently", "hint": "Bổ nghĩa cho responded → trạng từ."}, {"sentence": "The report provides a ________ overview of the entire sector.", "base": "comprehend", "answer": "comprehensive", "hint": "Bổ nghĩa cho overview → tính từ."}, {"sentence": "The proposal was rejected because it was financially ________.", "base": "practice", "answer": "impractical", "hint": "Sau was và financially cần tính từ; nghĩa cần dạng phủ định."}, {"sentence": "There is growing public ________ about the environmental impact.", "base": "concerned", "answer": "concern", "hint": "Sau public cần danh từ."}, {"sentence": "The new evidence may ________ our understanding of the issue.", "base": "deep", "answer": "deepen", "hint": "Sau may cần động từ nguyên mẫu."}, {"sentence": "Her explanation was surprisingly ________ despite the complexity of the topic.", "base": "simplicity", "answer": "simple", "hint": "Sau was surprisingly cần tính từ."}, {"sentence": "The organization works to ________ communication between departments.", "base": "facilitation", "answer": "facilitate", "hint": "Sau to cần động từ."}, {"sentence": "The conclusions are not fully ________ by the available evidence.", "base": "support", "answer": "supported", "hint": "Cấu trúc bị động are ... by → past participle."}, {"sentence": "The sudden ________ in demand caught suppliers by surprise.", "base": "increase", "answer": "increase", "hint": "Từ increase có thể là danh từ không đổi hình thức."}, {"sentence": "The speaker's ________ made the presentation easy to follow.", "base": "clear", "answer": "clarity", "hint": "Sau sở hữu speaker's cần danh từ."}, {"sentence": "The city plans to ________ several older public buildings.", "base": "modern", "answer": "modernize", "hint": "Sau to cần động từ."}, {"sentence": "The device is small, light, and highly ________.", "base": "portability", "answer": "portable", "hint": "Sau highly cần tính từ."}, {"sentence": "The team completed the task with remarkable ________.", "base": "accurate", "answer": "accuracy", "hint": "Sau with remarkable cần danh từ."}, {"sentence": "The policy was designed to encourage greater social ________.", "base": "equal", "answer": "equality", "hint": "Sau social cần danh từ."}, {"sentence": "The results were statistically ________.", "base": "significance", "answer": "significant", "hint": "Sau were statistically cần tính từ."}, {"sentence": "The company responded ________ to the customer's complaint.", "base": "prompt", "answer": "promptly", "hint": "Bổ nghĩa cho responded → trạng từ."}, {"sentence": "This approach is more ________ than the previous one.", "base": "effect", "answer": "effective", "hint": "Sau more cần tính từ."}, {"sentence": "The project depends heavily on close international ________.", "base": "cooperate", "answer": "cooperation", "hint": "Sau international cần danh từ."}, {"sentence": "The discovery was of considerable scientific ________.", "base": "important", "answer": "importance", "hint": "Sau scientific cần danh từ."}, {"sentence": "The instructions were written ________ to reduce ambiguity.", "base": "specific", "answer": "specifically", "hint": "Bổ nghĩa cho were written → trạng từ."}, {"sentence": "The new design improves both safety and ________.", "base": "useful", "answer": "usability", "hint": "Song song với safety cần danh từ."}, {"sentence": "The committee asked for a more ________ explanation.", "base": "detail", "answer": "detailed", "hint": "Bổ nghĩa cho explanation → tính từ."}, {"sentence": "The changes are intended to ________ the approval process.", "base": "simple", "answer": "simplify", "hint": "Sau to cần động từ."}, {"sentence": "The two systems function ________ despite their different designs.", "base": "similar", "answer": "similarly", "hint": "Bổ nghĩa cho function → trạng từ."}, {"sentence": "The report questions the long-term ________ of the current model.", "base": "sustain", "answer": "sustainability", "hint": "Sau the long-term cần danh từ."}, {"sentence": "The medicine must be stored ________ and out of direct sunlight.", "base": "secure", "answer": "securely", "hint": "Bổ nghĩa cho stored → trạng từ."}, {"sentence": "The training program aims to ________ employees' technical skills.", "base": "strong", "answer": "strengthen", "hint": "Sau to cần động từ."}, {"sentence": "The author presents a highly ________ account of the event.", "base": "person", "answer": "personal", "hint": "Bổ nghĩa cho account → tính từ."}, {"sentence": "The evidence was not strong enough to reach a ________ conclusion.", "base": "definitely", "answer": "definite", "hint": "Bổ nghĩa cho conclusion → tính từ."}, {"sentence": "The policy has been criticized for treating different cases ________.", "base": "equal", "answer": "equally", "hint": "Bổ nghĩa cho treating → trạng từ."}, {"sentence": "The company is seeking greater financial ________.", "base": "secure", "answer": "security", "hint": "Sau financial cần danh từ."}, {"sentence": "The issue was discussed ________ at the meeting.", "base": "extensive", "answer": "extensively", "hint": "Bổ nghĩa cho discussed → trạng từ."}, {"sentence": "The findings may help ________ future research priorities.", "base": "clarity", "answer": "clarify", "hint": "Sau help có thể dùng động từ nguyên mẫu không to."}];
+const cautions = [{"title": "-ly không đồng nghĩa 100% với trạng từ", "good": ["quickly", "carefully", "rapidly"], "trap": ["friendly", "lovely", "lonely", "lively", "elderly", "costly"], "rule": "Nếu từ -ly mô tả một danh từ (a friendly person), nó đang là tính từ."}, {"title": "-al có thể là danh từ hoặc tính từ", "good": ["natural (Adj)", "political (Adj)", "cultural (Adj)"], "trap": ["arrival (N)", "approval (N)", "refusal (N)"], "rule": "Không đoán chỉ dựa vào -al; hãy nhìn vị trí trong câu."}, {"title": "-ant / -ent có thể là danh từ hoặc tính từ", "good": ["important (Adj)", "different (Adj)", "persistent (Adj)"], "trap": ["assistant (N)", "student (N)", "resident (N)"], "rule": "Sau article a/an/the có thể là danh từ; sau be/seem/become thường có thể là tính từ."}, {"title": "-ed và -ing: cảm nhận vs gây cảm nhận", "good": ["I am interested.", "She felt bored.", "They were confused."], "trap": ["an interesting idea", "a boring lecture", "a confusing rule"], "rule": "-ed thường là bên nhận cảm giác; -ing thường là thứ gây ra cảm giác."}, {"title": "-er có hai chức năng lớn", "good": ["teacher (N)", "writer (N)", "driver (N)"], "trap": ["faster (comparative)", "smaller (comparative)", "stronger (comparative)"], "rule": "Nếu gốc là động từ và chỉ người/vật làm việc gì → danh từ; nếu gốc là tính từ ngắn → có thể là so sánh hơn."}, {"title": "-ing có ba vai trò", "good": ["Reading is useful. (N)", "an interesting book (Adj)", "She is reading. (V)"], "trap": ["Không gắn nhãn chỉ từ đuôi."], "rule": "Xác định chức năng bằng vị trí trong câu, không chỉ hình thức."}, {"title": "-ic và -ical đôi khi khác nghĩa", "good": ["historic = có ý nghĩa lịch sử", "historical = thuộc lịch sử", "economic = thuộc kinh tế"], "trap": ["economical = tiết kiệm"], "rule": "Một số cặp cùng gốc nhưng nghĩa khác; cần học theo cụm."}, {"title": "-able và -ible không luôn đoán được chính tả", "good": ["readable", "predictable", "acceptable"], "trap": ["possible", "visible", "responsible"], "rule": "-able năng suất hơn; nhiều từ -ible cần ghi nhớ như từ vựng riêng."}, {"title": "Thay đuôi có thể đổi chính tả gốc", "good": ["happy → happiness", "possible → possibility", "decide → decision"], "trap": ["strong → strength", "long → length", "deep → depth"], "rule": "Không phải word form nào cũng chỉ 'gắn đuôi'."}, {"title": "Một từ có thể có nhiều lớp đuôi", "good": ["nation → national → nationally", "effect → effective → effectively", "history → historical → historically"], "trap": ["Đừng chỉ nhìn 2-3 chữ cái cuối."], "rule": "Phân tích từ trong chuỗi word family để thấy từng bước biến đổi."}];
+
+// Correct the -ally group: words in -ically belong to the separate -ically group.
+const allySuffix = suffixes.find(x => x.suffix === '-ally' && x.type === 'Adverb');
+if (allySuffix) {
+  allySuffix.examples = ['finally','nationally','personally','culturally','naturally','traditionally'];
+  allySuffix.note = 'Thường xuất hiện khi thêm -ly vào tính từ kết thúc bằng -al: final → finally, national → nationally.';
+}
+
+function shuffled(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a;
+}
+function pickDistinct(values, exclude, n){
+  return shuffled([...new Set(values.filter(v=>v!==exclude))]).slice(0,n);
+}
+function makeMCQ(q, correct, distractors, explain, kind){
+  const options=shuffled([correct,...distractors]);
+  return {q,options,answer:options.indexOf(correct),explain,kind};
+}
+function typeLabel(type){
+  return ({Noun:'Danh từ',Adjective:'Tính từ',Verb:'Động từ',Adverb:'Trạng từ'})[type] || type;
+}
+function groupLabel(s){return `${s.suffix} — ví dụ: ${s.examples.slice(0,2).join(', ')}`}
+
+function buildSuffixQuestionBank(){
+  const meanings=suffixes.map(x=>x.meaning);
+  const patterns=suffixes.map(x=>x.pattern);
+  const bank=[];
+  suffixes.forEach((s,idx)=>{
+    const label=groupLabel(s);
+    bank.push(makeMCQ(
+      `Nhóm đuôi ${label} thường tạo từ loại nào?`,
+      typeLabel(s.type),
+      ['Danh từ','Tính từ','Động từ','Trạng từ'].filter(x=>x!==typeLabel(s.type)).slice(0,3),
+      `${s.suffix}: ${s.meaning}. Mẫu: ${s.pattern}. Ví dụ: ${s.examples.join(', ')}.`,
+      'type'
+    ));
+    bank.push(makeMCQ(
+      `Nhóm đuôi ${label} thường mang nghĩa/chức năng nào?`,
+      s.meaning,
+      pickDistinct(meanings,s.meaning,3),
+      `${s.suffix} (${typeLabel(s.type)}) thường mang nghĩa: ${s.meaning}.`,
+      'meaning'
+    ));
+    bank.push(makeMCQ(
+      `Mẫu biến đổi thường gặp của nhóm đuôi ${label} là gì?`,
+      s.pattern,
+      pickDistinct(patterns,s.pattern,3),
+      `${s.suffix}: ${s.pattern}. Nghĩa: ${s.meaning}.`,
+      'pattern'
+    ));
+    const distractorExamples=[];
+    const others=shuffled(suffixes.filter((_,j)=>j!==idx));
+    for(const o of others){
+      const ex=o.examples[Math.floor(Math.random()*o.examples.length)];
+      if(!s.examples.includes(ex) && !distractorExamples.includes(ex)) distractorExamples.push(ex);
+      if(distractorExamples.length===3) break;
+    }
+    const correct=s.examples[Math.floor(Math.random()*s.examples.length)];
+    bank.push(makeMCQ(
+      `Từ nào là ví dụ đúng của nhóm ${s.suffix} (${s.meaning})?`,
+      correct,
+      distractorExamples,
+      `Ví dụ trong thư viện của ${s.suffix}: ${s.examples.join(', ')}.`,
+      'example'
+    ));
+  });
+  return bank;
+}
+const suffixQuestionBank=buildSuffixQuestionBank();
+
+function makeDirectWordFormBank(){
+  const labels={noun:'DANH TỪ',verb:'ĐỘNG TỪ',adj:'TÍNH TỪ',adv:'TRẠNG TỪ'};
+  const bank=[];
+  wordFamilies.forEach(f=>{
+    ['noun','verb','adj','adv'].forEach(kind=>{
+      const answers=(f[kind]||[]).filter(Boolean);
+      if(!answers.length) return;
+      // Skip a trivial item only when the sole answer is identical to the base.
+      if(answers.length===1 && answers[0].toLowerCase()===f.base.toLowerCase()) return;
+      bank.push({
+        mode:'direct',
+        prompt:`Biến đổi “${f.base}” thành ${labels[kind]}.`,
+        base:f.base,
+        answers,
+        hint:`Word family: ${f.base} → ${answers.join(' / ')}`,
+        target:kind
+      });
+    });
+  });
+  return bank;
+}
+const directWordFormBank=makeDirectWordFormBank();
+const sentenceWordFormBank=sentenceQuestions.map(q=>({
+  mode:'sentence',prompt:q.sentence,base:q.base,answers:[q.answer],hint:q.hint,target:'context'
+}));
+const wordFormBank=[...sentenceWordFormBank,...directWordFormBank];
+
+let inferQuestions=[];
+let inferIndex=0, inferCorrect=0, inferAnswered=0;
+let activeTransform=[];
+
+const state = JSON.parse(localStorage.getItem('suffixLabProgressV2') || '{"inferAnswered":0,"transformAnswered":0}');
+function saveState(){ localStorage.setItem('suffixLabProgressV2', JSON.stringify(state)); updateProgress(); }
+function updateProgress(){
+  const total=suffixQuestionBank.length+wordFormBank.length;
+  const done=Math.min(total,(state.inferAnswered||0)+(state.transformAnswered||0));
+  document.getElementById('progressText').textContent=`${done}/${total} lượt đã hoàn thành`;
+  document.getElementById('progressFill').style.width=`${total?Math.round(done/total*100):0}%`;
+}
+
+document.querySelectorAll('.nav button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.section).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+function renderLibrary(){
+  const q = document.getElementById('searchSuffix').value.trim().toLowerCase();
+  const filter = document.getElementById('typeFilter').value;
+  const data = suffixes.filter(x=>{
+    const hay = [x.suffix,x.meaning,x.pattern,x.note,...x.examples].join(' ').toLowerCase();
+    return (filter==='All'||x.type===filter) && (!q || hay.includes(q));
+  });
+  const grid = document.getElementById('libraryGrid');
+  if(!data.length){grid.innerHTML='<div class="empty">Không tìm thấy kết quả.</div>';return}
+  grid.innerHTML = data.map((x,i)=>`
+    <article class="suffix-card">
+      <div class="suffix-head"><div class="suffix">${x.suffix}</div><span class="tag">${typeLabel(x.type)}</span></div>
+      <div class="meta"><b>Nghĩa:</b> ${x.meaning}</div>
+      <div class="meta"><b>Mẫu:</b> ${x.pattern}</div>
+      <div class="examples">${x.examples.map(e=>`<span class="ex">${e}</span>`).join('')}</div>
+      <div class="note">Nhóm ${suffixes.indexOf(x)+1}/78. ${x.note}</div>
+    </article>`).join('');
+}
+document.getElementById('searchSuffix').addEventListener('input',renderLibrary);
+document.getElementById('typeFilter').addEventListener('change',renderLibrary);
+
+function selectCount(pool,countValue){
+  const mixed=shuffled(pool);
+  if(countValue==='all') return mixed;
+  return mixed.slice(0,Math.min(parseInt(countValue,10),mixed.length));
+}
+function startInferSession(){
+  const mode=document.getElementById('inferMode').value;
+  const count=document.getElementById('inferCountSelect').value;
+  const pool=mode==='all'?suffixQuestionBank:suffixQuestionBank.filter(q=>q.kind===mode);
+  inferQuestions=selectCount(pool,count);
+  inferIndex=0;inferCorrect=0;inferAnswered=0;
+  document.getElementById('inferScore').textContent='';
+  document.getElementById('inferPoolInfo').innerHTML=`Ngân hàng phù hợp: <b>${pool.length}</b> câu. Bộ hiện tại: <b>${inferQuestions.length}</b> câu. Toàn bộ 78 nhóm = <b>${suffixQuestionBank.length}</b> câu (4 dạng/nhóm).`;
+  renderInfer();
+}
+function renderInfer(){
+  if(!inferQuestions.length){document.getElementById('inferQuestion').textContent='Không có câu hỏi.';return}
+  const q=inferQuestions[inferIndex];
+  document.getElementById('inferNum').innerHTML=`Câu ${inferIndex+1}/${inferQuestions.length} <span class="kind">${({type:'từ loại',meaning:'nghĩa',pattern:'mẫu',example:'ví dụ'})[q.kind]}</span>`;
+  document.getElementById('inferQuestion').textContent=q.q;
+  const exp=document.getElementById('inferExplain'); exp.style.display='none';exp.textContent='';
+  const box=document.getElementById('inferOptions');
+  box.innerHTML=q.options.map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
+  box.dataset.locked='0';
+  box.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>{
+    if(box.dataset.locked==='1') return;
+    box.dataset.locked='1';
+    const chosen=+btn.dataset.i; inferAnswered++; state.inferAnswered=(state.inferAnswered||0)+1;
+    if(chosen===q.answer){inferCorrect++;btn.classList.add('correct')}else{btn.classList.add('wrong');box.querySelector(`[data-i="${q.answer}"]`).classList.add('correct')}
+    exp.textContent=q.explain;exp.style.display='block';
+    document.getElementById('inferScore').textContent=`Điểm: ${inferCorrect}/${inferAnswered}`;
+    saveState();
+  }));
+}
+document.getElementById('startInfer').addEventListener('click',startInferSession);
+document.getElementById('nextInfer').addEventListener('click',()=>{if(inferIndex<inferQuestions.length-1){inferIndex++;renderInfer()}else{document.getElementById('inferExplain').style.display='block';document.getElementById('inferExplain').textContent=`Đã đến câu cuối. Kết quả hiện tại: ${inferCorrect}/${inferAnswered}. Bạn có thể trộn lại hoặc tạo bộ mới.`}});
+document.getElementById('shuffleInfer').addEventListener('click',()=>{inferQuestions=shuffled(inferQuestions);inferIndex=0;inferCorrect=0;inferAnswered=0;document.getElementById('inferScore').textContent='';renderInfer()});
+
+function startTransformSession(){
+  const mode=document.getElementById('transformMode').value;
+  const count=document.getElementById('transformCountSelect').value;
+  const pool=mode==='all'?wordFormBank:(mode==='sentence'?sentenceWordFormBank:directWordFormBank);
+  activeTransform=selectCount(pool,count);
+  document.getElementById('transformPoolInfo').innerHTML=`Ngân hàng phù hợp: <b>${pool.length}</b> câu. Bộ hiện tại: <b>${activeTransform.length}</b> câu. Tổng ngân hàng Word Form: <b>${wordFormBank.length}</b> câu.`;
+  document.getElementById('transformScore').textContent='';
+  renderTransform();
+}
+function renderTransform(){
+  const box=document.getElementById('transformList');
+  if(!activeTransform.length){box.innerHTML='<div class="empty">Chưa có bài. Nhấn “Tạo bài”.</div>';return}
+  box.innerHTML=activeTransform.map((q,i)=>`
+  <div class="transform-row">
+    <div>
+      <div><b>${i+1}.</b> ${q.prompt} <span class="kind">${q.mode==='sentence'?'trong câu':'trực tiếp'}</span></div>
+      <div class="meta">Từ gốc: <span class="kbd">${q.base}</span>${q.mode==='direct'?` • Mục tiêu: ${({noun:'Danh từ',verb:'Động từ',adj:'Tính từ',adv:'Trạng từ'})[q.target]}`:''}</div>
+      <div class="feedback" id="fb${i}"></div>
+    </div>
+    <input id="tr${i}" autocomplete="off" placeholder="Dạng đúng...">
+    <button class="btn secondary" onclick="hintTransform(${i})">Gợi ý</button>
+  </div>`).join('');
+}
+function normalized(v){return v.trim().toLowerCase().replace(/\s+/g,' ')}
+window.hintTransform=function(i){
+  const q=activeTransform[i];
+  document.getElementById(`fb${i}`).textContent='Gợi ý: '+q.hint;
+  document.getElementById(`fb${i}`).className='feedback';
+}
+document.getElementById('startTransform').addEventListener('click',startTransformSession);
+document.getElementById('checkTransform').addEventListener('click',()=>{
+  let correct=0,attempted=0;
+  activeTransform.forEach((q,i)=>{
+    const inp=document.getElementById(`tr${i}`);const val=normalized(inp.value);const fb=document.getElementById(`fb${i}`);
+    if(val) attempted++;
+    const ok=q.answers.some(a=>normalized(a)===val);
+    if(ok){correct++;fb.textContent='✓ Chính xác';fb.className='feedback good'}
+    else{fb.textContent=`✗ Đáp án: ${q.answers.join(' / ')} — ${q.hint}`;fb.className='feedback bad'}
+  });
+  state.transformAnswered=(state.transformAnswered||0)+attempted;
+  document.getElementById('transformScore').textContent=`Điểm: ${correct}/${activeTransform.length}`;saveState();
+});
+document.getElementById('showTransform').addEventListener('click',()=>{
+  activeTransform.forEach((q,i)=>{document.getElementById(`tr${i}`).value=q.answers[0];const fb=document.getElementById(`fb${i}`);fb.textContent=q.answers.length>1?`Chấp nhận: ${q.answers.join(' / ')}`:q.hint;fb.className='feedback'});
+});
+document.getElementById('clearTransform').addEventListener('click',()=>{
+  activeTransform.forEach((q,i)=>{document.getElementById(`tr${i}`).value='';document.getElementById(`fb${i}`).textContent=''});document.getElementById('transformScore').textContent='';
+});
+
+function renderFamilies(){
+  document.getElementById('familyBody').innerHTML=wordFamilies.map(x=>`
+    <tr><td><b>${x.base}</b></td><td>${x.noun.join(' / ')||'—'}</td><td>${x.verb.join(' / ')||'—'}</td><td>${x.adj.join(' / ')||'—'}</td><td>${x.adv.join(' / ')||'—'}</td></tr>`).join('');
+}
+function renderCautions(){
+  document.getElementById('cautionList').innerHTML=cautions.map(x=>`
+    <div class="caution"><h3>${x.title}</h3><div class="cols"><div><b>Ví dụ:</b><br>${x.good.map(v=>`<span class="badge">${v}</span>`).join('')}</div><div><b>Dễ nhầm:</b><br>${x.trap.map(v=>`<span class="badge">${v}</span>`).join('')}</div></div><div class="meta" style="margin-top:8px"><b>Quy tắc:</b> ${x.rule}</div></div>`).join('');
+}
+
+document.getElementById('resetProgress').addEventListener('click',()=>{
+  localStorage.removeItem('suffixLabProgressV2');state.inferAnswered=0;state.transformAnswered=0;inferCorrect=0;inferAnswered=0;document.getElementById('inferScore').textContent='';document.getElementById('transformScore').textContent='';updateProgress();
+});
+
+document.getElementById('suffixCount').textContent=suffixes.length;
+document.getElementById('exampleCount').textContent=suffixes.reduce((a,b)=>a+b.examples.length,0);
+document.getElementById('quizCount').textContent=suffixQuestionBank.length;
+document.getElementById('transformCount').textContent=wordFormBank.length;
+
+renderLibrary();renderFamilies();renderCautions();updateProgress();startInferSession();startTransformSession();
+
+</script>
+</body>
+</html>
