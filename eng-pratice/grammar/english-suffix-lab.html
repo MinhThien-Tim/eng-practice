@@ -994,12 +994,12 @@ function renderExam(){
   if(!activeExam.length){box.innerHTML='<div class="empty">Không có câu hỏi phù hợp.</div>';return}
   box.innerHTML=activeExam.map((q,i)=>`
     <article class="exam-card" id="examCard${q.id}">
-      <div class="qnum">Câu ${i+1}/${activeExam.length} • Câu gốc ${q.id} <span class="kind">${typeLabel(q.cat)}</span></div>
+      <div class="qnum">Câu ${i+1}/${activeExam.length} • Câu gốc ${q.id}</div>
       <div class="exam-q">${formatExamText(q.text)}</div>
       <div class="exam-options">
         ${q.options.map((o,j)=>`<label class="exam-choice" data-choice="${j}"><input type="radio" name="exam-${q.id}" value="${j}"><span><b>${examLetter(j)}.</b> ${o}</span></label>`).join('')}
       </div>
-      <div class="exam-answer"><b>Đáp án ${examLetter(q.answer)} — ${q.options[q.answer]}</b>\n${q.why}</div>
+      <div class="exam-answer"><b>Đáp án ${examLetter(q.answer)} — ${q.options[q.answer]}</b>\nTừ loại cần điền: ${typeLabel(q.cat)}.\n${q.why}</div>
     </article>`).join('');
   box.querySelectorAll('input[type="radio"]').forEach(x=>x.addEventListener('change',updateExamAnswered));
 }
