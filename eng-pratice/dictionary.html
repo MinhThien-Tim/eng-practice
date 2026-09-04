@@ -58,7 +58,6 @@
   .toolbar{display:flex;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center;}
   input[type=text], input[type=search]{
     font-family:'IBM Plex Sans',sans-serif;border:1px solid var(--paper-line);background:#fff;
-
 border-radius:6px;padding:.5rem .7rem;font-size:14px;color:var(--ink);outline:none;
   }
   input[type=text]:focus, input[type=search]:focus{border-color:var(--teal);}
@@ -108,7 +107,6 @@ border-radius:6px;padding:.5rem .7rem;font-size:14px;color:var(--ink);outline:no
   .meaning-line{padding:0 1.1rem .6rem 2rem;margin-top:-.3rem;}
   .meaning-en{font-size:13px;color:var(--ink);font-style:italic;display:block;}
   .meaning-vi{font-size:13px;color:var(--navy);font-weight:600;display:block;margin-top:2px;}
-
 .audio-btn{border:1px solid var(--paper-line);background:#fff;border-radius:50%;width:26px;height:26px;font-size:13px;padding:0;line-height:1;display:inline-flex;align-items:center;justify-content:center;color:var(--navy);}
   .audio-btn:hover{background:var(--teal-light);border-color:var(--teal);}
   .word-icon{width:44px;height:44px;flex-shrink:0;background:var(--paper);border:1px solid var(--paper-line);border-radius:10px;padding:6px;}
@@ -151,7 +149,6 @@ border-radius:6px;padding:.5rem .7rem;font-size:14px;color:var(--ink);outline:no
   .flashcard-inner{position:relative;width:100%;height:100%;min-height:280px;transition:transform .45s;transform-style:preserve-3d;}
   .flashcard.flipped .flashcard-inner{transform:rotateY(180deg);}
   .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--paper-line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center;}
-
 .face-front .word-big{font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:var(--navy);}
   .face-front .phonetic-big{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--teal-dark);margin-top:.4rem;}
   .face-front .hint{font-size:12px;color:var(--ink-faint);margin-top:.8rem;font-family:'IBM Plex Mono',monospace;}
@@ -320,7 +317,6 @@ function isDue(w){
 }
 function gradeWord(w, remembered){
   if(!w.review) w.review = newReviewData();
-
 if(remembered){
     const nextStage = w.review.stage + 1;
     if(nextStage >= SR_INTERVALS.length){
@@ -403,7 +399,6 @@ const NEW_WORDS = [
     synonyms: ['identify','detect','determine','pinpoint'],
     antonyms: ['misdiagnose','overlook','undiagnosed'],
     collocations: ['be diagnosed with','early diagnosis','make a diagnosis','diagnostic test'],
-
 confusables: [
       {word:'prognosis', note:'tiên lượng bệnh — dự đoán diễn biến trong tương lai, KHÁC với diagnosis (xác định bệnh hiện tại)'},
       {word:'recognize', note:'nhận ra nói chung — không mang tính chuyên môn y khoa như diagnose'}
@@ -476,80 +471,6 @@ confusables: [
     ],
     synonyms: ['recognize','grasp','comprehend','come to understand','achieve','fulfil'],
     antonyms: ['overlook','misunderstand','fail to notice','remain unaware'],
-
-collocations: ['realise a dream','realise your potential','suddenly realise','come to realise','realise the importance of','fail to realise'],
-    confusables: [
-      {word:'realistic', note:'thực tế, khả thi (adj) — KHÁC nghĩa dù cùng gốc "real", không phải "nhận ra"'},
-      {word:'reality', note:'hiện thực, thực tế (n, trừu tượng) — danh từ chỉ trạng thái, khác với động từ realise'}
-    ]
-  }
-  ,
-  {
-    word: 'deficiency',
-    phonetic: '/dɪˈfɪʃ.ən.si/',
-    meaningEn: 'a lack or shortage of something that is needed or required',
-    meaningVi: 'sự thiếu hụt',
-    forms: [
-      {pos:'n', word:'deficiency', example:'The report highlighted a deficiency in funding.'},
-      {pos:'adj', word:'deficient', example:'The soil is deficient in nitrogen.'}
-    ],
-    synonyms: ['a lack (of)','shortage','insufficiency','dearth','scarcity'],
-    antonyms: ['abundance','sufficiency','surplus','excess'],
-    collocations: ['a deficiency in/of','vitamin deficiency','nutrient deficiency','address a deficiency','suffer from a deficiency'],
-    confusables: [
-      {word:'efficiency', note:'hiệu quả, hiệu suất — viết gần giống nhưng nghĩa gần như NGƯỢC LẠI (efficient ≠ deficient)'},
-      {word:'deficit', note:'thâm hụt, thường dùng cho tài chính/ngân sách — gần nghĩa nhưng chuyên biệt hơn'},
-      {word:'sufficient', note:'đủ (adj) — gần như trái nghĩa trực tiếp của deficient'}
-    ]
-  }
-  ,
-  {
-    word: 'relative',
-    phonetic: '/ˈrel.ə.tɪv/',
-    meaningEn: '(n) a person connected by blood or marriage; (adj) considered in comparison or in relation to something else',
-    meaningVi: '(danh từ) người thân, họ hàng; (tính từ) tương đối, mang tính so sánh',
-    forms: [
-      {pos:'n', word:'relative', example:'She invited all her relatives to the wedding.'},
-      {pos:'adj', word:'relative', example:'The relative importance of these factors varies.'},
-      {pos:'adv', word:'relatively', example:'The test was relatively easy.'},
-      {pos:'n', word:'relativity', example:"Einstein's theory of relativity."}
-    ],
-    synonyms: ['family member','kin','relation','comparative','proportional','relational'],
-    antonyms: ['absolute','independent','stranger'],
-    collocations: ['relative to','a close relative','relative ease','relative importance','relatively speaking','blood relative'],
-    confusables: [
-      {word:'relevant', note:'liên quan, thích đáng — LỖI RẤT HAY GẶP trong Writing, relative ≠ relevant dù viết gần giống'},
-      {word:'relate', note:'liên hệ, kể lại (động từ gốc)'},
-      {word:'relation', note:'mối quan hệ (khái niệm trừu tượng) — khác với relative (chỉ một người cụ thể)'}
-    ]
-  }
-  ,
-  {
-    word: 'socialise',
-    phonetic: '/ˈsəʊ.ʃəl.aɪz/',
-    meaningEn: 'to meet and spend time with other people in a friendly way',
-    meaningVi: 'giao lưu, giao tiếp xã hội',
-    forms: [
-      {pos:'v', word:'socialise', example:'He rarely socialises with his colleagues after work.'},
-      {pos:'n', word:'socialising', example:'Socialising with locals helps you learn a language faster.'},
-      {pos:'adj', word:'social', example:'Humans are social animals.'}
-    ],
-    synonyms: ['mingle','interact','network','hang out'],
-    antonyms: ['isolate oneself','withdraw','avoid company'],
-    collocations: ['socialise with','go out and socialise','opportunities to socialise','socialise online'],
-    confusables: [
-      {word:'socialism', note:'chủ nghĩa xã hội (n) — HOÀN TOÀN khác nghĩa dù cùng gốc "social"'},
-      {word:'sociable', note:'hòa đồng, thích giao tiếp (adj, mô tả tính cách) — khác với động từ socialise'},
-      {word:'social', note:'thuộc về xã hội (adj gốc) — khác từ loại với động từ socialise'}
-    ]
-  }
-  ,
-  {
-    word: 'appointment',
-    category: 'Đời sống thường nhật',
-    phonetic: '/əˈpɔɪnt.mənt/',
-    meaningEn: '(n) an arrangement to meet someone at a particular time; also a job or position given to someone',
-
 meaningVi: 'cuộc hẹn; sự bổ nhiệm (chức vụ)',
     forms: [
       {pos:'n', word:'appointment', example:'I have a dental appointment tomorrow at 3pm.'},
@@ -623,7 +544,6 @@ const CATEGORY_BACKFILL = {
   'relative': 'Xã hội & Con người',
   'socialise': 'Xã hội & Con người'
 };
-
 const ICON_BACKFILL = {
   'obvious': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="26" r="14" fill="none" stroke="#C9A227" stroke-width="3"/><path d="M26 40 L26 46 L38 46 L38 40" fill="none" stroke="#1B2A4A" stroke-width="3"/><line x1="28" y1="50" x2="36" y2="50" stroke="#1B2A4A" stroke-width="3"/><line x1="32" y1="4" x2="32" y2="10" stroke="#C9A227" stroke-width="3"/><line x1="12" y1="26" x2="6" y2="26" stroke="#C9A227" stroke-width="3"/><line x1="58" y1="26" x2="52" y2="26" stroke="#C9A227" stroke-width="3"/></svg>',
   'widespread': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="16" fill="none" stroke="#1F7A6B" stroke-width="3"/><ellipse cx="32" cy="32" rx="16" ry="7" fill="none" stroke="#1F7A6B" stroke-width="2"/><line x1="32" y1="16" x2="32" y2="48" stroke="#1F7A6B" stroke-width="2"/><circle cx="8" cy="14" r="2.5" fill="#C9A227"/><circle cx="56" cy="12" r="2.5" fill="#C9A227"/><circle cx="8" cy="52" r="2.5" fill="#C9A227"/><circle cx="56" cy="50" r="2.5" fill="#C9A227"/></svg>',
@@ -634,7 +554,6 @@ const ICON_BACKFILL = {
   'realise': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 10 a14 14 0 0 1 14 14 c0 6 -4 8 -4 14 h-20 c0 -6 -4 -8 -4 -14 a14 14 0 0 1 14 -14 Z" fill="none" stroke="#1F7A6B" stroke-width="3"/><line x1="24" y1="44" x2="40" y2="44" stroke="#1B2A4A" stroke-width="3"/><line x1="26" y1="50" x2="38" y2="50" stroke="#1B2A4A" stroke-width="3"/><line x1="32" y1="2" x2="32" y2="8" stroke="#C9A227" stroke-width="3"/></svg>',
   'deficiency': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="22" width="42" height="20" rx="3" fill="none" stroke="#B5432D" stroke-width="3"/><rect x="50" y="28" width="6" height="8" fill="#B5432D"/><rect x="12" y="26" width="8" height="12" fill="#B5432D"/></svg>',
   'relative': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="16" r="7" fill="none" stroke="#1B2A4A" stroke-width="3"/><path d="M6 40 q0 -14 12 -14 q12 0 12 14" fill="none" stroke="#1B2A4A" stroke-width="3"/><circle cx="46" cy="16" r="7" fill="none" stroke="#1F7A6B" stroke-width="3"/><path d="M34 40 q0 -14 12 -14 q12 0 12 14" fill="none" stroke="#1F7A6B" stroke-width="3"/><circle cx="32" cy="46" r="5" fill="none"
-
 stroke="#C9A227" stroke-width="3"/><path d="M24 60 q0 -10 8 -10 q8 0 8 10" fill="none" stroke="#C9A227" stroke-width="3"/></svg>',
   'socialise': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M6 12 h30 v18 h-10 l-6 8 v-8 h-14 Z" fill="none" stroke="#1F7A6B" stroke-width="3"/><path d="M28 30 h30 v18 h-12 v8 l-6 -8 h-12 Z" fill="none" stroke="#C9A227" stroke-width="3"/></svg>',
   'appointment': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="14" width="34" height="34" rx="3" fill="none" stroke="#1B2A4A" stroke-width="3"/><line x1="8" y1="24" x2="42" y2="24" stroke="#1B2A4A" stroke-width="3"/><line x1="16" y1="8" x2="16" y2="18" stroke="#1B2A4A" stroke-width="3"/><line x1="34" y1="8" x2="34" y2="18" stroke="#1B2A4A" stroke-width="3"/><circle cx="46" cy="42" r="14" fill="#FAF7F0" stroke="#1F7A6B" stroke-width="3"/><line x1="46" y1="42" x2="46" y2="34" stroke="#1F7A6B" stroke-width="2"/><line x1="46" y1="42" x2="52" y2="42" stroke="#1F7A6B" stroke-width="2"/></svg>',
@@ -725,7 +644,6 @@ function playWordAudio(w){
 }
 
 const DEFAULT_ICON = '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="20" fill="none" stroke="#1F7A6B" stroke-width="3"/><text x="32" y="40" font-size="24" text-anchor="middle" fill="#1F7A6B" font-family="Georgia,serif">Aa</text></svg>';
-
 // ---------- Tabs ----------
 document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click', ()=>{
@@ -817,7 +735,6 @@ function readFileAsDataUrl(file){
 
 document.getElementById('f-icon-file').addEventListener('change', async (e)=>{
   const file = e.target.files[0];
-
 const preview = document.getElementById('icon-preview');
   if(!file){ tempIconDataUrl=null; preview.innerHTML=''; return; }
   if(file.size > 1.5*1024*1024){
@@ -891,7 +808,6 @@ function buildWordCard(w){
     const formsRows = (w.forms||[]).map(f=>
       <tr><td><span class="pos-badge">${posLabel(f.pos)}</span></td>
       <td><b>${escapeHtml(f.word)}</b>${f.example? <span style="color:var(--ink-faint)">— ${escapeHtml(f.example)}</span>`:''}</td></tr>
-
 ).join('');
     const synChips = (w.synonyms||[]).map(s=><span class="chip chip-syn">${escapeHtml(s)}</span>).join('');
     const antChips = (w.antonyms||[]).map(s=><span class="chip chip-ant">${escapeHtml(s)}</span>).join('');
@@ -965,99 +881,6 @@ function buildWordCard(w){
 }
 
 const CATEGORY_ORDER = ['Sức khỏe & Y tế','Xã hội & Con người','Đời sống thường nhật','Diễn đạt mức độ & Nhận thức','Môi trường','Giáo dục','Công nghệ','Kinh tế & Kinh doanh','Khác'];
-
-function render(){
-  const grid = document.getElementById('word-grid');
-  const query = (document.getElementById('search').value||'').toLowerCase().trim();
-  const filtered = words.filter(w=> w.word.toLowerCase().includes(query));
-  grid.innerHTML = '';
-  document.getElementById('empty-state').classList.toggle('hidden', words.length>0);
-
-  const groups = {};
-  filtered.forEach(w=>{
-    const cat = w.category || 'Khác';
-    if(!groups[cat]) groups[cat] = [];
-    groups[cat].push(w);
-  });
-
-  const orderedCats = [...CATEGORY_ORDER.filter(c=>groups[c]), ...Object.keys(groups).filter(c=>!CATEGORY_ORDER.includes(c))];
-
-  orderedCats.forEach(cat=>{
-    const section = document.createElement('div');
-    section.className = 'category-section';
-    const header = document.createElement('div');
-    header.className = 'category-header';
-    header.innerHTML = <h3>${escapeHtml(cat)}</h3><span class="cnt">${groups[cat].length} từ</span>;
-    section.appendChild(header);
-    const catGrid = document.createElement('div');
-    catGrid.className = 'category-grid';
-    groups[cat].forEach(w=> catGrid.appendChild(buildWordCard(w)));
-    section.appendChild(catGrid);
-    grid.appendChild(section);
-  });
-
-  document.getElementById('stat-total').textContent = words.length;
-  document.getElementById('stat-due').textContent = words.filter(isDue).length;
-  document.getElementById('stat-confusable').textContent = words.reduce((n,w)=>n+((w.confusables||[]).length),0);
-
-  const usedCats = [...new Set(words.map(w=>w.category).filter(Boolean))];
-  const allCats = [...new Set([...CATEGORY_ORDER, ...usedCats])];
-  document.getElementById('category-list').innerHTML = allCats.map(c=><option value="${escapeHtml(c)}">).join('');
-}
-
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-document.getElementById('search').addEventListener('input', render);
-
-// ---------- Review mode ----------
-function currentReviewPool(){
-  return reviewFilter==='due' ? words.filter(isDue) : words.slice();
-}
-function startReview(){
-  reviewOrder = currentReviewPool().map(w=>w.id);
-  reviewIndex = 0;
-  showReviewCard();
-}
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
-  }
-  return arr;
-}
-document.getElementById('filter-due').addEventListener('click', ()=>{
-  reviewFilter='due';
-  document.getElementById('filter-due').classList.add('active');
-  document.getElementById('filter-all').classList.remove('active');
-  startReview();
-});
-document.getElementById('filter-all').addEventListener('click', ()=>{
-  reviewFilter='all';
-  document.getElementById('filter-all').classList.add('active');
-  document.getElementById('filter-due').classList.remove('active');
-  startReview();
-});
-function showReviewCard(){
-  const fc = document.getElementById('flashcard');
-  fc.classList.remove('flipped');
-  document.getElementById('grade-row').classList.add('hidden');
-  const total = reviewOrder.length;
-  document.getElementById('review-meta').textContent = total ? ${reviewIndex+1} / ${total} : '0 / 0';
-  if(total===0){
-    document.getElementById('rev-word').textContent = reviewFilter==='due' ? 'Không còn từ nào đến hạn hôm nay 🎉' : 'Chưa có từ nào';
-    document.getElementById('rev-back').innerHTML = '';
-    return;
-  }
-  const w = words.find(x=>x.id===reviewOrder[reviewIndex]);
-  document.getElementById('rev-word').textContent = w.word;
-  document.getElementById('rev-phonetic').textContent = w.phonetic || '';
-  document.getElementById('rev-audio-front').dataset.id = w.id;
-  document.getElementById('rev-audio-front').title = w.customAudio ? 'Nghe (giọng bạn ghi âm)' : 'Nghe (giọng máy)';
-  document.getElementById('rev-icon').innerHTML = w.icon || DEFAULT_ICON;
-  document.getElementById('rev-cambridge-front').href = w.cambridgeUrlOverride || cambridgeLink(w.word);
-
 const formsRows = (w.forms||[]).map(f=>
     <tr><td><span class="pos-badge">${posLabel(f.pos)}</span></td>
     <td><b>${escapeHtml(f.word)}</b>${f.example? <span style="color:var(--ink-faint)">— ${escapeHtml(f.example)}</span>:''}</td></tr>
