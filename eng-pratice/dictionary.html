@@ -1,3 +1,1064 @@
+Eng:
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS BEGINNER with Thanh Hương</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-deep:#101B32;
+    --teal:#1F7A6B; --teal-light:#E4F2EE; --teal-dark:#124F44;
+    --gold:#C9A227; --gold-light:#FBF2D9; --gold-dark:#8C6E12;
+    --coral:#B5432D; --coral-light:#FBEAE5; --coral-dark:#7C2E1D;
+    --paper:#FAF7F0; --paper-line:#E7E0CF;
+    --ink:#232323; --ink-soft:#5A5850; --ink-faint:#9C988A;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 0 3rem;}
+
+  .masthead{background:var(--navy);color:#fff;padding:2rem 2rem 1.5rem;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--teal));}
+  .masthead .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 .4rem;}
+  .masthead h1{font-family:'Fraunces',serif;font-weight:500;font-size:30px;margin:0;letter-spacing:-.01em;}
+  .masthead p{margin:.5rem 0 0;color:#C7CEDD;font-size:14px;max-width:520px;line-height:1.5;}
+  .stats-row{display:flex;gap:1.5rem;margin-top:1.2rem;}
+  .stat{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9FB0CC;}
+  .stat b{color:#fff;font-size:16px;font-weight:500;display:block;font-family:'Fraunces',serif;}
+  .stat.due b{color:var(--gold);}
+
+  .status-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+  .status-due{background:var(--coral-light);color:var(--coral-dark);}
+  .status-wait{background:var(--paper-line);color:var(--ink-soft);}
+  .status-mastered{background:var(--teal-light);color:var(--teal-dark);}
+
+  .review-filter{display:flex;gap:.5rem;margin-bottom:.8rem;}
+  .review-filter button{border:1px solid var(--paper-line);background:#fff;color:var(--ink-soft);border-radius:20px;padding:.35rem .9rem;font-size:12px;}
+  .review-filter button.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  .grade-row{display:flex;gap:.6rem;margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--paper-line);}
+  .grade-btn{flex:1;border-radius:8px;padding:.55rem;font-size:13px;font-weight:500;border:1px solid;}
+  .grade-forgot{border-color:var(--coral);color:var(--coral-dark);background:var(--coral-light);}
+  .grade-forgot:hover{background:var(--coral);color:#fff;}
+  .grade-remember{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light);}
+  .grade-remember:hover{background:var(--teal);color:#fff;}
+  .schedule-note{font-size:11px;color:var(--ink-faint);text-align:center;margin-top:.5rem;font-family:'IBM Plex Mono',monospace;}
+
+  .tabs{display:flex;gap:0;margin:1.5rem 2rem 0;border-bottom:1px solid var(--paper-line);}
+  .tab{padding:.7rem 1.1rem;font-size:14px;font-weight:500;color:var(--ink-soft);cursor:pointer;border-bottom:2px solid transparent;user-select:none;}
+  .tab.active{color:var(--navy);border-bottom-color:var(--gold);}
+  .tab:hover:not(.active){color:var(--navy);}
+
+  .panel{padding:1.5rem 2rem;}
+  .hidden{display:none !important;}
+
+  .toolbar{display:flex;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center;}
+  input[type=text], input[type=search]{
+    font-family:'IBM Plex Sans',sans-serif;border:1px solid var(--paper-line);background:#fff;
+
+border-radius:6px;padding:.5rem .7rem;font-size:14px;color:var(--ink);outline:none;
+  }
+  input[type=text]:focus, input[type=search]:focus{border-color:var(--teal);}
+  .search-input{flex:1;min-width:180px;}
+  button{font-family:'IBM Plex Sans',sans-serif;cursor:pointer;}
+  .btn{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:6px;padding:.5rem .9rem;font-size:13px;font-weight:500;}
+  .btn:hover{background:var(--navy);color:#fff;}
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{background:var(--navy-deep);}
+  .btn-ghost{border-color:var(--paper-line);color:var(--ink-soft);}
+  .btn-ghost:hover{background:var(--paper-line);color:var(--ink);}
+  .btn-danger{border-color:var(--coral);color:var(--coral);background:#fff;}
+  .btn-danger:hover{background:var(--coral);color:#fff;}
+  .btn-sm{padding:.3rem .6rem;font-size:12px;}
+
+  /* Add form */
+  .form-card{background:var(--card);border:1px solid var(--paper-line);border-radius:10px;padding:1.4rem;margin-bottom:1.5rem;}
+  .form-card h3{font-family:'Fraunces',serif;font-weight:500;font-size:18px;margin:0 0 1rem;color:var(--navy);}
+  .field-label{font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin:1rem 0 .4rem;display:block;}
+  .field-label:first-child{margin-top:0;}
+  .row-input{width:100%;}
+  .dyn-row{display:flex;gap:.5rem;margin-bottom:.5rem;align-items:center;}
+  .dyn-row select{border:1px solid var(--paper-line);border-radius:6px;padding:.5rem;font-size:13px;background:#fff;color:var(--ink);}
+  .dyn-row input{flex:1;}
+  .dyn-row .x{color:var(--ink-faint);border:none;background:none;font-size:16px;padding:.2rem .5rem;}
+  .dyn-row .x:hover{color:var(--coral);}
+  .add-row-btn{font-size:12px;color:var(--teal-dark);background:none;border:1px dashed var(--teal);border-radius:6px;padding:.35rem .7rem;margin-top:.2rem;}
+  .add-row-btn:hover{background:var(--teal-light);}
+  .form-actions{display:flex;justify-content:flex-end;gap:.6rem;margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--paper-line);}
+
+  /* Word cards grid */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .category-section{grid-column:1/-1;margin-top:.4rem;}
+  .category-section:first-child{margin-top:0;}
+  .category-header{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:2px solid var(--gold);}
+  .category-header h3{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--navy);margin:0;}
+  .category-header .cnt{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);}
+  .category-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  @media(max-width:640px){.category-grid{grid-template-columns:1fr;}}
+  @media(max-width:640px){.grid{grid-template-columns:1fr;} .masthead{padding:1.5rem 1.2rem;} .panel{padding:1.2rem;} .tabs{margin:1.2rem 1.2rem 0;}}
+
+  .word-card{background:var(--card);border:1px solid var(--paper-line);border-radius:10px;position:relative;overflow:hidden;}
+  .word-card::before{content:"";position:absolute;top:14px;left:14px;width:8px;height:8px;border-radius:50%;background:var(--paper);border:1px solid var(--paper-line);}
+  .word-card-head{padding:1rem 1.1rem .8rem 2rem;display:flex;justify-content:space-between;align-items:flex-start;cursor:pointer;}
+  .word-card-head h4{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0;color:var(--navy);display:inline;}
+  .phonetic{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--teal-dark);margin-left:8px;}
+  .meaning-line{padding:0 1.1rem .6rem 2rem;margin-top:-.3rem;}
+  .meaning-en{font-size:13px;color:var(--ink);font-style:italic;display:block;}
+  .meaning-vi{font-size:13px;color:var(--navy);font-weight:600;display:block;margin-top:2px;}
+
+.audio-btn{border:1px solid var(--paper-line);background:#fff;border-radius:50%;width:26px;height:26px;font-size:13px;padding:0;line-height:1;display:inline-flex;align-items:center;justify-content:center;color:var(--navy);}
+  .audio-btn:hover{background:var(--teal-light);border-color:var(--teal);}
+  .word-icon{width:44px;height:44px;flex-shrink:0;background:var(--paper);border:1px solid var(--paper-line);border-radius:10px;padding:6px;}
+  .word-icon svg{width:100%;height:100%;}
+  .cambridge-link{border:1px solid var(--paper-line);background:#fff;border-radius:50%;width:26px;height:26px;font-size:12px;padding:0;line-height:1;display:inline-flex;align-items:center;justify-content:center;color:var(--navy);text-decoration:none;}
+  .cambridge-link:hover{background:var(--gold-light);border-color:var(--gold);}
+  .cat-edit-btn{border:1px solid var(--paper-line);background:#fff;border-radius:50%;width:26px;height:26px;font-size:11px;padding:0;line-height:1;display:inline-flex;align-items:center;justify-content:center;color:var(--ink-soft);}
+  .cat-edit-btn:hover{background:var(--gold-light);border-color:var(--gold);color:var(--gold-dark);}
+  .cat-edit-row{display:none;padding:0 1.1rem .8rem 2rem;gap:.5rem;align-items:center;}
+  .cat-edit-row.show{display:flex;}
+  .cat-edit-row input{flex:1;font-size:13px;padding:.35rem .5rem;border:1px solid var(--paper-line);border-radius:6px;}
+  .word-card-head .del{background:none;border:none;color:var(--ink-faint);font-size:14px;padding:.2rem;}
+  .word-card-head .del:hover{color:var(--coral);}
+  .chev{color:var(--ink-faint);font-size:12px;transition:transform .15s;}
+  .word-card.open .chev{transform:rotate(180deg);}
+  .word-card-body{max-height:0;overflow:hidden;transition:max-height .2s ease;}
+  .word-card.open .word-card-body{max-height:600px;}
+  .body-inner{padding:0 1.1rem 1.1rem 2rem;}
+
+  .section-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:.8rem 0 .4rem;}
+  .forms-table{width:100%;font-size:13px;border-collapse:collapse;}
+  .forms-table td{padding:.25rem 0;vertical-align:top;}
+  .pos-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--gold-light);color:var(--gold-dark);padding:2px 6px;border-radius:4px;margin-right:6px;white-space:nowrap;}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;}
+  .chip{font-size:12px;padding:3px 9px;border-radius:20px;}
+  .chip-syn{background:var(--teal-light);color:var(--teal-dark);}
+  .chip-ant{background:var(--coral-light);color:var(--coral-dark);}
+  .chip-collo{background:var(--gold-light);color:var(--gold-dark);}
+  .confusable-item{background:var(--coral-light);border-left:2px solid var(--coral);border-radius:0 6px 6px 0;padding:.45rem .6rem;margin-bottom:.4rem;font-size:13px;}
+  .confusable-item b{color:var(--coral-dark);}
+  .confusable-item .note{color:var(--ink-soft);font-size:12px;margin-top:2px;}
+
+  .empty{text-align:center;padding:3rem 1rem;color:var(--ink-faint);}
+  .empty .big{font-family:'Fraunces',serif;font-size:17px;color:var(--ink-soft);margin-bottom:.4rem;}
+
+  /* Review mode */
+  .review-wrap{display:flex;flex-direction:column;align-items:center;padding:1rem 0 2rem;}
+  .review-meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:1rem;}
+  .flashcard{width:100%;max-width:480px;min-height:280px;perspective:1200px;cursor:pointer;}
+  .flashcard-inner{position:relative;width:100%;height:100%;min-height:280px;transition:transform .45s;transform-style:preserve-3d;}
+  .flashcard.flipped .flashcard-inner{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--paper-line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center;}
+
+.face-front .word-big{font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:var(--navy);}
+  .face-front .phonetic-big{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--teal-dark);margin-top:.4rem;}
+  .face-front .hint{font-size:12px;color:var(--ink-faint);margin-top:.8rem;font-family:'IBM Plex Mono',monospace;}
+  .face-back{transform:rotateY(180deg);align-items:stretch;justify-content:flex-start;overflow-y:auto;text-align:left;}
+  .face-back .word-big{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:.6rem;}
+  .review-nav{display:flex;gap:.6rem;margin-top:1.3rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="eyebrow">IELTS vocabulary bank</p>
+    <h1>IELTS BEGINNER with Thanh Hương</h1>
+    <p>Từ loại · Từ đồng nghĩa · Từ trái nghĩa · Từ dễ nhầm — lưu lại, ôn tập bất cứ lúc nào.</p>
+    <div class="stats-row">
+      <div class="stat"><b id="stat-total">0</b>từ đã lưu</div>
+      <div class="stat due"><b id="stat-due">0</b>đến hạn ôn</div>
+      <div class="stat"><b id="stat-confusable">0</b>cặp dễ nhầm</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="bank">Sổ từ</div>
+    <div class="tab" data-tab="review">Ôn tập thẻ</div>
+  </div>
+
+  <div class="panel" id="panel-bank">
+    <div class="toolbar">
+      <input type="search" class="search-input" id="search" placeholder="Tìm từ đã lưu...">
+      <button class="btn btn-primary" id="toggle-form-btn">+ Thêm từ mới</button>
+    </div>
+
+    <div class="form-card hidden" id="form-card">
+      <h3>Thêm từ mới</h3>
+
+      <label class="field-label">Từ chính</label>
+      <input type="text" class="row-input" id="f-word" placeholder="ví dụ: obvious">
+
+      <label class="field-label">Chủ đề / Nhóm</label>
+      <input type="text" class="row-input" id="f-category" list="category-list" placeholder="vd: Lịch sử, Khoa học vũ trụ, Sức khỏe & Y tế...">
+      <datalist id="category-list"></datalist>
+
+      <label class="field-label">Phiên âm (IPA)</label>
+      <input type="text" class="row-input" id="f-phonetic" placeholder="/ˈɒb.vi.əs/">
+
+      <label class="field-label">Hình ảnh minh hoạ (tuỳ chọn, tải từ máy)</label>
+      <input type="file" accept="image/*" id="f-icon-file">
+      <div id="icon-preview" style="margin-top:.5rem;"></div>
+
+      <label class="field-label">File âm thanh tự ghi (tuỳ chọn — nếu để trống sẽ dùng giọng máy)</label>
+      <input type="file" accept="audio/*" id="f-audio-file">
+      <div id="audio-preview" style="margin-top:.5rem;font-size:12px;color:var(--ink-faint);"></div>
+
+      <label class="field-label">Link Cambridge Dictionary tuỳ chỉnh (nếu từ ghép/cụm từ không có trang riêng)</label>
+      <input type="text" class="row-input" id="f-cambridge-url" placeholder="https://dictionary.cambridge.org/dictionary/english/...">
+      <div style="font-size:11px;color:var(--ink-faint);margin-top:.3rem;">Để trống thì app sẽ tự đoán link theo tên từ.</div>
+
+      <label class="field-label">Nghĩa tiếng Anh (English definition)</label>
+      <input type="text" class="row-input" id="f-meaning-en" placeholder="clearly seen or understood; easily perceived">
+
+      <label class="field-label">Nghĩa tiếng Việt</label>
+      <input type="text" class="row-input" id="f-meaning-vi" placeholder="rõ ràng, hiển nhiên">
+
+      <label class="field-label">Các dạng từ loại</label>
+      <div id="forms-rows"></div>
+      <button class="add-row-btn" id="add-form-row">+ thêm dạng từ</button>
+
+      <label class="field-label">Từ đồng nghĩa (cách nhau bằng dấu phẩy)</label>
+      <input type="text" class="row-input" id="f-synonyms" placeholder="evident, apparent, clear, plain">
+
+      <label class="field-label">Từ trái nghĩa (cách nhau bằng dấu phẩy)</label>
+      <input type="text" class="row-input" id="f-antonyms" placeholder="unclear, obscure, ambiguous">
+
+<label class="field-label">Collocation (cách nhau bằng dấu phẩy)</label>
+      <input type="text" class="row-input" id="f-collocations" placeholder="obvious reason, become obvious, glaringly obvious">
+
+      <label class="field-label">Từ dễ nhầm (viết gần giống)</label>
+      <div id="confusable-rows"></div>
+      <button class="add-row-btn" id="add-confusable-row">+ thêm từ dễ nhầm</button>
+
+      <div class="form-actions">
+        <button class="btn btn-ghost" id="cancel-form">Huỷ</button>
+        <button class="btn btn-primary" id="save-word">Lưu từ</button>
+      </div>
+    </div>
+
+    <div class="grid" id="word-grid"></div>
+    <div class="empty hidden" id="empty-state">
+      <div class="big">Sổ từ đang trống</div>
+      <div>Bấm "+ Thêm từ mới" để lưu từ đầu tiên của bạn.</div>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="panel-review">
+    <div class="review-wrap">
+      <div class="review-filter">
+        <button class="active" id="filter-due">Đến hạn hôm nay</button>
+        <button id="filter-all">Tất cả các từ</button>
+      </div>
+      <div class="review-meta" id="review-meta">0 / 0</div>
+      <div class="flashcard" id="flashcard">
+        <div class="flashcard-inner">
+          <div class="face face-front">
+            <div class="word-icon" id="rev-icon" style="width:72px;height:72px;margin-bottom:.6rem;"></div>
+            <div class="word-big" id="rev-word">-</div>
+            <div class="phonetic-big" id="rev-phonetic"></div>
+            <div style="display:flex;gap:.5rem;margin-top:.6rem;">
+              <button class="audio-btn" id="rev-audio-front" title="Nghe (giọng máy)">🔊</button>
+              <a class="cambridge-link" id="rev-cambridge-front" href="#" target="_blank" rel="noopener" title="Nghe & tra trên Cambridge Dictionary">📖</a>
+            </div>
+            <div class="hint">Chạm để xem chi tiết</div>
+          </div>
+          <div class="face face-back" id="rev-back"></div>
+        </div>
+      </div>
+      <div class="grade-row hidden" id="grade-row" style="max-width:480px;width:100%;flex-direction:column;">
+        <div style="display:flex;gap:.6rem;">
+          <button class="grade-btn grade-forgot" id="grade-forgot">Chưa nhớ ↺</button>
+          <button class="grade-btn grade-remember" id="grade-remember">Nhớ rồi ✓</button>
+        </div>
+        <div class="schedule-note">Chưa nhớ → ôn lại sau 1 ngày · Nhớ rồi → dời sang mốc +3 / +7 / +15 ngày, sau đó "đã thuộc"</div>
+      </div>
+      <div class="review-nav">
+        <button class="btn btn-ghost btn-sm" id="rev-prev">← Trước</button>
+        <button class="btn btn-ghost btn-sm" id="rev-shuffle">Xáo thẻ</button>
+        <button class="btn btn-ghost btn-sm" id="rev-next">Tiếp →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'vocab-words-v1';
+let words = [];
+let reviewOrder = [];
+let reviewIndex = 0;
+let reviewFilter = 'due'; // 'due' | 'all'
+
+// Spaced repetition: mốc +3 / +7 / +15 ngày, giống nguyên tắc trong bảng theo dõi của bạn
+const SR_INTERVALS = [3, 7, 15];
+
+function todayISO(){
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  return d.toISOString().slice(0,10);
+}
+function addDaysISO(days){
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  d.setDate(d.getDate()+days);
+  return d.toISOString().slice(0,10);
+}
+function daysUntil(iso){
+  const target = new Date(iso+'T00:00:00');
+  const today = new Date(todayISO()+'T00:00:00');
+  return Math.round((target-today)/86400000);
+}
+function newReviewData(){
+  return { stage: 0, nextReview: addDaysISO(SR_INTERVALS[0]), mastered: false };
+}
+function isDue(w){
+  if(!w.review) w.review = newReviewData();
+  return !w.review.mastered && daysUntil(w.review.nextReview) <= 0;
+}
+function gradeWord(w, remembered){
+  if(!w.review) w.review = newReviewData();
+
+if(remembered){
+    const nextStage = w.review.stage + 1;
+    if(nextStage >= SR_INTERVALS.length){
+      w.review.mastered = true;
+      w.review.stage = SR_INTERVALS.length;
+    }else{
+      w.review.stage = nextStage;
+      w.review.nextReview = addDaysISO(SR_INTERVALS[nextStage]);
+      w.review.mastered = false;
+    }
+  }else{
+    w.review.stage = 0;
+    w.review.mastered = false;
+    w.review.nextReview = addDaysISO(1);
+  }
+}
+function statusBadge(w){
+  if(!w.review) w.review = newReviewData();
+  if(w.review.mastered) return '<span class="status-badge status-mastered">đã thuộc</span>';
+  const d = daysUntil(w.review.nextReview);
+  if(d<=0) return '<span class="status-badge status-due">đến hạn ôn</span>';
+  return <span class="status-badge status-wait">còn ${d} ngày</span>;
+}
+
+const seed = [
+  {
+    id: 'seed-obvious',
+    word: 'obvious',
+    category: 'Diễn đạt mức độ & Nhận thức',
+    phonetic: '/ˈɒb.vi.əs/',
+    meaningEn: 'clearly seen, understood, or recognized; easily perceived',
+    meaningVi: 'rõ ràng, hiển nhiên',
+    forms: [
+      {pos:'adj', word:'obvious', example:"It's obvious that silence improves concentration."},
+      {pos:'adv', word:'obviously', example:'Obviously, noise pollution affects productivity.'},
+      {pos:'n', word:'obviousness', example:'The obviousness of the solution surprised everyone.'}
+    ],
+    synonyms: ['evident','apparent','clear','plain','manifest','noticeable','self-evident'],
+    antonyms: ['unclear','ambiguous','obscure','subtle','hidden'],
+    review: { stage: 0, nextReview: (function(){const d=new Date();d.setHours(0,0,0,0);return d.toISOString().slice(0,10);})(), mastered:false },
+    confusables: [
+      {word:'oblivious', note:'không hề hay biết — gần như trái nghĩa, rất dễ đọc nhầm với obvious'},
+      {word:'obscure', note:'mơ hồ, khó hiểu — trái nghĩa dù cùng bắt đầu ob-'},
+      {word:'obsolete', note:'lỗi thời, không dùng nữa'},
+      {word:'obstruct', note:'cản trở, gây tắc nghẽn'}
+    ]
+  }
+];
+
+// Từ Claude thêm vào mỗi khi Thanh Hương học từ mới trong chat này.
+// Khi mở lại app, các từ chưa có sẽ tự động được gộp vào sổ (không ghi đè từ đã lưu).
+const NEW_WORDS = [
+  {
+    word: 'widespread',
+    phonetic: '/ˈwaɪd.spred/',
+    meaningEn: 'existing or happening in many places, or among many people',
+    meaningVi: 'phổ biến, lan rộng khắp nơi',
+    forms: [
+      {pos:'adj', word:'widespread', example:'Air pollution has become a widespread problem in major cities.'}
+    ],
+    synonyms: ['prevalent','extensive','pervasive','universal','rampant','far-reaching'],
+    antonyms: ['rare','limited','localized','isolated','uncommon'],
+    collocations: ['widespread concern','widespread use','become widespread','widespread damage'],
+    confusables: [
+      {word:'widen', note:'động từ — mở rộng ra (kích thước); cùng gốc "wide" nhưng khác từ loại và nghĩa'},
+      {word:'wide-ranging', note:'đa dạng, bao quát nhiều lĩnh vực — nói về phạm vi chủ đề, KHÔNG phải mức độ phổ biến'},
+      {word:'spread', note:'động từ/danh từ gốc — chỉ hành động lan ra, chưa hàm ý "phổ biến, khắp nơi" như widespread'}
+    ]
+  },
+  {
+    word: 'diagnose',
+    phonetic: '/ˈdaɪ.əɡ.nəʊz/',
+    meaningEn: 'to identify the nature of an illness or problem by examining the symptoms',
+    meaningVi: 'chẩn đoán (xác định bệnh/vấn đề)',
+    forms: [
+      {pos:'v', word:'diagnose', example:'She was diagnosed with a severe allergy to peanuts.'},
+      {pos:'n', word:'diagnosis', example:'The diagnosis confirmed a rare condition.'},
+      {pos:'adj', word:'diagnostic', example:'Diagnostic tests can identify the cause of illness.'}
+    ],
+    synonyms: ['identify','detect','determine','pinpoint'],
+    antonyms: ['misdiagnose','overlook','undiagnosed'],
+    collocations: ['be diagnosed with','early diagnosis','make a diagnosis','diagnostic test'],
+
+confusables: [
+      {word:'prognosis', note:'tiên lượng bệnh — dự đoán diễn biến trong tương lai, KHÁC với diagnosis (xác định bệnh hiện tại)'},
+      {word:'recognize', note:'nhận ra nói chung — không mang tính chuyên môn y khoa như diagnose'}
+    ]
+  },
+  {
+    word: 'allergy',
+    phonetic: '/ˈæl.ə.dʒi/',
+    meaningEn: 'a medical condition causing a harmful reaction to a particular substance',
+    meaningVi: 'dị ứng',
+    forms: [
+      {pos:'n', word:'allergy', example:'He developed an allergy to pollen.'},
+      {pos:'adj', word:'allergic', example:'She is allergic to shellfish.'},
+      {pos:'n', word:'allergen', example:'Common allergens include dust and pollen.'}
+    ],
+    synonyms: ['sensitivity','hypersensitivity','intolerance'],
+    antonyms: ['immunity','tolerance'],
+    collocations: ['develop an allergy','suffer from an allergy','allergic reaction','severe allergy'],
+    confusables: [
+      {word:'energy', note:'năng lượng — viết gần giống "allergy" nhưng nghĩa hoàn toàn khác'},
+      {word:'intolerance', note:'không dung nạp (thực phẩm) — dễ dùng lẫn với allergy dù cơ chế y học khác nhau'}
+    ]
+  },
+  {
+    word: 'spice mix',
+    phonetic: '/spaɪs mɪks/',
+    meaningEn: 'a blended combination of two or more spices used together in cooking',
+    meaningVi: 'hỗn hợp gia vị',
+    forms: [
+      {pos:'n', word:'spice mix / spice mixes', example:'The recipe calls for a traditional Indian spice mix.'}
+    ],
+    synonyms: ['seasoning blend','spice blend','seasoning mix'],
+    antonyms: ['single spice (không phải trái nghĩa thật, chỉ là đối lập về mức độ pha trộn)'],
+    collocations: ['a blend of spices','traditional spice mix','pre-packaged spice mix','homemade spice mix'],
+    confusables: [
+      {word:'spice', note:'danh từ/động từ gốc — một loại gia vị đơn lẻ, hoặc "tẩm gia vị" (verb); spice mix là hỗn hợp nhiều spice'},
+      {word:'spicy', note:'tính từ — chỉ vị cay/nồng, không phải danh từ chỉ hỗn hợp gia vị'},
+      {word:'mix', note:'danh từ/động từ gốc — pha trộn nói chung, không riêng gia vị (vd: cake mix)'}
+    ]
+  }
+  ,
+  {
+    word: 'delivery',
+    phonetic: '/dɪˈlɪv.ər.i/',
+    meaningEn: 'the action of bringing goods to a place; or the manner in which a speech/talk is presented',
+    meaningVi: 'sự giao hàng / cách trình bày khi nói',
+    forms: [
+      {pos:'v', word:'deliver', example:'The company delivers packages within 24 hours.'},
+      {pos:'n', word:'delivery', example:'His delivery was clear and well-paced during the presentation.'},
+      {pos:'n', word:'deliverable', example:'The deliverables were outlined in the contract.'}
+    ],
+    synonyms: ['shipment','dispatch','distribution','presentation','articulation'],
+    antonyms: ['collection','pickup','hesitation','faltering'],
+    collocations: ['express delivery','free delivery','cash on delivery','delivery date','deliver a speech','deliver on a promise','deliver results'],
+    confusables: [
+      {word:'deliberate', note:'cố ý, có chủ đích (adj/v) — viết gần giống deliver/delivery nhưng nghĩa hoàn toàn khác'},
+      {word:'deliverance', note:'sự giải thoát, cứu rỗi (literary, hiếm gặp) — cùng gốc chữ nhưng nghiêng về nghĩa tôn giáo/văn học'}
+    ]
+  }
+  ,
+  {
+    word: 'realise',
+    phonetic: '/ˈrɪə.laɪz/',
+    meaningEn: 'to become fully aware of something as a fact; or to achieve something hoped for',
+    meaningVi: 'nhận ra / thực hiện được',
+    forms: [
+      {pos:'v', word:'realise', example:'She realised her mistake too late.'},
+      {pos:'n', word:'realisation', example:'The realisation came as a shock.'},
+      {pos:'adj', word:'unrealised', example:'His potential remained largely unrealised.'}
+    ],
+    synonyms: ['recognize','grasp','comprehend','come to understand','achieve','fulfil'],
+    antonyms: ['overlook','misunderstand','fail to notice','remain unaware'],
+
+collocations: ['realise a dream','realise your potential','suddenly realise','come to realise','realise the importance of','fail to realise'],
+    confusables: [
+      {word:'realistic', note:'thực tế, khả thi (adj) — KHÁC nghĩa dù cùng gốc "real", không phải "nhận ra"'},
+      {word:'reality', note:'hiện thực, thực tế (n, trừu tượng) — danh từ chỉ trạng thái, khác với động từ realise'}
+    ]
+  }
+  ,
+  {
+    word: 'deficiency',
+    phonetic: '/dɪˈfɪʃ.ən.si/',
+    meaningEn: 'a lack or shortage of something that is needed or required',
+    meaningVi: 'sự thiếu hụt',
+    forms: [
+      {pos:'n', word:'deficiency', example:'The report highlighted a deficiency in funding.'},
+      {pos:'adj', word:'deficient', example:'The soil is deficient in nitrogen.'}
+    ],
+    synonyms: ['a lack (of)','shortage','insufficiency','dearth','scarcity'],
+    antonyms: ['abundance','sufficiency','surplus','excess'],
+    collocations: ['a deficiency in/of','vitamin deficiency','nutrient deficiency','address a deficiency','suffer from a deficiency'],
+    confusables: [
+      {word:'efficiency', note:'hiệu quả, hiệu suất — viết gần giống nhưng nghĩa gần như NGƯỢC LẠI (efficient ≠ deficient)'},
+      {word:'deficit', note:'thâm hụt, thường dùng cho tài chính/ngân sách — gần nghĩa nhưng chuyên biệt hơn'},
+      {word:'sufficient', note:'đủ (adj) — gần như trái nghĩa trực tiếp của deficient'}
+    ]
+  }
+  ,
+  {
+    word: 'relative',
+    phonetic: '/ˈrel.ə.tɪv/',
+    meaningEn: '(n) a person connected by blood or marriage; (adj) considered in comparison or in relation to something else',
+    meaningVi: '(danh từ) người thân, họ hàng; (tính từ) tương đối, mang tính so sánh',
+    forms: [
+      {pos:'n', word:'relative', example:'She invited all her relatives to the wedding.'},
+      {pos:'adj', word:'relative', example:'The relative importance of these factors varies.'},
+      {pos:'adv', word:'relatively', example:'The test was relatively easy.'},
+      {pos:'n', word:'relativity', example:"Einstein's theory of relativity."}
+    ],
+    synonyms: ['family member','kin','relation','comparative','proportional','relational'],
+    antonyms: ['absolute','independent','stranger'],
+    collocations: ['relative to','a close relative','relative ease','relative importance','relatively speaking','blood relative'],
+    confusables: [
+      {word:'relevant', note:'liên quan, thích đáng — LỖI RẤT HAY GẶP trong Writing, relative ≠ relevant dù viết gần giống'},
+      {word:'relate', note:'liên hệ, kể lại (động từ gốc)'},
+      {word:'relation', note:'mối quan hệ (khái niệm trừu tượng) — khác với relative (chỉ một người cụ thể)'}
+    ]
+  }
+  ,
+  {
+    word: 'socialise',
+    phonetic: '/ˈsəʊ.ʃəl.aɪz/',
+    meaningEn: 'to meet and spend time with other people in a friendly way',
+    meaningVi: 'giao lưu, giao tiếp xã hội',
+    forms: [
+      {pos:'v', word:'socialise', example:'He rarely socialises with his colleagues after work.'},
+      {pos:'n', word:'socialising', example:'Socialising with locals helps you learn a language faster.'},
+      {pos:'adj', word:'social', example:'Humans are social animals.'}
+    ],
+    synonyms: ['mingle','interact','network','hang out'],
+    antonyms: ['isolate oneself','withdraw','avoid company'],
+    collocations: ['socialise with','go out and socialise','opportunities to socialise','socialise online'],
+    confusables: [
+      {word:'socialism', note:'chủ nghĩa xã hội (n) — HOÀN TOÀN khác nghĩa dù cùng gốc "social"'},
+      {word:'sociable', note:'hòa đồng, thích giao tiếp (adj, mô tả tính cách) — khác với động từ socialise'},
+      {word:'social', note:'thuộc về xã hội (adj gốc) — khác từ loại với động từ socialise'}
+    ]
+  }
+  ,
+  {
+    word: 'appointment',
+    category: 'Đời sống thường nhật',
+    phonetic: '/əˈpɔɪnt.mənt/',
+    meaningEn: '(n) an arrangement to meet someone at a particular time; also a job or position given to someone',
+
+meaningVi: 'cuộc hẹn; sự bổ nhiệm (chức vụ)',
+    forms: [
+      {pos:'n', word:'appointment', example:'I have a dental appointment tomorrow at 3pm.'},
+      {pos:'v', word:'appoint', example:'She was appointed as the new manager.'},
+      {pos:'n', word:'appointee', example:'The appointee will start next month.'}
+    ],
+    synonyms: ['engagement','booking','consultation','assignment','nomination'],
+    antonyms: ['cancellation','no-show'],
+    collocations: ['make an appointment','cancel an appointment','keep an appointment','miss an appointment','dental appointment','by appointment only'],
+    confusables: [
+      {word:'disappoint', note:'làm thất vọng (v) — chứa "appoint" bên trong nhưng nghĩa hoàn toàn khác'},
+      {word:'disappointment', note:'sự thất vọng (n) — dễ lẫn với "appointment" khi đọc lướt'},
+      {word:'appoint', note:'bổ nhiệm (v, động từ gốc) — chỉ mang nghĩa bổ nhiệm, không phải "đặt lịch hẹn"'}
+    ]
+  }
+  ,
+  {
+    word: 'temporary',
+    category: 'Diễn đạt mức độ & Nhận thức',
+    phonetic: '/ˈtem.pər.ər.i/',
+    meaningEn: 'lasting for only a limited period of time; not permanent',
+    meaningVi: 'tạm thời, nhất thời',
+    forms: [
+      {pos:'adj', word:'temporary', example:'She has a temporary job while looking for something permanent.'},
+      {pos:'adv', word:'temporarily', example:'The office is temporarily closed.'},
+      {pos:'n', word:'temp', example:"She's working as a temp this summer."}
+    ],
+    synonyms: ['transient','provisional','short-term','interim','fleeting'],
+    antonyms: ['permanent','lasting','enduring'],
+    collocations: ['temporary solution','temporary measure','temporary job','on a temporary basis','temporary relief'],
+    confusables: [
+      {word:'temporal', note:'thuộc về thời gian nói chung, hoặc thuộc về thế tục — HOÀN TOÀN khác nghĩa dù viết gần giống'},
+      {word:'contemporary', note:'đương đại, cùng thời — dễ nhầm hình thức và liên tưởng "thời gian" nhưng nghĩa khác hẳn'}
+    ]
+  }
+];
+
+// Bổ sung collocation cho những từ bạn đã lưu TRƯỚC khi tính năng này ra đời (ví dụ: obvious)
+const COLLOCATION_BACKFILL = {
+  'obvious': ['obvious reason','become obvious','glaringly obvious','make something obvious']
+};
+const PHONETIC_BACKFILL = {
+  'obvious': '/ˈɒb.vi.əs/',
+  'widespread': '/ˈwaɪd.spred/',
+  'diagnose': '/ˈdaɪ.əɡ.nəʊz/',
+  'allergy': '/ˈæl.ə.dʒi/',
+  'spice mix': '/spaɪs mɪks/',
+  'delivery': '/dɪˈlɪv.ər.i/',
+  'realise': '/ˈrɪə.laɪz/',
+  'deficiency': '/dɪˈfɪʃ.ən.si/'
+};
+const MEANING_BACKFILL = {
+  'obvious': {en:'clearly seen, understood, or recognized; easily perceived', vi:'rõ ràng, hiển nhiên'},
+  'widespread': {en:'existing or happening in many places, or among many people', vi:'phổ biến, lan rộng khắp nơi'},
+  'diagnose': {en:'to identify the nature of an illness or problem by examining the symptoms', vi:'chẩn đoán (xác định bệnh/vấn đề)'},
+  'allergy': {en:'a medical condition causing a harmful reaction to a particular substance', vi:'dị ứng'},
+  'spice mix': {en:'a blended combination of two or more spices used together in cooking', vi:'hỗn hợp gia vị'},
+  'delivery': {en:'the action of bringing goods to a place; or the manner in which a speech is presented', vi:'sự giao hàng / cách trình bày khi nói'},
+  'realise': {en:'to become fully aware of something as a fact; or to achieve something hoped for', vi:'nhận ra / thực hiện được'},
+  'deficiency': {en:'a lack or shortage of something that is needed or required', vi:'sự thiếu hụt'}
+};
+const CATEGORY_BACKFILL = {
+  'obvious': 'Diễn đạt mức độ & Nhận thức',
+  'widespread': 'Xã hội & Con người',
+  'diagnose': 'Sức khỏe & Y tế',
+  'allergy': 'Sức khỏe & Y tế',
+  'spice mix': 'Đời sống thường nhật',
+  'delivery': 'Đời sống thường nhật',
+  'realise': 'Diễn đạt mức độ & Nhận thức',
+  'deficiency': 'Sức khỏe & Y tế',
+  'relative': 'Xã hội & Con người',
+  'socialise': 'Xã hội & Con người'
+};
+
+const ICON_BACKFILL = {
+  'obvious': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="26" r="14" fill="none" stroke="#C9A227" stroke-width="3"/><path d="M26 40 L26 46 L38 46 L38 40" fill="none" stroke="#1B2A4A" stroke-width="3"/><line x1="28" y1="50" x2="36" y2="50" stroke="#1B2A4A" stroke-width="3"/><line x1="32" y1="4" x2="32" y2="10" stroke="#C9A227" stroke-width="3"/><line x1="12" y1="26" x2="6" y2="26" stroke="#C9A227" stroke-width="3"/><line x1="58" y1="26" x2="52" y2="26" stroke="#C9A227" stroke-width="3"/></svg>',
+  'widespread': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="16" fill="none" stroke="#1F7A6B" stroke-width="3"/><ellipse cx="32" cy="32" rx="16" ry="7" fill="none" stroke="#1F7A6B" stroke-width="2"/><line x1="32" y1="16" x2="32" y2="48" stroke="#1F7A6B" stroke-width="2"/><circle cx="8" cy="14" r="2.5" fill="#C9A227"/><circle cx="56" cy="12" r="2.5" fill="#C9A227"/><circle cx="8" cy="52" r="2.5" fill="#C9A227"/><circle cx="56" cy="50" r="2.5" fill="#C9A227"/></svg>',
+  'diagnose': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M18 8 v18 a10 10 0 0 0 20 0 V8" fill="none" stroke="#1B2A4A" stroke-width="3"/><line x1="18" y1="8" x2="14" y2="8" stroke="#1B2A4A" stroke-width="3"/><line x1="38" y1="8" x2="42" y2="8" stroke="#1B2A4A" stroke-width="3"/><path d="M28 26 v10 a12 12 0 0 0 24 0 v-4" fill="none" stroke="#1B2A4A" stroke-width="3"/><circle cx="52" cy="32" r="5" fill="none" stroke="#1F7A6B" stroke-width="3"/></svg>',
+  'allergy': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="34" r="10" fill="none" stroke="#1F7A6B" stroke-width="3"/><circle cx="24" cy="18" r="3.5" fill="#C9A227"/><circle cx="10" cy="30" r="3.5" fill="#C9A227"/><circle cx="16" cy="44" r="3.5" fill="#C9A227"/><path d="M42 18 q7 7 0 14" fill="none" stroke="#B5432D" stroke-width="3"/><path d="M50 24 q7 7 0 14" fill="none" stroke="#B5432D" stroke-width="3"/></svg>',
+  'spice mix': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M20 22 h24 v28 a4 4 0 0 1 -4 4 h-16 a4 4 0 0 1 -4 -4 Z" fill="none" stroke="#1B2A4A" stroke-width="3"/><rect x="24" y="12" width="16" height="10" rx="2" fill="none" stroke="#1B2A4A" stroke-width="3"/><circle cx="26" cy="34" r="2" fill="#B5432D"/><circle cx="34" cy="30" r="2" fill="#C9A227"/><circle cx="38" cy="40" r="2" fill="#1F7A6B"/><circle cx="28" cy="44" r="2" fill="#C9A227"/></svg>',
+  'delivery': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M12 20 L32 10 L52 20 L52 46 L32 56 L12 46 Z" fill="none" stroke="#1B2A4A" stroke-width="3"/><line x1="12" y1="20" x2="32" y2="30" stroke="#1B2A4A" stroke-width="3"/><line x1="52" y1="20" x2="32" y2="30" stroke="#1B2A4A" stroke-width="3"/><line x1="32" y1="30" x2="32" y2="56" stroke="#1B2A4A" stroke-width="3"/></svg>',
+  'realise': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 10 a14 14 0 0 1 14 14 c0 6 -4 8 -4 14 h-20 c0 -6 -4 -8 -4 -14 a14 14 0 0 1 14 -14 Z" fill="none" stroke="#1F7A6B" stroke-width="3"/><line x1="24" y1="44" x2="40" y2="44" stroke="#1B2A4A" stroke-width="3"/><line x1="26" y1="50" x2="38" y2="50" stroke="#1B2A4A" stroke-width="3"/><line x1="32" y1="2" x2="32" y2="8" stroke="#C9A227" stroke-width="3"/></svg>',
+  'deficiency': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="22" width="42" height="20" rx="3" fill="none" stroke="#B5432D" stroke-width="3"/><rect x="50" y="28" width="6" height="8" fill="#B5432D"/><rect x="12" y="26" width="8" height="12" fill="#B5432D"/></svg>',
+  'relative': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="16" r="7" fill="none" stroke="#1B2A4A" stroke-width="3"/><path d="M6 40 q0 -14 12 -14 q12 0 12 14" fill="none" stroke="#1B2A4A" stroke-width="3"/><circle cx="46" cy="16" r="7" fill="none" stroke="#1F7A6B" stroke-width="3"/><path d="M34 40 q0 -14 12 -14 q12 0 12 14" fill="none" stroke="#1F7A6B" stroke-width="3"/><circle cx="32" cy="46" r="5" fill="none"
+
+stroke="#C9A227" stroke-width="3"/><path d="M24 60 q0 -10 8 -10 q8 0 8 10" fill="none" stroke="#C9A227" stroke-width="3"/></svg>',
+  'socialise': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M6 12 h30 v18 h-10 l-6 8 v-8 h-14 Z" fill="none" stroke="#1F7A6B" stroke-width="3"/><path d="M28 30 h30 v18 h-12 v8 l-6 -8 h-12 Z" fill="none" stroke="#C9A227" stroke-width="3"/></svg>',
+  'appointment': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="14" width="34" height="34" rx="3" fill="none" stroke="#1B2A4A" stroke-width="3"/><line x1="8" y1="24" x2="42" y2="24" stroke="#1B2A4A" stroke-width="3"/><line x1="16" y1="8" x2="16" y2="18" stroke="#1B2A4A" stroke-width="3"/><line x1="34" y1="8" x2="34" y2="18" stroke="#1B2A4A" stroke-width="3"/><circle cx="46" cy="42" r="14" fill="#FAF7F0" stroke="#1F7A6B" stroke-width="3"/><line x1="46" y1="42" x2="46" y2="34" stroke="#1F7A6B" stroke-width="2"/><line x1="46" y1="42" x2="52" y2="42" stroke="#1F7A6B" stroke-width="2"/></svg>',
+  'temporary': '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M16 8 h32 v10 l-14 14 l14 14 v10 h-32 v-10 l14 -14 l-14 -14 Z" fill="none" stroke="#B5432D" stroke-width="3"/><line x1="12" y1="8" x2="52" y2="8" stroke="#B5432D" stroke-width="3"/><line x1="12" y1="56" x2="52" y2="56" stroke="#B5432D" stroke-width="3"/></svg>',
+};
+
+async function loadWords(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, false);
+    words = res && res.value ? JSON.parse(res.value) : [];
+  }catch(e){
+    words = [];
+  }
+  if(!Array.isArray(words)) words = [];
+  if(words.length===0) words = seed.map(w=>({...w}));
+
+  let changed = false;
+  NEW_WORDS.forEach(nw=>{
+    const exists = words.some(w=> w.word.toLowerCase()===nw.word.toLowerCase());
+    if(!exists){
+      words.unshift({ id: uid(), ...nw, review: newReviewData() });
+      changed = true;
+    }
+  });
+  words.forEach(w=>{
+    const backfill = COLLOCATION_BACKFILL[w.word.toLowerCase()];
+    if(backfill && (!w.collocations || w.collocations.length===0)){
+      w.collocations = backfill;
+      changed = true;
+    }
+    const phBackfill = PHONETIC_BACKFILL[w.word.toLowerCase()];
+    if(phBackfill && !w.phonetic){
+      w.phonetic = phBackfill;
+      changed = true;
+    }
+    const mBackfill = MEANING_BACKFILL[w.word.toLowerCase()];
+    if(mBackfill && !w.meaningEn && !w.meaningVi){
+      w.meaningEn = mBackfill.en;
+      w.meaningVi = mBackfill.vi;
+      changed = true;
+    }
+    const catBackfill = CATEGORY_BACKFILL[w.word.toLowerCase()];
+    if(catBackfill && !w.category){
+      w.category = catBackfill;
+      changed = true;
+    }
+    const iconBackfill = ICON_BACKFILL[w.word.toLowerCase()];
+    if(iconBackfill && !w.icon){
+      w.icon = iconBackfill;
+      changed = true;
+    }
+  });
+  if(changed) await saveWords();
+  render();
+}
+
+async function saveWords(){
+  try{
+    await window.storage.set(STORAGE_KEY, JSON.stringify(words), false);
+  }catch(e){}
+}
+
+function uid(){ return 'w-' + Date.now() + '-' + Math.floor(Math.random()*10000); }
+
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-GB';
+    u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function cambridgeLink(word){
+  const slug = word.trim().toLowerCase().replace(/\s+/g,'-');
+  return 'https://dictionary.cambridge.org/dictionary/english/' + encodeURIComponent(slug);
+}
+
+function playWordAudio(w){
+  if(w.customAudio){
+    const audio = new Audio(w.customAudio);
+    audio.play().catch(()=> speak(w.word));
+  }else{
+    speak(w.word);
+  }
+}
+
+const DEFAULT_ICON = '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="20" fill="none" stroke="#1F7A6B" stroke-width="3"/><text x="32" y="40" font-size="24" text-anchor="middle" fill="#1F7A6B" font-family="Georgia,serif">Aa</text></svg>';
+
+// ---------- Tabs ----------
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const tab = t.dataset.tab;
+    document.getElementById('panel-bank').classList.toggle('hidden', tab!=='bank');
+    document.getElementById('panel-review').classList.toggle('hidden', tab!=='review');
+    if(tab==='review') startReview();
+  });
+});
+
+// ---------- Add-word form ----------
+const formCard = document.getElementById('form-card');
+document.getElementById('toggle-form-btn').addEventListener('click', ()=>{
+  formCard.classList.toggle('hidden');
+  if(!formCard.classList.contains('hidden')) resetForm();
+});
+document.getElementById('cancel-form').addEventListener('click', ()=> formCard.classList.add('hidden'));
+
+function resetForm(){
+  document.getElementById('f-word').value='';
+  document.getElementById('f-category').value='';
+  document.getElementById('f-phonetic').value='';
+  document.getElementById('f-icon-file').value='';
+  document.getElementById('icon-preview').innerHTML='';
+  document.getElementById('f-audio-file').value='';
+  document.getElementById('audio-preview').innerHTML='';
+  document.getElementById('f-cambridge-url').value='';
+  tempIconDataUrl = null;
+  tempAudioDataUrl = null;
+  document.getElementById('f-meaning-en').value='';
+  document.getElementById('f-meaning-vi').value='';
+  document.getElementById('f-synonyms').value='';
+  document.getElementById('f-antonyms').value='';
+  document.getElementById('f-collocations').value='';
+  document.getElementById('forms-rows').innerHTML='';
+  document.getElementById('confusable-rows').innerHTML='';
+  addFormRow(); addConfusableRow();
+}
+
+function addFormRow(pos='adj', word='', example=''){
+  const row = document.createElement('div');
+  row.className='dyn-row';
+  row.innerHTML = 
+    <select class="pos-select">
+      <option value="n">danh từ</option>
+      <option value="v">động từ</option>
+      <option value="adj">tính từ</option>
+      <option value="adv">trạng từ</option>
+    </select>
+    <input type="text" class="form-word" placeholder="từ">
+    <input type="text" class="form-example" placeholder="ví dụ câu">
+    <button class="x" title="xoá">×</button>;
+  row.querySelector('.pos-select').value = pos;
+  row.querySelector('.form-word').value = word;
+  row.querySelector('.form-example').value = example;
+  row.querySelector('.x').addEventListener('click', ()=> row.remove());
+  document.getElementById('forms-rows').appendChild(row);
+}
+document.getElementById('add-form-row').addEventListener('click', ()=> addFormRow());
+
+function addConfusableRow(word='', note=''){
+  const row = document.createElement('div');
+  row.className='dyn-row';
+  row.innerHTML = 
+    <input type="text" class="conf-word" placeholder="từ dễ nhầm" style="max-width:140px;">
+    <input type="text" class="conf-note" placeholder="nghĩa / lưu ý phân biệt">
+    <button class="x" title="xoá">×</button>;
+  row.querySelector('.conf-word').value = word;
+  row.querySelector('.conf-note').value = note;
+  row.querySelector('.x').addEventListener('click', ()=> row.remove());
+  document.getElementById('confusable-rows').appendChild(row);
+}
+document.getElementById('add-confusable-row').addEventListener('click', ()=> addConfusableRow());
+
+// ---------- Image & audio upload for add-word form ----------
+let tempIconDataUrl = null;
+let tempAudioDataUrl = null;
+
+function readFileAsDataUrl(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById('f-icon-file').addEventListener('change', async (e)=>{
+  const file = e.target.files[0];
+
+const preview = document.getElementById('icon-preview');
+  if(!file){ tempIconDataUrl=null; preview.innerHTML=''; return; }
+  if(file.size > 1.5*1024*1024){
+    preview.innerHTML = '<span style="color:var(--coral-dark);font-size:12px;">Ảnh hơi nặng (>1.5MB), nên chọn ảnh nhỏ hơn để app tải nhanh.</span>';
+  }
+  try{
+    tempIconDataUrl = await readFileAsDataUrl(file);
+    preview.innerHTML = <img src="${tempIconDataUrl}" style="width:56px;height:56px;object-fit:contain;border:1px solid var(--paper-line);border-radius:8px;padding:4px;">;
+  }catch(err){
+    preview.innerHTML = '<span style="color:var(--coral-dark);font-size:12px;">Không đọc được ảnh, thử lại nhé.</span>';
+  }
+});
+
+document.getElementById('f-audio-file').addEventListener('change', async (e)=>{
+  const file = e.target.files[0];
+  const preview = document.getElementById('audio-preview');
+  if(!file){ tempAudioDataUrl=null; preview.innerHTML=''; return; }
+  if(file.size > 2*1024*1024){
+    preview.innerHTML = '<span style="color:var(--coral-dark);">File hơi nặng (>2MB), nên ghi âm ngắn gọn hơn.</span>';
+  }
+  try{
+    tempAudioDataUrl = await readFileAsDataUrl(file);
+    preview.innerHTML = ✓ Đã chọn: ${escapeHtml(file.name)};
+  }catch(err){
+    preview.innerHTML = '<span style="color:var(--coral-dark);">Không đọc được file âm thanh, thử lại nhé.</span>';
+  }
+});
+
+document.getElementById('save-word').addEventListener('click', async ()=>{
+  const wordVal = document.getElementById('f-word').value.trim();
+  if(!wordVal){ document.getElementById('f-word').focus(); return; }
+  const category = document.getElementById('f-category').value.trim() || 'Khác';
+  const phonetic = document.getElementById('f-phonetic').value.trim();
+  const cambridgeUrlOverride = document.getElementById('f-cambridge-url').value.trim();
+  const meaningEn = document.getElementById('f-meaning-en').value.trim();
+  const meaningVi = document.getElementById('f-meaning-vi').value.trim();
+
+  const forms = [...document.querySelectorAll('#forms-rows .dyn-row')].map(r=>({
+    pos: r.querySelector('.pos-select').value,
+    word: r.querySelector('.form-word').value.trim(),
+    example: r.querySelector('.form-example').value.trim()
+  })).filter(f=>f.word);
+
+  const confusables = [...document.querySelectorAll('#confusable-rows .dyn-row')].map(r=>({
+    word: r.querySelector('.conf-word').value.trim(),
+    note: r.querySelector('.conf-note').value.trim()
+  })).filter(c=>c.word);
+
+  const synonyms = document.getElementById('f-synonyms').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const antonyms = document.getElementById('f-antonyms').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const collocations = document.getElementById('f-collocations').value.split(',').map(s=>s.trim()).filter(Boolean);
+
+  const iconHtml = tempIconDataUrl ? <img src="${tempIconDataUrl}" style="width:100%;height:100%;object-fit:contain;"> : null;
+
+  words.unshift({ id: uid(), word: wordVal, category, phonetic, meaningEn, meaningVi, forms, synonyms, antonyms, collocations, confusables, review: newReviewData(), icon: iconHtml, customAudio: tempAudioDataUrl  null, cambridgeUrlOverride: cambridgeUrlOverride  null });
+  tempIconDataUrl = null;
+  tempAudioDataUrl = null;
+  await saveWords();
+  formCard.classList.add('hidden');
+  render();
+});
+
+// ---------- Render word bank ----------
+function posLabel(pos){
+  return {n:'danh từ', v:'động từ', adj:'tính từ', adv:'trạng từ'}[pos] || pos;
+}
+
+function buildWordCard(w){
+    const card = document.createElement('div');
+    card.className='word-card';
+    const formsRows = (w.forms||[]).map(f=>
+      <tr><td><span class="pos-badge">${posLabel(f.pos)}</span></td>
+      <td><b>${escapeHtml(f.word)}</b>${f.example? <span style="color:var(--ink-faint)">— ${escapeHtml(f.example)}</span>`:''}</td></tr>
+
+).join('');
+    const synChips = (w.synonyms||[]).map(s=><span class="chip chip-syn">${escapeHtml(s)}</span>).join('');
+    const antChips = (w.antonyms||[]).map(s=><span class="chip chip-ant">${escapeHtml(s)}</span>).join('');
+    const colloChips = (w.collocations||[]).map(s=><span class="chip chip-collo">${escapeHtml(s)}</span>).join('');
+    const confItems = (w.confusables||[]).map(c=>
+      <div class="confusable-item"><b>${escapeHtml(c.word)}</b>${c.note?<div class="note">${escapeHtml(c.note)}</div>:''}</div>
+    ).join('');
+
+    card.innerHTML = 
+      <div class="word-card-head">
+        <div style="display:flex;gap:.7rem;align-items:center;">
+          <div class="word-icon">${w.icon || DEFAULT_ICON}</div>
+          <div>
+            <h4>${escapeHtml(w.word)}</h4>
+            ${w.phonetic ? <span class="phonetic">${escapeHtml(w.phonetic)}</span> : ''}
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          ${statusBadge(w)}
+          <button class="audio-btn" data-id="${w.id}" title="${w.customAudio ? 'Nghe (giọng bạn ghi âm)' : 'Nghe (giọng máy)'}">🔊</button>
+          <a class="cambridge-link" href="${w.cambridgeUrlOverride || cambridgeLink(w.word)}" target="_blank" rel="noopener" title="Nghe & tra trên Cambridge Dictionary" onclick="event.stopPropagation()">📖</a>
+          <button class="cat-edit-btn" title="Đổi chủ đề">✎</button>
+          <button class="del" data-id="${w.id}" title="xoá">🗑</button>
+          <span class="chev">▾</span>
+        </div>
+      </div>
+      <div class="cat-edit-row">
+        <input type="text" class="cat-edit-input" list="category-list" value="${escapeHtml(w.category||'Khác')}">
+        <button class="btn btn-sm btn-primary cat-save">Lưu</button>
+      </div>
+      ${(w.meaningEn || w.meaningVi) ? 
+      <div class="meaning-line">
+        ${w.meaningEn ? <span class="meaning-en">${escapeHtml(w.meaningEn)}</span> : ''}
+        ${w.meaningVi ? <span class="meaning-vi">${escapeHtml(w.meaningVi)}</span> : ''}
+      </div> : ''}
+      <div class="word-card-body">
+        <div class="body-inner">
+          ${formsRows ? <div class="section-lbl">Từ loại</div><table class="forms-table">${formsRows}</table>:''}
+          ${synChips ? <div class="section-lbl">Đồng nghĩa</div><div class="chips">${synChips}</div>:''}
+          ${antChips ? <div class="section-lbl">Trái nghĩa</div><div class="chips">${antChips}</div>:''}
+          ${colloChips ? <div class="section-lbl">Collocation</div><div class="chips">${colloChips}</div>:''}
+          ${confItems ? <div class="section-lbl">Dễ nhầm</div>${confItems}:''}
+        </div>
+      </div>
+    `;
+    card.querySelector('.word-card-head').addEventListener('click', (e)=>{
+      if(e.target.classList.contains('del')  e.target.classList.contains('audio-btn')  e.target.classList.contains('cat-edit-btn')) return;
+      card.classList.toggle('open');
+    });
+    card.querySelector('.audio-btn').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      playWordAudio(w);
+    });
+    card.querySelector('.cat-edit-btn').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      card.querySelector('.cat-edit-row').classList.toggle('show');
+    });
+    card.querySelector('.cat-save').addEventListener('click', async ()=>{
+      const newCat = card.querySelector('.cat-edit-input').value.trim() || 'Khác';
+      w.category = newCat;
+      await saveWords();
+      render();
+    });
+    card.querySelector('.del').addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      words = words.filter(x=>x.id!==w.id);
+      await saveWords();
+      render();
+    });
+    return card;
+}
+
+const CATEGORY_ORDER = ['Sức khỏe & Y tế','Xã hội & Con người','Đời sống thường nhật','Diễn đạt mức độ & Nhận thức','Môi trường','Giáo dục','Công nghệ','Kinh tế & Kinh doanh','Khác'];
+
+function render(){
+  const grid = document.getElementById('word-grid');
+  const query = (document.getElementById('search').value||'').toLowerCase().trim();
+  const filtered = words.filter(w=> w.word.toLowerCase().includes(query));
+  grid.innerHTML = '';
+  document.getElementById('empty-state').classList.toggle('hidden', words.length>0);
+
+  const groups = {};
+  filtered.forEach(w=>{
+    const cat = w.category || 'Khác';
+    if(!groups[cat]) groups[cat] = [];
+    groups[cat].push(w);
+  });
+
+  const orderedCats = [...CATEGORY_ORDER.filter(c=>groups[c]), ...Object.keys(groups).filter(c=>!CATEGORY_ORDER.includes(c))];
+
+  orderedCats.forEach(cat=>{
+    const section = document.createElement('div');
+    section.className = 'category-section';
+    const header = document.createElement('div');
+    header.className = 'category-header';
+    header.innerHTML = <h3>${escapeHtml(cat)}</h3><span class="cnt">${groups[cat].length} từ</span>;
+    section.appendChild(header);
+    const catGrid = document.createElement('div');
+    catGrid.className = 'category-grid';
+    groups[cat].forEach(w=> catGrid.appendChild(buildWordCard(w)));
+    section.appendChild(catGrid);
+    grid.appendChild(section);
+  });
+
+  document.getElementById('stat-total').textContent = words.length;
+  document.getElementById('stat-due').textContent = words.filter(isDue).length;
+  document.getElementById('stat-confusable').textContent = words.reduce((n,w)=>n+((w.confusables||[]).length),0);
+
+  const usedCats = [...new Set(words.map(w=>w.category).filter(Boolean))];
+  const allCats = [...new Set([...CATEGORY_ORDER, ...usedCats])];
+  document.getElementById('category-list').innerHTML = allCats.map(c=><option value="${escapeHtml(c)}">).join('');
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('search').addEventListener('input', render);
+
+// ---------- Review mode ----------
+function currentReviewPool(){
+  return reviewFilter==='due' ? words.filter(isDue) : words.slice();
+}
+function startReview(){
+  reviewOrder = currentReviewPool().map(w=>w.id);
+  reviewIndex = 0;
+  showReviewCard();
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+document.getElementById('filter-due').addEventListener('click', ()=>{
+  reviewFilter='due';
+  document.getElementById('filter-due').classList.add('active');
+  document.getElementById('filter-all').classList.remove('active');
+  startReview();
+});
+document.getElementById('filter-all').addEventListener('click', ()=>{
+  reviewFilter='all';
+  document.getElementById('filter-all').classList.add('active');
+  document.getElementById('filter-due').classList.remove('active');
+  startReview();
+});
+function showReviewCard(){
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  document.getElementById('grade-row').classList.add('hidden');
+  const total = reviewOrder.length;
+  document.getElementById('review-meta').textContent = total ? ${reviewIndex+1} / ${total} : '0 / 0';
+  if(total===0){
+    document.getElementById('rev-word').textContent = reviewFilter==='due' ? 'Không còn từ nào đến hạn hôm nay 🎉' : 'Chưa có từ nào';
+    document.getElementById('rev-back').innerHTML = '';
+    return;
+  }
+  const w = words.find(x=>x.id===reviewOrder[reviewIndex]);
+  document.getElementById('rev-word').textContent = w.word;
+  document.getElementById('rev-phonetic').textContent = w.phonetic || '';
+  document.getElementById('rev-audio-front').dataset.id = w.id;
+  document.getElementById('rev-audio-front').title = w.customAudio ? 'Nghe (giọng bạn ghi âm)' : 'Nghe (giọng máy)';
+  document.getElementById('rev-icon').innerHTML = w.icon || DEFAULT_ICON;
+  document.getElementById('rev-cambridge-front').href = w.cambridgeUrlOverride || cambridgeLink(w.word);
+
 const formsRows = (w.forms||[]).map(f=>
     <tr><td><span class="pos-badge">${posLabel(f.pos)}</span></td>
     <td><b>${escapeHtml(f.word)}</b>${f.example? <span style="color:var(--ink-faint)">— ${escapeHtml(f.example)}</span>:''}</td></tr>
