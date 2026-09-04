@@ -1,0 +1,73 @@
+const formsRows = (w.forms||[]).map(f=>
+    <tr><td><span class="pos-badge">${posLabel(f.pos)}</span></td>
+    <td><b>${escapeHtml(f.word)}</b>${f.example? <span style="color:var(--ink-faint)">— ${escapeHtml(f.example)}</span>:''}</td></tr>
+  ).join('');
+  const synChips = (w.synonyms||[]).map(s=><span class="chip chip-syn">${escapeHtml(s)}</span>).join('');
+  const antChips = (w.antonyms||[]).map(s=><span class="chip chip-ant">${escapeHtml(s)}</span>).join('');
+  const colloChips = (w.collocations||[]).map(s=><span class="chip chip-collo">${escapeHtml(s)}</span>).join('');
+  const confItems = (w.confusables||[]).map(c=>
+    <div class="confusable-item"><b>${escapeHtml(c.word)}</b>${c.note?<div class="note">${escapeHtml(c.note)}</div>:''}</div>
+  ).join('');
+
+  document.getElementById('rev-back').innerHTML = 
+    <div class="word-big">${escapeHtml(w.word)}</div>
+    ${w.phonetic ? <div class="phonetic" style="margin-left:0;">${escapeHtml(w.phonetic)}</div> : ''}
+    ${(w.meaningEn||w.meaningVi) ? <div style="margin:.5rem 0;">
+      ${w.meaningEn ? <div style="font-style:italic;font-size:13px;">${escapeHtml(w.meaningEn)}</div>:''}
+      ${w.meaningVi ? <div style="font-weight:600;color:var(--navy);font-size:13px;margin-top:2px;">${escapeHtml(w.meaningVi)}</div>:''}
+    </div> : ''}
+    ${formsRows ? <div class="section-lbl">Từ loại</div><table class="forms-table">${formsRows}</table>:''}
+    ${synChips ? <div class="section-lbl">Đồng nghĩa</div><div class="chips">${synChips}</div>:''}
+    ${antChips ? <div class="section-lbl">Trái nghĩa</div><div class="chips">${antChips}</div>:''}
+    ${colloChips ? <div class="section-lbl">Collocation</div><div class="chips">${colloChips}</div>:''}
+    ${confItems ? <div class="section-lbl">Dễ nhầm</div>${confItems}:''}
+  ;
+}
+document.getElementById('flashcard').addEventListener('click', (e)=>{
+  if(e.target.id==='rev-audio-front' || e.target.closest('#rev-audio-front')) return;
+  if(e.target.id==='rev-cambridge-front' || e.target.closest('#rev-cambridge-front')) return;
+  const fc = document.getElementById('flashcard');
+  fc.classList.toggle('flipped');
+  document.getElementById('grade-row').classList.toggle('hidden', !fc.classList.contains('flipped') || reviewOrder.length===0);
+});
+document.getElementById('rev-audio-front').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const w = words.find(x=>x.id===e.currentTarget.dataset.id);
+  if(w) playWordAudio(w);
+});
+document.getElementById('rev-prev').addEventListener('click', ()=>{
+  if(reviewOrder.length===0) return;
+  reviewIndex = (reviewIndex-1+reviewOrder.length)%reviewOrder.length;
+  showReviewCard();
+});
+document.getElementById('rev-next').addEventListener('click', ()=>{
+  if(reviewOrder.length===0) return;
+  reviewIndex = (reviewIndex+1)%reviewOrder.length;
+  showReviewCard();
+});
+document.getElementById('rev-shuffle').addEventListener('click', ()=>{
+  shuffle(reviewOrder);
+  reviewIndex = 0;
+  showReviewCard();
+});
+async function submitGrade(remembered){
+  if(reviewOrder.length===0) return;
+  const w = words.find(x=>x.id===reviewOrder[reviewIndex]);
+  gradeWord(w, remembered);
+  await saveWords();
+  if(reviewFilter==='due'){
+    reviewOrder = currentReviewPool().map(x=>x.id);
+    if(reviewIndex >= reviewOrder.length) reviewIndex = Math.max(0, reviewOrder.length-1);
+  }else{
+    reviewIndex = (reviewIndex+1)%Math.max(reviewOrder.length,1);
+  }
+  render();
+  showReviewCard();
+}
+document.getElementById('grade-forgot').addEventListener('click', ()=>submitGrade(false));
+document.getElementById('grade-remember').addEventListener('click', ()=>submitGrade(true));
+
+loadWords();
+</script>
+</body>
+</html>
