@@ -571,7 +571,11 @@ document.getElementById('skipBtn').addEventListener('click', () => {
   } else nextQuestion();
 });
 document.getElementById('answerInput').addEventListener('keydown', (e) => {
-  if(e.key === 'Enter'){ e.preventDefault(); if(!answered) checkAnswer(); else nextQuestion(); }
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    e.stopPropagation();
+    if(!answered) checkAnswer(); else nextQuestion();
+  }
 });
 
 // Sau khi đã xem đáp án, Enter ở bất kỳ đâu sẽ sang từ tiếp theo.
