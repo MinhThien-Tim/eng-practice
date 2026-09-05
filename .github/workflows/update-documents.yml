@@ -1,51 +1,84 @@
 name: Update site libraries
+
 on:
   push:
     paths:
-      - "eng-pratice/*.html"
-      - "eng-pratice/grammar/**/*.html"
-      - "eng-pratice/listening/**/*.html"
-      - "eng-pratice/speaking/**/*.html"
-      - "eng-pratice/writing/**/*.html"
-      - "eng-pratice/guides/**/*.html"
-      - "eng-pratice/documents/**/*.pdf"
-      - "eng-pratice/documents/**/*.PDF"
+      - "eng-practice/*.html"
+      - "eng-practice/grammar/**/*.html"
+      - "eng-practice/listening/**/*.html"
+      - "eng-practice/speaking/**/*.html"
+      - "eng-practice/writing/**/*.html"
+      - "eng-practice/guides/**/*.html"
+      - "eng-practice/documents/**/*.pdf"
+      - "eng-practice/documents/**/*.PDF"
   workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   update-library:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Generate site indexes
         shell: python
         run: |
           from pathlib import Path
           import json, re
-          site=Path("eng-pratice")
-          def title(p):
-              s=re.sub(r"\s+"," ",p.stem.replace("_"," ").replace("-"," ")).strip()
-              return s[:1].upper()+s[1:] if s else p.name
+
+          site = Path("eng-practice")
+
+          def title(path):
+              value = re.sub(r"\s+", " ", path.stem.replace("_", " ").replace("-", " ")).strip()
+              return value[:1].upper() + value[1:] if value else path.name
+
           def htmls(folder):
-              if not folder.exists(): return []
-              return [{"title":title(p),"file":p.relative_to(folder).as_posix()} for p in sorted(folder.rglob("*.html"),key=lambda x:x.name.lower()) if p.is_file()]
-          docs=site/"documents"
-          d=[{"title":title(p),"file":p.relative_to(docs).as_posix()} for p in sorted(docs.rglob("*"),key=lambda x:x.name.lower()) if p.is_file() and p.suffix.lower()==".pdf"] if docs.exists() else []
-          (site/"documents.json").write_text(json.dumps(d,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-          (site/"grammar.json").write_text(json.dumps(htmls(site/"grammar"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-          (site/"listening.json").write_text(json.dumps(htmls(site/"listening"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-          (site/"speaking.json").write_text(json.dumps(htmls(site/"speaking"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-          (site/"writing.json").write_text(json.dumps(htmls(site/"writing"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-          (site/"guides.json").write_text(json.dumps(htmls(site/"guides"),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-          excluded={"index.html","404.html","documents.html","vocabulary-new.html","vong-1-2-vocabulary-complete-examples.html","vong-3-4-vocabulary-complete-examples.html","vong-5-6-vocabulary-complete-examples.html","c1-vocabulary.html","confusing-words.html","english-verbs.html","five-forms-of-verbs-with-3rd-person.html","phrasal-verbs.html","paraphrase.html","ielts-collocations-topic-table-with-dictation.html","ielts_hiking_collocations_full_with_dictation.html"}
-          a=[{"title":title(p),"file":p.name} for p in sorted(site.glob("*.html"),key=lambda x:x.name.lower()) if p.name not in excluded]
-          (site/"apps.json").write_text(json.dumps(a,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+              if not folder.exists():
+                  return []
+              return [
+                  {"title": title(path), "file": path.relative_to(folder).as_posix()}
+                  for path in sorted(folder.rglob("*.html"), key=lambda item: item.name.lower())
+                  if path.is_file()
+              ]
+
+          documents = site / "documents"
+          pdfs = [
+              {"title": title(path), "file": path.relative_to(documents).as_posix()}
+              for path in sorted(documents.rglob("*"), key=lambda item: item.name.lower())
+              if path.is_file() and path.suffix.lower() == ".pdf"
+          ] if documents.exists() else []
+
+          (site / "documents.json").write_text(json.dumps(pdfs, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "grammar.json").write_text(json.dumps(htmls(site / "grammar"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "listening.json").write_text(json.dumps(htmls(site / "listening"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "speaking.json").write_text(json.dumps(htmls(site / "speaking"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "writing.json").write_text(json.dumps(htmls(site / "writing"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "guides.json").write_text(json.dumps(htmls(site / "guides"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+          excluded = {
+              "index.html", "404.html", "documents.html", "vocabulary-new.html",
+              "vong-1-2-vocabulary-complete-examples.html",
+              "vong-3-4-vocabulary-complete-examples.html",
+              "vong-5-6-vocabulary-complete-examples.html",
+              "c1-vocabulary.html", "confusing-words.html", "english-verbs.html",
+              "five-forms-of-verbs-with-3rd-person.html", "phrasal-verbs.html",
+              "paraphrase.html", "ielts-collocations-topic-table-with-dictation.html",
+              "ielts_hiking_collocations_full_with_dictation.html"
+          }
+          apps = [
+              {"title": title(path), "file": path.name}
+              for path in sorted(site.glob("*.html"), key=lambda item: item.name.lower())
+              if path.name not in excluded
+          ]
+          (site / "apps.json").write_text(json.dumps(apps, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
       - name: Commit generated indexes
         run: |
-          if git diff --quiet -- eng-pratice/apps.json eng-pratice/documents.json eng-pratice/grammar.json eng-pratice/listening.json eng-pratice/speaking.json eng-pratice/writing.json eng-pratice/guides.json; then exit 0; fi
+          if git diff --quiet -- eng-practice/apps.json eng-practice/documents.json eng-practice/grammar.json eng-practice/listening.json eng-practice/speaking.json eng-practice/writing.json eng-practice/guides.json; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add eng-pratice/apps.json eng-pratice/documents.json eng-pratice/grammar.json eng-pratice/listening.json eng-pratice/speaking.json eng-pratice/writing.json eng-pratice/guides.json
+          git add eng-practice/apps.json eng-practice/documents.json eng-practice/grammar.json eng-practice/listening.json eng-practice/speaking.json eng-practice/writing.json eng-practice/guides.json
           git commit -m "Update site library indexes"
           git push

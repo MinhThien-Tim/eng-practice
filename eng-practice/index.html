@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Thư viện học tiếng Anh cá nhân: hướng dẫn, từ vựng, ngữ pháp, nghe, nói và viết.">
+  <title>English Study</title>
+  <style>
+    :root{
+      --bg:#f4f6f3;--surface:#fff;--surface-soft:#eef4f0;--ink:#15251d;
+      --muted:#66736c;--line:#dce4df;--accent:#176b4b;--accent-dark:#0f5138;
+      --shadow:0 8px 24px rgba(24,54,40,.06);--radius:18px
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+    a{color:inherit}
+    button,input{font:inherit}
+    .shell{width:min(1120px,calc(100% - 28px));margin:auto;padding:22px 0 44px}
+    .hero{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+    .mark{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--accent);color:#fff;font-weight:800;letter-spacing:.04em;box-shadow:var(--shadow)}
+    h1{margin:0;font-size:clamp(25px,4vw,34px);line-height:1.05;letter-spacing:-.035em}
+    .intro{margin:5px 0 0;color:var(--muted);font-size:14px}
+    .toolbar{position:sticky;top:0;z-index:5;padding:10px 0 12px;background:linear-gradient(var(--bg) 78%,transparent)}
+    .search{position:relative}
+    .search svg{position:absolute;left:14px;top:50%;width:18px;transform:translateY(-50%);color:var(--muted)}
+    #q{width:100%;height:44px;padding:0 42px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);outline:none;box-shadow:0 3px 12px rgba(24,54,40,.035)}
+    #q:focus{border-color:#8ab8a3;box-shadow:0 0 0 3px rgba(23,107,75,.11)}
+    #clear{position:absolute;right:7px;top:6px;width:32px;height:32px;border:0;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer;display:none}
+    #clear:hover{background:var(--surface-soft);color:var(--ink)}
+    .filters{display:flex;gap:7px;margin-top:9px;overflow:auto;padding-bottom:2px;scrollbar-width:none}
+    .filters::-webkit-scrollbar{display:none}
+    .filter{flex:0 0 auto;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:13px;cursor:pointer}
+    .filter:hover{border-color:#a9c2b5;color:var(--ink)}
+    .filter.on{border-color:var(--accent);background:var(--accent);color:#fff}
+    .catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+    .panel{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+    .panel.featured{grid-column:1/-1;border-color:#c8dbd1;background:linear-gradient(135deg,#fff 20%,#f1f8f4)}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px 10px}
+    .panel-title{display:flex;align-items:center;gap:9px;min-width:0}
+    .icon{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--surface-soft);color:var(--accent);font-size:15px}
+    h2{margin:0;font-size:15px;letter-spacing:-.01em}
+    .count{color:var(--muted);font-size:12px;white-space:nowrap}
+    .items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:0 10px 10px}
+    .featured .items{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .item{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:10px 11px;border:1px solid transparent;border-radius:11px;background:#f8faf8;text-decoration:none;transition:.15s ease}
+    .item:hover{border-color:#bfd4c8;background:#fff;transform:translateY(-1px)}
+    .item-text{min-width:0}
+    .item strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:650}
+    .item small{display:block;margin-top:2px;color:var(--muted);font-size:11px}
+    .arrow{flex:0 0 auto;color:#8a9890;font-size:16px}
+    .empty{grid-column:1/-1;padding:11px;color:var(--muted);font-size:12px}
+    .no-results{display:none;text-align:center;padding:42px 15px;color:var(--muted)}
+    footer{padding-top:20px;text-align:center;color:var(--muted);font-size:11px}
+    @media(max-width:780px){.catalog{grid-template-columns:1fr}.panel.featured{grid-column:auto}.featured .items{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:520px){.shell{width:min(100% - 20px,1120px);padding-top:16px}.hero{align-items:flex-start}.mark{width:42px;height:42px}.toolbar{padding-top:7px}.items,.featured .items{grid-template-columns:1fr}.panel-head{padding-top:12px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.item{transition:none}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="mark" aria-hidden="true">EN</div>
+      <div><h1>English Study</h1><p class="intro">Thư viện học tập cá nhân — tìm nhanh, mở bài và luyện tập.</p></div>
+    </header>
+
+    <div class="toolbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <input id="q" type="search" placeholder="Tìm bài học…" autocomplete="off" aria-label="Tìm bài học">
+        <button id="clear" type="button" aria-label="Xóa nội dung tìm kiếm">×</button>
+      </div>
+      <nav class="filters" aria-label="Lọc theo nội dung">
+        <button class="filter on" data-f="all">Tất cả</button>
+        <button class="filter" data-f="guides">Hướng dẫn học</button>
+        <button class="filter" data-f="vocab">Vocabulary</button>
+        <button class="filter" data-f="grammar">Grammar</button>
+        <button class="filter" data-f="listening">Listening</button>
+        <button class="filter" data-f="speaking">Speaking</button>
+        <button class="filter" data-f="writing">Writing</button>
+        <button class="filter" data-f="verbs">Verbs</button>
+        <button class="filter" data-f="ielts">IELTS</button>
+        <button class="filter" data-f="docs">PDF</button>
+      </nav>
+    </div>
+
+    <div class="catalog" id="catalog">
+      <section class="panel featured" data-g="guides">
+        <div class="panel-head"><div class="panel-title"><span class="icon">✦</span><h2>Hướng dẫn học</h2></div><span class="count" id="hc"></span></div>
+        <div class="items" id="hg"><span class="empty">Đang tải…</span></div>
+      </section>
+
+      <section class="panel" data-g="vocab">
+        <div class="panel-head"><div class="panel-title"><span class="icon">Aa</span><h2>Vocabulary</h2></div><span class="count">6 bài</span></div>
+        <div class="items">
+          <a class="item" href="vong-1-2-vocabulary-complete-examples.html"><span class="item-text"><strong>Vocabulary · Vòng 1–2</strong><small>Complete examples</small></span><span class="arrow">›</span></a>
+          <a class="item" href="vong-3-4-vocabulary-complete-examples.html"><span class="item-text"><strong>Vocabulary · Vòng 3–4</strong><small>Complete examples</small></span><span class="arrow">›</span></a>
+          <a class="item" href="vong-5-6-vocabulary-complete-examples.html"><span class="item-text"><strong>Vocabulary · Vòng 5–6</strong><small>Complete examples</small></span><span class="arrow">›</span></a>
+          <a class="item" href="vocabulary-new.html"><span class="item-text"><strong>Bộ từ vựng mới</strong><small>Vocabulary</small></span><span class="arrow">›</span></a>
+          <a class="item" href="c1-vocabulary.html"><span class="item-text"><strong>C1 Vocabulary</strong><small>Advanced</small></span><span class="arrow">›</span></a>
+          <a class="item" href="confusing-words.html"><span class="item-text"><strong>Từ dễ nhầm</strong><small>Confusing words</small></span><span class="arrow">›</span></a>
+        </div>
+      </section>
+
+      <section class="panel" data-g="grammar"><div class="panel-head"><div class="panel-title"><span class="icon">✓</span><h2>Grammar</h2></div><span class="count" id="gc"></span></div><div class="items" id="gg"><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="listening"><div class="panel-head"><div class="panel-title"><span class="icon">◉</span><h2>Listening & Dictation</h2></div><span class="count" id="lc"></span></div><div class="items" id="lg"><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="speaking"><div class="panel-head"><div class="panel-title"><span class="icon">◌</span><h2>Speaking</h2></div><span class="count" id="sc"></span></div><div class="items" id="sg"><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="writing"><div class="panel-head"><div class="panel-title"><span class="icon">✎</span><h2>Writing</h2></div><span class="count" id="wc"></span></div><div class="items" id="wg"><span class="empty">Đang tải…</span></div></section>
+
+      <section class="panel" data-g="verbs">
+        <div class="panel-head"><div class="panel-title"><span class="icon">V</span><h2>Verbs & Expression</h2></div><span class="count">4 bài</span></div>
+        <div class="items">
+          <a class="item" href="english-verbs.html"><span class="item-text"><strong>English Verbs</strong><small>Động từ</small></span><span class="arrow">›</span></a>
+          <a class="item" href="five-forms-of-verbs-with-3rd-person.html"><span class="item-text"><strong>Five Forms of Verbs</strong><small>Including 3rd person</small></span><span class="arrow">›</span></a>
+          <a class="item" href="phrasal-verbs.html"><span class="item-text"><strong>Phrasal Verbs</strong><small>Practice</small></span><span class="arrow">›</span></a>
+          <a class="item" href="paraphrase.html"><span class="item-text"><strong>Paraphrase</strong><small>Expression</small></span><span class="arrow">›</span></a>
+        </div>
+      </section>
+
+      <section class="panel" data-g="ielts">
+        <div class="panel-head"><div class="panel-title"><span class="icon">I</span><h2>IELTS</h2></div><span class="count">2 bài</span></div>
+        <div class="items">
+          <a class="item" href="ielts-collocations-topic-table-with-dictation.html"><span class="item-text"><strong>IELTS Collocations by Topic</strong><small>Table + dictation</small></span><span class="arrow">›</span></a>
+          <a class="item" href="ielts_hiking_collocations_full_with_dictation.html"><span class="item-text"><strong>IELTS Hiking Collocations</strong><small>Full + dictation</small></span><span class="arrow">›</span></a>
+        </div>
+      </section>
+
+      <section class="panel" data-g="other"><div class="panel-head"><div class="panel-title"><span class="icon">＋</span><h2>Bài mới khác</h2></div><span class="count" id="ac"></span></div><div class="items" id="ag"><span class="empty">Đang tải…</span></div></section>
+
+      <section class="panel" data-g="docs">
+        <div class="panel-head"><div class="panel-title"><span class="icon">▤</span><h2>Documents</h2></div><span class="count">Thư viện</span></div>
+        <div class="items"><a class="item" href="documents.html"><span class="item-text"><strong>PDF Library</strong><small>Mở thư viện tài liệu</small></span><span class="arrow">›</span></a></div>
+      </section>
+    </div>
+    <div class="no-results" id="noResults">Không tìm thấy bài học phù hợp.</div>
+    <footer>Danh sách HTML và PDF được cập nhật tự động sau mỗi lần tải file lên.</footer>
+  </main>
+
+  <script>
+    const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    const itemHTML=(entry,prefix='')=>`<a class="item" href="${prefix}${encodeURI(entry.file)}"><span class="item-text"><strong>${escapeHTML(entry.title)}</strong><small>Mở bài học</small></span><span class="arrow">›</span></a>`;
+    let activeFilter='all';
+    const searchInput=document.getElementById('q');
+    const clearButton=document.getElementById('clear');
+
+    async function load(file,gridId,countId,prefix=''){
+      const grid=document.getElementById(gridId);
+      try{
+        const response=await fetch(`${file}?v=${Date.now()}`,{cache:'no-store'});
+        if(!response.ok) throw new Error('Không tải được dữ liệu');
+        const entries=await response.json();
+        document.getElementById(countId).textContent=entries.length?`${entries.length} bài`:'0 bài';
+        grid.innerHTML=entries.length?entries.map(entry=>itemHTML(entry,prefix)).join(''):'<span class="empty">Chưa có nội dung.</span>';
+      }catch{
+        document.getElementById(countId).textContent='';
+        grid.innerHTML='<span class="empty">Chưa có dữ liệu.</span>';
+      }
+      applyFilters();
+    }
+
+    function applyFilters(){
+      const query=searchInput.value.toLocaleLowerCase('vi').trim();
+      let visiblePanels=0;
+      document.querySelectorAll('.panel[data-g]').forEach(panel=>{
+        const categoryMatches=activeFilter==='all'||panel.dataset.g===activeFilter;
+        let visibleItems=0;
+        panel.querySelectorAll('.item').forEach(item=>{
+          const matches=categoryMatches&&(!query||item.textContent.toLocaleLowerCase('vi').includes(query));
+          item.hidden=!matches;
+          if(matches) visibleItems++;
+        });
+        const hasEmpty=panel.querySelector('.empty');
+        const show=categoryMatches&&(!query?(visibleItems>0||Boolean(hasEmpty)):visibleItems>0);
+        panel.hidden=!show;
+        if(show) visiblePanels++;
+      });
+      document.getElementById('noResults').style.display=visiblePanels?'none':'block';
+      clearButton.style.display=searchInput.value?'block':'none';
+    }
+
+    searchInput.addEventListener('input',applyFilters);
+    clearButton.addEventListener('click',()=>{searchInput.value='';searchInput.focus();applyFilters()});
+    document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',()=>{
+      document.querySelectorAll('.filter').forEach(item=>item.classList.remove('on'));
+      button.classList.add('on');activeFilter=button.dataset.f;applyFilters();
+    }));
+
+    load('guides.json','hg','hc','guides/');
+    load('grammar.json','gg','gc','grammar/');
+    load('listening.json','lg','lc','listening/');
+    load('speaking.json','sg','sc','speaking/');
+    load('writing.json','wg','wc','writing/');
+    load('apps.json','ag','ac');
+  </script>
+</body>
+</html>
