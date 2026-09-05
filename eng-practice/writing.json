@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "title": "Task 1",
+    "file": "task-1.html"
+  },
+  {
+    "title": "Writing 8 weeks",
+    "file": "writing-8-weeks.html"
+  },
+  {
+    "title": "Writing a sentence units",
+    "file": "writing-a-sentence-units.html"
+  }
+]
