@@ -33,16 +33,29 @@
     .filter{flex:0 0 auto;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:13px;cursor:pointer}
     .filter:hover{border-color:#a9c2b5;color:var(--ink)}
     .filter.on{border-color:var(--accent);background:var(--accent);color:#fff}
-    .catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
-    .panel{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
-    .panel.featured{grid-column:1/-1;border-color:#c8dbd1;background:linear-gradient(135deg,#fff 20%,#f1f8f4)}
-    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 18px 14px;background:linear-gradient(135deg,#f7fbf8,#edf5f0);border-bottom:1px solid var(--line)}
+    .catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start}
+    .panel{--tone:#176b4b;--tone-dark:#0f5138;--tone-soft:#edf7f2;--tone-border:#cce2d7;min-width:0;border:1px solid var(--tone-border);border-radius:16px;background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+    .panel[data-g="guides"]{--tone:#2563eb;--tone-dark:#1e40af;--tone-soft:#eff6ff;--tone-border:#bfdbfe}
+    .panel[data-g="vocab"]{--tone:#7c3aed;--tone-dark:#5b21b6;--tone-soft:#f5f3ff;--tone-border:#ddd6fe}
+    .panel[data-g="grammar"]{--tone:#059669;--tone-dark:#047857;--tone-soft:#ecfdf5;--tone-border:#a7f3d0}
+    .panel[data-g="listening"]{--tone:#0284c7;--tone-dark:#0369a1;--tone-soft:#f0f9ff;--tone-border:#bae6fd}
+    .panel[data-g="speaking"]{--tone:#db2777;--tone-dark:#9d174d;--tone-soft:#fdf2f8;--tone-border:#fbcfe8}
+    .panel[data-g="writing"]{--tone:#ea580c;--tone-dark:#c2410c;--tone-soft:#fff7ed;--tone-border:#fed7aa}
+    .panel[data-g="verbs"]{--tone:#ca8a04;--tone-dark:#a16207;--tone-soft:#fefce8;--tone-border:#fde68a}
+    .panel[data-g="ielts"]{--tone:#dc2626;--tone-dark:#b91c1c;--tone-soft:#fef2f2;--tone-border:#fecaca}
+    .panel[data-g="other"]{--tone:#475569;--tone-dark:#334155;--tone-soft:#f8fafc;--tone-border:#cbd5e1}
+    .panel[data-g="docs"]{--tone:#0f766e;--tone-dark:#115e59;--tone-soft:#f0fdfa;--tone-border:#99f6e4}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;background:linear-gradient(135deg,#fff,var(--tone-soft))}
+    .panel.open .panel-head{border-bottom:1px solid var(--tone-border)}
     .panel-title{display:flex;align-items:center;gap:12px;min-width:0}
-    .icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--accent);color:#fff;font-size:18px;font-weight:800;box-shadow:0 5px 14px rgba(23,107,75,.18)}
-    h2{margin:0;font-size:clamp(19px,2.2vw,23px);line-height:1.1;letter-spacing:-.025em;font-weight:800}
-    .count{padding:5px 9px;border-radius:999px;background:#fff;border:1px solid #cfe0d6;color:var(--accent-dark);font-size:12px;font-weight:700;white-space:nowrap}
-    .items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:0 10px 10px}
-    .featured .items{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .icon{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--tone);color:#fff;font-size:16px;font-weight:800;box-shadow:0 5px 14px color-mix(in srgb,var(--tone) 24%,transparent)}
+    h2{margin:0;font-size:clamp(17px,2vw,20px);line-height:1.1;letter-spacing:-.02em;font-weight:800;color:var(--tone-dark)}
+    .toggle{display:flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid var(--tone-border);border-radius:999px;background:#fff;color:var(--tone-dark);font-size:12px;font-weight:750;white-space:nowrap;cursor:pointer}
+    .toggle:hover{background:var(--tone-soft)}
+    .chevron{font-size:17px;line-height:1;transition:transform .18s ease}
+    .toggle[aria-expanded="true"] .chevron{transform:rotate(180deg)}
+    .items{display:grid;grid-template-columns:1fr;gap:6px;padding:9px}
+    .items[hidden]{display:none}
     .item{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:10px 11px;border:1px solid transparent;border-radius:11px;background:#f8faf8;text-decoration:none;transition:.15s ease}
     .item:hover{border-color:#bfd4c8;background:#fff;transform:translateY(-1px)}
     .item-text{min-width:0}
@@ -52,9 +65,9 @@
     .empty{grid-column:1/-1;padding:11px;color:var(--muted);font-size:12px}
     .no-results{display:none;text-align:center;padding:42px 15px;color:var(--muted)}
     footer{padding-top:20px;text-align:center;color:var(--muted);font-size:11px}
-    @media(max-width:780px){.catalog{grid-template-columns:1fr}.panel.featured{grid-column:auto}.featured .items{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:520px){.shell{width:min(100% - 20px,1120px);padding-top:16px}.hero{align-items:flex-start}.mark{width:42px;height:42px}.toolbar{padding-top:7px}.items,.featured .items{grid-template-columns:1fr}.panel-head{padding-top:12px}}
-    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.item{transition:none}}
+    @media(max-width:780px){.catalog{grid-template-columns:1fr}}
+    @media(max-width:520px){.shell{width:min(100% - 20px,1120px);padding-top:16px}.hero{align-items:flex-start}.mark{width:42px;height:42px}.toolbar{padding-top:7px}.panel-head{padding:11px 12px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.item,.chevron{transition:none}}
   </style>
 </head>
 <body>
@@ -85,21 +98,21 @@
     </div>
 
     <div class="catalog" id="catalog">
-      <section class="panel featured" data-g="guides">
-        <div class="panel-head"><div class="panel-title"><span class="icon">✦</span><h2>Hướng dẫn học</h2></div><span class="count" id="hc"></span></div>
-        <div class="items" id="hg"><span class="empty">Đang tải…</span></div>
+      <section class="panel" data-g="guides" data-src="guides.json" data-prefix="guides/">
+        <div class="panel-head"><div class="panel-title"><span class="icon">✦</span><h2>Hướng dẫn học</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="hg"><span id="hc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="items" id="hg" hidden><span class="empty">Đang tải…</span></div>
       </section>
 
-      <section class="panel" data-g="vocab"><div class="panel-head"><div class="panel-title"><span class="icon">Aa</span><h2>Vocabulary</h2></div><span class="count" id="vc"></span></div><div class="items" id="vg"><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="vocab" data-src="vocabulary.json" data-prefix="Vocabulary/"><div class="panel-head"><div class="panel-title"><span class="icon">Aa</span><h2>Vocabulary</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="vg"><span id="vc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="vg" hidden><span class="empty">Đang tải…</span></div></section>
 
-      <section class="panel" data-g="grammar"><div class="panel-head"><div class="panel-title"><span class="icon">✓</span><h2>Grammar</h2></div><span class="count" id="gc"></span></div><div class="items" id="gg"><span class="empty">Đang tải…</span></div></section>
-      <section class="panel" data-g="listening"><div class="panel-head"><div class="panel-title"><span class="icon">◉</span><h2>Listening & Dictation</h2></div><span class="count" id="lc"></span></div><div class="items" id="lg"><span class="empty">Đang tải…</span></div></section>
-      <section class="panel" data-g="speaking"><div class="panel-head"><div class="panel-title"><span class="icon">◌</span><h2>Speaking</h2></div><span class="count" id="sc"></span></div><div class="items" id="sg"><span class="empty">Đang tải…</span></div></section>
-      <section class="panel" data-g="writing"><div class="panel-head"><div class="panel-title"><span class="icon">✎</span><h2>Writing</h2></div><span class="count" id="wc"></span></div><div class="items" id="wg"><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="grammar" data-src="grammar.json" data-prefix="grammar/"><div class="panel-head"><div class="panel-title"><span class="icon">✓</span><h2>Grammar</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="gg"><span id="gc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="gg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="listening" data-src="listening.json" data-prefix="listening/"><div class="panel-head"><div class="panel-title"><span class="icon">◉</span><h2>Listening & Dictation</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="lg"><span id="lc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="lg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="speaking" data-src="speaking.json" data-prefix="speaking/"><div class="panel-head"><div class="panel-title"><span class="icon">◌</span><h2>Speaking</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="sg"><span id="sc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="sg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="writing" data-src="writing.json" data-prefix="writing/"><div class="panel-head"><div class="panel-title"><span class="icon">✎</span><h2>Writing</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="wg"><span id="wc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="wg" hidden><span class="empty">Đang tải…</span></div></section>
 
       <section class="panel" data-g="verbs">
-        <div class="panel-head"><div class="panel-title"><span class="icon">V</span><h2>Verbs & Expression</h2></div><span class="count">4 bài</span></div>
-        <div class="items">
+        <div class="panel-head"><div class="panel-title"><span class="icon">V</span><h2>Verbs & Expression</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="verbs-items"><span>4 bài</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="items" id="verbs-items" hidden>
           <a class="item" href="english-verbs.html"><span class="item-text"><strong>English Verbs</strong><small>Động từ</small></span><span class="arrow">›</span></a>
           <a class="item" href="five-forms-of-verbs-with-3rd-person.html"><span class="item-text"><strong>Five Forms of Verbs</strong><small>Including 3rd person</small></span><span class="arrow">›</span></a>
           <a class="item" href="phrasal-verbs.html"><span class="item-text"><strong>Phrasal Verbs</strong><small>Practice</small></span><span class="arrow">›</span></a>
@@ -108,18 +121,18 @@
       </section>
 
       <section class="panel" data-g="ielts">
-        <div class="panel-head"><div class="panel-title"><span class="icon">I</span><h2>IELTS</h2></div><span class="count">2 bài</span></div>
-        <div class="items">
+        <div class="panel-head"><div class="panel-title"><span class="icon">I</span><h2>IELTS</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="ielts-items"><span>2 bài</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="items" id="ielts-items" hidden>
           <a class="item" href="ielts-collocations-topic-table-with-dictation.html"><span class="item-text"><strong>IELTS Collocations by Topic</strong><small>Table + dictation</small></span><span class="arrow">›</span></a>
           <a class="item" href="ielts_hiking_collocations_full_with_dictation.html"><span class="item-text"><strong>IELTS Hiking Collocations</strong><small>Full + dictation</small></span><span class="arrow">›</span></a>
         </div>
       </section>
 
-      <section class="panel" data-g="other"><div class="panel-head"><div class="panel-title"><span class="icon">＋</span><h2>Bài mới khác</h2></div><span class="count" id="ac"></span></div><div class="items" id="ag"><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="other" data-src="apps.json"><div class="panel-head"><div class="panel-title"><span class="icon">＋</span><h2>Bài mới khác</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="ag"><span id="ac">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="ag" hidden><span class="empty">Đang tải…</span></div></section>
 
       <section class="panel" data-g="docs">
-        <div class="panel-head"><div class="panel-title"><span class="icon">▤</span><h2>Documents</h2></div><span class="count">Thư viện</span></div>
-        <div class="items"><a class="item" href="documents.html"><span class="item-text"><strong>PDF Library</strong><small>Mở thư viện tài liệu</small></span><span class="arrow">›</span></a></div>
+        <div class="panel-head"><div class="panel-title"><span class="icon">▤</span><h2>Documents</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="docs-items"><span>Thư viện</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="items" id="docs-items" hidden><a class="item" href="documents.html"><span class="item-text"><strong>PDF Library</strong><small>Mở thư viện tài liệu</small></span><span class="arrow">›</span></a></div>
       </section>
     </div>
     <div class="no-results" id="noResults">Không tìm thấy bài học phù hợp.</div>
@@ -132,24 +145,44 @@
     let activeFilter='all';
     const searchInput=document.getElementById('q');
     const clearButton=document.getElementById('clear');
+    const loadTasks=new WeakMap();
 
-    async function load(file,gridId,countId,prefix=''){
-      const grid=document.getElementById(gridId);
-      try{
-        const response=await fetch(`${file}?v=${Date.now()}`,{cache:'no-store'});
-        if(!response.ok) throw new Error('Không tải được dữ liệu');
-        const entries=await response.json();
-        document.getElementById(countId).textContent=entries.length?`${entries.length} bài`:'0 bài';
-        grid.innerHTML=entries.length?entries.map(entry=>itemHTML(entry,prefix)).join(''):'<span class="empty">Chưa có nội dung.</span>';
-      }catch{
-        document.getElementById(countId).textContent='';
-        grid.innerHTML='<span class="empty">Chưa có dữ liệu.</span>';
-      }
-      applyFilters();
+    async function loadPanel(panel){
+      if(!panel.dataset.src||panel.dataset.loaded==='true') return;
+      if(loadTasks.has(panel)) return loadTasks.get(panel);
+      const task=(async()=>{
+        const grid=panel.querySelector('.items');
+        const count=panel.querySelector('.toggle span:first-child');
+        try{
+          const response=await fetch(`${panel.dataset.src}?v=${Date.now()}`,{cache:'no-store'});
+          if(!response.ok) throw new Error('Không tải được dữ liệu');
+          const entries=await response.json();
+          panel.dataset.loaded='true';
+          count.textContent=entries.length?`${entries.length} bài`:'0 bài';
+          grid.innerHTML=entries.length?entries.map(entry=>itemHTML(entry,panel.dataset.prefix||'')).join(''):'<span class="empty">Chưa có nội dung.</span>';
+        }catch{
+          count.textContent='Thử lại';
+          grid.innerHTML='<span class="empty">Chưa có dữ liệu.</span>';
+        }finally{
+          loadTasks.delete(panel);
+        }
+      })();
+      loadTasks.set(panel,task);
+      return task;
     }
 
-    function applyFilters(){
+    async function setExpanded(panel,expanded){
+      const button=panel.querySelector('.toggle');
+      const items=panel.querySelector('.items');
+      button.setAttribute('aria-expanded',String(expanded));
+      items.hidden=!expanded;
+      panel.classList.toggle('open',expanded);
+      if(expanded) await loadPanel(panel);
+    }
+
+    async function applyFilters(){
       const query=searchInput.value.toLocaleLowerCase('vi').trim();
+      if(query) await Promise.all([...document.querySelectorAll('.panel[data-src]')].map(loadPanel));
       let visiblePanels=0;
       document.querySelectorAll('.panel[data-g]').forEach(panel=>{
         const categoryMatches=activeFilter==='all'||panel.dataset.g===activeFilter;
@@ -159,10 +192,12 @@
           item.hidden=!matches;
           if(matches) visibleItems++;
         });
-        const hasEmpty=panel.querySelector('.empty');
-        const show=categoryMatches&&(!query?(visibleItems>0||Boolean(hasEmpty)):visibleItems>0);
+        const show=categoryMatches&&(!query||visibleItems>0);
         panel.hidden=!show;
-        if(show) visiblePanels++;
+        if(show){
+          visiblePanels++;
+          if(query) setExpanded(panel,true);
+        }
       });
       document.getElementById('noResults').style.display=visiblePanels?'none':'block';
       clearButton.style.display=searchInput.value?'block':'none';
@@ -174,14 +209,12 @@
       document.querySelectorAll('.filter').forEach(item=>item.classList.remove('on'));
       button.classList.add('on');activeFilter=button.dataset.f;applyFilters();
     }));
-
-    load('guides.json','hg','hc','guides/');
-    load('vocabulary.json','vg','vc','Vocabulary/');
-    load('grammar.json','gg','gc','grammar/');
-    load('listening.json','lg','lc','listening/');
-    load('speaking.json','sg','sc','speaking/');
-    load('writing.json','wg','wc','writing/');
-    load('apps.json','ag','ac');
+    document.querySelectorAll('.toggle').forEach(button=>button.addEventListener('click',async()=>{
+      const panel=button.closest('.panel');
+      await setExpanded(panel,button.getAttribute('aria-expanded')!=='true');
+      applyFilters();
+    }));
+    applyFilters();
   </script>
 </body>
 </html>
