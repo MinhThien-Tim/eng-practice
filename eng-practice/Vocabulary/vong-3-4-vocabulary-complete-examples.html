@@ -217,6 +217,7 @@
 
       <div class="sub" id="poolInfo" style="margin-bottom:14px;"></div>
       <button class="btn btn-primary btn-full" id="startBtn">Bắt đầu</button>
+      <button class="btn btn-ghost btn-full" id="resetQuizProgressBtn" style="margin-top:8px;">Đặt lại tiến độ từ</button>
     </div>
 
     <div id="quizBox" style="display:none;">
@@ -393,6 +394,23 @@ let currentIndex = 0;
 let correctCount = 0;
 let missed = [];
 let answered = false;
+const quizProgressKey = 'dictation-seen-v2-' + document.title;
+let seenQuizWords = loadSeenQuizWords();
+
+function quizWordKey(item){
+  return normalizeEN(item.w);
+}
+function loadSeenQuizWords(){
+  try {
+    const saved = JSON.parse(localStorage.getItem(quizProgressKey) || '[]');
+    return new Set(Array.isArray(saved) ? saved : []);
+  } catch (_) {
+    return new Set();
+  }
+}
+function saveSeenQuizWords(){
+  localStorage.setItem(quizProgressKey, JSON.stringify([...seenQuizWords]));
+}
 
 buildCatGrid('quizCatGrid', quizSelectedCats, updatePoolInfo);
 
@@ -420,18 +438,22 @@ if(hintBtn){
 }
 
 function currentPool(){
-  let pool = [];
+  const uniquePool = new Map();
   CATEGORIES.forEach((c, idx) => {
     if(!quizSelectedCats.has('ALL') && !quizSelectedCats.has(String(idx))) return;
     c.items.forEach(it => {
       if(quizTier !== 'all' && it[0] !== quizTier) return;
-      pool.push({ tier: it[0], w: it[1], ipa: it[2], pos: it[3], vi: it[4], ex: it[5] || '' });
+      const item = { tier: it[0], w: it[1], ipa: it[2], pos: it[3], vi: it[4], ex: it[5] || '' };
+      const key = normalizeEN(item.w);
+      if(!uniquePool.has(key)) uniquePool.set(key, item);
     });
   });
-  return pool;
+  return [...uniquePool.values()];
 }
 function updatePoolInfo(){
-  document.getElementById('poolInfo').textContent = `Có ${currentPool().length} từ khả dụng trong phạm vi đã chọn.`;
+  const pool = currentPool();
+  const remaining = pool.filter(item => !seenQuizWords.has(quizWordKey(item))).length;
+  document.getElementById('poolInfo').textContent = `Có ${pool.length} từ trong phạm vi đã chọn · còn ${remaining} từ chưa xuất hiện trong chu kỳ.`;
 }
 document.querySelectorAll('#quizTierRow .choice').forEach(c => {
   c.addEventListener('click', () => {
@@ -472,10 +494,19 @@ function normalizeEN(str){
 }
 
 function startQuiz(){
-  let pool = shuffle(currentPool());
+  const pool = currentPool();
   if(pool.length === 0) return;
-  if(questionCount !== 'all') pool = pool.slice(0, parseInt(questionCount));
-  sessionItems = pool;
+  const targetCount = questionCount === 'all' ? pool.length : Math.min(parseInt(questionCount), pool.length);
+  const remaining = shuffle(pool.filter(item => !seenQuizWords.has(quizWordKey(item))));
+  sessionItems = remaining.slice(0, targetCount);
+  if(sessionItems.length < targetCount){
+    pool.forEach(item => seenQuizWords.delete(quizWordKey(item)));
+    const alreadySelected = new Set(sessionItems.map(quizWordKey));
+    const refill = shuffle(pool.filter(item => !alreadySelected.has(quizWordKey(item))));
+    sessionItems.push(...refill.slice(0, targetCount - sessionItems.length));
+  }
+  sessionItems.forEach(item => seenQuizWords.add(quizWordKey(item)));
+  saveSeenQuizWords();
   currentIndex = 0; correctCount = 0; missed = [];
   document.getElementById('setupBox').style.display = 'none';
   document.getElementById('endBox').style.display = 'none';
@@ -593,20 +624,21 @@ document.getElementById('skipBtn').addEventListener('click', () => {
     document.getElementById('listenBtn').style.display = 'inline-flex';
   } else nextQuestion();
 });
-document.getElementById('answerInput').addEventListener('keydown', (e) => {
-  if(e.key === 'Enter'){
-    e.preventDefault();
-    e.stopPropagation();
-    if(!answered) checkAnswer(); else nextQuestion();
-  }
-});
-
-// Sau khi đã xem đáp án, Enter ở bất kỳ đâu sẽ sang từ tiếp theo.
+// Một bộ xử lý Enter duy nhất: lần đầu kiểm tra, lần sau chuyển câu.
 document.addEventListener('keydown', (e) => {
-  if(e.key !== 'Enter' || !answered) return;
+  if(e.key !== 'Enter') return;
   if(document.getElementById('quizBox').style.display === 'none') return;
   e.preventDefault();
-  nextQuestion();
+  if(!answered) checkAnswer(); else nextQuestion();
+});
+
+document.getElementById('resetQuizProgressBtn').addEventListener('click', () => {
+  seenQuizWords.clear();
+  saveSeenQuizWords();
+  updatePoolInfo();
+  const button = document.getElementById('resetQuizProgressBtn');
+  button.textContent = '✓ Đã đặt lại tiến độ';
+  setTimeout(() => { button.textContent = 'Đặt lại tiến độ từ'; }, 1400);
 });
 
 document.getElementById('restartBtn').addEventListener('click', () => {
