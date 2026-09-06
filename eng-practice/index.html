@@ -36,11 +36,11 @@
     .catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
     .panel{min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
     .panel.featured{grid-column:1/-1;border-color:#c8dbd1;background:linear-gradient(135deg,#fff 20%,#f1f8f4)}
-    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px 10px}
-    .panel-title{display:flex;align-items:center;gap:9px;min-width:0}
-    .icon{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--surface-soft);color:var(--accent);font-size:15px}
-    h2{margin:0;font-size:15px;letter-spacing:-.01em}
-    .count{color:var(--muted);font-size:12px;white-space:nowrap}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 18px 14px;background:linear-gradient(135deg,#f7fbf8,#edf5f0);border-bottom:1px solid var(--line)}
+    .panel-title{display:flex;align-items:center;gap:12px;min-width:0}
+    .icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--accent);color:#fff;font-size:18px;font-weight:800;box-shadow:0 5px 14px rgba(23,107,75,.18)}
+    h2{margin:0;font-size:clamp(19px,2.2vw,23px);line-height:1.1;letter-spacing:-.025em;font-weight:800}
+    .count{padding:5px 9px;border-radius:999px;background:#fff;border:1px solid #cfe0d6;color:var(--accent-dark);font-size:12px;font-weight:700;white-space:nowrap}
     .items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:0 10px 10px}
     .featured .items{grid-template-columns:repeat(3,minmax(0,1fr))}
     .item{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:10px 11px;border:1px solid transparent;border-radius:11px;background:#f8faf8;text-decoration:none;transition:.15s ease}
@@ -90,17 +90,7 @@
         <div class="items" id="hg"><span class="empty">Đang tải…</span></div>
       </section>
 
-      <section class="panel" data-g="vocab">
-        <div class="panel-head"><div class="panel-title"><span class="icon">Aa</span><h2>Vocabulary</h2></div><span class="count">6 bài</span></div>
-        <div class="items">
-          <a class="item" href="vong-1-2-vocabulary-complete-examples.html"><span class="item-text"><strong>Vocabulary · Vòng 1–2</strong><small>Complete examples</small></span><span class="arrow">›</span></a>
-          <a class="item" href="vong-3-4-vocabulary-complete-examples.html"><span class="item-text"><strong>Vocabulary · Vòng 3–4</strong><small>Complete examples</small></span><span class="arrow">›</span></a>
-          <a class="item" href="vong-5-6-vocabulary-complete-examples.html"><span class="item-text"><strong>Vocabulary · Vòng 5–6</strong><small>Complete examples</small></span><span class="arrow">›</span></a>
-          <a class="item" href="vocabulary-new.html"><span class="item-text"><strong>Bộ từ vựng mới</strong><small>Vocabulary</small></span><span class="arrow">›</span></a>
-          <a class="item" href="c1-vocabulary.html"><span class="item-text"><strong>C1 Vocabulary</strong><small>Advanced</small></span><span class="arrow">›</span></a>
-          <a class="item" href="confusing-words.html"><span class="item-text"><strong>Từ dễ nhầm</strong><small>Confusing words</small></span><span class="arrow">›</span></a>
-        </div>
-      </section>
+      <section class="panel" data-g="vocab"><div class="panel-head"><div class="panel-title"><span class="icon">Aa</span><h2>Vocabulary</h2></div><span class="count" id="vc"></span></div><div class="items" id="vg"><span class="empty">Đang tải…</span></div></section>
 
       <section class="panel" data-g="grammar"><div class="panel-head"><div class="panel-title"><span class="icon">✓</span><h2>Grammar</h2></div><span class="count" id="gc"></span></div><div class="items" id="gg"><span class="empty">Đang tải…</span></div></section>
       <section class="panel" data-g="listening"><div class="panel-head"><div class="panel-title"><span class="icon">◉</span><h2>Listening & Dictation</h2></div><span class="count" id="lc"></span></div><div class="items" id="lg"><span class="empty">Đang tải…</span></div></section>
@@ -186,6 +176,7 @@
     }));
 
     load('guides.json','hg','hc','guides/');
+    load('vocabulary.json','vg','vc','Vocabulary/');
     load('grammar.json','gg','gc','grammar/');
     load('listening.json','lg','lc','listening/');
     load('speaking.json','sg','sc','speaking/');
