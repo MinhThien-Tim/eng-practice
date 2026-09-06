@@ -138,7 +138,6 @@
 
   .practice-card{background:var(--paper-2);border-radius:4px;padding:22px;box-shadow:0 8px 18px -10px rgba(0,0,0,.5)}
   .practice-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:16px}.practice-word{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--red-dim)}.practice-meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:4px}.practice-meaning{font-size:13.5px;color:#4a4a3e;margin-top:5px}.practice-mode{display:flex;gap:7px;margin-bottom:16px}.practice-mode .choice{min-width:0}.cloze-sentence{font-family:'Fraunces',serif;font-size:20px;line-height:1.55;margin:8px 0 16px}.blank-word{display:inline-block;min-width:78px;border-bottom:2px solid var(--red);color:transparent}.sentence-input{width:100%;min-height:108px;resize:vertical;font:15px/1.55 'IBM Plex Sans',sans-serif;padding:12px 14px;border:1.5px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink)}.sentence-input:focus{outline:none;border-color:var(--red)}.practice-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.practice-actions .btn{flex:1;min-width:120px}.sentence-hint,.grammar-result{display:none;margin-top:12px;padding:12px 14px;border-radius:3px;background:#eef3ef;border-left:3px solid var(--teal);font-size:13.5px;line-height:1.55;color:#394a43}.sentence-hint.show,.grammar-result.show{display:block}.grammar-result.warn{background:var(--bad-bg);border-color:var(--bad);color:#6e2224}.grammar-result ul{margin:6px 0 0;padding-left:20px}.saved-note{font:11px 'IBM Plex Mono',monospace;color:var(--teal);margin-top:9px;min-height:16px}.saved-browser{display:none;margin-top:16px}.saved-browser.show{display:block}.saved-topic{background:var(--paper);border:1px solid var(--line);border-radius:3px;margin-top:10px;overflow:hidden}.saved-topic h3{font:600 13px 'IBM Plex Mono',monospace;margin:0;padding:10px 12px;background:#ded9c8}.saved-entry{padding:10px 12px;border-top:1px dashed var(--line);font-size:13px;line-height:1.5}.saved-entry b{color:var(--red-dim)}@media(max-width:520px){.practice-top{display:block}.practice-top .listen-btn{margin-top:10px}.practice-actions .btn{min-width:100%}}
-+
   /* ===== Compact, large-type grouped interface ===== */
   body{font-size:16px;line-height:1.55}
   .wrap{max-width:980px;padding:20px 18px 64px}
@@ -332,7 +331,6 @@ document.getElementById('catCounter').innerHTML = `${TOTAL_WORDS} từ<br>${CATE
 /* ========================================================================
    LIBRARY
    ======================================================================== */
-+
 function categoryGroupLabel(title){
   const t = title.toUpperCase();
   if(t.startsWith('V3')){
