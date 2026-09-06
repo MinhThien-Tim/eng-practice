@@ -136,6 +136,71 @@
 
   .syn-intro{background:var(--paper-2);padding:18px 20px;border-left:4px solid var(--teal);margin-bottom:16px}.syn-intro h2{margin:0 0 6px;font-family:'Fraunces',serif}.syn-intro p{margin:0;color:var(--muted);font-size:13px}.syn-filter{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 18px}.syn-filter button{font:inherit}.synonym-list{display:grid;gap:14px}.syn-card{background:var(--paper-2);border:1px solid var(--line);border-radius:4px;overflow:hidden}.syn-head{padding:14px 16px;background:#ded9c8}.syn-head h3{margin:0;font:700 19px 'Fraunces',serif;color:var(--red-dim)}.syn-head p{margin:4px 0 0;font-size:12px;color:var(--muted)}.syn-table{display:grid}.syn-row{display:grid;grid-template-columns:minmax(105px,.8fr) minmax(110px,.9fr) minmax(130px,1fr) minmax(220px,2fr);gap:10px;padding:11px 16px;border-top:1px dashed var(--line);align-items:start}.syn-word{font-weight:700;color:var(--ink)}.syn-tone{font:10px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:var(--red-dim)}.syn-context{font-size:12px;color:var(--teal);font-weight:600}.syn-note{font-size:12.5px;line-height:1.45;color:#4f554f}.cloze-gap{display:inline-block;min-width:74px;padding:0 8px;border-bottom:2px solid var(--red);color:transparent;user-select:none}@media(max-width:700px){.syn-row{grid-template-columns:1fr 1fr}.syn-note{grid-column:1/-1}}
 
++
+  /* ===== Compact, large-type grouped interface ===== */
+  body{font-size:16px;line-height:1.55}
+  .wrap{max-width:980px;padding:20px 18px 64px}
+  header.top{margin-bottom:12px;padding-bottom:11px}
+  header.top h1{font-size:clamp(30px,5vw,42px);line-height:1.05}
+  header.top p{font-size:15px}
+  header.top .catno{font-size:13px}
+  nav.tabs{gap:6px;margin-bottom:14px;position:sticky;top:0;z-index:20;background:var(--ink);padding:7px 0}
+  nav.tabs button{font-size:13px;padding:11px 8px}
+  .lib-intro{font-size:15px;margin-bottom:12px}
+  .filter-row{margin-bottom:10px}
+  .filter-choice{font-size:14px;padding:9px 14px}
+  .searchbox{font-size:16px;padding:12px 14px;margin-bottom:12px}
+  .cat-grid{display:block;margin-bottom:14px}
+  .cat-choice{font-size:14px;padding:11px 13px;background:var(--paper-2)}
+  .cat-choice small{font-size:11px;margin-top:3px}
+  .cat-choice.all-cat{margin-bottom:8px;text-align:center;font-weight:700}
+  .cat-group,.lib-group{background:var(--paper-2);border:1px solid var(--line);border-radius:5px;margin-bottom:8px;overflow:hidden}
+  .cat-group>summary,.lib-group>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;font-family:'Fraunces',serif;font-size:18px;font-weight:700;background:#ded9c8}
+  .cat-group>summary::-webkit-details-marker,.lib-group>summary::-webkit-details-marker,.card>summary::-webkit-details-marker{display:none}
+  .cat-group>summary::before,.lib-group>summary::before,.card>summary::before{content:'+';flex:0 0 auto;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--ink);color:var(--paper-2);font:700 16px 'IBM Plex Mono',monospace}
+  .cat-group[open]>summary::before,.lib-group[open]>summary::before,.card[open]>summary::before{content:'−'}
+  .cat-group>summary>span:first-of-type,.lib-group>summary>span:first-of-type{flex:1}
+  .cat-group>summary small,.lib-group>summary small{font:500 11px 'IBM Plex Mono',monospace;color:var(--muted);text-align:right}
+  .group-selected{color:var(--red-dim);font:700 11px 'IBM Plex Mono',monospace;white-space:nowrap}
+  .cat-group.has-selection{border-color:var(--ochre)}
+  .cat-group-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:var(--paper)}
+  .lib-group-body{padding:8px;background:rgba(233,229,214,.55)}
+  .card{margin-bottom:7px;box-shadow:none;border:1px solid var(--line)}
+  .card:last-child{margin-bottom:0}
+  .card::before{display:none}
+  .card-head{cursor:pointer;padding:12px 15px;border-bottom:0;align-items:center}
+  .card[open]>.card-head{border-bottom:1.5px dashed var(--line)}
+  .card-head h3{font-size:18px;line-height:1.25;font-style:normal}
+  .card-head .cnt{font-size:12px}
+  .ledger{padding:4px 16px 9px}
+  .ledger-row{padding:10px 0;font-size:15px}
+  .ledger-row .lw{font-size:17px}
+  .ledger-row .lipa{font-size:13px}
+  .ledger-row .lpos{font-size:13px}
+  .ledger-row .lv{font-size:15px;line-height:1.45;margin-top:3px}
+  .lex-example{font-size:15px;line-height:1.55}
+  .setup{padding:18px}
+  .setup h2{font-size:23px}
+  .setup .sub{font-size:14px}
+  .field-group label.flabel{font-size:12px}
+  .choice{font-size:15px}
+  .quiz-card,.practice-card{padding:20px}
+  .prompt-main{font-size:clamp(25px,5vw,34px)}
+  input.answer{font-size:18px}
+  .feedback{font-size:15px}
+  @media(max-width:620px){
+    .wrap{padding:14px 10px 50px}
+    header.top{align-items:flex-start}
+    header.top .catno{font-size:11px}
+    nav.tabs{overflow-x:auto}
+    nav.tabs button{min-width:92px;white-space:nowrap}
+    .cat-group-list{grid-template-columns:1fr}
+    .cat-group>summary,.lib-group>summary{font-size:16px;padding:12px}
+    .cat-group>summary small,.lib-group>summary small{display:none}
+    .card-head h3{font-size:17px}
+    .ledger{padding:3px 13px 8px}
+  }
+
 </style>
 </head>
 <body>
@@ -286,38 +351,106 @@ document.getElementById('catCounter').innerHTML = `${TOTAL_WORDS} từ<br>${CATE
 /* ========================================================================
    LIBRARY
    ======================================================================== */
++
+function categoryGroupLabel(title){
+  const t = title.toUpperCase();
+  if(t.startsWith('V3')){
+    if(t.includes('· 13.')) return 'Vòng 3 · Từ vựng tổng hợp theo chức năng';
+    if(/· (11|12)\./.test(t)) return 'Vòng 3 · Phrasal verbs và mở rộng';
+    return 'Vòng 3 · Chủ đề học thuật và đời sống';
+  }
+  if(t.startsWith('V4')){
+    if(t.includes('· 15.')) return 'Vòng 4 · Từ vựng tổng hợp theo chức năng';
+    return 'Vòng 4 · Các lĩnh vực chuyên sâu';
+  }
+  if(t.startsWith('V6')){
+    if(/· (05|13|16)\./.test(t)) return 'Vòng 6 · Nền tảng nâng cao';
+    if(/HEALTH|STRESS|LIFE EXPECTANCY|HUNGER|RICH AND POOR|AGEING|FAMILY|SPORT/.test(t)) return 'IELTS · Sức khỏe, con người và xã hội';
+    if(/TRANSPORT|GENETIC|WATER|ANIMAL|AIR POLLUTION|ENVIRONMENT|ENERGY|THROW-AWAY/.test(t)) return 'IELTS · Môi trường, giao thông và động vật';
+    return 'IELTS · Công nghệ, công việc và đời sống hiện đại';
+  }
+  const number = parseInt((title.match(/^(\d+)/) || [])[1], 10);
+  if(number <= 10) return 'Đời sống hằng ngày';
+  if(number <= 13) return 'Thiên nhiên, học tập và công việc';
+  if(number <= 20) return 'Tư duy, xã hội và thế giới hiện đại';
+  if(number === 21) return 'Từ vựng tổng hợp theo chức năng';
+  return 'Thời gian, ngữ pháp và phrasal verbs';
+}
+function compactCategoryTitle(title){
+  return title.replace(/^V\d+\s*·\s*/i, '');
+}
+const CATEGORY_GROUPS = [];
+CATEGORIES.forEach((category, index) => {
+  const label = categoryGroupLabel(category.title);
+  let group = CATEGORY_GROUPS.find(item => item.label === label);
+  if(!group){
+    group = { label, indices: [] };
+    CATEGORY_GROUPS.push(group);
+  }
+  group.indices.push(index);
+});
+
 let libTier = 'all';
 let libSelectedCats = new Set(['ALL']);
 
+function refreshCategoryChoices(grid, selectedSetRef){
+  grid.querySelectorAll('.cat-choice').forEach(el => {
+    el.classList.toggle('sel', selectedSetRef.has(el.dataset.cat));
+  });
+  grid.querySelectorAll('.cat-group').forEach(group => {
+    const choices = [...group.querySelectorAll('.cat-choice')];
+    const selectedCount = choices.filter(el => selectedSetRef.has(el.dataset.cat)).length;
+    group.classList.toggle('has-selection', selectedCount > 0);
+    const badge = group.querySelector('.group-selected');
+    if(badge) badge.textContent = selectedCount ? `${selectedCount} đã chọn` : '';
+  });
+}
 function buildCatGrid(containerId, selectedSetRef, onChange){
   const grid = document.getElementById(containerId);
   grid.innerHTML = '';
   const allBtn = document.createElement('div');
-  allBtn.className = 'cat-choice sel';
+  allBtn.className = 'cat-choice all-cat sel';
   allBtn.dataset.cat = 'ALL';
   allBtn.textContent = 'Tất cả chủ đề';
   grid.appendChild(allBtn);
-  CATEGORIES.forEach((c, idx) => {
-    const el = document.createElement('div');
-    el.className = 'cat-choice';
-    el.dataset.cat = String(idx);
-    el.innerHTML = `${c.title}<small>${c.items.length} từ</small>`;
-    grid.appendChild(el);
+
+  CATEGORY_GROUPS.forEach((categoryGroup, groupIndex) => {
+    const group = document.createElement('details');
+    group.className = 'cat-group';
+    group.open = groupIndex === 0;
+    const wordCount = categoryGroup.indices.reduce((sum, idx) => sum + CATEGORIES[idx].items.length, 0);
+    const summary = document.createElement('summary');
+    summary.innerHTML = `<span>${categoryGroup.label}</span><span class="group-selected"></span><small>${categoryGroup.indices.length} chủ đề · ${wordCount} từ</small>`;
+    const body = document.createElement('div');
+    body.className = 'cat-group-list';
+    categoryGroup.indices.forEach(idx => {
+      const category = CATEGORIES[idx];
+      const el = document.createElement('div');
+      el.className = 'cat-choice';
+      el.dataset.cat = String(idx);
+      el.innerHTML = `${compactCategoryTitle(category.title)}<small>${category.items.length} từ</small>`;
+      body.appendChild(el);
+    });
+    group.append(summary, body);
+    grid.appendChild(group);
   });
+
   grid.querySelectorAll('.cat-choice').forEach(el => {
     el.addEventListener('click', () => {
       if(el.dataset.cat === 'ALL'){
-        selectedSetRef.clear(); selectedSetRef.add('ALL');
+        selectedSetRef.clear();
+        selectedSetRef.add('ALL');
       } else {
         selectedSetRef.delete('ALL');
         if(selectedSetRef.has(el.dataset.cat)) selectedSetRef.delete(el.dataset.cat);
         else selectedSetRef.add(el.dataset.cat);
         if(selectedSetRef.size === 0) selectedSetRef.add('ALL');
       }
-      grid.querySelectorAll('.cat-choice').forEach(x => x.classList.toggle('sel', selectedSetRef.has(x.dataset.cat)));
+      refreshCategoryChoices(grid, selectedSetRef);
       onChange();
     });
   });
+  refreshCategoryChoices(grid, selectedSetRef);
 }
 buildCatGrid('catGrid', libSelectedCats, renderLib);
 
@@ -335,36 +468,65 @@ function renderLib(){
   const q = document.getElementById('searchBox').value.trim().toLowerCase();
   libList.innerHTML = '';
   let shown = 0;
-  CATEGORIES.forEach((c, idx) => {
-    if(!libSelectedCats.has('ALL') && !libSelectedCats.has(String(idx))) return;
-    let items = c.items;
-    if(libTier !== 'all') items = items.filter(([t]) => t === libTier);
-    if(q) items = items.filter(([,w,,,vi,ex]) => w.toLowerCase().includes(q) || vi.toLowerCase().includes(q) || (ex||'').toLowerCase().includes(q));
-    if(items.length === 0) return;
-    shown += items.length;
-    const card = document.createElement('div');
-    card.className = 'card';
-    const head = document.createElement('div');
-    head.className = 'card-head';
-    head.innerHTML = `<h3>${c.title}</h3><span class="cnt">${items.length} từ</span>`;
-    card.appendChild(head);
-    const ledger = document.createElement('div');
-    ledger.className = 'ledger';
-    items.forEach(([t, w, ipa, pos, vi, ex]) => {
-      const row = document.createElement('div');
-      row.className = 'ledger-row';
-      row.innerHTML = `
-        <div class="lw-row"><span class="tier-dot ${t.toLowerCase()}"></span><span class="lw">${w}</span><span class="lipa">/${ipa}/</span><span class="lpos">(${pos})</span></div>
-        <div class="lv">${vi}</div>
-        ${ex ? `<div class="lex-example">${ex}</div>` : ''}
-      `;
-      ledger.appendChild(row);
+
+  CATEGORY_GROUPS.forEach((categoryGroup, groupIndex) => {
+    const cards = [];
+    let groupWordCount = 0;
+
+    categoryGroup.indices.forEach(idx => {
+      const category = CATEGORIES[idx];
+      if(!libSelectedCats.has('ALL') && !libSelectedCats.has(String(idx))) return;
+      let items = category.items;
+      if(libTier !== 'all') items = items.filter(([tier]) => tier === libTier);
+      if(q) items = items.filter(([, word, , , meaning, example]) =>
+        word.toLowerCase().includes(q) ||
+        meaning.toLowerCase().includes(q) ||
+        (example || '').toLowerCase().includes(q)
+      );
+      if(items.length === 0) return;
+
+      shown += items.length;
+      groupWordCount += items.length;
+      const card = document.createElement('details');
+      card.className = 'card';
+      card.open = Boolean(q) || !libSelectedCats.has('ALL');
+      const head = document.createElement('summary');
+      head.className = 'card-head';
+      head.innerHTML = `<h3>${compactCategoryTitle(category.title)}</h3><span class="cnt">${items.length} từ</span>`;
+      const ledger = document.createElement('div');
+      ledger.className = 'ledger';
+
+      items.forEach(([tier, word, ipa, pos, meaning, example, sourceName, sourceUrl]) => {
+        const row = document.createElement('div');
+        row.className = 'ledger-row';
+        row.innerHTML = `
+          <div class="lw-row"><span class="tier-dot ${tier.toLowerCase()}"></span><span class="lw">${word}</span><span class="lipa">/${ipa}/</span><span class="lpos">${pos ? `(${pos})` : ''}</span></div>
+          <div class="lv">${meaning}</div>
+          ${example ? `<div class="lex-example">${example}</div>` : ''}
+          ${sourceName && sourceUrl ? `<div class="lex-source">Ngữ cảnh tham khảo: <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${sourceName}</a></div>` : ''}
+        `;
+        ledger.appendChild(row);
+      });
+
+      card.append(head, ledger);
+      cards.push(card);
     });
-    card.appendChild(ledger);
-    libList.appendChild(card);
+
+    if(cards.length === 0) return;
+    const major = document.createElement('details');
+    major.className = 'lib-group';
+    major.open = Boolean(q) || !libSelectedCats.has('ALL') || groupIndex === 0;
+    const summary = document.createElement('summary');
+    summary.innerHTML = `<span>${categoryGroup.label}</span><small>${cards.length} chủ đề · ${groupWordCount} từ</small>`;
+    const body = document.createElement('div');
+    body.className = 'lib-group-body';
+    cards.forEach(card => body.appendChild(card));
+    major.append(summary, body);
+    libList.appendChild(major);
   });
+
   if(shown === 0){
-    libList.innerHTML = '<p style="color:#aab1a9;font-size:13px;text-align:center;">Không tìm thấy từ phù hợp.</p>';
+    libList.innerHTML = '<p style="color:#aab1a9;font-size:15px;text-align:center;">Không tìm thấy từ phù hợp.</p>';
   }
 }
 renderLib();
