@@ -46,14 +46,12 @@
     .panel[data-g="other"]{--tone:#475569;--tone-dark:#334155;--tone-soft:#f8fafc;--tone-border:#cbd5e1}
     .panel[data-g="docs"]{--tone:#0f766e;--tone-dark:#115e59;--tone-soft:#f0fdfa;--tone-border:#99f6e4}
     .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;background:linear-gradient(135deg,#fff,var(--tone-soft))}
-    .panel.open .panel-head{border-bottom:1px solid var(--tone-border)}
     .panel-title{display:flex;align-items:center;gap:12px;min-width:0}
     .icon{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--tone);color:#fff;font-size:16px;font-weight:800;box-shadow:0 5px 14px color-mix(in srgb,var(--tone) 24%,transparent)}
     h2{margin:0;font-size:clamp(17px,2vw,20px);line-height:1.1;letter-spacing:-.02em;font-weight:800;color:var(--tone-dark)}
     .toggle{display:flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid var(--tone-border);border-radius:999px;background:#fff;color:var(--tone-dark);font-size:12px;font-weight:750;white-space:nowrap;cursor:pointer}
     .toggle:hover{background:var(--tone-soft)}
-    .chevron{font-size:17px;line-height:1;transition:transform .18s ease}
-    .toggle[aria-expanded="true"] .chevron{transform:rotate(180deg)}
+    .chevron{font-size:17px;line-height:1}
     .items{display:grid;grid-template-columns:1fr;gap:6px;padding:9px}
     .items[hidden]{display:none}
     .item{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:10px 11px;border:1px solid transparent;border-radius:11px;background:#f8faf8;text-decoration:none;transition:.15s ease}
@@ -64,10 +62,27 @@
     .arrow{flex:0 0 auto;color:#8a9890;font-size:16px}
     .empty{grid-column:1/-1;padding:11px;color:var(--muted);font-size:12px}
     .no-results{display:none;text-align:center;padding:42px 15px;color:var(--muted)}
+    body.picker-open{overflow:hidden}
+    .picker[hidden]{display:none}
+    .picker{--tone:#176b4b;--tone-dark:#0f5138;--tone-soft:#edf7f2;--tone-border:#cce2d7;position:fixed;inset:0;z-index:50;overflow:auto;background:var(--bg)}
+    .picker-shell{width:min(960px,100%);min-height:100%;margin:auto;padding:18px 18px 36px}
+    .picker-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:14px;margin:-18px -18px 18px;padding:16px 18px;background:color-mix(in srgb,var(--tone-soft) 92%,#fff);border-bottom:1px solid var(--tone-border);box-shadow:0 5px 18px rgba(24,54,40,.06)}
+    .picker-heading{display:flex;align-items:center;gap:12px;min-width:0}
+    .picker-icon{display:grid;place-items:center;flex:0 0 auto;width:42px;height:42px;border-radius:13px;background:var(--tone);color:#fff;font-size:18px;font-weight:800}
+    .picker-copy{min-width:0}
+    .picker-copy h2{color:var(--tone-dark);font-size:clamp(20px,3vw,27px)}
+    .picker-copy p{margin:4px 0 0;color:var(--muted);font-size:12px}
+    .picker-close{flex:0 0 auto;padding:9px 13px;border:1px solid var(--tone-border);border-radius:12px;background:#fff;color:var(--tone-dark);font-weight:750;cursor:pointer}
+    .picker-close:hover{background:var(--tone-soft)}
+    .picker-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .picker-items .item{padding:14px;border-color:var(--tone-border);background:#fff;box-shadow:0 4px 14px rgba(24,54,40,.04)}
+    .picker-items .item:hover{border-color:var(--tone);background:var(--tone-soft)}
+    .picker-items .item strong{font-size:14px}
+    .picker-empty{grid-column:1/-1;padding:48px 20px;text-align:center;color:var(--muted)}
     footer{padding-top:20px;text-align:center;color:var(--muted);font-size:11px}
     @media(max-width:780px){.catalog{grid-template-columns:1fr}}
-    @media(max-width:520px){.shell{width:min(100% - 20px,1120px);padding-top:16px}.hero{align-items:flex-start}.mark{width:42px;height:42px}.toolbar{padding-top:7px}.panel-head{padding:11px 12px}}
-    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.item,.chevron{transition:none}}
+    @media(max-width:520px){.shell{width:min(100% - 20px,1120px);padding-top:16px}.hero{align-items:flex-start}.mark{width:42px;height:42px}.toolbar{padding-top:7px}.panel-head{padding:11px 12px}.picker-shell{padding:14px 12px 28px}.picker-head{margin:-14px -12px 14px;padding:12px}.picker-items{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.item{transition:none}}
   </style>
 </head>
 <body>
@@ -99,19 +114,19 @@
 
     <div class="catalog" id="catalog">
       <section class="panel" data-g="guides" data-src="guides.json" data-prefix="guides/">
-        <div class="panel-head"><div class="panel-title"><span class="icon">✦</span><h2>Hướng dẫn học</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="hg"><span id="hc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="panel-head"><div class="panel-title"><span class="icon">✦</span><h2>Hướng dẫn học</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span id="hc">Mở</span><span class="chevron" aria-hidden="true">›</span></button></div>
         <div class="items" id="hg" hidden><span class="empty">Đang tải…</span></div>
       </section>
 
-      <section class="panel" data-g="vocab" data-src="vocabulary.json" data-prefix="Vocabulary/"><div class="panel-head"><div class="panel-title"><span class="icon">Aa</span><h2>Vocabulary</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="vg"><span id="vc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="vg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="vocab" data-src="vocabulary.json" data-prefix="Vocabulary/"><div class="panel-head"><div class="panel-title"><span class="icon">Aa</span><h2>Vocabulary</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span id="vc">Mở</span><span class="chevron" aria-hidden="true">›</span></button></div><div class="items" id="vg" hidden><span class="empty">Đang tải…</span></div></section>
 
-      <section class="panel" data-g="grammar" data-src="grammar.json" data-prefix="grammar/"><div class="panel-head"><div class="panel-title"><span class="icon">✓</span><h2>Grammar</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="gg"><span id="gc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="gg" hidden><span class="empty">Đang tải…</span></div></section>
-      <section class="panel" data-g="listening" data-src="listening.json" data-prefix="listening/"><div class="panel-head"><div class="panel-title"><span class="icon">◉</span><h2>Listening & Dictation</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="lg"><span id="lc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="lg" hidden><span class="empty">Đang tải…</span></div></section>
-      <section class="panel" data-g="speaking" data-src="speaking.json" data-prefix="speaking/"><div class="panel-head"><div class="panel-title"><span class="icon">◌</span><h2>Speaking</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="sg"><span id="sc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="sg" hidden><span class="empty">Đang tải…</span></div></section>
-      <section class="panel" data-g="writing" data-src="writing.json" data-prefix="writing/"><div class="panel-head"><div class="panel-title"><span class="icon">✎</span><h2>Writing</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="wg"><span id="wc">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="wg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="grammar" data-src="grammar.json" data-prefix="grammar/"><div class="panel-head"><div class="panel-title"><span class="icon">✓</span><h2>Grammar</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span id="gc">Mở</span><span class="chevron" aria-hidden="true">›</span></button></div><div class="items" id="gg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="listening" data-src="listening.json" data-prefix="listening/"><div class="panel-head"><div class="panel-title"><span class="icon">◉</span><h2>Listening & Dictation</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span id="lc">Mở</span><span class="chevron" aria-hidden="true">›</span></button></div><div class="items" id="lg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="speaking" data-src="speaking.json" data-prefix="speaking/"><div class="panel-head"><div class="panel-title"><span class="icon">◌</span><h2>Speaking</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span id="sc">Mở</span><span class="chevron" aria-hidden="true">›</span></button></div><div class="items" id="sg" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="writing" data-src="writing.json" data-prefix="writing/"><div class="panel-head"><div class="panel-title"><span class="icon">✎</span><h2>Writing</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span id="wc">Mở</span><span class="chevron" aria-hidden="true">›</span></button></div><div class="items" id="wg" hidden><span class="empty">Đang tải…</span></div></section>
 
       <section class="panel" data-g="verbs">
-        <div class="panel-head"><div class="panel-title"><span class="icon">V</span><h2>Verbs & Expression</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="verbs-items"><span>4 bài</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="panel-head"><div class="panel-title"><span class="icon">V</span><h2>Verbs & Expression</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span>4 bài</span><span class="chevron" aria-hidden="true">›</span></button></div>
         <div class="items" id="verbs-items" hidden>
           <a class="item" href="english-verbs.html"><span class="item-text"><strong>English Verbs</strong><small>Động từ</small></span><span class="arrow">›</span></a>
           <a class="item" href="five-forms-of-verbs-with-3rd-person.html"><span class="item-text"><strong>Five Forms of Verbs</strong><small>Including 3rd person</small></span><span class="arrow">›</span></a>
@@ -121,23 +136,39 @@
       </section>
 
       <section class="panel" data-g="ielts">
-        <div class="panel-head"><div class="panel-title"><span class="icon">I</span><h2>IELTS</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="ielts-items"><span>2 bài</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="panel-head"><div class="panel-title"><span class="icon">I</span><h2>IELTS</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span>2 bài</span><span class="chevron" aria-hidden="true">›</span></button></div>
         <div class="items" id="ielts-items" hidden>
           <a class="item" href="ielts-collocations-topic-table-with-dictation.html"><span class="item-text"><strong>IELTS Collocations by Topic</strong><small>Table + dictation</small></span><span class="arrow">›</span></a>
           <a class="item" href="ielts_hiking_collocations_full_with_dictation.html"><span class="item-text"><strong>IELTS Hiking Collocations</strong><small>Full + dictation</small></span><span class="arrow">›</span></a>
         </div>
       </section>
 
-      <section class="panel" data-g="other" data-src="apps.json"><div class="panel-head"><div class="panel-title"><span class="icon">＋</span><h2>Bài mới khác</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="ag"><span id="ac">Mở</span><span class="chevron" aria-hidden="true">⌄</span></button></div><div class="items" id="ag" hidden><span class="empty">Đang tải…</span></div></section>
+      <section class="panel" data-g="other" data-src="apps.json"><div class="panel-head"><div class="panel-title"><span class="icon">＋</span><h2>Bài mới khác</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span id="ac">Mở</span><span class="chevron" aria-hidden="true">›</span></button></div><div class="items" id="ag" hidden><span class="empty">Đang tải…</span></div></section>
 
       <section class="panel" data-g="docs">
-        <div class="panel-head"><div class="panel-title"><span class="icon">▤</span><h2>Documents</h2></div><button class="toggle" type="button" aria-expanded="false" aria-controls="docs-items"><span>Thư viện</span><span class="chevron" aria-hidden="true">⌄</span></button></div>
+        <div class="panel-head"><div class="panel-title"><span class="icon">▤</span><h2>Documents</h2></div><button class="toggle" type="button" aria-haspopup="dialog" aria-controls="picker"><span>Thư viện</span><span class="chevron" aria-hidden="true">›</span></button></div>
         <div class="items" id="docs-items" hidden><a class="item" href="documents.html"><span class="item-text"><strong>PDF Library</strong><small>Mở thư viện tài liệu</small></span><span class="arrow">›</span></a></div>
       </section>
     </div>
     <div class="no-results" id="noResults">Không tìm thấy bài học phù hợp.</div>
     <footer>Danh sách HTML và PDF được cập nhật tự động sau mỗi lần tải file lên.</footer>
   </main>
+
+  <div class="picker" id="picker" role="dialog" aria-modal="true" aria-labelledby="pickerTitle" aria-describedby="pickerNote" hidden>
+    <div class="picker-shell">
+      <header class="picker-head">
+        <div class="picker-heading">
+          <span class="picker-icon" id="pickerIcon" aria-hidden="true"></span>
+          <div class="picker-copy">
+            <h2 id="pickerTitle">Chọn bài học</h2>
+            <p id="pickerNote">Chọn một bài bên dưới để bắt đầu.</p>
+          </div>
+        </div>
+        <button class="picker-close" id="pickerClose" type="button" aria-label="Đóng cửa sổ chọn bài">Đóng ×</button>
+      </header>
+      <div class="picker-items" id="pickerItems"></div>
+    </div>
+  </div>
 
   <script>
     const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -146,6 +177,13 @@
     const searchInput=document.getElementById('q');
     const clearButton=document.getElementById('clear');
     const loadTasks=new WeakMap();
+    const picker=document.getElementById('picker');
+    const pickerTitle=document.getElementById('pickerTitle');
+    const pickerNote=document.getElementById('pickerNote');
+    const pickerIcon=document.getElementById('pickerIcon');
+    const pickerItems=document.getElementById('pickerItems');
+    const pickerClose=document.getElementById('pickerClose');
+    let lastTrigger=null;
 
     async function loadPanel(panel){
       if(!panel.dataset.src||panel.dataset.loaded==='true') return;
@@ -171,13 +209,29 @@
       return task;
     }
 
-    async function setExpanded(panel,expanded){
-      const button=panel.querySelector('.toggle');
-      const items=panel.querySelector('.items');
-      button.setAttribute('aria-expanded',String(expanded));
-      items.hidden=!expanded;
-      panel.classList.toggle('open',expanded);
-      if(expanded) await loadPanel(panel);
+    async function openPicker(panel){
+      lastTrigger=panel.querySelector('.toggle');
+      await loadPanel(panel);
+      const title=panel.querySelector('h2').textContent;
+      const icon=panel.querySelector('.icon').textContent;
+      const lessons=[...panel.querySelectorAll('.item')].filter(item=>!item.hidden);
+      const styles=getComputedStyle(panel);
+      ['--tone','--tone-dark','--tone-soft','--tone-border'].forEach(name=>picker.style.setProperty(name,styles.getPropertyValue(name)));
+      pickerTitle.textContent=title;
+      pickerIcon.textContent=icon;
+      pickerNote.textContent=lessons.length?`${lessons.length} bài học — chọn một bài để bắt đầu.`:'Chưa có bài học phù hợp.';
+      pickerItems.innerHTML=lessons.length?lessons.map(item=>item.outerHTML).join(''):'<div class="picker-empty">Chưa có dữ liệu để hiển thị.</div>';
+      picker.hidden=false;
+      document.body.classList.add('picker-open');
+      picker.scrollTop=0;
+      pickerClose.focus();
+    }
+
+    function closePicker(){
+      picker.hidden=true;
+      document.body.classList.remove('picker-open');
+      pickerItems.innerHTML='';
+      if(lastTrigger) lastTrigger.focus();
     }
 
     async function applyFilters(){
@@ -194,10 +248,7 @@
         });
         const show=categoryMatches&&(!query||visibleItems>0);
         panel.hidden=!show;
-        if(show){
-          visiblePanels++;
-          if(query) setExpanded(panel,true);
-        }
+        if(show) visiblePanels++;
       });
       document.getElementById('noResults').style.display=visiblePanels?'none':'block';
       clearButton.style.display=searchInput.value?'block':'none';
@@ -209,11 +260,11 @@
       document.querySelectorAll('.filter').forEach(item=>item.classList.remove('on'));
       button.classList.add('on');activeFilter=button.dataset.f;applyFilters();
     }));
-    document.querySelectorAll('.toggle').forEach(button=>button.addEventListener('click',async()=>{
-      const panel=button.closest('.panel');
-      await setExpanded(panel,button.getAttribute('aria-expanded')!=='true');
-      applyFilters();
-    }));
+    document.querySelectorAll('.toggle').forEach(button=>button.addEventListener('click',()=>openPicker(button.closest('.panel'))));
+    pickerClose.addEventListener('click',closePicker);
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape'&&!picker.hidden) closePicker();
+    });
     applyFilters();
   </script>
 </body>
