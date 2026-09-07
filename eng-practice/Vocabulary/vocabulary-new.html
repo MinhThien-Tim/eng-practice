@@ -72,6 +72,24 @@ select,input[type="number"],#answer{width:100%;padding:11px;border:1px solid #aa
 .end{display:none;padding:28px;text-align:center}
 .end h2{font:700 31px "Fraunces";margin:0 0 8px}
 .note{font-size:12px;color:#8c8576;margin-top:10px}
+.keyhint{font-size:11px;color:var(--muted);margin-top:7px}
+/* Updated blue-green library */
+:root{--ink:#294052;--paper:#eef6f5;--paper2:#fff;--line:#ccdde2;--red:#2f6f9f;--ochre:#a97436;--teal:#24766d;--muted:#667986;--ok:#2f7561;--bad:#a45568}
+body{background:radial-gradient(circle at 7% 1%,#d8ece6,transparent 31%),radial-gradient(circle at 94% 5%,#dceaf5,transparent 34%),#eaf2f3}
+body:before{background-image:radial-gradient(circle at 1px 1px,rgba(41,64,82,.035) 1px,transparent 1px)}
+.wrap{max-width:1040px;padding:22px 16px 64px}
+header{align-items:center;padding:20px 22px;margin-bottom:12px;border:1px solid #cbdde1;border-radius:14px;background:rgba(255,255,255,.72);box-shadow:0 10px 28px rgba(44,77,90,.06)}
+.mark{color:#24766d}h1{font:700 clamp(30px,5vw,42px) "IBM Plex Sans",sans-serif;color:#294052;letter-spacing:-.02em}header p,.stats{color:var(--muted)}
+.tabs{position:sticky;top:5px;z-index:10;gap:6px;padding:5px;margin-bottom:14px;border:1px solid #c9dce1;border-radius:11px;background:rgba(234,242,243,.94);box-shadow:0 7px 22px rgba(44,77,90,.08);backdrop-filter:blur(8px)}
+.tab{border:0;color:#59707c;border-radius:8px}.tab.active{background:#fff;color:#216f66;box-shadow:0 2px 9px rgba(44,77,90,.11)}
+.paper{border:1px solid #cbdde1;border-radius:13px;background:rgba(238,246,245,.88);box-shadow:0 10px 28px rgba(44,77,90,.05)}
+.search,select,input[type="number"],#answer{border-color:#b8ced5;border-radius:9px;background:#fff;color:var(--ink);font-size:15px}.search:focus,#answer:focus,select:focus{outline:none;border-color:#397f9f;box-shadow:0 0 0 3px rgba(47,111,159,.13)}
+.chip{border-color:#b8ced5;background:#fff;color:#55707b}.chip.active{background:#24766d;border-color:#24766d;color:#fff}
+.resultbar{background:#f6faf9}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.card{margin:0;border-color:#d0dfe3;border-radius:11px;background:linear-gradient(145deg,#fff,#f1f8f6)}.word{font:700 25px "IBM Plex Sans",sans-serif;color:#294052}.meaning{font-size:15px;color:#365869}.tag{background:#deeeeb;color:#356b64;border-radius:999px}.speak,.btn{background:#24766d;color:#fff}.ex-toggle{color:#23766d}.examples{border-color:#cfdee2}
+.quizbox h2,.prompt,.end h2{font-family:"IBM Plex Sans",sans-serif;letter-spacing:-.02em}.prompt{font-size:clamp(28px,5vw,40px);color:#294052}.progress{background:#d9e6e8}.progress>div{background:linear-gradient(90deg,#57a092,#24766d)}
+.btn.secondary{background:#e1edf0;color:#355568}.feedback.ok{background:#e2f1eb;color:#316655}.feedback.bad{background:#f7e8ed;color:#8a4a5d}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(47,111,159,.24);outline-offset:2px}
 @media(max-width:640px){header{align-items:flex-start;flex-direction:column}.stats{text-align:left}.grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -141,6 +159,7 @@ select,input[type="number"],#answer{width:100%;padding:11px;border:1px solid #aa
     <div id="qPrompt" class="prompt"></div>
     <div id="qHint" class="hint"></div>
     <input id="answer" autocomplete="off" placeholder="Nhập đáp án…">
+    <div class="keyhint">Enter lần 1: kiểm tra · Enter lần 2: câu tiếp theo</div>
     <div class="actions">
       <button id="check" class="btn">KIỂM TRA</button>
       <button id="listen" class="btn secondary">NGHE</button>
@@ -284,8 +303,9 @@ function showQ() {
 }
 function checkQ() {
   if(answered) return;
-  answered=true;
   const r=quiz[qi], dir=$("#qDirection").value, ans=norm($("#answer").value);
+  if(!ans) { $("#answer").focus(); return; }
+  answered=true;
   let ok=false;
   if(dir==="vi-en") ok = ans===norm(r.w);
   else {
@@ -314,7 +334,7 @@ function finish() {
 $("#startQuiz").onclick=()=>start();
 $("#check").onclick=checkQ; $("#next").onclick=nextQ;
 $("#listen").onclick=()=>quiz[qi]&&speak(quiz[qi].w);
-$("#answer").addEventListener("keydown",e=>{ if(e.key==="Enter") answered?nextQ():checkQ(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Enter" && $("#quizPlay").style.display==="block"){ e.preventDefault(); answered?nextQ():checkQ(); } });
 $("#again").onclick=()=>{ $("#quizEnd").style.display="none"; $("#quizSetup").style.display="block"; };
 $("#retryMissed").onclick=()=>start([...missed]);
 </script>
