@@ -150,6 +150,15 @@
   .filter-choice{font-size:14px;padding:9px 14px}
   .searchbox{font-size:16px;padding:12px 14px;margin-bottom:12px}
   .cat-grid{display:block;margin-bottom:14px}
+  .topic-picker{margin:12px 0 16px;border:1px solid var(--line);border-radius:6px;background:var(--paper-2);overflow:hidden}
+  .topic-picker>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;font-family:'Fraunces',serif;font-size:18px;font-weight:700;background:#e5dfcc}
+  .topic-picker>summary::-webkit-details-marker{display:none}
+  .topic-picker>summary::before{content:'+';flex:0 0 auto;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--ink);color:var(--paper-2);font:700 16px 'IBM Plex Mono',monospace}
+  .topic-picker[open]>summary::before{content:'−'}
+  .topic-picker>summary>span{flex:1}
+  .topic-picker>summary small{font:500 11px 'IBM Plex Mono',monospace;color:var(--muted)}
+  .topic-picker>.cat-grid{margin:0;padding:8px;background:var(--paper)}
+  .filter-choice[hidden],.choice[hidden]{display:none!important}
   .cat-choice{font-size:14px;padding:11px 13px;background:var(--paper-2)}
   .cat-choice small{font-size:11px;margin-top:3px}
   .cat-choice.all-cat{margin-bottom:8px;text-align:center;font-weight:700}
@@ -200,6 +209,83 @@
     .ledger{padding:3px 13px 8px}
   }
 
+  /* ===== Focus theme: calm, low-glare, consistent ===== */
+  :root{
+    --ink:#26352f;--paper:#f2f3ec;--paper-2:#fbfcf7;--line:#ccd5cc;
+    --red:#98635b;--red-dim:#764b46;--ochre:#a98250;--teal:#587a6e;
+    --ok:#55786b;--ok-bg:#e5eee8;--bad:#98635b;--bad-bg:#f3e8e5;--muted:#66736c;
+  }
+  html{background:#dfe6df}
+  body{background:linear-gradient(180deg,#e7ece7 0,#dfe6df 100%);color:var(--ink)}
+  body::before{background-image:radial-gradient(circle at 1px 1px,rgba(38,53,47,.035) 1px,transparent 1px);background-size:24px 24px}
+  .wrap{max-width:1000px}
+  header.top{border-bottom:1px solid #b9c6bd}
+  header.top .mark{color:#6f7f77}
+  header.top h1{color:var(--ink)}
+  header.top p,header.top .catno{color:var(--muted)}
+  header.top h1,.topic-picker>summary,.cat-group>summary,.lib-group>summary,.card-head h3,
+  .setup h2,.prompt-main,.practice-word,.syn-intro h2,.syn-head h3,.end-card .score{
+    font-family:'IBM Plex Sans',sans-serif;font-style:normal;letter-spacing:-.015em
+  }
+  nav.tabs{background:rgba(223,230,223,.94);border:1px solid #c7d1c8;border-radius:10px;padding:5px;box-shadow:0 5px 18px rgba(45,62,54,.06)}
+  nav.tabs button{border:0;border-radius:7px;color:#5e6d66;background:transparent;text-transform:none;letter-spacing:0}
+  nav.tabs button.active{background:#fbfcf7;color:#315f51;box-shadow:0 2px 8px rgba(45,62,54,.10)}
+  nav.tabs button:hover:not(.active){background:#edf1ec;color:var(--ink)}
+  .lib-intro{color:#526159;background:rgba(251,252,247,.72);border-left:4px solid #78968a;border-radius:0 8px 8px 0;padding:12px 14px}
+  .searchbox,input.answer,.sentence-input{background:#fffef9;border-color:#c4cec5;border-radius:8px;box-shadow:inset 0 1px 2px rgba(45,62,54,.04)}
+  .searchbox:focus,input.answer:focus,.sentence-input:focus{border-color:#64877a;box-shadow:0 0 0 3px rgba(88,122,110,.14)}
+  .filter-choice,.choice{background:#f8f9f4;border-color:#c8d1c9;border-radius:9px;color:#526159}
+  .filter-choice:hover,.choice:hover{background:#edf2ed;border-color:#9eaea3}
+  .filter-choice.v1.sel,.filter-choice.v2.sel,.filter-choice.v3.sel,.filter-choice.v4.sel,
+  .filter-choice.v5.sel,.filter-choice.v6.sel,.filter-choice.all.sel,.choice.sel{
+    background:#5b796e;border-color:#5b796e;color:#fff
+  }
+  .topic-picker,.cat-group,.lib-group,.card,.setup,.quiz-card,.practice-card,.syn-intro,.syn-card{
+    border:1px solid #cad3cb;border-radius:10px;background:var(--paper-2);box-shadow:0 5px 18px rgba(45,62,54,.055)
+  }
+  .topic-picker>summary,.cat-group>summary,.lib-group>summary,.syn-head,.saved-topic h3{background:#e9eee9;color:#31463e}
+  .topic-picker>summary::before,.cat-group>summary::before,.lib-group>summary::before,.card>summary::before{
+    background:#607a70;color:#fff;box-shadow:none
+  }
+  .topic-picker>.cat-grid,.cat-group-list,.lib-group-body{background:#f0f3ee}
+  .cat-choice{background:#fafbf7;border-color:#ccd5cd;border-radius:7px;color:#506058}
+  .cat-choice:hover{background:#eef3ee;border-color:#99aa9f}
+  .cat-choice.sel{background:#dfeae3;border-color:#6f9184;color:#29473d;box-shadow:inset 3px 0 0 #6f9184}
+  .cat-choice.sel small{color:#45655a}
+  .cat-group:nth-of-type(5n+1)>summary,.lib-group:nth-of-type(5n+1)>summary{background:#e4ece7;border-left:4px solid #6f9184}
+  .cat-group:nth-of-type(5n+2)>summary,.lib-group:nth-of-type(5n+2)>summary{background:#e7edf0;border-left:4px solid #718a98}
+  .cat-group:nth-of-type(5n+3)>summary,.lib-group:nth-of-type(5n+3)>summary{background:#eeeaf0;border-left:4px solid #8b788d}
+  .cat-group:nth-of-type(5n+4)>summary,.lib-group:nth-of-type(5n+4)>summary{background:#f0ebe2;border-left:4px solid #a18760}
+  .cat-group:nth-of-type(5n)>summary,.lib-group:nth-of-type(5n)>summary{background:#f0e8e5;border-left:4px solid #9b7169}
+  .card{box-shadow:none}
+  .card-head{background:#fbfcf7}
+  .card-head:hover{background:#f3f6f1}
+  .card-head .cnt,.ledger-row .lw,.practice-word,.saved-entry b{color:#6f4d48}
+  .ledger-row{border-color:#d9dfd9}
+  .ledger-row:hover{background:#f5f7f2}
+  .ledger-row .lv,.practice-meaning,.syn-note{color:#44534c}
+  .ledger-row .lipa,.prompt-label{color:#7e6848}
+  .lex-example{color:#536159}
+  .btn{border-radius:8px}
+  .btn-primary{background:#587a6e;color:#fff}
+  .btn-primary:hover{background:#48695e}
+  .btn-ghost{background:#f7f8f3;border-color:#c5cec6;color:#405048}
+  .listen-btn,.hint-btn{border-color:#79978c;color:#4d7064;background:#f7faf7}
+  .listen-btn:hover,.hint-btn:hover{background:#e4eee8;color:#35584c;border-color:#5f8074}
+  .progress-fill{background:#64877a}
+  .feedback.ok,.sentence-hint,.grammar-result{background:#e7efe9;color:#365247;border-color:#64877a}
+  .feedback.bad,.grammar-result.warn{background:#f3e8e5;color:#744a44;border-color:#98635b}
+  footer.foot{color:#6d7a73}
+  button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible,
+  .choice:focus-visible,.filter-choice:focus-visible,.cat-choice:focus-visible{
+    outline:3px solid rgba(77,112,100,.28);outline-offset:2px
+  }
+  @media(max-width:620px){
+    nav.tabs{border-radius:8px}
+    .lib-intro{padding:10px 12px}
+    .topic-picker,.cat-group,.lib-group,.card,.setup,.quiz-card,.practice-card{border-radius:8px}
+  }
+
 </style>
 </head>
 <body>
@@ -223,14 +309,17 @@
 
   <!-- ===================== LIBRARY ===================== -->
   <section class="panel active" id="panel-lib">
-    <p class="lib-intro">4205 mục, chia theo 27 nhóm. <b style="color:var(--red)">● Vòng 3</b> = communication / academic core / upper-intermediate, <b style="color:var(--teal)">● Vòng 4</b> = advanced / abstract / specialized. Mỗi từ kèm IPA, từ loại, nghĩa tiếng Việt và câu ví dụ.</p>
+    <p class="lib-intro">4205 mục, chia theo 36 chủ đề. <b style="color:var(--red)">● Vòng 3</b> = communication / academic core / upper-intermediate, <b style="color:var(--teal)">● Vòng 4</b> = advanced / abstract / specialized. Mỗi từ kèm IPA, từ loại, nghĩa tiếng Việt và câu ví dụ.</p>
     <div class="filter-row" id="tierRow">
       <div class="filter-choice all sel" data-tier="all">Tất cả</div>
       <div class="filter-choice v3" data-tier="V3">● Vòng 3</div>
       <div class="filter-choice v4" data-tier="V4">● Vòng 4</div>
     </div>
     <input type="text" class="searchbox" id="searchBox" placeholder="Tìm từ (tiếng Anh hoặc nghĩa tiếng Việt)…">
-    <div class="cat-grid" id="catGrid"></div>
+    <details class="topic-picker">
+      <summary><span>Bộ lọc chủ đề</span><small>Chọn một hoặc nhiều mục</small></summary>
+      <div class="cat-grid" id="catGrid"></div>
+    </details>
     <div id="libList"></div>
   </section>
 
@@ -281,7 +370,7 @@
 
       <div class="sub" id="poolInfo" style="margin-bottom:14px;"></div>
       <button class="btn btn-primary btn-full" id="startBtn">Bắt đầu</button>
-      <button class="btn btn-ghost btn-full" id="resetQuizProgressBtn" style="margin-top:8px;">Đặt lại tiến độ từ</button>
+      <button class="btn btn-ghost btn-full" id="resetQuizProgressBtn" style="margin-top:8px;">Đặt lại tiến độ học từ</button>
     </div>
 
     <div id="quizBox" style="display:none;">
@@ -340,10 +429,20 @@ function clozeHint(item){const ex=item.ex||'';const w=item.w||item.word||'';if(!
 function sentenceClozeFrame(i){const p=(i.pos||'').toLowerCase();if(p.includes('phr'))return 'I decided to <b>'+i.word+'</b> ______ because ______.';if(p.includes('adv'))return '<b>'+i.word.charAt(0).toUpperCase()+i.word.slice(1)+'</b>, ______ because ______.';if(p.includes('adj'))return 'I felt / It seemed <b>'+i.word+'</b> when ______.';if(p.includes('v'))return 'I usually <b>'+i.word+'</b> ______ when / because ______.';if(p.includes('prep')||p.includes('conj'))return '<b>'+i.word.charAt(0).toUpperCase()+i.word.slice(1)+'</b> ______, I ______.';return 'The <b>'+i.word+'</b> ______ because ______.'}
 
 
-let TOTAL_WORDS = 0, V1_TOTAL = 0, V2_TOTAL = 0;
+const seenVocabularyRows = new Set();
+CATEGORIES.forEach(category => {
+  category.items = category.items.filter(item => {
+    const key = JSON.stringify(item);
+    if(seenVocabularyRows.has(key)) return false;
+    seenVocabularyRows.add(key);
+    return true;
+  });
+});
+
+let TOTAL_WORDS = 0, V3_TOTAL = 0, V4_TOTAL = 0;
 CATEGORIES.forEach(c => c.items.forEach(([t]) => {
   TOTAL_WORDS++;
-  if(t==='V3') V1_TOTAL++; else V2_TOTAL++;
+  if(t==='V3') V3_TOTAL++; else if(t==='V4') V4_TOTAL++;
 }));
 document.getElementById('catCounter').innerHTML = `${TOTAL_WORDS} từ<br>${CATEGORIES.length} chủ đề`;
 
@@ -374,8 +473,10 @@ function categoryGroupLabel(title){
   if(number === 21) return 'Từ vựng tổng hợp theo chức năng';
   return 'Thời gian, ngữ pháp và phrasal verbs';
 }
-function compactCategoryTitle(title){
-  return title.replace(/^V\d+\s*·\s*/i, '');
+function compactCategoryTitle(title, showRound = false){
+  const match = title.match(/^V(\d+)\s*·\s*/i);
+  const compact = title.replace(/^V\d+\s*·\s*/i, '');
+  return showRound && match ? `Vòng ${match[1]} · ${compact}` : compact;
 }
 const CATEGORY_GROUPS = [];
 CATEGORIES.forEach((category, index) => {
@@ -386,6 +487,11 @@ CATEGORIES.forEach((category, index) => {
     CATEGORY_GROUPS.push(group);
   }
   group.indices.push(index);
+});
+
+const AVAILABLE_TIERS = new Set(CATEGORIES.flatMap(category => category.items.map(item => item[0])));
+document.querySelectorAll('[data-tier]').forEach(choice => {
+  if(choice.dataset.tier !== 'all' && !AVAILABLE_TIERS.has(choice.dataset.tier)) choice.hidden = true;
 });
 
 let libTier = 'all';
@@ -409,13 +515,13 @@ function buildCatGrid(containerId, selectedSetRef, onChange){
   const allBtn = document.createElement('div');
   allBtn.className = 'cat-choice all-cat sel';
   allBtn.dataset.cat = 'ALL';
-  allBtn.textContent = 'Tất cả chủ đề';
+  allBtn.textContent = 'Hiện tất cả chủ đề';
   grid.appendChild(allBtn);
 
   CATEGORY_GROUPS.forEach((categoryGroup, groupIndex) => {
     const group = document.createElement('details');
     group.className = 'cat-group';
-    group.open = groupIndex === 0;
+    group.open = containerId !== 'catGrid' && groupIndex === 0;
     const wordCount = categoryGroup.indices.reduce((sum, idx) => sum + CATEGORIES[idx].items.length, 0);
     const summary = document.createElement('summary');
     summary.innerHTML = `<span>${categoryGroup.label}</span><span class="group-selected"></span><small>${categoryGroup.indices.length} chủ đề · ${wordCount} từ</small>`;
@@ -426,7 +532,7 @@ function buildCatGrid(containerId, selectedSetRef, onChange){
       const el = document.createElement('div');
       el.className = 'cat-choice';
       el.dataset.cat = String(idx);
-      el.innerHTML = `${compactCategoryTitle(category.title)}<small>${category.items.length} từ</small>`;
+      el.innerHTML = `${compactCategoryTitle(category.title, true)}<small>${category.items.length} từ</small>`;
       body.appendChild(el);
     });
     group.append(summary, body);
@@ -490,7 +596,7 @@ function renderLib(){
       card.open = Boolean(q) || !libSelectedCats.has('ALL');
       const head = document.createElement('summary');
       head.className = 'card-head';
-      head.innerHTML = `<h3>${compactCategoryTitle(category.title)}</h3><span class="cnt">${items.length} từ</span>`;
+      head.innerHTML = `<h3>${compactCategoryTitle(category.title, true)}</h3><span class="cnt">${items.length} từ</span>`;
       const ledger = document.createElement('div');
       ledger.className = 'ledger';
 
@@ -798,7 +904,7 @@ document.getElementById('resetQuizProgressBtn').addEventListener('click', () => 
   updatePoolInfo();
   const button = document.getElementById('resetQuizProgressBtn');
   button.textContent = '✓ Đã đặt lại tiến độ';
-  setTimeout(() => { button.textContent = 'Đặt lại tiến độ từ'; }, 1400);
+  setTimeout(() => { button.textContent = 'Đặt lại tiến độ học từ'; }, 1400);
 });
 
 document.getElementById('restartBtn').addEventListener('click', () => {
