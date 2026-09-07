@@ -56,8 +56,11 @@
     .items[hidden]{display:none}
     .item{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:10px 11px;border:1px solid transparent;border-radius:11px;background:#f8faf8;text-decoration:none;transition:.15s ease}
     .item:hover{border-color:#bfd4c8;background:#fff;transform:translateY(-1px)}
+    .item.is-pinned{border-color:#f2d58a;background:linear-gradient(135deg,#fffdf5,#fff8df)}
+    .item.is-pinned:hover{border-color:#dcae3c;background:#fffaf0}
     .item-text{min-width:0}
     .item strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:650}
+    .star{display:inline-block;margin-right:7px;color:#d49300;font-size:15px;line-height:1;vertical-align:-1px;text-shadow:0 1px 0 #fff}
     .item small{display:block;margin-top:2px;color:var(--muted);font-size:11px}
     .arrow{flex:0 0 auto;color:#8a9890;font-size:16px}
     .empty{grid-column:1/-1;padding:11px;color:var(--muted);font-size:12px}
@@ -172,7 +175,7 @@
 
   <script>
     const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-    const itemHTML=(entry,prefix='')=>`<a class="item" href="${prefix}${encodeURI(entry.file)}"><span class="item-text"><strong>${escapeHTML(entry.title)}</strong><small>Mở bài học</small></span><span class="arrow">›</span></a>`;
+    const itemHTML=(entry,prefix='')=>`<a class="item${entry.pinned?' is-pinned':''}" href="${prefix}${encodeURI(entry.file)}"><span class="item-text"><strong>${entry.pinned?'<span class="star" aria-label="Đã ghim">★</span>':''}${escapeHTML(entry.title)}</strong><small>${entry.pinned?'Đã ghim · ':''}Mở bài học</small></span><span class="arrow">›</span></a>`;
     let activeFilter='all';
     const searchInput=document.getElementById('q');
     const clearButton=document.getElementById('clear');
