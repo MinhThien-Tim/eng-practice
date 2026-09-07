@@ -44,7 +44,7 @@ input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:
 </div>
 <div class="stats"><div class="stat">Đã chọn: <b id="selected">0</b></div><div class="stat">Pool: <b id="pool">0</b></div><div class="stat">Tổng: <b id="total"></b></div></div>
 <div class="toolbar"><button id="start" class="btn primary">Bắt đầu</button><button id="mixed" class="btn good">Tổng hợp tất cả</button></div>
-<p class="note" style="margin-top:13px"><b>Chấm tự động:</b> MCQ, Error Detection và các câu điền một cụm động từ. <b>Tự đối chiếu:</b> sửa câu, bài RAS nhiều chỗ trống và paragraph completion. Các đáp án thay thế được giữ nguyên theo answer key.</p>
+<p class="note" style="margin-top:13px"><b>Enter lần 1:</b> kiểm tra và xem đáp án. <b>Enter lần 2:</b> chuyển sang câu tiếp theo. Trong ô viết dài, dùng <b>Shift + Enter</b> để xuống dòng.<br><br><b>Chấm tự động:</b> MCQ, Error Detection và các câu điền một cụm động từ. <b>Tự đối chiếu:</b> sửa câu, bài RAS nhiều chỗ trống và paragraph completion. Các đáp án thay thế được giữ nguyên theo answer key.</p>
 </aside>
 </div>
 
@@ -55,7 +55,7 @@ input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:
 <div id="question" class="question"></div>
 <div id="answerArea"></div>
 <div id="feedback" class="feedback"></div>
-<div class="toolbar" style="margin-top:13px"><button id="check" class="btn primary">Kiểm tra / Đối chiếu</button><button id="show" class="btn ghost">Xem Answer Key</button><button id="selfOK" class="btn good hidden">✓ Tôi đúng</button><button id="selfBad" class="btn bad hidden">↺ Cần ôn</button></div>
+<div class="toolbar" style="margin-top:13px"><button id="check" class="btn primary">Kiểm tra / Xem đáp án (Enter)</button><button id="show" class="btn ghost">Xem Answer Key</button><button id="selfOK" class="btn good hidden">✓ Tôi đúng</button><button id="selfBad" class="btn bad hidden">↺ Cần ôn</button></div>
 <div class="nav"><button id="prev" class="btn ghost">← Câu trước</button><div class="toolbar"><button id="finish" class="btn ghost">Kết thúc</button><button id="next" class="btn primary">Câu tiếp →</button></div></div>
 </div>
 <div id="summary" class="card"><h2>Kết quả</h2><div id="score" class="score"></div><div id="sumStats" class="stats"></div><div class="toolbar"><button id="redoWrong" class="btn primary">Làm lại câu sai / cần ôn</button><button id="redo" class="btn ghost">Làm lại bộ này</button></div><div id="review" class="review"></div></div>
@@ -93,6 +93,16 @@ function save(){const q=qnow();state[q.id]=state[q.id]||{};state[q.id].response=
 $('#prev').onclick=()=>{save();if(idx>0){idx--;render()}};$('#next').onclick=()=>{save();if(idx<session.length-1){idx++;render()}else finish()};$('#finish').onclick=()=>{save();finish()}
 function finish(){let ok=0,bad=0,pending=0,blank=0;session.forEach(q=>{const s=state[q.id];if(!s||s.correct===undefined)blank++;else if(s.correct===null)pending++;else if(s.correct)ok++;else bad++});const rated=ok+bad,pct=rated?Math.round(ok/rated*100):0;$('#summary').classList.add('show');$('#score').textContent=rated?`${pct}%`:'—';$('#sumStats').innerHTML=`<div class="stat">Đúng <b>${ok}</b></div><div class="stat">Sai/Cần ôn <b>${bad}</b></div><div class="stat">Chưa tự chấm <b>${pending}</b></div><div class="stat">Chưa làm <b>${blank}</b></div>`;$('#review').innerHTML=session.map((q,i)=>`<div class="reviewItem"><b>${i+1}. Ex.${q.ex} #${q.num}</b><div class="small">${esc(q.prompt)}</div><div class="small"><b>Key:</b> ${esc(keyText(q))}</div></div>`).join('');$('#summary').scrollIntoView({behavior:'smooth'})}
 $('#redoWrong').onclick=()=>{const p=session.filter(q=>state[q.id]?.correct===false||state[q.id]?.correct===null||state[q.id]?.correct===undefined);if(!p.length){alert('Không có câu cần làm lại.');return}begin([],p)};$('#redo').onclick=()=>begin([],session.map(q=>({...q})));
+document.addEventListener('keydown',e=>{
+ if(e.key!=='Enter'||e.isComposing||e.repeat)return;
+ if(e.shiftKey&&e.target.matches('textarea'))return;
+ if(e.target.closest('button,select'))return;
+ if($('#quiz').style.display==='none'||$('#summary').classList.contains('show')||!qnow())return;
+ e.preventDefault();
+ const s=state[qnow().id];
+ if(!s?.checked)$('#check').click();
+ else $('#next').click();
+});
 setup();
 </script>
 </body></html>
