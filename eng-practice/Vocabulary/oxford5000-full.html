@@ -41,11 +41,25 @@
   .navbtn.unknown{background:#fdeae5;border-color:var(--red);color:var(--red);}
   .navbtn.known{background:#e7f7ef;border-color:var(--green-text);color:var(--green-text);}
   footer{text-align:center;margin-top:20px;font-size:11px;color:#b3a684;font-weight:700;}
+  /* Calm blue-green study theme */
+  :root{--cream:#f3f9f8;--cream-border:#b8d5d3;--white:#fff;--white-border:#c9dce7;--brown:#294052;--orange:#25796f;--green:#dcefe8;--green-text:#286452;--red:#b45868;--blue:#2f6f9f;--gray:#667687;--bg:#edf4f6;--pos:#648bb4}
+  body{background:radial-gradient(circle at 8% 3%,#dcefeb 0,transparent 31%),radial-gradient(circle at 94% 8%,#dceaf5 0,transparent 34%),var(--bg);padding-top:24px}
+  .wrap{max-width:760px}
+  .eyebrow{color:#28766e}.wrap>h1{font-size:clamp(27px,5vw,38px);color:#294052}
+  select{border:1px solid #afcbd3;border-radius:12px;background:#fff;color:#355568;box-shadow:0 8px 22px rgba(52,84,99,.05)}
+  .statrow{padding:12px 14px;background:rgba(255,255,255,.75);border:1px solid #cfdee5;border-radius:14px;color:#5d7180}
+  .statrow button{border:1px solid #afccd1;border-radius:9px;color:#355b67}
+  .card{background:linear-gradient(145deg,#fbfefe,#edf7f5);border:1px solid #b8d5d3;border-radius:24px;min-height:300px;box-shadow:0 18px 42px -30px rgba(42,75,91,.65)}
+  .badge.root{background:#e4edf6;color:#396a91}.badge.level{background:#dcefe8;color:#286452}.badge.pos{background:#6e91b5}
+  .word{font-size:clamp(40px,8vw,60px);color:#294052}.ipa{color:#507286}.meaning{font-size:clamp(24px,5vw,34px);color:#216f66}
+  .hint{color:#6f8290}.navbtn{border:1px solid #b8d0d9;border-radius:12px;color:#355568}
+  .navbtn.known{background:#e5f4ed;border-color:#83bba5;color:#27644f}.navbtn.unknown{background:#f9e9ed;border-color:#d697a5;color:#995064}
+  button:focus-visible,select:focus-visible{outline:3px solid rgba(47,111,159,.24);outline-offset:2px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">Oxford 5000 (American English) — Trọn bộ 12 phần</div>
+  <div class="eyebrow">Oxford 5000 (American English) — Enter: xem nghĩa → từ tiếp theo</div>
   <h1 id="rangeTitle">Chọn phần để ôn tập</h1>
 
   <select id="partSelect" onchange="onPartChange()">
@@ -104,7 +118,11 @@ PARTS.forEach(p => {
 let currentSelection = "all";
 let deck = [];
 let curIdx = 0, flipped = false, onlyUnknown = false;
-let knownSet = new Set(); // stores unique keys of known words across session
+let knownSet = new Set();
+try{ knownSet = new Set(JSON.parse(localStorage.getItem('oxford5000Known') || '[]')); }catch(e){}
+function saveProgress(){
+  try{ localStorage.setItem('oxford5000Known', JSON.stringify([...knownSet])); }catch(e){}
+}
 
 function keyOf(item){ return item.part + "-" + item.w; }
 
@@ -168,6 +186,7 @@ function markCard(isKnown){
   const item = cd[curIdx];
   item.known = isKnown;
   if(isKnown) knownSet.add(keyOf(item)); else knownSet.delete(keyOf(item));
+  saveProgress();
   nextCard();
 }
 function shuffleDeck(){
@@ -180,6 +199,7 @@ function filterUnknown(){
   curIdx=0;flipped=false;renderCard();
 }
 document.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter'){e.preventDefault();flipped?nextCard():flip();return;}
   if(e.key==='ArrowRight') nextCard();
   if(e.key==='ArrowLeft') prevCard();
   if(e.key===' '){e.preventDefault();flip();}
