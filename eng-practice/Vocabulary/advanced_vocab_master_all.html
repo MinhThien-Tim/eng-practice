@@ -39,13 +39,31 @@
   .vi{font-size:14.5px; line-height:1.4; color:var(--ink); margin-top:16px;}
   .hint{font-family:Arial,sans-serif; font-size:10.5px; color:var(--sub); margin-top:8px;}
   .empty-msg{max-width:1200px; margin:40px auto; text-align:center; font-family:Arial,sans-serif; color:var(--sub);}
+  /* Updated blue-green library */
+  :root{--ink:#263b48;--sub:#617481;--line:#cfdee5;--bg:#edf4f5;--card:#fbfefd;--accent:#24766d;--accent2:#2f6f9f;--soft:#e6f1f0;--star:#b88732;--starbg:#fff7e7}
+  body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 10% 0,#dceee9,transparent 31%),radial-gradient(circle at 92% 4%,#dceaf5,transparent 34%),var(--bg)}
+  header{border:1px solid #cbdde1;border-radius:14px;padding:20px 22px;margin-bottom:8px;background:rgba(255,255,255,.72);box-shadow:0 10px 28px rgba(44,77,90,.06)}
+  header h1{font-size:clamp(23px,4vw,34px);color:#284353}header .sub{font-size:14px;margin-top:5px}
+  .toolbar{top:6px;border:1px solid #cbdde1;border-radius:12px;padding:9px;background:rgba(237,244,245,.94);box-shadow:0 8px 24px rgba(44,77,90,.08);backdrop-filter:blur(8px)}
+  .toolbar button,.toolbar select,.filter-input{padding:9px 12px;border:1px solid #acc6ce;border-radius:9px;background:#fff;color:#355568}
+  .toolbar button:hover{background:#24766d;border-color:#24766d;color:#fff}.toolbar button.starred{background:#b88732;border-color:#b88732}
+  .progress-note{color:#806323!important}.cat-nav{border-color:#cadce1;border-radius:10px;padding:9px;background:rgba(255,255,255,.75)}
+  .cat-nav a{padding:5px 9px;border-radius:7px;color:#236f68}.cat-nav a:hover{background:#dcece9}
+  .cat-title{font-size:18px;color:#216f66;border-color:#cbdde1;margin-top:26px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
+  .card{min-height:138px;border-color:#cedde2;border-radius:14px;padding:16px;background:linear-gradient(145deg,#fff,#f3f9f8);box-shadow:0 8px 22px rgba(44,77,90,.045)}
+  .card:hover{border-color:#87b9b3;box-shadow:0 14px 28px rgba(44,77,90,.1)}.card.marked{border-color:#d0a65d;background:#fff9eb}
+  .card .tag{background:#e3f0ee;color:#47716e}.word{font-size:21px;color:#294052}.vi{font-size:15px;color:#355568}.hint{color:#68808c}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(47,111,159,.23);outline-offset:2px}
+  @media(max-width:620px){body{padding:12px 10px 44px}.toolbar{top:3px}.grid{grid-template-columns:1fr 1fr}.progress-row{display:block}.progress-note{display:block;margin-top:5px}}
+  @media(max-width:430px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <header>
   <h1>ADVANCED VOCABULARY · FLASHCARDS ĐẦY ĐỦ</h1>
-  <div class="sub">Gộp toàn bộ Phần 1–14 &amp; Phần cuối · ~520 từ · nhóm theo chủ đề · có đánh dấu "chưa thuộc" để ôn lại</div>
+  <div class="sub">Gộp Phần 1–14 &amp; Phần cuối · 517 mục theo chủ đề · 358 từ riêng · có lưu dấu "chưa thuộc"</div>
 </header>
 
 <div class="toolbar">
@@ -58,7 +76,7 @@
 </div>
 <div class="progress-row">
   <span class="progress" id="progress"></span>
-  <span class="progress" style="color:#c9962c">Lưu ý: đánh dấu chỉ tồn tại trong phiên xem hiện tại — tải lại trang sẽ mất, vì trang không dùng bộ nhớ trình duyệt.</span>
+  <span class="progress progress-note">★ Từ cần ôn được tự động lưu trên trình duyệt.</span>
 </div>
 
 <div class="cat-nav" id="catNav"></div>
@@ -644,8 +662,13 @@ const DATA = [
 ];
 
 const CATS = [...new Set(DATA.map(d=>d.cat))];
+const UNIQUE_COUNT = new Set(DATA.map(d=>d.w.trim().toLowerCase())).size;
 let flipState = new Array(DATA.length).fill(0);
-let marked = new Set(); // indices marked as "chưa thuộc"
+let marked = new Set();
+try{ marked = new Set(JSON.parse(localStorage.getItem('advancedMasterMarked') || '[]')); }catch(e){}
+function saveMarked(){
+  try{ localStorage.setItem('advancedMasterMarked', JSON.stringify([...marked])); }catch(e){}
+}
 let activeCat = "all";
 let searchQ = "";
 let onlyMarkedMode = false;
@@ -734,6 +757,7 @@ function content_click_delegate(){
     e.stopPropagation();
     const idx = parseInt(btn.dataset.idx, 10);
     if(marked.has(idx)) marked.delete(idx); else marked.add(idx);
+    saveMarked();
     render();
   });
 }
@@ -741,7 +765,7 @@ function content_click_delegate(){
 function updateProgress(){
   const visibleCount = DATA.filter((it,idx)=>matchesFilter(it,idx)).length;
   const seenCount = DATA.filter((it,idx)=>matchesFilter(it,idx) && flipState[idx]===1).length;
-  document.getElementById('progress').textContent = `Đã xem nghĩa: ${seenCount}/${visibleCount} từ (đang lọc) · Tổng số từ: ${DATA.length}`;
+  document.getElementById('progress').textContent = `Đã xem nghĩa: ${seenCount}/${visibleCount} mục đang lọc · Toàn bộ: ${DATA.length} mục / ${UNIQUE_COUNT} từ riêng`;
   document.getElementById('onlyMarked').textContent = `★ Chỉ hiện từ chưa thuộc (${marked.size})`;
   document.getElementById('onlyMarked').classList.toggle('starred', onlyMarkedMode);
 }
@@ -751,7 +775,7 @@ document.getElementById('flipAll1').onclick = ()=>{ flipState.fill(1); render();
 document.getElementById('catFilter').addEventListener('change',(e)=>{ activeCat = e.target.value; render(); });
 document.getElementById('filterBox').addEventListener('input',(e)=>{ searchQ = e.target.value.trim().toLowerCase(); render(); });
 document.getElementById('onlyMarked').addEventListener('click', ()=>{ onlyMarkedMode = !onlyMarkedMode; render(); });
-document.getElementById('clearMarked').addEventListener('click', ()=>{ marked.clear(); render(); });
+document.getElementById('clearMarked').addEventListener('click', ()=>{ marked.clear(); saveMarked(); render(); });
 
 buildFilterOptions();
 buildNav();
