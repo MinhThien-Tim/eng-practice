@@ -14,7 +14,8 @@ h1{font:700 clamp(29px,5vw,44px) Georgia,serif;margin:5px 0}.hero p{margin:0;col
 .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.stat{background:rgba(255,255,255,.12);padding:6px 9px;border-radius:8px;font-size:12px}
 .tabs{display:flex;gap:8px;margin:16px 0}.tab{flex:1;border:1px solid var(--navy);background:var(--paper);color:var(--navy);padding:11px;border-radius:10px;font-weight:800;cursor:pointer}.tab.active{background:var(--navy);color:white}
 .panel{display:none}.panel.active{display:block}.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 5px 20px rgba(20,30,40,.06)}
-.toolbar{display:grid;grid-template-columns:1fr 190px;gap:10px;padding:14px;border-bottom:1px solid var(--line)}input,select{font:inherit;border:1px solid #bbb8ae;background:white;border-radius:8px;padding:10px 11px;outline:none}input:focus,select:focus{border-color:var(--navy2);box-shadow:0 0 0 3px rgba(49,93,131,.09)}
+.toolbar{display:grid;grid-template-columns:1fr;gap:10px;padding:14px;border-bottom:1px solid var(--line)}input,select{font:inherit;border:1px solid #bbb8ae;background:white;border-radius:8px;padding:10px 11px;outline:none}input:focus,select:focus{border-color:var(--navy2);box-shadow:0 0 0 3px rgba(49,93,131,.09)}
+.kind-switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 14px 0}.kind-btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:13px 15px;text-align:left;cursor:pointer}.kind-btn strong{display:block;font-size:16px}.kind-btn span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.kind-btn.active{border-color:var(--navy2);background:#edf3f8;box-shadow:0 0 0 2px rgba(49,93,131,.08)}.kind-btn.irregular.active{border-color:#b76e25;background:#fff5e8}.session-wrap{padding:12px 14px;border-bottom:1px solid var(--line)}.session-title{font-size:12px;font-weight:800;color:var(--muted);margin-bottom:8px}.session-bar{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.session-btn{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 10px;color:var(--ink);font:inherit;font-size:12px;font-weight:750;cursor:pointer}.session-btn.active{background:var(--navy);border-color:var(--navy);color:#fff}.list-meta{padding:10px 14px;background:#f8f6f0;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line)}
 .tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1080px}th{position:sticky;top:0;background:var(--navy);color:#fff;padding:12px 9px;font-size:12px}td{padding:10px;border-bottom:1px solid var(--line);text-align:center;font-size:14px}td.vi{text-align:left}td.present{font-weight:800;color:var(--navy)}.type{font-size:10px;border-radius:999px;padding:3px 7px;background:var(--soft);color:var(--muted)}.alt{font-size:10px;color:var(--green);display:block;margin-top:2px}
 .note{padding:10px 14px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);line-height:1.5}
 .quiz{padding:20px}.quiz h2{font:700 25px Georgia,serif;margin:0 0 5px}.sub{font-size:13px;color:var(--muted);line-height:1.5}.setup{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:5px}
@@ -23,7 +24,7 @@ h1{font:700 clamp(29px,5vw,44px) Georgia,serif;margin:5px 0}.hero p{margin:0;col
 .forms{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.formbox{border:1px solid var(--line);background:#f7f5ef;border-radius:9px;padding:10px}.formbox input{width:100%;margin-top:5px}.formbox.good{background:#edf7f1;border-color:#88b99f}.formbox.bad{background:#faefed;border-color:#d49b94}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.feedback{display:none;margin-top:12px;padding:12px;border-radius:9px;line-height:1.5}.feedback.good{display:block;background:#e5f3e9;color:#285e45}.feedback.bad{display:block;background:#f7e5e2;color:#84342e}
 .qplay,.qend{display:none}.qend{text-align:center;padding:15px 0 3px}.scorebig{font:700 38px Georgia,serif;color:var(--navy)}
 
-@media(max-width:720px){.toolbar,.setup{grid-template-columns:1fr}.forms{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.toolbar,.setup,.kind-switch{grid-template-columns:1fr}.forms{grid-template-columns:1fr 1fr}}
 @media(max-width:440px){.forms{grid-template-columns:1fr}}
 </style>
 </head>
@@ -33,14 +34,17 @@ h1{font:700 clamp(29px,5vw,44px) Georgia,serif;margin:5px 0}.hero p{margin:0;col
 <div class="tabs"><button class="tab active" data-tab="learn">HỌC 5 DẠNG</button><button class="tab" data-tab="quiz">CHÍNH TẢ</button></div>
 
 <section id="learn" class="panel active"><div class="card">
-<div class="toolbar"><input id="search" placeholder="Tìm động từ hoặc nghĩa tiếng Việt..."><select id="filter"><option value="all">Tất cả</option><option value="regular">Regular</option><option value="irregular">Irregular</option></select></div>
+<div class="kind-switch"><button class="kind-btn irregular active" data-kind="irregular"><strong>Bất quy tắc</strong><span>94 động từ · 5 phiên nhỏ</span></button><button class="kind-btn" data-kind="regular"><strong>Có quy tắc</strong><span>368 động từ · 19 phiên nhỏ</span></button></div>
+<div class="toolbar"><input id="search" placeholder="Tìm trong nhóm đang chọn..."></div>
+<div class="session-wrap"><div class="session-title" id="sessionTitle"></div><div class="session-bar" id="sessionBar"></div></div>
+<div class="list-meta" id="listMeta"></div>
 <div class="tablewrap"><table><thead><tr><th>Nghĩa tiếng Việt</th><th>I · Present</th><th>Ngôi thứ 3 số ít<br><small>he / she / it</small></th><th>II · Past</th><th>III · Past Participle</th><th>IV · Present Participle</th><th>V · Infinitive</th></tr></thead><tbody id="tbody"></tbody></table></div>
 <div class="note">Nguồn mới dùng V4 cho ngôi thứ ba số ít và V5 cho dạng -ing. File này giữ riêng cột <b>Ngôi thứ 3 số ít</b>, đồng thời vẫn trình bày hệ 5 dạng bạn yêu cầu: <b>Present · Past · Past Participle · Present Participle · Infinitive</b>. Các biến thể chuẩn như <b>learnt/learned</b>, <b>got/gotten</b>, <b>proved/proven</b> đều được chấp nhận trong bài kiểm tra.</div>
 </div></section>
 
 <section id="quiz" class="panel"><div class="card"><div class="quiz">
 <div id="qsetup"><h2>Chính tả từ nghĩa tiếng Việt</h2><div class="sub">Mỗi câu hỏi kiểm tra đồng thời <b>4 dạng</b>: Present, Past, Past Participle và Present Participle.</div>
-<div class="setup"><div><label>Số câu</label><select id="qcount"><option>10</option><option>20</option><option>30</option><option>50</option><option>100</option><option value="9999">Tất cả</option></select></div><div><label>Phạm vi</label><select id="qscope"><option value="all">Tất cả</option><option value="irregular">Chỉ irregular</option><option value="regular">Chỉ regular</option></select></div></div><button class="btn" id="start">BẮT ĐẦU</button></div>
+<div class="setup"><div><label>Loại động từ</label><select id="qscope"><option value="irregular" selected>Bất quy tắc</option><option value="regular">Có quy tắc</option><option value="all">Tất cả</option></select></div><div><label>Phiên luyện</label><select id="qsession"></select></div><div><label>Số câu</label><select id="qcount"><option>10</option><option>20</option><option>30</option><option>50</option><option>100</option><option value="9999">Tất cả trong phiên</option></select></div></div><button class="btn" id="start">BẮT ĐẦU</button></div>
 <div id="qplay" class="qplay"><div class="meta"><span id="qnum"></span><span id="qscore"></span></div><div class="progress"><div class="bar" id="bar"></div></div><div class="prompt-label">Nghĩa tiếng Việt</div><div class="prompt" id="prompt"></div>
 <div class="forms"><div class="formbox" data-f="present"><label>I · Present</label><input id="a1" autocomplete="off" spellcheck="false"></div><div class="formbox" data-f="past"><label>II · Past</label><input id="a2" autocomplete="off" spellcheck="false"></div><div class="formbox" data-f="pp"><label>III · Past Participle</label><input id="a3" autocomplete="off" spellcheck="false"></div><div class="formbox" data-f="ing"><label>IV · Present Participle</label><input id="a4" autocomplete="off" spellcheck="false"></div></div>
 <div class="actions"><button class="btn" id="check">KIỂM TRA 4 DẠNG</button><button class="btn secondary" id="next" style="display:none">TIẾP →</button></div><div id="feedback" class="feedback"></div></div>
@@ -55,12 +59,28 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const norm=s=>String(s??'').toLowerCase().trim().replace(/\s+/g,' ');
 $$('.tab').forEach(b=>b.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('active'));$$('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#'+b.dataset.tab).classList.add('active')});
 
-function render(){
- const q=norm($('#search').value),f=$('#filter').value;
- const rows=DATA.filter(x=>(f==='all'||x.type===f)&&(!q||norm([x.vi,x.present,x.third,x.past,x.pp,x.ing,x.inf].join(' ')).includes(q)));
- $('#tbody').innerHTML=rows.map(x=>`<tr><td class="vi">${esc(x.vi)}</td><td class="present">${esc(x.present)} <span class="type">${x.type}</span></td><td><b>${esc(x.third)}</b></td><td>${esc(x.past)}</td><td>${esc(x.pp)}</td><td>${esc(x.ing)}</td><td>${esc(x.inf)}</td></tr>`).join('');
+const SESSION_SIZE=20;
+let learnType='irregular',learnSession=0;
+const typeLabel=t=>t==='irregular'?'Bất quy tắc':t==='regular'?'Có quy tắc':'Tất cả';
+const typeData=t=>DATA.filter(x=>t==='all'||x.type===t);
+function sessionsFor(t){const p=typeData(t);return Array.from({length:Math.ceil(p.length/SESSION_SIZE)},(_,n)=>p.slice(n*SESSION_SIZE,(n+1)*SESSION_SIZE))}
+function sessionName(group,n){return `Phiên ${n+1} · ${group[0].present}–${group[group.length-1].present} (${group.length})`}
+function renderSessionBar(){
+ const groups=sessionsFor(learnType);
+ if(learnSession>=groups.length)learnSession=0;
+ $('#sessionTitle').textContent=`${typeLabel(learnType)} · học theo phiên ${SESSION_SIZE} từ`;
+ $('#sessionBar').innerHTML=groups.map((g,n)=>`<button class="session-btn ${n===learnSession?'active':''}" data-session="${n}">${esc(sessionName(g,n))}</button>`).join('');
+ $$('.session-btn').forEach(b=>b.onclick=()=>{learnSession=+b.dataset.session;$('#search').value='';renderSessionBar();render()});
 }
-$('#search').oninput=render;$('#filter').onchange=render;render();
+function render(){
+ const q=norm($('#search').value),groups=sessionsFor(learnType);
+ const base=q?typeData(learnType):(groups[learnSession]||[]);
+ const rows=base.filter(x=>!q||norm([x.vi,x.present,x.third,x.past,x.pp,x.ing,x.inf].join(' ')).includes(q));
+ $('#listMeta').innerHTML=q?`Tìm thấy <b>${rows.length}</b> kết quả trong ${typeLabel(learnType).toLowerCase()}.`:`Đang học <b>${typeLabel(learnType)} · ${sessionName(groups[learnSession],learnSession)}</b>`;
+ $('#tbody').innerHTML=rows.map(x=>`<tr><td class="vi">${esc(x.vi)}</td><td class="present">${esc(x.present)} <span class="type">${x.type==='irregular'?'bất quy tắc':'có quy tắc'}</span></td><td><b>${esc(x.third)}</b></td><td>${esc(x.past)}</td><td>${esc(x.pp)}</td><td>${esc(x.ing)}</td><td>${esc(x.inf)}</td></tr>`).join('');
+}
+$$('.kind-btn').forEach(b=>b.onclick=()=>{$$('.kind-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');learnType=b.dataset.kind;learnSession=0;$('#search').value='';renderSessionBar();render()});
+$('#search').oninput=render;renderSessionBar();render();
 let deck=[],i=0,score=0,wrong=[],answered=false;
 function shuffle(a){for(let n=a.length-1;n>0;n--){let j=Math.floor(Math.random()*(n+1));[a[n],a[j]]=[a[j],a[n]]}return a}
 function accepted(x,k){
@@ -70,8 +90,12 @@ function accepted(x,k){
  if(main.includes('/')) vals.push(...main.split('/')); else vals.push(main);
  return [...new Set(vals.map(norm))];
 }
+function updateQuizSessions(){
+ const scope=$('#qscope').value,groups=sessionsFor(scope);
+ $('#qsession').innerHTML=`<option value="all">Tất cả ${typeData(scope).length} từ</option>`+groups.map((g,n)=>`<option value="${n}">${esc(sessionName(g,n))}</option>`).join('');
+}
 function start(custom=null){
- const s=$('#qscope').value;let p=custom||DATA.filter(x=>s==='all'||x.type===s);let n=Math.min(parseInt($('#qcount').value),p.length);deck=shuffle([...p]).slice(0,n);i=0;score=0;wrong=[];answered=false;$('#qsetup').style.display='none';$('#qend').style.display='none';$('#qplay').style.display='block';show();
+ const s=$('#qscope').value,chosen=$('#qsession').value,groups=sessionsFor(s);let p=custom||(chosen==='all'?typeData(s):(groups[+chosen]||[]));let n=Math.min(parseInt($('#qcount').value),p.length);deck=shuffle([...p]).slice(0,n);i=0;score=0;wrong=[];answered=false;$('#qsetup').style.display='none';$('#qend').style.display='none';$('#qplay').style.display='block';show();
 }
 function show(){
  answered=false;let x=deck[i];$('#qnum').textContent=`Câu ${i+1} / ${deck.length}`;$('#qscore').textContent=`Đúng trọn vẹn: ${score}`;$('#bar').style.width=`${i/deck.length*100}%`;$('#prompt').textContent=x.vi;['a1','a2','a3','a4'].forEach(id=>{$('#'+id).value='';$('#'+id).disabled=false});$$('.formbox').forEach(b=>b.classList.remove('good','bad'));$('#feedback').className='feedback';$('#feedback').innerHTML='';$('#check').style.display='';$('#next').style.display='none';$('#a1').focus();
@@ -84,6 +108,7 @@ function check(){
  $('#qscore').textContent=`Đúng trọn vẹn: ${score}`;$('#check').style.display='none';$('#next').style.display='';
 }
 function next(){i++;if(i>=deck.length){$('#qplay').style.display='none';$('#qend').style.display='block';$('#final').textContent=`${score} / ${deck.length}`;$('#finaltext').textContent=wrong.length?`Có ${wrong.length} động từ chưa đúng đủ 4 dạng.`:'Hoàn thành toàn bộ chính xác.';$('#retry').style.display=wrong.length?'':'none'}else show()}
+$('#qscope').onchange=updateQuizSessions;updateQuizSessions();
 $('#start').onclick=()=>start();$('#check').onclick=check;$('#next').onclick=next;$('#again').onclick=()=>{$('#qend').style.display='none';$('#qsetup').style.display='block'};$('#retry').onclick=()=>start([...wrong]);
 ['a1','a2','a3','a4'].forEach((id,n,arr)=>$('#'+id).addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(n<arr.length-1)$('#'+arr[n+1]).focus();else answered?next():check()}}));
 </script></body></html>
