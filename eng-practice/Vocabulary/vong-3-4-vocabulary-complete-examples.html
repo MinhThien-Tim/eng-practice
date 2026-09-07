@@ -95,6 +95,14 @@
   .feedback.bad{background:var(--bad-bg);color:#6e2224;border-left:3px solid var(--bad);}
   .feedback .correct-ans{font-weight:600;}
   .feedback .ipa-line{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#5a5748;margin-top:4px;}
+  .vi-prompt-card{margin-top:10px;padding:12px 13px;border:1px solid #ccd8d0;border-radius:8px;background:#f5f8f4;font-family:'IBM Plex Sans',sans-serif;color:#405048;}
+  .vi-prompt-meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px;}
+  .vi-meta-chip{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#e3ece6;color:#3e6256;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.02em;}
+  .vi-ambiguity{margin:0 0 10px;padding:7px 9px;border-left:3px solid #a18760;border-radius:4px;background:#f1ebe1;color:#69563b;font-size:12px;line-height:1.45;}
+  .vi-context-label,.answer-example-label{display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#718077;}
+  .vi-context-sentence{font-size:14px;line-height:1.55;color:#35483f;}
+  .vi-context-sentence .cloze-gap{display:inline-block;min-width:62px;border-bottom:2px solid #79978c;color:transparent;line-height:1;}
+  .answer-example{margin-top:10px;padding:10px 11px;border-radius:7px;background:rgba(255,255,255,.48);border:1px solid rgba(91,119,105,.22);font-size:13.5px;line-height:1.55;color:#3e5047;}
 
   .end-card{text-align:center;padding:10px 0;}
   .end-card .score{font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:var(--ink);margin:6px 0;}
@@ -429,6 +437,13 @@ function clozeHint(item){const ex=item.ex||'';const w=item.w||item.word||'';if(!
 function sentenceClozeFrame(i){const p=(i.pos||'').toLowerCase();if(p.includes('phr'))return 'I decided to <b>'+i.word+'</b> ______ because ______.';if(p.includes('adv'))return '<b>'+i.word.charAt(0).toUpperCase()+i.word.slice(1)+'</b>, ______ because ______.';if(p.includes('adj'))return 'I felt / It seemed <b>'+i.word+'</b> when ______.';if(p.includes('v'))return 'I usually <b>'+i.word+'</b> ______ when / because ______.';if(p.includes('prep')||p.includes('conj'))return '<b>'+i.word.charAt(0).toUpperCase()+i.word.slice(1)+'</b> ______, I ______.';return 'The <b>'+i.word+'</b> ______ because ______.'}
 
 
+// Sửa mục ngày trong tuần bị gán nhầm nghĩa và thay câu ví dụ máy móc.
+const thursdayEntry = CATEGORIES.flatMap(c => c.items).find(item => item[1] === 'Thursday');
+if(thursdayEntry){
+  thursdayEntry[4] = 'Thứ Năm';
+  thursdayEntry[5] = 'We have an English class every Thursday afternoon.';
+}
+
 const seenVocabularyRows = new Set();
 CATEGORIES.forEach(category => {
   category.items = category.items.filter(item => {
@@ -709,7 +724,7 @@ function currentPool(){
     if(!quizSelectedCats.has('ALL') && !quizSelectedCats.has(String(idx))) return;
     c.items.forEach(it => {
       if(quizTier !== 'all' && it[0] !== quizTier) return;
-      const item = { tier: it[0], w: it[1], ipa: it[2], pos: it[3], vi: it[4], ex: it[5] || '' };
+      const item = { tier: it[0], w: it[1], ipa: it[2], pos: it[3], vi: it[4], ex: it[5] || '', cat: c.title };
       const key = normalizeEN(item.w);
       if(!uniquePool.has(key)) uniquePool.set(key, item);
     });
@@ -759,6 +774,40 @@ function normalizeEN(str){
   return str.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
 }
 
+function meaningKey(str){
+  return (str || '').toLowerCase().normalize('NFC').replace(/\(.*?\)/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
+}
+function sameMeaningCount(item){
+  const key = meaningKey(item.vi);
+  const words = new Set();
+  CATEGORIES.forEach(c => c.items.forEach(it => {
+    if(meaningKey(it[4]) === key) words.add(normalizeEN(it[1]));
+  }));
+  return words.size;
+}
+function tierLearningLabel(tier){
+  return tier === 'V3' ? 'Vòng 3 · Trung cấp' : 'Vòng 4 · Nâng cao';
+}
+function categoryLabel(title){
+  return (title || '').replace(/^V[34]\s*·\s*/, '').replace(/^\d+(?:\.[A-Z])?\.\s*/, '');
+}
+function vietnamesePromptDetails(item){
+  const count = sameMeaningCount(item);
+  const ambiguity = count > 1
+    ? `<div class="vi-ambiguity">Có <b>${count} từ</b> dùng chung nghĩa tiếng Việt này. Hãy dựa vào bối cảnh và cách dùng bên dưới để chọn.</div>`
+    : '';
+  return `<div class="vi-prompt-card">
+    <div class="vi-prompt-meta">
+      <span class="vi-meta-chip">Mức độ: ${tierLearningLabel(item.tier)}</span>
+      <span class="vi-meta-chip">Từ loại: ${item.pos}</span>
+      <span class="vi-meta-chip">Bối cảnh: ${categoryLabel(item.cat)}</span>
+    </div>
+    ${ambiguity}
+    <span class="vi-context-label">Cách dùng trong câu · đã ẩn đáp án</span>
+    <div class="vi-context-sentence">${clozeHint(item)}</div>
+  </div>`;
+}
+
 function startQuiz(){
   const pool = currentPool();
   if(pool.length === 0) return;
@@ -803,7 +852,7 @@ function renderQuestion(){
   } else {
     document.getElementById('promptLabel').textContent = 'VIỆT → ANH — từ tiếng Anh là gì?';
     document.getElementById('promptMain').textContent = item.vi;
-    promptSub.textContent = `(${item.pos})`;
+    promptSub.innerHTML = vietnamesePromptDetails(item);
     input.placeholder = 'Nhập từ tiếng Anh…';
     listenBtn.style.display = 'none'; // ẩn để không lộ đáp án trước khi trả lời
   }
@@ -838,7 +887,7 @@ function checkAnswer(){
     : `✗ Chưa đúng. Đáp án: <span class="correct-ans">${correctDisplay}</span>`;
   feedbackBox.innerHTML += `<div class="ipa-line">/${item.ipa}/ (${item.pos})</div>`;
   if(item.ex){
-    feedbackBox.innerHTML += `<div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,.18);"><b>Ví dụ:</b> ${item.ex}</div>`;
+    feedbackBox.innerHTML += `<div class="answer-example"><span class="answer-example-label">Câu ví dụ đầy đủ</span>${item.ex}</div>`;
   }
   if(direction === 'vi-en'){
     document.getElementById('listenBtn').style.display = 'inline-flex';
