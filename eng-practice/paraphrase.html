@@ -124,14 +124,20 @@
     color:#9db4f5;margin-bottom:8px;font-weight:700;
   }
   .replace-list{
-    list-style:none;padding:0;margin:0 0 4px;
+    list-style:none;padding:0;margin:3px 0 4px;
+    display:flex;flex-wrap:wrap;gap:10px;
   }
   .replace-list li{
-    font-size:17px;line-height:1.7;color:#e8eaf5;
-    position:relative;padding-left:16px;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:clamp(18px,4vw,23px);line-height:1.25;color:#13254b;
+    font-weight:800;letter-spacing:-.01em;
+    position:relative;padding:10px 14px;
+    background:#f7d77e;border:1px solid #ffe5a5;border-radius:11px;
+    box-shadow:0 4px 12px rgba(0,0,0,.14);
   }
+  .replace-list li:nth-child(even){background:#dfe8ff;border-color:#b9cafa;color:#173b87;}
   .replace-list li::before{
-    content:"›";position:absolute;left:0;color:#7d97e8;font-weight:700;
+    content:none;
   }
 
   .controls{
@@ -209,6 +215,7 @@
   .dict-feedback{display:none;margin-top:14px;padding:12px 14px;border-radius:9px;line-height:1.45;font-size:14px;}
   .dict-feedback.good{display:block;background:#e5f4ec;color:#226c46;}
   .dict-feedback.bad{display:block;background:#fbe9e7;color:#9a342e;}
+  .answer-reps{font-size:1.08em;font-weight:800;color:#173b87;}
   .dict-end{display:none;text-align:center;padding:18px 4px 4px;}
   .dict-end-score{font-size:34px;font-weight:800;color:var(--navy-deep);margin-bottom:5px;}
   .dict-note{font-size:12px;color:var(--muted);margin-top:10px;}
@@ -263,7 +270,7 @@
     <button class="btn" id="btnShuffle">🔀 Xáo trộn</button>
     <button class="btn primary" id="btnNext">Tiếp →</button>
   </div>
-  <div class="shuffle-note">Phím tắt: Space/Enter để lật · ← → để chuyển thẻ</div>
+  <div class="shuffle-note">Enter lần 1: xem từ thay thế · Enter lần 2: thẻ tiếp theo · Space: lật thẻ · ← →: chuyển thẻ</div>
 
   <footer>The Real IELTS · 80+ Cụm chữa yếu Paraphrase</footer>
   </div>
@@ -279,7 +286,9 @@
           </div>
           <div class="dict-field">
             <label>Hướng luyện</label>
-            <select id="dictDirection"><option value="term-rep">Từ cơ bản → Paraphrase nâng cao</option>
+            <select id="dictDirection"><option value="vi-term">Tiếng Việt → Cụm tiếng Anh cơ bản</option>
+              <option value="vi-rep">Tiếng Việt → Paraphrase nâng cao</option>
+              <option value="term-rep">Từ cơ bản → Paraphrase nâng cao</option>
               <option value="rep-term">Paraphrase nâng cao → Từ cơ bản</option></select>
           </div>
           <div class="dict-field">
@@ -293,7 +302,7 @@
           </div>
         </div>
         <button class="btn primary" id="dictStart">Bắt đầu chính tả</button>
-        <div class="dict-note">Ở chiều Từ cơ bản → Paraphrase, chỉ cần nhập đúng một phương án thay thế có trong thẻ.</div>
+        <div class="dict-note">Ở chiều Việt → Paraphrase, chỉ cần nhập đúng một phương án nâng cao. Enter lần 1 để xem đáp án; Enter lần 2 để chuyển câu.</div>
       </div>
 
       <div id="dictPlay" style="display:none;">
@@ -303,7 +312,7 @@
         <div class="dict-hint" id="dictHint"></div>
         <input class="dict-answer" id="dictAnswer" autocomplete="off" spellcheck="false" placeholder="Nhập đáp án...">
         <div class="dict-actions">
-          <button class="btn primary" id="dictCheck">Kiểm tra</button>
+          <button class="btn primary" id="dictCheck">Kiểm tra (Enter)</button>
           <button class="btn" id="dictListen">🔊 Nghe</button>
           <button class="btn" id="dictNext" style="display:none;">Tiếp →</button>
         </div>
@@ -464,7 +473,7 @@ function render(){
   termFront.textContent = item.term;
   sttBack.textContent = '#' + item.stt;
   meaningBack.textContent = item.meaning;
-  replaceBack.innerHTML = item.rep.map(r=>`<li>${r}</li>`).join('');
+  replaceBack.innerHTML = repChoices(item).map(r=>`<li>${esc(r)}</li>`).join('');
   counter.textContent = `${idx+1} / ${deck.length}`;
   scoreDisplay.textContent = `Đã thuộc: ${known.size} / ${DATA.length}`;
   progressFill.style.width = `${(known.size/DATA.length)*100}%`;
@@ -515,7 +524,8 @@ document.getElementById('btnNo').addEventListener('click', ()=>{
 
 document.addEventListener('keydown', (e)=>{
   if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName)) return;
-  if(e.code === 'Space' || e.code === 'Enter'){ e.preventDefault(); flip(); }
+  if(e.code === 'Space'){ e.preventDefault(); flip(); }
+  if(e.code === 'Enter'){ e.preventDefault(); flipped ? next() : flip(); }
   if(e.code === 'ArrowRight'){ next(); }
   if(e.code === 'ArrowLeft'){ prev(); }
 });
@@ -576,10 +586,14 @@ function dictRender(){
   document.getElementById('dictCounter').textContent=`Câu ${dIdx+1} / ${dDeck.length}`;
   document.getElementById('dictScore').textContent=`Đúng: ${dCorrect}`;
   document.getElementById('dictProgress').style.width=`${(dIdx/dDeck.length)*100}%`;
-  document.getElementById('dictPrompt').textContent=dir==='term-rep'?x.term:dPromptRep;
-  document.getElementById('dictHint').textContent=dir==='term-rep'?x.meaning:'Gõ lại từ/cụm cơ bản';
+  const isVi=dir.startsWith('vi-');
+  document.getElementById('dictPrompt').textContent=isVi?x.meaning:(dir==='term-rep'?x.term:dPromptRep);
+  document.getElementById('dictHint').textContent=dir==='vi-term'?'Nhập cụm tiếng Anh cơ bản':dir==='vi-rep'?'Nhập một cách diễn đạt nâng cao':dir==='term-rep'?x.meaning:'Gõ lại từ/cụm cơ bản';
   const a=document.getElementById('dictAnswer');
-  a.value=''; a.disabled=false; a.focus();
+  a.value=''; a.disabled=false;
+  a.placeholder=dir==='vi-term'?'Nhập cụm tiếng Anh cơ bản...':dir==='vi-rep'?'Nhập một paraphrase nâng cao...':'Nhập đáp án...';
+  a.focus();
+  document.getElementById('dictListen').style.display=isVi?'none':'';
   document.getElementById('dictFeedback').className='dict-feedback';
   document.getElementById('dictFeedback').innerHTML='';
   document.getElementById('dictCheck').style.display='';
@@ -591,17 +605,17 @@ function dictCheck(){
   const x=dDeck[dIdx], dir=document.getElementById('dictDirection').value;
   const ans=dNorm(document.getElementById('dictAnswer').value);
   const reps=repChoices(x).map(dNorm);
-  let ok = dir==='term-rep' ? reps.includes(ans) : ans===dNorm(x.term);
+  let ok = (dir==='term-rep'||dir==='vi-rep') ? reps.includes(ans) : ans===dNorm(x.term);
   document.getElementById('dictAnswer').disabled=true;
   const fb=document.getElementById('dictFeedback');
   if(ok){
     dCorrect++;
     fb.className='dict-feedback good';
-    fb.innerHTML=`✓ Đúng — <b>${x.term}</b> → ${x.rep.join(' · ')}`;
+    fb.innerHTML=`✓ Đúng — <b>${esc(x.term)}</b> → <span class="answer-reps">${repChoices(x).map(esc).join(' · ')}</span>`;
   }else{
     dWrong.push(x);
     fb.className='dict-feedback bad';
-    fb.innerHTML=`✗ Đáp án chấp nhận: <b>${x.term}</b> → ${x.rep.join(' · ')}`;
+    fb.innerHTML=`✗ Đáp án chấp nhận: <b>${esc(x.term)}</b> → <span class="answer-reps">${repChoices(x).map(esc).join(' · ')}</span>`;
   }
   document.getElementById('dictScore').textContent=`Đúng: ${dCorrect}`;
   document.getElementById('dictCheck').style.display='none';
