@@ -70,7 +70,7 @@ $('#back').addEventListener('click',()=>{$('#quiz').style.display='none';$('#set
 function qnow(){return session[idx]}
 function fillPrompt(q,saved){
  let i=0;
- const html=esc(q.prompt).replace(/\\.{3,}/g,()=>{
+ const html=esc(q.prompt).replace(/\.{3,}/g,()=>{
    const value=Array.isArray(saved)?saved[i]||'':'';
    return `<input class="inlineBlank" data-i="${i++}" value="${esc(value)}" aria-label="Ô trống ${i}" autocomplete="off" autocapitalize="none" spellcheck="false">`;
  });
@@ -79,10 +79,10 @@ function fillPrompt(q,saved){
 function errorHTML(q,saved){
  const parts=q.prompt.split('/');
  return `<div class="errorSentence">${parts.map(part=>{
-   const hit=part.match(/\\(([a-f])\\)/i);
+   const hit=part.match(/\(([a-f])\)/i);
    if(!hit)return `<span>${esc(part.trim())}</span>`;
    const label=hit[1].toLowerCase();
-   const words=part.replace(/\\s*\\([a-f]\\)\\s*/i,' ').trim();
+   const words=part.replace(/\s*\([a-f]\)\s*/i,' ').trim();
    return `<label class="errorPart" data-label="${label}"><input type="radio" name="err" value="${label}" ${saved===label?'checked':''}><span>${esc(words)}</span><b>(${label})</b></label>`;
  }).join('<span class="slash">/</span>')}</div>`;
 }
