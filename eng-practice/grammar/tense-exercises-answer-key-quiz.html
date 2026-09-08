@@ -22,15 +22,64 @@
 input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit}textarea{min-height:120px;resize:vertical}
 .feedback{display:none;margin-top:13px;padding:12px;border-radius:12px;line-height:1.55}.feedback.show{display:block}.feedback.ok{background:#edf8f0;border:1px solid #b7dfc3}.feedback.bad{background:#fff0ef;border:1px solid #efb9b4}.feedback.info{background:#fff9e5;border:1px solid #ead686}.key{margin-top:7px;font-weight:800}
 .nav{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:17px}.hidden{display:none!important}#summary{display:none;margin-top:18px}#summary.show{display:block}.score{font-size:44px;font-weight:900}.review{display:grid;gap:7px;margin-top:12px}.reviewItem{border:1px solid var(--line);border-radius:11px;padding:10px;font-size:13px}
+.review-hub{grid-column:1/-1;background:linear-gradient(145deg,#fff,#f5f9ff)}
+.review-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}.review-head h2{margin:0 0 5px}.review-head p{margin:0;color:var(--muted);line-height:1.55}
+.review-tags{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}.review-tag{padding:5px 9px;border-radius:999px;background:#e7efff;color:#1c4f9c;font-size:11px;font-weight:800}
+.theory-block{margin-top:9px;border:1px solid var(--line);border-radius:13px;background:#fff;overflow:hidden}.theory-block summary{cursor:pointer;list-style:none;padding:13px 15px;background:#f7faff;color:#243b5a;font-weight:850}.theory-block summary::-webkit-details-marker{display:none}.theory-block summary::after{content:'＋';float:right;color:var(--accent)}.theory-block[open] summary::after{content:'－'}
+.theory-body{padding:14px 15px}.table-wrap{overflow:auto}.tense-table{width:100%;min-width:850px;border-collapse:collapse;font-size:13px}.tense-table th,.tense-table td{padding:10px;border:1px solid #e3e9f0;text-align:left;vertical-align:top}.tense-table th{background:#edf4ff;color:#244f88}.tense-table td:first-child{font-weight:850;color:#123d72;white-space:nowrap}
+.contrast-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.contrast{padding:12px;border:1px solid #dce5ef;border-left:4px solid #477cc5;border-radius:9px;background:#f9fbfe;font-size:13px;line-height:1.5}.contrast b{color:#173f72}
+.formula{display:inline-block;margin:2px 0;padding:2px 6px;border-radius:5px;background:#eaf1fb;color:#204f89;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:750}
+.rule-list{display:grid;gap:8px}.rule{padding:10px 12px;border-radius:9px;background:#f8fafc;border-left:4px solid #7b8da5;font-size:13px;line-height:1.5}.rule.warn{background:#fff9e8;border-color:#d49a2d}.rule strong{color:#243b5a}
+.history-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0}.history-stat{padding:9px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;color:var(--muted);font-size:11px}.history-stat b{display:block;color:var(--ink);font-size:20px;line-height:1.1}
+.topic-pill{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:999px;background:#e8f6f1;color:#17664f;font-size:10px;font-weight:850;vertical-align:1px}.smart-note{margin-top:10px;padding:10px 12px;border-left:4px solid #2b7d69;border-radius:8px;background:#eff9f5;color:#315d53;font-size:12px;line-height:1.5}.weak-topics{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fff9e8;border:1px solid #edd9a9;font-size:13px}
+@media(max-width:650px){.contrast-grid{grid-template-columns:1fr}.history-stats{grid-template-columns:repeat(3,1fr)}.review-hub{padding:15px}.theory-body{padding:11px}}
 </style>
 </head>
 <body><div class="wrap">
 <section class="hero">
 <h1>English Tense Quiz</h1>
-<p>Exercises 20, 21, 22, 24, 32, 33, 34, 35, 37, 38, 39, 40 — câu hỏi và đáp án bám theo tài liệu nguồn.</p>
+<p>Ôn tập hệ thống 12 thì, các điểm ngữ pháp liên quan và luyện tập thông minh từ bài tập gốc cùng ngân hàng bổ sung.</p>
 </section>
 
 <div id="setup" class="grid">
+<section class="card review-hub">
+<div class="review-head"><div><h2>Ôn tập tất cả chủ đề</h2><p>Đọc nhanh hệ thống cốt lõi trước khi luyện. Tập trung vào ý nghĩa và quan hệ thời gian, không chỉ học thuộc công thức.</p></div><button id="startReview" class="btn primary">Luyện toàn bộ chủ đề</button></div>
+<div class="review-tags"><span class="review-tag">12 thì</span><span class="review-tag">Mốc thời gian</span><span class="review-tag">Stative verbs</span><span class="review-tag">Time clauses</span><span class="review-tag">Sequence of tenses</span><span class="review-tag">Conditionals</span><span class="review-tag">Wish / High time</span><span class="review-tag">Passive</span></div>
+<details class="theory-block" open><summary>1. Bảng 12 thì — công thức, cách dùng và dấu hiệu</summary><div class="theory-body"><div class="table-wrap"><table class="tense-table"><thead><tr><th>Thì</th><th>Công thức trọng tâm</th><th>Khi dùng</th><th>Dấu hiệu / ví dụ</th></tr></thead><tbody>
+<tr><td>Present Simple</td><td><span class="formula">S + V(s/es)</span></td><td>Thói quen, sự thật, trạng thái, lịch cố định.</td><td>usually, every day · <i>The train leaves at 7.</i></td></tr>
+<tr><td>Present Continuous</td><td><span class="formula">am/is/are + V-ing</span></td><td>Đang diễn ra, tạm thời, thay đổi, sắp xếp cá nhân.</td><td>now, currently · <i>I am meeting Lan tonight.</i></td></tr>
+<tr><td>Present Perfect</td><td><span class="formula">have/has + V3</span></td><td>Kết quả/kinh nghiệm trước hiện tại; trạng thái kéo dài.</td><td>already, yet, ever, since, for · <i>I have known him for years.</i></td></tr>
+<tr><td>Present Perfect Continuous</td><td><span class="formula">have/has been + V-ing</span></td><td>Hoạt động kéo dài đến hiện tại; nhấn quá trình/thời lượng.</td><td>for, since, all day · <i>It has been raining.</i></td></tr>
+<tr><td>Past Simple</td><td><span class="formula">S + V2/ed</span></td><td>Sự việc đã kết thúc tại thời điểm quá khứ xác định.</td><td>yesterday, ago, in 2020 · <i>She left yesterday.</i></td></tr>
+<tr><td>Past Continuous</td><td><span class="formula">was/were + V-ing</span></td><td>Đang diễn ra tại mốc quá khứ; bối cảnh bị xen ngang.</td><td>while, at 8 p.m. · <i>I was reading when he called.</i></td></tr>
+<tr><td>Past Perfect</td><td><span class="formula">had + V3</span></td><td>Sự việc xảy ra trước một mốc/sự việc quá khứ khác.</td><td>before, by then · <i>The train had left before we arrived.</i></td></tr>
+<tr><td>Past Perfect Continuous</td><td><span class="formula">had been + V-ing</span></td><td>Quá trình kéo dài trước mốc quá khứ; nhấn nguyên nhân/thời lượng.</td><td>for, since · <i>He was tired because he had been working.</i></td></tr>
+<tr><td>Future Simple</td><td><span class="formula">will + V</span></td><td>Quyết định tức thời, dự đoán, lời hứa/đề nghị.</td><td>I think, probably · <i>I will help you.</i></td></tr>
+<tr><td>Future Continuous</td><td><span class="formula">will be + V-ing</span></td><td>Đang diễn ra tại một mốc tương lai; kế hoạch tự nhiên.</td><td>this time tomorrow · <i>I will be flying at noon.</i></td></tr>
+<tr><td>Future Perfect</td><td><span class="formula">will have + V3</span></td><td>Hoàn tất trước một hạn/mốc tương lai.</td><td>by, by the time · <i>We will have finished by Friday.</i></td></tr>
+<tr><td>Future Perfect Continuous</td><td><span class="formula">will have been + V-ing</span></td><td>Nhấn thời lượng kéo dài đến một mốc tương lai.</td><td>for + duration + by · <i>By June, I will have been working here for ten years.</i></td></tr>
+</tbody></table></div></div></details>
+<details class="theory-block"><summary>2. Những cặp dễ nhầm nhất</summary><div class="theory-body"><div class="contrast-grid">
+<div class="contrast"><b>Present Simple ↔ Continuous</b><br>Thường xuyên/trạng thái ↔ đang diễn ra/tạm thời. <i>I work here</i> ↔ <i>I am working from home this week.</i></div>
+<div class="contrast"><b>Past Simple ↔ Present Perfect</b><br>Quá khứ đã đóng với mốc xác định ↔ còn liên hệ hiện tại. Không dùng Present Perfect với <i>yesterday/ago/last year</i>.</div>
+<div class="contrast"><b>Perfect ↔ Perfect Continuous</b><br>Perfect nhấn kết quả/số lượng; Perfect Continuous nhấn quá trình/thời lượng. Stative verbs thường không dùng continuous.</div>
+<div class="contrast"><b>Past Simple ↔ Past Continuous</b><br>Sự việc ngắn xen ngang ↔ hành động nền đang diễn ra: <i>He called while I was cooking.</i></div>
+<div class="contrast"><b>Past Perfect ↔ Past Simple</b><br>Dùng Past Perfect khi cần làm rõ việc nào xảy ra trước; không cần lạm dụng nếu trật tự đã rõ bằng <i>after/before</i>.</div>
+<div class="contrast"><b>Will ↔ Going to</b><br><i>Will</i>: quyết định ngay/dự đoán chủ quan. <i>Going to</i>: ý định có trước/dự đoán dựa trên bằng chứng.</div>
+<div class="contrast"><b>Present Continuous ↔ Present Simple cho tương lai</b><br>Sắp xếp cá nhân ↔ lịch trình chính thức: <i>I am meeting her</i> ↔ <i>The train leaves at six.</i></div>
+<div class="contrast"><b>Future Continuous ↔ Future Perfect</b><br>Đang diễn ra tại mốc tương lai ↔ đã hoàn tất trước mốc đó.</div>
+</div></div></details>
+<details class="theory-block"><summary>3. Quy tắc đặc biệt phải nhớ</summary><div class="theory-body"><div class="rule-list">
+<div class="rule warn"><strong>Mệnh đề thời gian tương lai:</strong> sau <i>when, after, before, until, as soon as, once</i>, dùng hiện tại thay cho <i>will</i>: <i>I will call when I arrive.</i></div>
+<div class="rule"><strong>Since và for:</strong> <i>since + mốc/bắt đầu</i>; <i>for + khoảng thời gian</i>. Sau <i>since</i> chỉ điểm bắt đầu thường dùng Past Simple: <i>I have lived here since I graduated.</i></div>
+<div class="rule"><strong>Stative verbs:</strong> know, believe, understand, own, belong, need, prefer… thường không dùng tiếp diễn. Một số động từ đổi nghĩa: <i>I think</i> (tin rằng) ↔ <i>I am thinking</i> (đang cân nhắc).</div>
+<div class="rule"><strong>Sequence of tenses:</strong> lời nói quá khứ thường lùi thì khi nội dung cũng thuộc quá khứ; sự thật vẫn đúng có thể giữ hiện tại. <i>He said he was tired.</i></div>
+<div class="rule"><strong>Conditionals:</strong> loại 1 <span class="formula">if + present, will + V</span>; loại 2 <span class="formula">if + past, would + V</span>; loại 3 <span class="formula">if + had V3, would have V3</span>.</div>
+<div class="rule"><strong>Wish / If only / High time:</strong> điều trái hiện tại dùng Past Simple; tiếc quá khứ dùng Past Perfect; <i>It is high time + S + V2</i>.</div>
+<div class="rule"><strong>Bị động theo thì:</strong> giữ đúng thời gian ở động từ <i>be</i>, sau đó dùng V3: <i>is built, was built, has been built, will be built</i>.</div>
+<div class="rule"><strong>By + mốc:</strong> thường gợi perfect; <i>by tomorrow</i> → Future Perfect, <i>by then</i> trong chuyện quá khứ → Past Perfect.</div>
+</div></div></details>
+</section>
 <section class="card">
 <div class="toolbar" style="justify-content:space-between;margin-bottom:12px"><h2>Chọn Exercise</h2><div class="toolbar"><button id="all" class="btn ghost">Chọn tất cả</button><button id="none" class="btn ghost">Bỏ chọn</button></div></div>
 <div id="exgrid" class="exgrid"></div>
@@ -40,10 +89,12 @@ input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:
 <h2>Thiết lập</h2>
 <div class="settings">
 <label>Số câu<select id="count"><option>10</option><option selected>20</option><option>30</option><option>50</option><option>100</option><option value="all">Làm tất cả</option></select></label>
-<label>Thứ tự<select id="order"><option value="random" selected>Trộn ngẫu nhiên</option><option value="ordered">Theo Exercise</option></select></label>
+<label>Cách trộn<select id="order"><option value="smart" selected>Thông minh: ưu tiên điểm yếu</option><option value="balanced">Cân bằng chủ đề</option><option value="weak">Câu từng sai</option><option value="unseen">Câu chưa làm</option><option value="random">Trộn ngẫu nhiên</option><option value="ordered">Theo Exercise</option></select></label>
 </div>
 <div class="stats"><div class="stat">Đã chọn: <b id="selected">0</b></div><div class="stat">Pool: <b id="pool">0</b></div><div class="stat">Tổng: <b id="total"></b></div></div>
-<div class="toolbar"><button id="start" class="btn primary">Bắt đầu</button><button id="mixed" class="btn good">Tổng hợp tất cả</button></div>
+<div class="history-stats"><div class="history-stat"><b id="historySeen">0</b>Đã gặp</div><div class="history-stat"><b id="historyWeak">0</b>Cần ôn</div><div class="history-stat"><b id="historyUnseen">0</b>Chưa làm</div></div>
+<div class="toolbar"><button id="start" class="btn primary">Bắt đầu</button><button id="mixed" class="btn good">Ôn tập thông minh</button><button id="resetHistory" class="btn ghost">Xóa lịch sử</button></div>
+<div class="smart-note"><b>Trộn thông minh:</b> ưu tiên câu chưa làm và câu từng sai, sau đó cân bằng giữa các chủ đề để tránh một phiên chỉ tập trung vào vài thì.</div>
 <p class="note" style="margin-top:13px"><b>Enter lần 1:</b> kiểm tra và xem đáp án. <b>Enter lần 2:</b> chuyển sang câu tiếp theo. Trong ô viết dài, dùng <b>Shift + Enter</b> để xuống dòng.<br><br><b>Chấm tự động:</b> MCQ, Error Detection và các câu điền một cụm động từ. <b>Tự đối chiếu:</b> sửa câu, bài RAS nhiều chỗ trống và paragraph completion. Các đáp án thay thế được giữ nguyên theo answer key.</p>
 </aside>
 </div>
@@ -58,7 +109,7 @@ input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:
 <div class="toolbar" style="margin-top:13px"><button id="check" class="btn primary">Kiểm tra / Xem đáp án (Enter)</button><button id="show" class="btn ghost">Xem Answer Key</button><button id="selfOK" class="btn good hidden">✓ Tôi đúng</button><button id="selfBad" class="btn bad hidden">↺ Cần ôn</button></div>
 <div class="nav"><button id="prev" class="btn ghost">← Câu trước</button><div class="toolbar"><button id="finish" class="btn ghost">Kết thúc</button><button id="next" class="btn primary">Câu tiếp →</button></div></div>
 </div>
-<div id="summary" class="card"><h2>Kết quả</h2><div id="score" class="score"></div><div id="sumStats" class="stats"></div><div class="toolbar"><button id="redoWrong" class="btn primary">Làm lại câu sai / cần ôn</button><button id="redo" class="btn ghost">Làm lại bộ này</button></div><div id="review" class="review"></div></div>
+<div id="summary" class="card"><h2>Kết quả</h2><div id="score" class="score"></div><div id="sumStats" class="stats"></div><div id="weakTopics" class="weak-topics"></div><div class="toolbar" style="margin-top:12px"><button id="redoWrong" class="btn primary">Làm lại câu sai / cần ôn</button><button id="redo" class="btn ghost">Làm lại bộ này</button></div><div id="review" class="review"></div></div>
 </section>
 </div>
 
@@ -67,12 +118,77 @@ const META=[{"id": 20, "title": "Choose the Correct Answer", "desc": "Past/prese
 const esc=s=>(s??'').toString().replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const norm=s=>(s??'').toString().toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9\s,./'-]/g,' ').replace(/\s+/g,' ').trim();
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-function setup(){ $('#total').textContent=BANK.length; $('#exgrid').innerHTML=META.map(e=>`<label class="ex"><input type="checkbox" class="excb" value="${e.id}"><div><b>Exercise ${e.id} — ${esc(e.title)}</b><small>${esc(e.desc)}</small></div><span class="badge">${e.count}</span></label>`).join('');document.querySelectorAll('.excb').forEach(x=>x.onchange=update);update()}
+const SUPPLEMENT=[
+ {id:'r01',ex:99,num:'1',kind:'mcq',topic:'Present Simple',prompt:'My brother usually _____ to work by bus.',answer:'b',choices:['a) is going','b) goes','c) has gone','d) went'],explanation:'Usually diễn tả thói quen → Present Simple.'},
+ {id:'r02',ex:99,num:'2',kind:'mcq',topic:'Present Continuous',prompt:'Please be quiet. I _____ to understand this report.',answer:'c',choices:['a) try','b) have tried','c) am trying','d) tried'],explanation:'Hành động đang diễn ra tại thời điểm nói → Present Continuous.'},
+ {id:'r03',ex:99,num:'3',kind:'mcq',topic:'Present Perfect',prompt:'She _____ three chapters so far.',answer:'d',choices:['a) writes','b) wrote','c) is writing','d) has written'],explanation:'So far nối quá khứ với hiện tại và nhấn kết quả → Present Perfect.'},
+ {id:'r04',ex:99,num:'4',kind:'mcq',topic:'Present Perfect Continuous',prompt:'Your hands are dirty. _____ in the garden?',answer:'a',choices:['a) Have you been working','b) Did you work','c) Do you work','d) Had you worked'],explanation:'Bằng chứng hiện tại của một hoạt động vừa kéo dài → Present Perfect Continuous.'},
+ {id:'r05',ex:99,num:'5',kind:'mcq',topic:'Past Simple',prompt:'We _____ that museum during our trip last summer.',answer:'c',choices:['a) have visited','b) visit','c) visited','d) had visited'],explanation:'Last summer là mốc quá khứ đã kết thúc → Past Simple.'},
+ {id:'r06',ex:99,num:'6',kind:'mcq',topic:'Past Continuous',prompt:'At nine last night, I _____ for the exam.',answer:'b',choices:['a) studied','b) was studying','c) have studied','d) had studied'],explanation:'Hành động đang diễn ra tại một mốc quá khứ → Past Continuous.'},
+ {id:'r07',ex:99,num:'7',kind:'mcq',topic:'Past Perfect',prompt:'By the time we arrived, the film _____.',answer:'d',choices:['a) starts','b) was starting','c) has started','d) had started'],explanation:'Phim bắt đầu trước lúc chúng tôi đến → Past Perfect.'},
+ {id:'r08',ex:99,num:'8',kind:'mcq',topic:'Past Perfect Continuous',prompt:'He was exhausted because he _____ all night.',answer:'c',choices:['a) worked','b) was working','c) had been working','d) has been working'],explanation:'Nhấn quá trình kéo dài gây ra trạng thái tại một mốc quá khứ → Past Perfect Continuous.'},
+ {id:'r09',ex:99,num:'9',kind:'mcq',topic:'Future Simple',prompt:'The phone is ringing. I _____ it.',answer:'a',choices:['a) will answer','b) am going to answer','c) answer','d) am answering'],explanation:'Quyết định được đưa ra ngay lúc nói → will + V.'},
+ {id:'r10',ex:99,num:'10',kind:'mcq',topic:'Future Continuous',prompt:'This time tomorrow, we _____ over the Pacific.',answer:'c',choices:['a) fly','b) will have flown','c) will be flying','d) are flown'],explanation:'Đang diễn ra tại một mốc tương lai → Future Continuous.'},
+ {id:'r11',ex:99,num:'11',kind:'mcq',topic:'Future Perfect',prompt:'By Friday, the team _____ the first stage.',answer:'b',choices:['a) will complete','b) will have completed','c) will be completing','d) completes'],explanation:'Hoàn tất trước hạn tương lai by Friday → Future Perfect.'},
+ {id:'r12',ex:99,num:'12',kind:'mcq',topic:'Future Perfect Continuous',prompt:'By next June, she _____ here for ten years.',answer:'d',choices:['a) works','b) will work','c) will be working','d) will have been working'],explanation:'Nhấn thời lượng kéo dài đến mốc tương lai → Future Perfect Continuous.'},
+ {id:'r13',ex:99,num:'13',kind:'mcq',topic:'Since / For',prompt:'I have known Mai _____ we were at university.',answer:'a',choices:['a) since','b) for','c) during','d) from'],explanation:'Since + mệnh đề chỉ điểm bắt đầu; for + khoảng thời gian.'},
+ {id:'r14',ex:99,num:'14',kind:'mcq',topic:'Stative verbs',prompt:'I _____ what you mean now.',answer:'c',choices:['a) am understanding','b) have been understanding','c) understand','d) was understanding'],explanation:'Understand là stative verb và thường không dùng ở dạng tiếp diễn.'},
+ {id:'r15',ex:99,num:'15',kind:'mcq',topic:'Time clauses',prompt:'I will send you a message as soon as I _____ home.',answer:'b',choices:['a) will get','b) get','c) will have got','d) am getting'],explanation:'Trong mệnh đề thời gian tương lai sau as soon as, dùng Present Simple thay cho will.'},
+ {id:'r16',ex:99,num:'16',kind:'mcq',topic:'Will / Going to',prompt:'Look at those black clouds. It _____.',answer:'d',choices:['a) will rain','b) rains','c) is raining every day','d) is going to rain'],explanation:'Dự đoán dựa trên bằng chứng hiện tại → be going to.'},
+ {id:'r17',ex:99,num:'17',kind:'mcq',topic:'Future arrangements',prompt:'The conference _____ at 8:30 tomorrow morning.',answer:'a',choices:['a) starts','b) is going to start usually','c) will be starting yesterday','d) has started'],explanation:'Lịch trình chính thức dùng Present Simple.'},
+ {id:'r18',ex:99,num:'18',kind:'mcq',topic:'Future arrangements',prompt:'I _____ the dentist at four this afternoon; the appointment is confirmed.',answer:'c',choices:['a) see','b) will have seen','c) am seeing','d) saw'],explanation:'Sắp xếp cá nhân đã xác nhận dùng Present Continuous.'},
+ {id:'r19',ex:99,num:'19',kind:'mcq',topic:'Sequence of tenses',prompt:'Linh said that she _____ tired after the journey.',answer:'b',choices:['a) is','b) was','c) has been','d) will be'],explanation:'Động từ tường thuật ở quá khứ và trạng thái cùng thời điểm quá khứ → lùi về Past Simple.'},
+ {id:'r20',ex:99,num:'20',kind:'mcq',topic:'Conditionals',prompt:'If it _____ tomorrow, we will stay at home.',answer:'a',choices:['a) rains','b) will rain','c) rained','d) had rained'],explanation:'Conditional type 1: if + Present Simple, will + V.'},
+ {id:'r21',ex:99,num:'21',kind:'mcq',topic:'Conditionals',prompt:'If I _____ more free time, I would learn another language.',answer:'c',choices:['a) have','b) will have','c) had','d) had had'],explanation:'Giả định trái/khó xảy ra ở hiện tại → Conditional type 2.'},
+ {id:'r22',ex:99,num:'22',kind:'mcq',topic:'Conditionals',prompt:'If they had checked the map, they _____ lost.',answer:'d',choices:['a) would not get','b) will not have got','c) did not get','d) would not have got'],explanation:'Điều kiện trái với quá khứ → Conditional type 3.'},
+ {id:'r23',ex:99,num:'23',kind:'mcq',topic:'Wish / High time',prompt:'I wish I _____ more confident when speaking English.',answer:'b',choices:['a) am','b) were','c) have been','d) will be'],explanation:'Wish về điều trái với hiện tại dùng Past Simple; were dùng trang trọng cho mọi ngôi.'},
+ {id:'r24',ex:99,num:'24',kind:'mcq',topic:'Wish / High time',prompt:'She wishes she _____ that email yesterday.',answer:'c',choices:['a) did not send','b) would not send','c) had not sent','d) has not sent'],explanation:'Tiếc một hành động quá khứ → wish + Past Perfect.'},
+ {id:'r25',ex:99,num:'25',kind:'mcq',topic:'Wish / High time',prompt:'It is high time we _____ a final decision.',answer:'a',choices:['a) made','b) make','c) will make','d) have made'],explanation:'It is high time + subject + Past Simple.'},
+ {id:'r26',ex:99,num:'26',kind:'mcq',topic:'Passive tenses',prompt:'The new bridge _____ yet.',answer:'b',choices:['a) has not completed','b) has not been completed','c) was not completing','d) is not complete yesterday'],explanation:'Kết quả đến hiện tại ở bị động → has not been + V3.'},
+ {id:'r27',ex:99,num:'27',kind:'mcq',topic:'Passive tenses',prompt:'The results _____ tomorrow afternoon.',answer:'c',choices:['a) announce','b) will announce','c) will be announced','d) have announced'],explanation:'Sự việc tương lai ở bị động → will be + V3.'},
+ {id:'r28',ex:99,num:'28',kind:'mcq',topic:'Perfect contrasts',prompt:'I _____ this book twice, so you can borrow my copy.',answer:'a',choices:['a) have read','b) have been reading','c) read yesterday','d) had been reading'],explanation:'Twice nhấn số lần/kết quả hoàn tất → Present Perfect, không dùng continuous.'},
+ {id:'r29',ex:99,num:'29',kind:'mcq',topic:'Perfect contrasts',prompt:'I _____ this book all morning, but I still have fifty pages left.',answer:'d',choices:['a) read','b) have read','c) had read','d) have been reading'],explanation:'All morning và hoạt động chưa hoàn tất nhấn quá trình → Present Perfect Continuous.'},
+ {id:'r30',ex:99,num:'30',kind:'mcq',topic:'Narrative tenses',prompt:'While the guests _____, the lights suddenly went out.',answer:'c',choices:['a) danced','b) had danced','c) were dancing','d) have danced'],explanation:'Hành động nền đang diễn ra bị một sự việc ngắn xen ngang → Past Continuous + Past Simple.'}
+];
+META.unshift({id:99,title:'Ôn tập bổ sung toàn bộ chủ đề',desc:'12 thì và các điểm dễ nhầm quan trọng.',count:SUPPLEMENT.length});
+BANK.push(...SUPPLEMENT);
+let history={};try{history=JSON.parse(localStorage.getItem('tenseQuizHistoryV1')||'{}')}catch{history={}}
+const topicOf=q=>q.topic||({20:'Past tenses',21:'Perfect & future',22:'Mixed foundations',24:'Tense correction',32:'Present & past',33:'Future forms',34:'Present forms',35:'Time clauses',37:'Sequence & conditionals',38:'Stative & perfect',39:'Mixed contexts',40:'Narrative passages'})[q.ex]||'Mixed review';
+function updateHistoryStats(){
+ const seen=BANK.filter(q=>(history[q.id]?.attempts||0)>0).length;
+ const weak=BANK.filter(q=>(history[q.id]?.attempts||0)>0&&(history[q.id]?.correct||0)<history[q.id].attempts).length;
+ $('#historySeen').textContent=seen;$('#historyWeak').textContent=weak;$('#historyUnseen').textContent=BANK.length-seen;
+}
+function recordHistory(q,correct){
+ if(correct===null||correct===undefined)return;
+ const h=history[q.id]||{attempts:0,correct:0};h.attempts++;if(correct)h.correct++;h.last=Date.now();history[q.id]=h;
+ localStorage.setItem('tenseQuizHistoryV1',JSON.stringify(history));updateHistoryStats();
+}
+function balancedTake(pool,n){
+ const groups={};shuffle(pool).forEach(q=>(groups[topicOf(q)]??=[]).push(q));const keys=shuffle(Object.keys(groups)),out=[];
+ while(out.length<n&&keys.some(k=>groups[k].length)){for(const k of keys){if(groups[k].length&&out.length<n)out.push(groups[k].shift())}}
+ return out;
+}
+function selectPractice(pool,count,mode){
+ const n=count==='all'?pool.length:Math.min(+count,pool.length);
+ if(mode==='ordered')return pool.slice(0,n);
+ if(mode==='random')return shuffle(pool).slice(0,n);
+ if(mode==='balanced')return balancedTake(pool,n);
+ const weak=pool.filter(q=>(history[q.id]?.attempts||0)>0&&(history[q.id]?.correct||0)<history[q.id].attempts);
+ const unseen=pool.filter(q=>!(history[q.id]?.attempts||0));
+ const mastered=pool.filter(q=>!weak.includes(q)&&!unseen.includes(q));
+ if(mode==='unseen')return balancedTake(unseen,n);
+ if(mode==='weak')return balancedTake(weak,n);
+ const out=[],used=new Set();
+ for(const bucket of [weak,unseen,mastered])for(const q of balancedTake(bucket,n)){if(out.length<n&&!used.has(q.id)){used.add(q.id);out.push(q)}}
+ return out;
+}
+function setup(){ $('#total').textContent=BANK.length; $('#exgrid').innerHTML=META.map(e=>`<label class="ex"><input type="checkbox" class="excb" value="${e.id}"><div><b>${e.id===99?'Ôn tập mới':`Exercise ${e.id}`} — ${esc(e.title)}</b><small>${esc(e.desc)}</small></div><span class="badge">${e.count}</span></label>`).join('');document.querySelectorAll('.excb').forEach(x=>x.onchange=update);update();updateHistoryStats()}
 const selected=()=>[...document.querySelectorAll('.excb:checked')].map(x=>+x.value);
 function update(){const ids=selected();$('#selected').textContent=ids.length;$('#pool').textContent=BANK.filter(q=>ids.includes(q.ex)).length}
 $('#all').onclick=()=>{document.querySelectorAll('.excb').forEach(x=>x.checked=true);update()};$('#none').onclick=()=>{document.querySelectorAll('.excb').forEach(x=>x.checked=false);update()}
-function begin(ids,forced=null){if(!forced&&!ids.length){alert('Hãy chọn ít nhất một Exercise.');return}let p=forced||BANK.filter(q=>ids.includes(q.ex));if(!forced&&$('#order').value==='random')p=shuffle(p);if(!forced&&$('#count').value!=='all')p=p.slice(0,Math.min(+$('#count').value,p.length));session=p.map(q=>({...q,displayChoices:shuffle(q.choices||[])}));idx=0;state={};$('#setup').style.display='none';$('#quiz').style.display='block';$('#summary').classList.remove('show');render();window.scrollTo({top:0,behavior:'smooth'})}
-$('#start').onclick=()=>begin(selected());$('#mixed').onclick=()=>begin(META.map(x=>x.id));$('#back').onclick=()=>{$('#quiz').style.display='none';$('#setup').style.display='grid'}
+function begin(ids,forced=null){if(!forced&&!ids.length){alert('Hãy chọn ít nhất một Exercise.');return}let p=forced||BANK.filter(q=>ids.includes(q.ex));if(!forced)p=selectPractice(p,$('#count').value,$('#order').value);if(!p.length){alert('Chưa có câu phù hợp với chế độ đã chọn. Hãy đổi cách trộn.');return}session=p.map(q=>({...q,displayChoices:shuffle(q.choices||[])}));idx=0;state={};$('#setup').style.display='none';$('#quiz').style.display='block';$('#summary').classList.remove('show');render();window.scrollTo({top:0,behavior:'smooth'})}
+$('#start').onclick=()=>begin(selected());$('#mixed').onclick=()=>begin(META.map(x=>x.id));$('#startReview').onclick=()=>begin([99]);$('#resetHistory').onclick=()=>{if(confirm('Xóa toàn bộ lịch sử đúng/sai để bắt đầu lại?')){history={};localStorage.removeItem('tenseQuizHistoryV1');updateHistoryStats()}};$('#back').onclick=()=>{$('#quiz').style.display='none';$('#setup').style.display='grid';updateHistoryStats()}
 const qnow=()=>session[idx];
 
 function inputHTML(q){const s=state[q.id]?.response||'';
@@ -84,14 +200,16 @@ function inputHTML(q){const s=state[q.id]?.response||'';
 function response(q){if(q.kind==='mcq'||q.kind==='error')return document.querySelector('input[name=ans]:checked')?.value||'';if(q.kind==='text')return $('#text').value;return $('#self').value}
 function keyText(q){if(Array.isArray(q.answer))return q.answer.join(' / ');if(q.kind==='mcq'){const c=(q.choices||[]).find(x=>x[0]===q.answer);return `(${q.answer}) ${c?c.slice(3):''}`;}if(q.kind==='error')return `(${q.answer}) ${q.explanation||''}`;return q.answer||''}
 function isCorrect(q,r){if(q.kind==='mcq'||q.kind==='error')return norm(r)===norm(q.answer);if(q.kind==='text'){const arr=Array.isArray(q.answer)?q.answer:[q.answer];return arr.some(a=>norm(r)===norm(a))}return null}
-function render(){const q=qnow(),m=META.find(x=>x.id===q.ex);$('#pill').textContent=`Exercise ${q.ex} · ${m.title}`;$('#meta').textContent=`Câu ${idx+1}/${session.length} · Item ${q.num}${q.section?' · '+q.section:''}`;$('#bar').style.width=`${(idx+1)/session.length*100}%`;$('#question').textContent=q.prompt;$('#answerArea').innerHTML=inputHTML(q);$('#feedback').className='feedback';$('#feedback').innerHTML='';$('#selfOK').classList.add('hidden');$('#selfBad').classList.add('hidden');$('#prev').disabled=idx===0;$('#next').textContent=idx===session.length-1?'Xem kết quả →':'Câu tiếp →';if(state[q.id]?.checked)showStored(q)}
-function showStored(q){const s=state[q.id],fb=$('#feedback');if(q.kind==='self'){fb.className='feedback show info';fb.innerHTML=`<b>Answer key:</b><div class="key">${esc(keyText(q))}</div>`;$('#selfOK').classList.remove('hidden');$('#selfBad').classList.remove('hidden');return}fb.className=`feedback show ${s.correct?'ok':'bad'}`;fb.innerHTML=`<b>${s.correct?'✓ Chính xác':'✗ Chưa đúng'}</b><div class="key">Answer key: ${esc(keyText(q))}</div>`}
-$('#check').onclick=()=>{const q=qnow(),r=response(q);state[q.id]={...(state[q.id]||{}),response:r,checked:true};if(q.kind==='self'){state[q.id].correct=state[q.id].correct??null}else state[q.id].correct=isCorrect(q,r);showStored(q)}
-$('#show').onclick=()=>{const q=qnow(),r=response(q);state[q.id]={...(state[q.id]||{}),response:r,checked:true};if(q.kind!=='self')state[q.id].correct=isCorrect(q,r);const fb=$('#feedback');fb.className='feedback show info';fb.innerHTML=`<b>Answer key:</b><div class="key">${esc(keyText(q))}</div>`;if(q.kind==='self'){state[q.id].correct=state[q.id].correct??null;$('#selfOK').classList.remove('hidden');$('#selfBad').classList.remove('hidden')}}
-$('#selfOK').onclick=()=>{state[qnow().id].correct=true;showStored(qnow())};$('#selfBad').onclick=()=>{state[qnow().id].correct=false;showStored(qnow())}
-function save(){const q=qnow();state[q.id]=state[q.id]||{};state[q.id].response=response(q)}
+function render(){const q=qnow(),m=META.find(x=>x.id===q.ex);$('#pill').textContent=`${q.ex===99?'Ôn tập mới':`Exercise ${q.ex}`} · ${m.title}`;$('#meta').innerHTML=`Câu ${idx+1}/${session.length} · Item ${esc(q.num)}${q.section?' · '+esc(q.section):''}<span class="topic-pill">${esc(topicOf(q))}</span>`;$('#bar').style.width=`${(idx+1)/session.length*100}%`;$('#question').textContent=q.prompt;$('#answerArea').innerHTML=inputHTML(q);$('#feedback').className='feedback';$('#feedback').innerHTML='';$('#selfOK').classList.add('hidden');$('#selfBad').classList.add('hidden');$('#prev').disabled=idx===0;$('#next').textContent=idx===session.length-1?'Xem kết quả →':'Câu tiếp →';if(state[q.id]?.checked)showStored(q)}
+function explanationHTML(q){return q.explanation?`<div class="small" style="margin-top:8px"><b>Vì sao:</b> ${esc(q.explanation)}</div>`:''}
+function showStored(q){const s=state[q.id],fb=$('#feedback');if(q.kind==='self'){fb.className='feedback show info';fb.innerHTML=`<b>Answer key:</b><div class="key">${esc(keyText(q))}</div>${explanationHTML(q)}`;$('#selfOK').classList.remove('hidden');$('#selfBad').classList.remove('hidden');return}fb.className=`feedback show ${s.correct?'ok':'bad'}`;fb.innerHTML=`<b>${s.correct?'✓ Chính xác':'✗ Chưa đúng'}</b><div class="key">Answer key: ${esc(keyText(q))}</div>${explanationHTML(q)}`}
+$('#check').onclick=()=>{const q=qnow(),r=response(q);if(!norm(r)){const fb=$('#feedback');fb.className='feedback show info';fb.innerHTML='<b>Hãy chọn hoặc nhập câu trả lời trước khi kiểm tra.</b>';return}state[q.id]={...(state[q.id]||{}),response:r,checked:true};if(q.kind==='self'){state[q.id].correct=state[q.id].correct??null}else{state[q.id].correct=isCorrect(q,r);if(!state[q.id].recorded){recordHistory(q,state[q.id].correct);state[q.id].recorded=true}}showStored(q)}
+$('#show').onclick=()=>{const q=qnow(),r=response(q);state[q.id]={...(state[q.id]||{}),response:r,checked:true};if(q.kind!=='self'){state[q.id].correct=isCorrect(q,r);if(norm(r)&&!state[q.id].recorded){recordHistory(q,state[q.id].correct);state[q.id].recorded=true}}const fb=$('#feedback');fb.className='feedback show info';fb.innerHTML=`<b>Answer key:</b><div class="key">${esc(keyText(q))}</div>${explanationHTML(q)}`;if(q.kind==='self'){state[q.id].correct=state[q.id].correct??null;$('#selfOK').classList.remove('hidden');$('#selfBad').classList.remove('hidden')}}
+function rateSelf(correct){const q=qnow(),s=state[q.id]||(state[q.id]={checked:true,response:response(q)});s.correct=correct;if(!s.recorded){recordHistory(q,correct);s.recorded=true}showStored(q)}
+$('#selfOK').onclick=()=>rateSelf(true);$('#selfBad').onclick=()=>rateSelf(false)
+function save(){const q=qnow(),s=state[q.id]||(state[q.id]={});s.response=response(q);if(q.kind==='self'&&s.checked&&s.correct===null&&!s.recorded){recordHistory(q,false);s.recorded=true}}
 $('#prev').onclick=()=>{save();if(idx>0){idx--;render()}};$('#next').onclick=()=>{save();if(idx<session.length-1){idx++;render()}else finish()};$('#finish').onclick=()=>{save();finish()}
-function finish(){let ok=0,bad=0,pending=0,blank=0;session.forEach(q=>{const s=state[q.id];if(!s||s.correct===undefined)blank++;else if(s.correct===null)pending++;else if(s.correct)ok++;else bad++});const rated=ok+bad,pct=rated?Math.round(ok/rated*100):0;$('#summary').classList.add('show');$('#score').textContent=rated?`${pct}%`:'—';$('#sumStats').innerHTML=`<div class="stat">Đúng <b>${ok}</b></div><div class="stat">Sai/Cần ôn <b>${bad}</b></div><div class="stat">Chưa tự chấm <b>${pending}</b></div><div class="stat">Chưa làm <b>${blank}</b></div>`;$('#review').innerHTML=session.map((q,i)=>`<div class="reviewItem"><b>${i+1}. Ex.${q.ex} #${q.num}</b><div class="small">${esc(q.prompt)}</div><div class="small"><b>Key:</b> ${esc(keyText(q))}</div></div>`).join('');$('#summary').scrollIntoView({behavior:'smooth'})}
+function finish(){let ok=0,bad=0,pending=0,blank=0;const weak={};session.forEach(q=>{const s=state[q.id];if(!s||s.correct===undefined){blank++;weak[topicOf(q)]=(weak[topicOf(q)]||0)+1}else if(s.correct===null){pending++;weak[topicOf(q)]=(weak[topicOf(q)]||0)+1}else if(s.correct)ok++;else{bad++;weak[topicOf(q)]=(weak[topicOf(q)]||0)+1}});const rated=ok+bad,pct=rated?Math.round(ok/rated*100):0;$('#summary').classList.add('show');$('#score').textContent=rated?`${pct}%`:'—';$('#sumStats').innerHTML=`<div class="stat">Đúng <b>${ok}</b></div><div class="stat">Sai/Cần ôn <b>${bad}</b></div><div class="stat">Chưa tự chấm <b>${pending}</b></div><div class="stat">Chưa làm <b>${blank}</b></div>`;const topics=Object.entries(weak).sort((a,b)=>b[1]-a[1]);$('#weakTopics').innerHTML=topics.length?`<b>Chủ đề nên ôn tiếp:</b> ${topics.map(([name,count])=>`${esc(name)} (${count})`).join(' · ')}`:'<b>Rất tốt:</b> Không còn chủ đề yếu trong phiên này.';$('#review').innerHTML=session.map((q,i)=>`<div class="reviewItem"><b>${i+1}. ${q.ex===99?'Ôn tập':`Ex.${q.ex}`} #${esc(q.num)}</b><span class="topic-pill">${esc(topicOf(q))}</span><div class="small">${esc(q.prompt)}</div><div class="small"><b>Key:</b> ${esc(keyText(q))}</div>${explanationHTML(q)}</div>`).join('');$('#summary').scrollIntoView({behavior:'smooth'});updateHistoryStats()}
 $('#redoWrong').onclick=()=>{const p=session.filter(q=>state[q.id]?.correct===false||state[q.id]?.correct===null||state[q.id]?.correct===undefined);if(!p.length){alert('Không có câu cần làm lại.');return}begin([],p)};$('#redo').onclick=()=>begin([],session.map(q=>({...q})));
 document.addEventListener('keydown',e=>{
  if(e.key!=='Enter'||e.isComposing||e.repeat)return;
