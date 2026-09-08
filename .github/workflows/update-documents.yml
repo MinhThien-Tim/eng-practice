@@ -3,6 +3,7 @@ name: Update site libraries
 on:
   push:
     paths:
+      - ".github/workflows/update-documents.yml"
       - "eng-practice/*.html"
       - "eng-practice/Vocabulary/**/*.html"
       - "eng-practice/grammar/**/*.html"
@@ -35,15 +36,36 @@ jobs:
               value = re.sub(r"\s+", " ", path.stem.replace("_", " ").replace("-", " ")).strip()
               return value[:1].upper() + value[1:] if value else path.name
 
-          def htmls(folder, title_overrides=None):
+          def htmls(folder, title_overrides=None, pinned_order=None):
               if not folder.exists():
                   return []
+
               title_overrides = title_overrides or {}
-              return [
-                  {"title": title_overrides.get(path.name, title(path)), "file": path.relative_to(folder).as_posix()}
-                  for path in sorted(folder.rglob("*.html"), key=lambda item: item.name.lower())
-                  if path.is_file()
-              ]
+              pinned_order = pinned_order or []
+              pinned_rank = {file: index for index, file in enumerate(pinned_order)}
+              entries = []
+
+              for path in folder.rglob("*.html"):
+                  if not path.is_file():
+                      continue
+
+                  relative_file = path.relative_to(folder).as_posix()
+                  entry = {
+                      "title": title_overrides.get(path.name, title(path)),
+                      "file": relative_file,
+                  }
+                  if relative_file in pinned_rank:
+                      entry["pinned"] = True
+                  entries.append(entry)
+
+              return sorted(
+                  entries,
+                  key=lambda entry: (
+                      0 if entry["file"] in pinned_rank else 1,
+                      pinned_rank.get(entry["file"], 0),
+                      entry["title"].lower(),
+                  ),
+              )
 
           vocabulary_titles = {
               "121tu-nangcao-ielts.html": "121 từ nâng cao IELTS",
@@ -59,6 +81,24 @@ jobs:
               "vong-5-6-vocabulary-complete-examples.html": "Vocabulary · Vòng 5–6",
           }
 
+          vocabulary_pinned = [
+              "vong-1-2-vocabulary-complete-examples.html",
+              "vong-3-4-vocabulary-complete-examples.html",
+              "vong-5-6-vocabulary-complete-examples.html",
+              "confusing-words.html",
+              "flashcards-oxford-604.html",
+          ]
+
+          grammar_titles = {
+              "English-Grammar-25-Topics-Interactive.html": "English Grammar · 25 Topics Interactive",
+              "so-do-tu-duy-ngu-phap-modules-3-25.html": "Sơ đồ tư duy ngữ pháp · Modules 3–25",
+          }
+
+          grammar_pinned = [
+              "English-Grammar-25-Topics-Interactive.html",
+              "so-do-tu-duy-ngu-phap-modules-3-25.html",
+          ]
+
           documents = site / "documents"
           pdfs = [
               {"title": title(path), "file": path.relative_to(documents).as_posix()}
@@ -67,8 +107,8 @@ jobs:
           ] if documents.exists() else []
 
           (site / "documents.json").write_text(json.dumps(pdfs, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-          (site / "vocabulary.json").write_text(json.dumps(htmls(site / "Vocabulary", vocabulary_titles), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-          (site / "grammar.json").write_text(json.dumps(htmls(site / "grammar"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "vocabulary.json").write_text(json.dumps(htmls(site / "Vocabulary", vocabulary_titles, vocabulary_pinned), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "grammar.json").write_text(json.dumps(htmls(site / "grammar", grammar_titles, grammar_pinned), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "listening.json").write_text(json.dumps(htmls(site / "listening"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "speaking.json").write_text(json.dumps(htmls(site / "speaking"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "writing.json").write_text(json.dumps(htmls(site / "writing"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
