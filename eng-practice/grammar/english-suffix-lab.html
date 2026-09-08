@@ -6,26 +6,26 @@
 <title>English Suffix Lab — Thư viện & Luyện tập đuôi từ</title>
 <style>
 :root{
-  --bg:#f5f7fb; --card:#ffffff; --text:#172033; --muted:#667085; --line:#e5e7eb;
-  --brand:#3559e0; --brand2:#6d5dfc; --soft:#eef2ff; --good:#157347; --bad:#b42318;
-  --warn:#a15c00; --shadow:0 10px 30px rgba(15,23,42,.08);
+  --bg:#edf3f4; --card:#ffffff; --text:#172a2c; --muted:#607375; --line:#d4e0e1;
+  --brand:#136c72; --brand2:#2a8a7c; --soft:#e3f2f0; --good:#157347; --bad:#b42318;
+  --warn:#8a5a11; --shadow:0 10px 30px rgba(17,43,48,.09);
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
 button,input,select{font:inherit}
 button{cursor:pointer}
 .app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
-.sidebar{position:sticky;top:0;height:100vh;background:#111827;color:#fff;padding:24px 18px;overflow:auto}
+.sidebar{position:sticky;top:0;height:100vh;background:#112b30;color:#fff;padding:24px 18px;overflow:auto}
 .brand{font-size:20px;font-weight:800;margin-bottom:6px}
 .subtitle{font-size:12px;color:#b8c0cf;margin-bottom:24px}
 .nav button{width:100%;border:0;background:transparent;color:#d9dfeb;text-align:left;padding:11px 12px;border-radius:10px;margin:4px 0}
-.nav button:hover,.nav button.active{background:#263145;color:#fff}
+.nav button:hover,.nav button.active{background:#1d4b51;color:#fff}
 .nav small{float:right;color:#94a3b8}
-.progressBox{margin-top:22px;padding:14px;border:1px solid #334155;border-radius:12px;background:#172033}
-.progressBox .bar{height:8px;background:#334155;border-radius:999px;overflow:hidden;margin-top:8px}
-.progressBox .fill{height:100%;background:#8ba2ff;width:0%}
+.progressBox{margin-top:22px;padding:14px;border:1px solid #356168;border-radius:12px;background:#173a40}
+.progressBox .bar{height:8px;background:#31575d;border-radius:999px;overflow:hidden;margin-top:8px}
+.progressBox .fill{height:100%;background:#65c4b1;width:0%}
 .main{padding:30px;max-width:1500px;width:100%;margin:0 auto}
-.hero{background:linear-gradient(135deg,#1e293b,#334155 60%,#3b4a67);color:#fff;border-radius:22px;padding:30px;box-shadow:var(--shadow);margin-bottom:24px}
+.hero{background:linear-gradient(135deg,#12383e,#19545b 60%,#28756f);color:#fff;border-radius:18px;padding:30px;box-shadow:var(--shadow);margin-bottom:24px}
 .hero h1{margin:0 0 8px;font-size:clamp(26px,4vw,44px);line-height:1.1}
 .hero p{margin:0;color:#dbe3f0;max-width:900px}
 .hero .stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
@@ -49,6 +49,46 @@ button{cursor:pointer}
 .examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .ex{background:#f8fafc;border:1px solid #e9edf3;border-radius:8px;padding:4px 7px;font-size:12px}
 .note{margin-top:10px;font-size:12px;color:#6b7280;border-top:1px dashed #e5e7eb;padding-top:9px}
+.library-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.library-stat{padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#f8fbfb;color:var(--muted);font-size:12px}
+.library-stat b{display:block;margin-bottom:2px;color:var(--text);font-size:24px;line-height:1}
+.library-stat.known{border-color:#add7c7;background:#edf8f3}.library-stat.known b{color:#176349}
+.library-stat.learning{border-color:#e3c98f;background:#fff9ec}.library-stat.learning b{color:#80520c}
+.library-status-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.status-filter{border:1px solid #cbd8da;border-radius:999px;background:#fff;color:#506568;padding:7px 12px;font-size:13px;font-weight:700}
+.status-filter.active{border-color:var(--brand);background:var(--brand);color:#fff}
+.flash-area{max-width:760px;margin:0 auto}
+.flip-scene{min-height:430px;perspective:1200px}
+.study-card{position:relative;width:100%;min-height:430px;transform-style:preserve-3d;transition:transform .48s cubic-bezier(.2,.7,.2,1);cursor:pointer;outline:none}
+.study-card.is-flipped{transform:rotateY(180deg)}
+.study-face{position:absolute;inset:0;display:flex;flex-direction:column;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid #cbdadd;border-radius:18px;background:#fff;box-shadow:0 16px 36px rgba(17,43,48,.12);overflow:auto}
+.study-front{align-items:center;justify-content:center;padding:38px;text-align:center;background:linear-gradient(145deg,#fff,#eef6f5)}
+.study-back{padding:26px;transform:rotateY(180deg)}
+.card-counter{position:absolute;top:18px;left:20px;color:var(--muted);font-size:12px;font-weight:750}
+.mastery-chip{position:absolute;top:16px;right:18px;padding:5px 9px;border-radius:999px;background:#fff4d9;color:#80520c;font-size:11px;font-weight:800}
+.mastery-chip.done{background:#e4f4ed;color:#176349}
+.type-tag{display:inline-flex;align-items:center;width:max-content;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:800;letter-spacing:.025em}
+.type-tag.noun{background:#e7f1fb;color:#1f5f99}.type-tag.adjective{background:#f0e9f7;color:#6e4c92}
+.type-tag.verb{background:#e5f2ed;color:#28705a}.type-tag.adverb{background:#fbf0dc;color:#8a5a11}
+.front-suffix{margin:24px 0 13px;color:#123f45;font-size:clamp(48px,10vw,82px);font-weight:850;line-height:1;letter-spacing:-.04em}
+.front-prompt{max-width:470px;color:#65797b;font-size:15px}
+.flip-hint{margin-top:28px;color:var(--brand);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.back-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.back-suffix{color:#123f45;font-size:34px;font-weight:850;letter-spacing:-.025em}
+.detail-label{margin-top:17px;color:#718184;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.detail-value{margin-top:3px;color:#263b3e;font-size:17px;font-weight:650}
+.pattern-value{display:inline-block;margin-top:4px;border-radius:7px;background:#e7f2f1;color:#185e63;padding:6px 10px;font-weight:800}
+.flash-examples{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
+.flash-example{border:1px solid #d8e4e5;border-radius:7px;background:#f6f9f9;color:#334a4d;padding:5px 9px;font-size:13px;font-weight:650}
+.contrast-box{margin-top:17px;border-left:4px solid #c78520;border-radius:0 9px 9px 0;background:#fff7e6;color:#664714;padding:11px 13px;font-size:13px}
+.contrast-box b{display:block;margin-bottom:3px;color:#80520c}
+.flash-note{margin-top:15px;color:#607375;font-size:13px;line-height:1.55}
+.flash-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+.flash-nav,.mastery-actions{display:flex;gap:8px}
+.flash-controls .btn{min-height:42px}
+.btn.known-btn{background:#e4f4ed;color:#176349;border:1px solid #add7c7}.btn.known-btn.selected{background:#176349;color:#fff}
+.btn.learning-btn{background:#fff7e6;color:#80520c;border:1px solid #e3c98f}.btn.learning-btn.selected{background:#8a5a11;color:#fff}
+.library-position{text-align:center;color:var(--muted);font-size:12px;font-weight:700}
 .quiz-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:#fff}
 .qnum{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase}
 .question{font-size:20px;font-weight:750;margin:8px 0 16px}
@@ -130,6 +170,13 @@ button{cursor:pointer}
  .app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.nav{display:flex;overflow:auto;gap:6px}.nav button{min-width:max-content}
  .main{padding:18px}.transform-row{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.exam-options{grid-template-columns:1fr}
 }
+@media(max-width:600px){
+ .library-summary{gap:6px}.library-stat{padding:10px}.library-stat b{font-size:20px}
+ .flip-scene,.study-card{min-height:460px}.study-front{padding:28px 18px}.study-back{padding:22px 18px}
+ .flash-controls{align-items:stretch;flex-direction:column}.flash-nav,.mastery-actions{display:grid;grid-template-columns:1fr 1fr}
+ .flash-controls .btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.study-card{transition:none}}
 </style>
 </head>
 <body>
@@ -398,7 +445,12 @@ button{cursor:pointer}
 <section id="library" class="section">
   <div class="panel">
     <h2>Thư viện đuôi từ</h2>
-    <p class="meta">Tìm theo đuôi, nghĩa hoặc ví dụ. Có thể lọc theo từ loại.</p>
+    <p class="meta">Học từng thẻ: đoán chức năng ở mặt trước, lật thẻ để xem nghĩa, mẫu biến đổi, ví dụ và điểm dễ nhầm.</p>
+    <div class="library-summary" aria-label="Tiến độ thư viện">
+      <div class="library-stat"><b id="libraryTotal">0</b>Tổng số</div>
+      <div class="library-stat known"><b id="libraryKnown">0</b>Đã thuộc</div>
+      <div class="library-stat learning"><b id="libraryLearning">0</b>Chưa thuộc</div>
+    </div>
     <div class="toolbar">
       <input id="searchSuffix" placeholder="Tìm: -tion, responsibility, trạng thái...">
       <select id="typeFilter">
@@ -409,7 +461,28 @@ button{cursor:pointer}
         <option value="Adverb">Trạng từ</option>
       </select>
     </div>
-    <div id="libraryGrid" class="grid"></div>
+    <div class="library-status-filter" id="libraryStatusFilter">
+      <button class="status-filter active" data-status="all">Tất cả</button>
+      <button class="status-filter" data-status="known">Đã thuộc</button>
+      <button class="status-filter" data-status="learning">Chưa thuộc</button>
+    </div>
+    <div id="libraryEmpty" class="empty" hidden>Không có thẻ phù hợp với bộ lọc.</div>
+    <div class="flash-area" id="libraryFlashArea">
+      <div class="flip-scene">
+        <article class="study-card" id="suffixFlipCard" tabindex="0" role="button" aria-label="Lật thẻ hậu tố"></article>
+      </div>
+      <div class="flash-controls">
+        <div class="flash-nav">
+          <button class="btn secondary" id="libraryPrev">← Trước</button>
+          <button class="btn secondary" id="libraryNext">Tiếp →</button>
+        </div>
+        <div class="library-position" id="libraryPosition"></div>
+        <div class="mastery-actions">
+          <button class="btn learning-btn" id="markLearning">Chưa thuộc</button>
+          <button class="btn known-btn" id="markKnown">✓ Đã thuộc</button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -856,7 +929,11 @@ let activeTransform=[];
 let activeExam=[], examWrongIds=[], examSubmitted=false, examTimerHandle=null, examDeadline=0;
 
 const state = JSON.parse(localStorage.getItem('suffixLabProgressV2') || '{"inferAnswered":0,"transformAnswered":0,"examAnswered":0,"examBest":0}');
+let knownSuffixIds;
+try{knownSuffixIds=new Set(JSON.parse(localStorage.getItem('suffixLabKnownV1')||'[]'))}catch{knownSuffixIds=new Set()}
+let libraryIndex=0, libraryRevealed=false, libraryStatus='all';
 function saveState(){ localStorage.setItem('suffixLabProgressV2', JSON.stringify(state)); updateProgress(); }
+function saveLibraryProgress(){localStorage.setItem('suffixLabKnownV1',JSON.stringify([...knownSuffixIds]));updateLibraryCounts()}
 function updateProgress(){
   const total=suffixQuestionBank.length+wordFormBank.length+examQuestions.length;
   const done=Math.min(total,(state.inferAnswered||0)+(state.transformAnswered||0)+(state.examAnswered||0));
@@ -874,26 +951,80 @@ document.querySelectorAll('.nav button').forEach(btn=>{
   });
 });
 
-function renderLibrary(){
+const safeHTML=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+function libraryData(){
   const q = document.getElementById('searchSuffix').value.trim().toLowerCase();
   const filter = document.getElementById('typeFilter').value;
-  const data = suffixes.filter(x=>{
+  return suffixes.map((x,id)=>({...x,id})).filter(x=>{
     const hay = [x.suffix,x.meaning,x.pattern,x.note,...x.examples].join(' ').toLowerCase();
-    return (filter==='All'||x.type===filter) && (!q || hay.includes(q));
+    const mastery=libraryStatus==='all'||(libraryStatus==='known'?knownSuffixIds.has(x.id):!knownSuffixIds.has(x.id));
+    return mastery&&(filter==='All'||x.type===filter)&&(!q||hay.includes(q));
   });
-  const grid = document.getElementById('libraryGrid');
-  if(!data.length){grid.innerHTML='<div class="empty">Không tìm thấy kết quả.</div>';return}
-  grid.innerHTML = data.map((x,i)=>`
-    <article class="suffix-card">
-      <div class="suffix-head"><div class="suffix">${x.suffix}</div><span class="tag">${typeLabel(x.type)}</span></div>
-      <div class="meta"><b>Nghĩa:</b> ${x.meaning}</div>
-      <div class="meta"><b>Mẫu:</b> ${x.pattern}</div>
-      <div class="examples">${x.examples.map(e=>`<span class="ex">${e}</span>`).join('')}</div>
-      <div class="note">Nhóm ${suffixes.indexOf(x)+1}/78. ${x.note}</div>
-    </article>`).join('');
 }
-document.getElementById('searchSuffix').addEventListener('input',renderLibrary);
-document.getElementById('typeFilter').addEventListener('change',renderLibrary);
+function updateLibraryCounts(){
+  const known=suffixes.filter((_,id)=>knownSuffixIds.has(id)).length;
+  document.getElementById('libraryTotal').textContent=suffixes.length;
+  document.getElementById('libraryKnown').textContent=known;
+  document.getElementById('libraryLearning').textContent=suffixes.length-known;
+}
+function renderLibrary(){
+  const data=libraryData();
+  const area=document.getElementById('libraryFlashArea');
+  const empty=document.getElementById('libraryEmpty');
+  updateLibraryCounts();
+  if(!data.length){area.hidden=true;empty.hidden=false;return}
+  area.hidden=false;empty.hidden=true;
+  libraryIndex=Math.max(0,Math.min(libraryIndex,data.length-1));
+  const x=data[libraryIndex],known=knownSuffixIds.has(x.id);
+  const contrast=ambiguityNotes[`${x.suffix}|${x.type}`]||'';
+  const card=document.getElementById('suffixFlipCard');
+  card.className=`study-card${libraryRevealed?' is-flipped':''}`;
+  card.setAttribute('aria-label',libraryRevealed?'Đã mở đáp án. Nhấn Enter để sang thẻ tiếp theo':'Nhấn Enter để lật thẻ');
+  card.innerHTML=`
+    <div class="study-face study-front">
+      <span class="card-counter">Nhóm ${x.id+1}/${suffixes.length}</span>
+      <span class="mastery-chip${known?' done':''}">${known?'✓ Đã thuộc':'Chưa thuộc'}</span>
+      <span class="type-tag ${x.type.toLowerCase()}">${typeLabel(x.type)}</span>
+      <div class="front-suffix">${safeHTML(x.suffix)}</div>
+      <div class="front-prompt">Hậu tố này thường mang nghĩa gì, tạo từ loại nào và dễ nhầm với trường hợp nào?</div>
+      <div class="flip-hint">Nhấn thẻ hoặc Enter để lật</div>
+    </div>
+    <div class="study-face study-back">
+      <div class="back-head"><div class="back-suffix">${safeHTML(x.suffix)}</div><span class="type-tag ${x.type.toLowerCase()}">${typeLabel(x.type)}</span></div>
+      <div class="detail-label">Ý nghĩa thường gặp</div><div class="detail-value">${safeHTML(x.meaning)}</div>
+      <div class="detail-label">Mẫu biến đổi</div><div><span class="pattern-value">${safeHTML(x.pattern)}</span></div>
+      <div class="detail-label">Ví dụ</div><div class="flash-examples">${x.examples.map(e=>`<span class="flash-example">${safeHTML(e)}</span>`).join('')}</div>
+      ${contrast?`<div class="contrast-box"><b>Điểm cần phân biệt</b>${safeHTML(contrast)}</div>`:''}
+      <div class="flash-note"><b>Lưu ý:</b> ${safeHTML(x.note)}</div>
+    </div>`;
+  document.getElementById('libraryPosition').textContent=`${libraryIndex+1}/${data.length} thẻ phù hợp`;
+  document.getElementById('markKnown').classList.toggle('selected',known);
+  document.getElementById('markLearning').classList.toggle('selected',!known);
+}
+function flipLibraryCard(){libraryRevealed=!libraryRevealed;renderLibrary()}
+function moveLibrary(step){const data=libraryData();if(!data.length)return;libraryIndex=(libraryIndex+step+data.length)%data.length;libraryRevealed=false;renderLibrary()}
+function setLibraryMastery(known){
+  const data=libraryData();if(!data.length)return;
+  const id=data[libraryIndex].id;known?knownSuffixIds.add(id):knownSuffixIds.delete(id);
+  saveLibraryProgress();libraryRevealed=false;renderLibrary();
+}
+document.getElementById('suffixFlipCard').addEventListener('click',()=>{document.getElementById('suffixFlipCard').focus();flipLibraryCard()});
+document.getElementById('suffixFlipCard').addEventListener('keydown',event=>{
+  if(event.key==='Enter'){event.preventDefault();libraryRevealed?moveLibrary(1):flipLibraryCard()}
+  if(event.key===' '){event.preventDefault();flipLibraryCard()}
+  if(event.key==='ArrowLeft'){event.preventDefault();moveLibrary(-1)}
+  if(event.key==='ArrowRight'){event.preventDefault();moveLibrary(1)}
+});
+document.getElementById('libraryPrev').addEventListener('click',()=>moveLibrary(-1));
+document.getElementById('libraryNext').addEventListener('click',()=>moveLibrary(1));
+document.getElementById('markKnown').addEventListener('click',()=>setLibraryMastery(true));
+document.getElementById('markLearning').addEventListener('click',()=>setLibraryMastery(false));
+document.querySelectorAll('#libraryStatusFilter .status-filter').forEach(button=>button.addEventListener('click',()=>{
+  document.querySelectorAll('#libraryStatusFilter .status-filter').forEach(x=>x.classList.remove('active'));
+  button.classList.add('active');libraryStatus=button.dataset.status;libraryIndex=0;libraryRevealed=false;renderLibrary();
+}));
+document.getElementById('searchSuffix').addEventListener('input',()=>{libraryIndex=0;libraryRevealed=false;renderLibrary()});
+document.getElementById('typeFilter').addEventListener('change',()=>{libraryIndex=0;libraryRevealed=false;renderLibrary()});
 
 function selectCount(pool,countValue){
   const mixed=shuffled(pool);
@@ -1087,7 +1218,7 @@ function renderCautions(){
 }
 
 document.getElementById('resetProgress').addEventListener('click',()=>{
-  localStorage.removeItem('suffixLabProgressV2');state.inferAnswered=0;state.transformAnswered=0;state.examAnswered=0;state.examBest=0;inferCorrect=0;inferAnswered=0;document.getElementById('inferScore').textContent='';document.getElementById('transformScore').textContent='';document.getElementById('examScore').textContent='';updateProgress();
+  localStorage.removeItem('suffixLabProgressV2');localStorage.removeItem('suffixLabKnownV1');knownSuffixIds.clear();state.inferAnswered=0;state.transformAnswered=0;state.examAnswered=0;state.examBest=0;inferCorrect=0;inferAnswered=0;document.getElementById('inferScore').textContent='';document.getElementById('transformScore').textContent='';document.getElementById('examScore').textContent='';updateProgress();renderLibrary();
 });
 
 document.getElementById('suffixCount').textContent=suffixes.length;
