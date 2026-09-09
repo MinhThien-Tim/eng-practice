@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>80+ Cụm Chữa Yếu Paraphrase — Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#1b2a52;
@@ -220,6 +223,14 @@
   .dict-end-score{font-size:34px;font-weight:800;color:var(--navy-deep);margin-bottom:5px;}
   .dict-note{font-size:12px;color:var(--muted);margin-top:10px;}
   @media(max-width:560px){.dict-grid{grid-template-columns:1fr}.dictation{padding:18px}}
+
+  /* Phông thống nhất, hỗ trợ dấu tiếng Việt ổn định trên Windows/Android. */
+  body,button,input,select,.sub,.rangebar,.stats,.stt,.hint,.replace-label,
+  .replace-list li,.controls,.know-btn,footer,.shuffle-note,.mode-tabs,.dictation{
+    font-family:'IBM Plex Sans','Segoe UI',Arial,sans-serif;
+  }
+  .term,.meaning,.dict-prompt{font-family:'Fraunces','Noto Serif',Georgia,serif;}
+  .dict-answer[readonly]{background:#f2f4f6;color:var(--ink);cursor:default;}
 
 </style>
 </head>
@@ -590,7 +601,7 @@ function dictRender(){
   document.getElementById('dictPrompt').textContent=isVi?x.meaning:(dir==='term-rep'?x.term:dPromptRep);
   document.getElementById('dictHint').textContent=dir==='vi-term'?'Nhập cụm tiếng Anh cơ bản':dir==='vi-rep'?'Nhập một cách diễn đạt nâng cao':dir==='term-rep'?x.meaning:'Gõ lại từ/cụm cơ bản';
   const a=document.getElementById('dictAnswer');
-  a.value=''; a.disabled=false;
+  a.value=''; a.disabled=false; a.readOnly=false;
   a.placeholder=dir==='vi-term'?'Nhập cụm tiếng Anh cơ bản...':dir==='vi-rep'?'Nhập một paraphrase nâng cao...':'Nhập đáp án...';
   a.focus();
   document.getElementById('dictListen').style.display=isVi?'none':'';
@@ -606,7 +617,8 @@ function dictCheck(){
   const ans=dNorm(document.getElementById('dictAnswer').value);
   const reps=repChoices(x).map(dNorm);
   let ok = (dir==='term-rep'||dir==='vi-rep') ? reps.includes(ans) : ans===dNorm(x.term);
-  document.getElementById('dictAnswer').disabled=true;
+  // Không disable: ô cần giữ focus để Enter lần hai chuyển câu.
+  document.getElementById('dictAnswer').readOnly=true;
   const fb=document.getElementById('dictFeedback');
   if(ok){
     dCorrect++;
