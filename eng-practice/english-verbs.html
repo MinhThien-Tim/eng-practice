@@ -95,6 +95,7 @@
   .listen-btn:hover{border-color:var(--red);color:var(--red);}
   input.answer{width:100%;font-family:'IBM Plex Sans',sans-serif;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink);margin-bottom:14px;}
   input.answer:focus{outline:none;border-color:var(--red);}
+  input.answer[readonly]{background:#f2efe7;color:var(--ink);cursor:default;}
   .actions-row{display:flex;gap:10px;}
   .feedback{margin-top:16px;padding:14px 16px;border-radius:3px;font-size:13.5px;line-height:1.6;display:none;}
   .feedback.show{display:block;animation:fadein .2s ease;}
@@ -873,7 +874,7 @@ function renderQuestion(){
   const feedbackBox = document.getElementById('feedbackBox');
   feedbackBox.className = 'feedback'; feedbackBox.innerHTML = '';
   const input = document.getElementById('answerInput');
-  input.value = ''; input.disabled = false; input.focus();
+  input.value = ''; input.disabled = false; input.readOnly = false; input.focus();
   document.getElementById('submitBtn').textContent = 'Kiểm tra';
   if(direction === 'en-vi'){
     document.getElementById('promptLabel').textContent = 'ANH → VIỆT — nghĩa là gì?';
@@ -912,7 +913,8 @@ function checkAnswer(){
   answered = true;
   correctCount += isCorrect ? 1 : 0;
   if(!isCorrect) missed.push(item);
-  document.getElementById('answerInput').disabled = true;
+  // Giữ ô ở trạng thái focus để Enter lần hai chuyển sang câu kế tiếp.
+  document.getElementById('answerInput').readOnly = true;
   document.getElementById('scoreText').textContent = `Đúng: ${correctCount}`;
   document.getElementById('submitBtn').textContent = 'Câu tiếp theo →';
   feedbackBox.className = 'feedback show ' + (isCorrect ? 'ok' : 'bad');
@@ -964,7 +966,7 @@ document.getElementById('skipBtn').addEventListener('click', () => {
   if(!answered){
     const item = sessionItems[currentIndex];
     missed.push(item); answered = true;
-    document.getElementById('answerInput').disabled = true;
+    document.getElementById('answerInput').readOnly = true;
     const feedbackBox = document.getElementById('feedbackBox');
     feedbackBox.className = 'feedback show bad';
     const correctDisplay = direction === 'en-vi' ? item.vi : (direction === 'vi-en' ? item.w : item.answer);
