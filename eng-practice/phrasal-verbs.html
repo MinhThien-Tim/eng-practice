@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>66 Phrasal Verbs Cực Mạnh — Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#16324f;
@@ -226,6 +229,14 @@
   .dict-end-score{font-size:34px;font-weight:800;color:var(--navy-deep);margin-bottom:5px;}
   .dict-note{font-size:12px;color:var(--muted);margin-top:10px;}
   @media(max-width:560px){.dict-grid{grid-template-columns:1fr}.dictation{padding:18px}}
+
+  /* Phông thống nhất, hỗ trợ dấu tiếng Việt ổn định trên Windows/Android. */
+  body,button,input,select,.sub,.rangebar,.stats,.stt,.hint,.ex-label,
+  .controls,.know-btn,footer,.shuffle-note,.mode-tabs,.dictation{
+    font-family:'IBM Plex Sans','Segoe UI',Arial,sans-serif;
+  }
+  .term,.meaning,.dict-prompt{font-family:'Fraunces','Noto Serif',Georgia,serif;}
+  .dict-answer[readonly]{background:#f2f4f6;color:var(--ink);cursor:default;}
 
 </style>
 </head>
@@ -579,7 +590,7 @@ function dictRender(){
   document.getElementById('dictPrompt').textContent=dir==='meaning-term'?x.meaning:x.term;
   document.getElementById('dictHint').textContent=dir==='meaning-term'?'Gõ phrasal verb tiếng Anh':'Gõ nghĩa tiếng Việt';
   const a=document.getElementById('dictAnswer');
-  a.value=''; a.disabled=false; a.focus();
+  a.value=''; a.disabled=false; a.readOnly=false; a.focus();
   document.getElementById('dictFeedback').className='dict-feedback';
   document.getElementById('dictFeedback').innerHTML='';
   document.getElementById('dictCheck').style.display='';
@@ -594,7 +605,8 @@ function dictCheck(){
   let ok;
   if(dir==='meaning-term') ok=ans===target;
   else ok=ans.length>0 && (target.includes(ans)||ans.includes(target));
-  document.getElementById('dictAnswer').disabled=true;
+  // Không disable: ô cần giữ focus để Enter lần hai chuyển câu.
+  document.getElementById('dictAnswer').readOnly=true;
   const fb=document.getElementById('dictFeedback');
   if(ok){
     dCorrect++;
