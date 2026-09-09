@@ -11,8 +11,18 @@ on:
       - "eng-practice/speaking/**/*.html"
       - "eng-practice/writing/**/*.html"
       - "eng-practice/guides/**/*.html"
+      - "eng-practice/guides/**/*.pdf"
+      - "eng-practice/guides/**/*.PDF"
+      - "eng-practice/guides/**/*.doc"
+      - "eng-practice/guides/**/*.DOC"
+      - "eng-practice/guides/**/*.docx"
+      - "eng-practice/guides/**/*.DOCX"
       - "eng-practice/documents/**/*.pdf"
       - "eng-practice/documents/**/*.PDF"
+      - "eng-practice/documents/**/*.doc"
+      - "eng-practice/documents/**/*.DOC"
+      - "eng-practice/documents/**/*.docx"
+      - "eng-practice/documents/**/*.DOCX"
   workflow_dispatch:
 
 permissions:
@@ -31,6 +41,7 @@ jobs:
           import json, re
 
           site = Path("eng-practice")
+          document_extensions = {".pdf", ".doc", ".docx"}
 
           def title(path):
               value = re.sub(r"\s+", " ", path.stem.replace("_", " ").replace("-", " ")).strip()
@@ -67,6 +78,19 @@ jobs:
                   ),
               )
 
+          def document_files(folder):
+              if not folder.exists():
+                  return []
+
+              return [
+                  {"title": title(path), "file": path.relative_to(folder).as_posix()}
+                  for path in sorted(
+                      folder.rglob("*"),
+                      key=lambda item: (item.name.lower(), item.as_posix().lower()),
+                  )
+                  if path.is_file() and path.suffix.lower() in document_extensions
+              ]
+
           vocabulary_titles = {
               "121tu-nangcao-ielts.html": "121 từ nâng cao IELTS",
               "advanced_vocab_master_all.html": "Advanced Vocabulary Master",
@@ -100,19 +124,19 @@ jobs:
           ]
 
           documents = site / "documents"
-          pdfs = [
-              {"title": title(path), "file": path.relative_to(documents).as_posix()}
-              for path in sorted(documents.rglob("*"), key=lambda item: item.name.lower())
-              if path.is_file() and path.suffix.lower() == ".pdf"
-          ] if documents.exists() else []
+          document_entries = document_files(documents)
 
-          (site / "documents.json").write_text(json.dumps(pdfs, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          guides = site / "guides"
+          guide_entries = htmls(guides) + document_files(guides)
+          guide_entries.sort(key=lambda entry: entry["title"].lower())
+
+          (site / "documents.json").write_text(json.dumps(document_entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "vocabulary.json").write_text(json.dumps(htmls(site / "Vocabulary", vocabulary_titles, vocabulary_pinned), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "grammar.json").write_text(json.dumps(htmls(site / "grammar", grammar_titles, grammar_pinned), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "listening.json").write_text(json.dumps(htmls(site / "listening"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "speaking.json").write_text(json.dumps(htmls(site / "speaking"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           (site / "writing.json").write_text(json.dumps(htmls(site / "writing"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-          (site / "guides.json").write_text(json.dumps(htmls(site / "guides"), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (site / "guides.json").write_text(json.dumps(guide_entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
           excluded = {
               "index.html", "404.html", "documents.html", "vocabulary-new.html",
