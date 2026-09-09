@@ -291,6 +291,15 @@
   .choice:focus-visible,.filter-choice:focus-visible,.cat-choice:focus-visible{
     outline:3px solid rgba(77,112,100,.28);outline-offset:2px
   }
+  .filter-label{margin:4px 0 7px;font:700 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .pos-study-intro{padding:18px 20px;margin-bottom:16px;background:var(--paper-2);border-left:4px solid var(--teal)}
+  .pos-study-intro h2{margin:0 0 6px;font-family:'Fraunces',serif}.pos-study-intro p{margin:0;color:var(--muted);font-size:13.5px}
+  .pos-study-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px}
+  .pos-study-card{padding:16px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px}
+  .pos-study-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.pos-study-head h3{margin:0;font:700 20px 'Fraunces',serif;color:var(--red-dim)}
+  .pos-study-count{font:700 11px 'IBM Plex Mono',monospace;color:var(--teal);white-space:nowrap}.pos-study-note{min-height:38px;margin:7px 0 10px;color:var(--muted);font-size:12.5px;line-height:1.45}
+  .pos-samples{display:flex;gap:6px;flex-wrap:wrap;min-height:54px;margin-bottom:12px}.pos-sample{padding:4px 7px;background:#edf2ed;border-radius:6px;font-size:11.5px;color:#40554b}
+  .pos-actions{display:flex;gap:7px;flex-wrap:wrap}.pos-actions .btn{flex:1;min-width:92px;padding:8px 9px;font-size:11.5px}
   @media(max-width:620px){
     nav.tabs{border-radius:8px}
     .lib-intro{padding:10px 12px}
@@ -313,6 +322,7 @@
 
   <nav class="tabs">
     <button class="tab-btn active" data-tab="lib">Thư viện</button>
+    <button class="tab-btn" data-tab="pos">Theo từ loại</button>
     <button class="tab-btn" data-tab="quiz">Chính tả</button>
     <button class="tab-btn" data-tab="synonyms">Từ đồng nghĩa</button>
     <button class="tab-btn" data-tab="practice">Luyện câu</button>
@@ -326,12 +336,21 @@
       <div class="filter-choice v1" data-tier="V1">● Vòng 1</div>
       <div class="filter-choice v2" data-tier="V2">● Vòng 2</div>
     </div>
+    <div class="filter-label">Lọc theo từ loại</div>
+    <div class="filter-row" id="libPosRow"></div>
     <input type="text" class="searchbox" id="searchBox" placeholder="Tìm từ (tiếng Anh hoặc nghĩa tiếng Việt)…">
     <details class="topic-picker">
       <summary><span>Bộ lọc chủ đề</span><small>Chọn một hoặc nhiều mục</small></summary>
       <div class="cat-grid" id="catGrid"></div>
     </details>
     <div id="libList"></div>
+  </section>
+
+  <section class="panel" id="panel-pos">
+    <div class="pos-study-intro"><h2>Học theo từ loại</h2><p>Chọn một nhóm để xem toàn bộ từ, luyện chính tả hoặc luyện dùng từ trong câu. Từ có nhiều từ loại sẽ xuất hiện ở mọi nhóm phù hợp.</p></div>
+    <div class="filter-label">Phạm vi vòng</div>
+    <div class="filter-row" id="posStudyTierRow"></div>
+    <div class="pos-study-grid" id="posStudyGrid"></div>
   </section>
 
 
@@ -360,6 +379,11 @@
       <div class="field-group">
         <label class="flabel">Chủ đề</label>
         <div class="cat-grid" id="quizCatGrid"></div>
+      </div>
+
+      <div class="field-group">
+        <label class="flabel">Từ loại</label>
+        <div class="choice-row" id="quizPosRow"></div>
       </div>
 
       <div class="field-group">
@@ -420,7 +444,7 @@
     </div>
   </section>
 
-  <footer class="foot">1300 TỪ VỰNG NỀN TẢNG — biên soạn cho việc tự học IELTS · Câu ví dụ được tuyển chọn và biên tập từ WordNet, Tatoeba (CC BY 2.0) và Brown Corpus. · Câu ví dụ được tuyển chọn và biên tập từ WordNet, Tatoeba (CC BY 2.0) và Brown Corpus. · Câu ví dụ được tuyển chọn và biên tập từ WordNet, Tatoeba (CC BY 2.0) và Brown Corpus. · Câu ví dụ được tuyển chọn và biên tập từ WordNet, Tatoeba (CC BY 2.0) và Brown Corpus.</footer>
+  <footer class="foot">1300 TỪ VỰNG NỀN TẢNG — biên soạn cho việc tự học IELTS · Câu ví dụ được tuyển chọn và biên tập từ WordNet, Tatoeba (CC BY 2.0) và Brown Corpus.</footer>
 </div>
 
 <script>
@@ -511,8 +535,66 @@ document.querySelectorAll('[data-tier]').forEach(choice => {
   if(choice.dataset.tier !== 'all' && !AVAILABLE_TIERS.has(choice.dataset.tier)) choice.hidden = true;
 });
 
+const POS_GROUPS = [
+  {id:'all', label:'Tất cả', title:'Tất cả từ loại', note:'Học toàn bộ từ trong phạm vi đã chọn.'},
+  {id:'noun', label:'Danh từ', title:'Danh từ · Nouns', note:'Người, vật, sự việc, khái niệm và hiện tượng.'},
+  {id:'verb', label:'Động từ', title:'Động từ · Verbs', note:'Hành động, trạng thái và quá trình.'},
+  {id:'adjective', label:'Tính từ', title:'Tính từ · Adjectives', note:'Đặc điểm, tính chất và trạng thái.'},
+  {id:'adverb', label:'Trạng từ', title:'Trạng từ · Adverbs', note:'Cách thức, mức độ, thời gian và quan điểm.'},
+  {id:'phrasal', label:'Cụm động từ', title:'Cụm động từ · Phrasal verbs', note:'Động từ đi với tiểu từ, thường gặp trong đời sống và bài thi.'},
+  {id:'function', label:'Nhóm khác', title:'Từ chức năng & dạng khác', note:'Giới từ, liên từ, đại từ, từ hạn định, trợ động từ, số từ, thán từ, tiền tố và viết tắt.'}
+];
+function posMatches(pos, group){
+  if(group === 'all') return true;
+  const p = (pos || '').toLowerCase().replace(/\./g,'').replace(/\s+/g,' ').trim();
+  if(group === 'phrasal') return /phr|phrasal/.test(p);
+  if(group === 'noun') return /(^|[\s/,])n($|[\s/,])|noun/.test(p);
+  if(group === 'verb') return !/phr|phrasal/.test(p) && (/(^|[\s/,])v($|[\s/,])|verb/.test(p));
+  if(group === 'adjective') return /(^|[\s/,])adj($|[\s/,])|adjective/.test(p);
+  if(group === 'adverb') return /(^|[\s/,])adv($|[\s/,])|adverb/.test(p);
+  if(group === 'function') return /prep|conj|pron|det|article|modal|aux|interj|number|ordinal|(^|\s)(art|num|abbr|excl|exclam|exclamation|prefix)($|\s)/.test(p);
+  return false;
+}
+function renderPosChoices(containerId, className, selected, onSelect){
+  const row = document.getElementById(containerId);
+  if(!row) return;
+  row.innerHTML = POS_GROUPS.map(g => `<button type="button" class="${className}${g.id===selected?' sel':''}" data-pos="${g.id}">${g.label}</button>`).join('');
+  row.querySelectorAll('[data-pos]').forEach(btn => btn.addEventListener('click', () => onSelect(btn.dataset.pos)));
+}
+function activateTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+let posStudyTier = 'all';
+function renderPosStudyTierChoices(){
+  const row = document.getElementById('posStudyTierRow');
+  row.innerHTML = `<button type="button" class="filter-choice${posStudyTier==='all'?' sel':''}" data-tier="all">Tất cả</button>` + [...AVAILABLE_TIERS].map(t => `<button type="button" class="filter-choice${posStudyTier===t?' sel':''}" data-tier="${t}">${t.replace('V','Vòng ')}</button>`).join('');
+  row.querySelectorAll('[data-tier]').forEach(btn => btn.addEventListener('click',()=>{posStudyTier=btn.dataset.tier;renderPosStudyTierChoices();renderPosStudy()}));
+}
+function renderPosStudy(){
+  const allItems = CATEGORIES.flatMap(c => c.items.map(i => ({tier:i[0],word:i[1],pos:i[3]}))).filter(i => posStudyTier==='all' || i.tier===posStudyTier);
+  const groups = POS_GROUPS.filter(g => g.id !== 'all');
+  document.getElementById('posStudyGrid').innerHTML = groups.map(g => {
+    const items = allItems.filter(i => posMatches(i.pos,g.id));
+    const samples = items.slice(0,9).map(i => `<span class="pos-sample">${i.word}</span>`).join('');
+    return `<article class="pos-study-card"><div class="pos-study-head"><h3>${g.title}</h3><span class="pos-study-count">${items.length} từ</span></div><p class="pos-study-note">${g.note}</p><div class="pos-samples">${samples || '<span class="pos-sample">Chưa có mục phù hợp</span>'}</div><div class="pos-actions"><button class="btn btn-ghost" data-pos-action="library" data-pos="${g.id}">Xem từ</button><button class="btn btn-primary" data-pos-action="quiz" data-pos="${g.id}">Chính tả</button><button class="btn btn-ghost" data-pos-action="practice" data-pos="${g.id}">Luyện câu</button></div></article>`;
+  }).join('');
+  document.querySelectorAll('[data-pos-action]').forEach(btn => btn.addEventListener('click',()=>{
+    const pos=btn.dataset.pos, action=btn.dataset.posAction;
+    if(action==='library'){libPos=pos;renderPosChoices('libPosRow','filter-choice',libPos,setLibPos);renderLib();activateTab('lib')}
+    if(action==='quiz'){quizPos=pos;renderPosChoices('quizPosRow','choice',quizPos,setQuizPos);updatePoolInfo();activateTab('quiz')}
+    if(action==='practice'){const select=document.getElementById('practicePos');if(select){select.value=pos;updatePracticePool()}activateTab('practice')}
+  }));
+}
+renderPosStudyTierChoices();
+renderPosStudy();
+
 let libTier = 'all';
+let libPos = 'all';
 let libSelectedCats = new Set(['ALL']);
+function setLibPos(pos){libPos=pos;renderPosChoices('libPosRow','filter-choice',libPos,setLibPos);renderLib()}
+renderPosChoices('libPosRow','filter-choice',libPos,setLibPos);
 
 function refreshCategoryChoices(grid, selectedSetRef){
   grid.querySelectorAll('.cat-choice').forEach(el => {
@@ -599,6 +681,7 @@ function renderLib(){
       if(!libSelectedCats.has('ALL') && !libSelectedCats.has(String(idx))) return;
       let items = category.items;
       if(libTier !== 'all') items = items.filter(([tier]) => tier === libTier);
+      if(libPos !== 'all') items = items.filter(([, , , pos]) => posMatches(pos, libPos));
       if(q) items = items.filter(([, word, , , meaning, example]) =>
         word.toLowerCase().includes(q) ||
         meaning.toLowerCase().includes(q) ||
@@ -610,7 +693,7 @@ function renderLib(){
       groupWordCount += items.length;
       const card = document.createElement('details');
       card.className = 'card';
-      card.open = Boolean(q) || !libSelectedCats.has('ALL');
+      card.open = Boolean(q) || libPos !== 'all' || !libSelectedCats.has('ALL');
       const head = document.createElement('summary');
       head.className = 'card-head';
       head.innerHTML = `<h3>${compactCategoryTitle(category.title, true)}</h3><span class="cnt">${items.length} từ</span>`;
@@ -636,7 +719,7 @@ function renderLib(){
     if(cards.length === 0) return;
     const major = document.createElement('details');
     major.className = 'lib-group';
-    major.open = Boolean(q) || !libSelectedCats.has('ALL') || groupIndex === 0;
+    major.open = Boolean(q) || libPos !== 'all' || !libSelectedCats.has('ALL') || groupIndex === 0;
     const summary = document.createElement('summary');
     summary.innerHTML = `<span>${categoryGroup.label}</span><small>${cards.length} chủ đề · ${groupWordCount} từ</small>`;
     const body = document.createElement('div');
@@ -657,12 +740,7 @@ document.getElementById('searchBox').addEventListener('input', renderLib);
    TABS
    ======================================================================== */
 document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
-  });
+  btn.addEventListener('click', () => activateTab(btn.dataset.tab));
 });
 
 /* ========================================================================
@@ -671,6 +749,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 let direction = 'en-vi';
 let questionCount = 15;
 let quizTier = 'all';
+let quizPos = 'all';
 let quizSelectedCats = new Set(['ALL']);
 let sessionItems = [];
 let currentIndex = 0;
@@ -696,6 +775,8 @@ function saveSeenQuizWords(){
 }
 
 buildCatGrid('quizCatGrid', quizSelectedCats, updatePoolInfo);
+function setQuizPos(pos){quizPos=pos;renderPosChoices('quizPosRow','choice',quizPos,setQuizPos);updatePoolInfo()}
+renderPosChoices('quizPosRow','choice',quizPos,setQuizPos);
 
 
 const hintBtn = document.getElementById('hintBtn');
@@ -727,6 +808,7 @@ function currentPool(){
     if(!quizSelectedCats.has('ALL') && !quizSelectedCats.has(String(idx))) return;
     c.items.forEach(it => {
       if(quizTier !== 'all' && it[0] !== quizTier) return;
+      if(quizPos !== 'all' && !posMatches(it[3], quizPos)) return;
       const item = { tier: it[0], w: it[1], ipa: it[2], pos: it[3], vi: it[4], ex: it[5] || '', cat: c.title };
       const key = normalizeEN(item.w);
       if(!uniquePool.has(key)) uniquePool.set(key, item);
@@ -990,6 +1072,7 @@ practicePanel.innerHTML=`
   <div id="practiceSetup" class="setup"><h2>Luyện dùng từ trong câu</h2><div class="sub">Mỗi từ có bài điền vào câu và phần tự đặt câu với gợi ý.</div>
     <div class="field-group"><label class="flabel">Vòng</label><select class="searchbox" id="practiceTier" style="margin:0"></select></div>
     <div class="field-group"><label class="flabel">Chủ đề</label><select class="searchbox" id="practiceCat" style="margin:0"></select></div>
+    <div class="field-group"><label class="flabel">Từ loại</label><select class="searchbox" id="practicePos" style="margin:0"></select></div>
     <div class="field-group"><label class="flabel">Số từ</label><div class="choice-row" id="practiceCountRow"><div class="choice sel" data-count="10">10 từ</div><div class="choice" data-count="20">20 từ</div><div class="choice" data-count="all">Tất cả</div></div></div>
     <div class="sub" id="practicePoolInfo"></div><button class="btn btn-primary btn-full" id="practiceStartBtn">Bắt đầu luyện</button><button class="btn btn-ghost btn-full" id="showSavedBtn" style="margin-top:10px">Câu đã viết theo chủ đề</button><div class="saved-browser" id="savedBrowser"></div></div>
   <div id="practiceBox" style="display:none"><div class="practice-card">
@@ -1006,9 +1089,10 @@ let practiceCount=10,practiceItems=[],practiceIndex=0,practiceMode='fill',writte
 try{writtenSentences=JSON.parse(localStorage.getItem(practiceStoreKey)||'{}')}catch(e){}
 $('practiceTier').innerHTML='<option value="all">Tất cả các vòng</option>'+[...new Set(CATEGORIES.flatMap(c=>c.items.map(i=>i[0])))].map(t=>`<option value="${t}">${t.replace('V','Vòng ')}</option>`).join('');
 $('practiceCat').innerHTML='<option value="all">Tất cả chủ đề</option>'+CATEGORIES.map((c,i)=>`<option value="${i}">${c.title}</option>`).join('');
-function practicePool(){const t=$('practiceTier').value,k=$('practiceCat').value;return CATEGORIES.flatMap((c,ci)=>c.items.filter(i=>(t==='all'||i[0]===t)&&(k==='all'||String(ci)===k)).map(i=>({tier:i[0],word:i[1],ipa:i[2],pos:i[3],vi:i[4],ex:i[5]||'',cat:c.title})))}
+$('practicePos').innerHTML=POS_GROUPS.map(g=>`<option value="${g.id}">${g.label}</option>`).join('');
+function practicePool(){const t=$('practiceTier').value,k=$('practiceCat').value,p=$('practicePos').value;return CATEGORIES.flatMap((c,ci)=>c.items.filter(i=>(t==='all'||i[0]===t)&&(k==='all'||String(ci)===k)&&(p==='all'||posMatches(i[3],p))).map(i=>({tier:i[0],word:i[1],ipa:i[2],pos:i[3],vi:i[4],ex:i[5]||'',cat:c.title})))}
 function updatePracticePool(){$('practicePoolInfo').textContent=`Có ${practicePool().length} từ phù hợp · ${Object.keys(writtenSentences).length} câu đã lưu trên thiết bị này.`}
-$('practiceTier').addEventListener('change',updatePracticePool);$('practiceCat').addEventListener('change',updatePracticePool);document.querySelectorAll('#practiceCountRow .choice').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('#practiceCountRow .choice').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');practiceCount=el.dataset.count==='all'?'all':Number(el.dataset.count)}));updatePracticePool();
+$('practiceTier').addEventListener('change',updatePracticePool);$('practiceCat').addEventListener('change',updatePracticePool);$('practicePos').addEventListener('change',updatePracticePool);document.querySelectorAll('#practiceCountRow .choice').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('#practiceCountRow .choice').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');practiceCount=el.dataset.count==='all'?'all':Number(el.dataset.count)}));updatePracticePool();
 function escapeRegExp(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
 function makeCloze(i){const a=new RegExp(`\\b${escapeRegExp(i.word)}\\b`,'i');if(a.test(i.ex))return i.ex.replace(a,'<span class="blank-word">_____</span>');const b=new RegExp(`\\b${escapeRegExp(i.word)}(?:s|es|ed|ing)?\\b`,'i');return b.test(i.ex)?i.ex.replace(b,'<span class="blank-word">_____</span>'):`Write the missing word: <span class="blank-word">_____</span> means “${i.vi}”.`}
 function sentenceFrame(i){const p=(i.pos||'').toLowerCase(),w=i.word;if(p.includes('phr'))return`Khung câu: “I decided to <b>${w}</b> because …”`;if(p.includes('adv'))return`Khung câu: “<b>${w[0].toUpperCase()+w.slice(1)}</b>, I … because …”`;if(p.includes('adj'))return`Khung câu: “I felt / It seemed <b>${w}</b> when …”`;if(p.includes('v'))return`Khung câu: “I usually <b>${w}</b> … when / because …”`;if(p.includes('prep')||p.includes('conj'))return`Khung câu: “<b>${w[0].toUpperCase()+w.slice(1)}</b> …, I …”`;return`Khung câu: “The <b>${w}</b> is important because …”`}
