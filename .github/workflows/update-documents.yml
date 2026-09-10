@@ -103,12 +103,14 @@ jobs:
               "vong-1-2-vocabulary-complete-examples.html": "Vocabulary · Vòng 1–2",
               "vong-3-4-vocabulary-complete-examples.html": "Vocabulary · Vòng 3–4",
               "vong-5-6-vocabulary-complete-examples.html": "Vocabulary · Vòng 5–6",
+              "vocabulary-reading-translation-v1-6.html": "Đọc & Dịch · Từ vựng Vòng 1–6",
           }
 
           vocabulary_pinned = [
               "vong-1-2-vocabulary-complete-examples.html",
               "vong-3-4-vocabulary-complete-examples.html",
               "vong-5-6-vocabulary-complete-examples.html",
+              "vocabulary-reading-translation-v1-6.html",
               "confusing-words.html",
               "flashcards-oxford-604.html",
           ]
