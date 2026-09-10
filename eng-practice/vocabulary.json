@@ -15,6 +15,11 @@
     "pinned": true
   },
   {
+    "title": "Đọc & Dịch · Từ vựng Vòng 1–6",
+    "file": "vocabulary-reading-translation-v1-6.html",
+    "pinned": true
+  },
+  {
     "title": "Từ dễ nhầm",
     "file": "confusing-words.html",
     "pinned": true
@@ -51,9 +56,5 @@
   {
     "title": "Từ điển",
     "file": "dictionary.html"
-  },
-  {
-    "title": "Vocabulary reading translation v1 6",
-    "file": "vocabulary-reading-translation-v1-6.html"
   }
 ]
