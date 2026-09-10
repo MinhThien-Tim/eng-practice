@@ -24,7 +24,7 @@
   header.top .catno{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7c8580;text-align:right;line-height:1.5;white-space:nowrap;}
 
   nav.tabs{display:flex;gap:8px;margin-bottom:18px;}
-  nav.tabs button{flex:1;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;padding:11px 10px;background:transparent;color:#9aa39b;border:1px solid #3a4440;border-radius:3px;cursor:pointer;transition:all .15s ease;}
+  nav.tabs button,nav.tabs .reading-tab-link{flex:1;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;padding:11px 10px;background:transparent;color:#9aa39b;border:1px solid #3a4440;border-radius:3px;cursor:pointer;transition:all .15s ease;text-align:center;text-decoration:none;box-sizing:border-box;}
   nav.tabs button.active{background:var(--paper-2);color:var(--ink);border-color:var(--paper-2);font-weight:600;}
   nav.tabs button:hover:not(.active){border-color:#5a6560;color:#c8cec8;}
   .panel{display:none;} .panel.active{display:block;animation:fadein .25s ease;}
@@ -155,7 +155,7 @@
   header.top p{font-size:15px}
   header.top .catno{font-size:13px}
   nav.tabs{gap:6px;margin-bottom:14px;position:sticky;top:0;z-index:20;background:var(--ink);padding:7px 0}
-  nav.tabs button{font-size:13px;padding:11px 8px}
+  nav.tabs button,nav.tabs .reading-tab-link{font-size:13px;padding:11px 8px}
   .lib-intro{font-size:15px;margin-bottom:12px}
   .filter-row{margin-bottom:10px}
   .filter-choice{font-size:14px;padding:9px 14px}
@@ -212,7 +212,7 @@
     header.top{align-items:flex-start}
     header.top .catno{font-size:11px}
     nav.tabs{overflow-x:auto}
-    nav.tabs button{min-width:92px;white-space:nowrap}
+    nav.tabs button,nav.tabs .reading-tab-link{min-width:92px;white-space:nowrap}
     .cat-group-list{grid-template-columns:1fr}
     .cat-group>summary,.lib-group>summary{font-size:16px;padding:12px}
     .cat-group>summary small,.lib-group>summary small{display:none}
@@ -239,7 +239,9 @@
     font-family:'IBM Plex Sans',sans-serif;font-style:normal;letter-spacing:-.015em
   }
   nav.tabs{background:rgba(223,230,223,.94);border:1px solid #c7d1c8;border-radius:10px;padding:5px;box-shadow:0 5px 18px rgba(45,62,54,.06)}
-  nav.tabs button{border:0;border-radius:7px;color:#5e6d66;background:transparent;text-transform:none;letter-spacing:0}
+  nav.tabs button,nav.tabs .reading-tab-link{border:0;border-radius:7px;color:#5e6d66;background:transparent;text-transform:none;letter-spacing:0}
+  nav.tabs .reading-tab-link{background:#315f51;color:#fff;font-weight:600}
+  nav.tabs .reading-tab-link:hover{background:#274c41;color:#fff}
   nav.tabs button.active{background:#fbfcf7;color:#315f51;box-shadow:0 2px 8px rgba(45,62,54,.10)}
   nav.tabs button:hover:not(.active){background:#edf1ec;color:var(--ink)}
   .lib-intro{color:#526159;background:rgba(251,252,247,.72);border-left:4px solid #78968a;border-radius:0 8px 8px 0;padding:12px 14px}
@@ -328,6 +330,7 @@
     <button class="tab-btn" data-tab="quiz">Chính tả</button>
     <button class="tab-btn" data-tab="synonyms">Từ đồng nghĩa</button>
     <button class="tab-btn" data-tab="practice">Luyện câu</button>
+    <a class="reading-tab-link" href="vocabulary-reading-translation-v1-6.html">Đọc &amp; dịch</a>
   </nav>
 
   <!-- ===================== LIBRARY ===================== -->
