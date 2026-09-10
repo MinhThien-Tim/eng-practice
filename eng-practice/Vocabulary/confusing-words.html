@@ -1547,6 +1547,7 @@ function checkAnswer(){
   document.getElementById('answerInput').disabled = true;
   document.getElementById('scoreText').textContent = `Đúng: ${correctCount}`;
   document.getElementById('submitBtn').textContent = 'Câu tiếp theo →';
+  document.getElementById('submitBtn').focus();
 
   feedbackBox.className = 'feedback show ' + (isCorrect ? 'ok' : 'bad');
   const correctDisplay = direction === 'en-vi' ? item.vi : item.w;
@@ -1606,14 +1607,15 @@ document.getElementById('skipBtn').addEventListener('click', () => {
     const correctDisplay = direction === 'en-vi' ? item.vi : item.w;
     feedbackBox.innerHTML = `Đáp án: <span class="correct-ans">${correctDisplay}</span>`;
     document.getElementById('submitBtn').textContent = 'Câu tiếp theo →';
+    document.getElementById('submitBtn').focus();
   } else {
     nextQuestion();
   }
 });
 document.getElementById('answerInput').addEventListener('keydown', (e) => {
-  if(e.key === 'Enter'){
+  if(e.key === 'Enter' && !e.isComposing && !e.repeat){
     e.preventDefault();
-    if(!answered){ checkAnswer(); } else { nextQuestion(); }
+    checkAnswer();
   }
 });
 document.getElementById('restartBtn').addEventListener('click', () => {
