@@ -1,5 +1,10 @@
 [
   {
+    "title": "English suffix lab",
+    "file": "english-suffix-lab.html",
+    "pinned": true
+  },
+  {
     "title": "English Grammar · 25 Topics Interactive",
     "file": "English-Grammar-25-Topics-Interactive.html",
     "pinned": true
@@ -20,10 +25,6 @@
   {
     "title": "English Grammar Review Interactive",
     "file": "English-Grammar-Review-Interactive.html"
-  },
-  {
-    "title": "English suffix lab",
-    "file": "english-suffix-lab.html"
   },
   {
     "title": "Prepositions theory practice",

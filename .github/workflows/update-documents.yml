@@ -107,6 +107,8 @@ jobs:
           }
 
           vocabulary_pinned = [
+              "root-atlas.html",
+              "vocabulary-atlas.html",
               "vong-1-2-vocabulary-complete-examples.html",
               "vong-3-4-vocabulary-complete-examples.html",
               "vong-5-6-vocabulary-complete-examples.html",
@@ -121,6 +123,7 @@ jobs:
           }
 
           grammar_pinned = [
+              "english-suffix-lab.html",
               "English-Grammar-25-Topics-Interactive.html",
               "so-do-tu-duy-ngu-phap-modules-3-25.html",
           ]

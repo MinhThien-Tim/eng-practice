@@ -1,5 +1,15 @@
 [
   {
+    "title": "Root atlas",
+    "file": "root-atlas.html",
+    "pinned": true
+  },
+  {
+    "title": "Vocabulary atlas",
+    "file": "vocabulary-atlas.html",
+    "pinned": true
+  },
+  {
     "title": "Vocabulary · Vòng 1–2",
     "file": "vong-1-2-vocabulary-complete-examples.html",
     "pinned": true
@@ -42,15 +52,7 @@
     "file": "oxford5000-full.html"
   },
   {
-    "title": "Root atlas",
-    "file": "root-atlas.html"
-  },
-  {
     "title": "Từ điển",
     "file": "dictionary.html"
-  },
-  {
-    "title": "Vocabulary atlas",
-    "file": "vocabulary-atlas.html"
   }
 ]
